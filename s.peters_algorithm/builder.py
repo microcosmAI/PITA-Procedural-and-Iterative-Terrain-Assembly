@@ -22,7 +22,7 @@ class Builder:
         config = ConfigReader.execute(config_path=config_path)
 
         # call mujoco loader to get dictionary of mujoco objects
-        muj_loader = MujocoLoader(config_file=config)
+        muj_loader = MujocoLoader(config_file=config, xml_dir=xml_dir)
         mujoco_objects = muj_loader.get_mujoco_objects()
 
         debug=True
