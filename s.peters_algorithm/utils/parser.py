@@ -7,7 +7,7 @@ class Parser:
     """ class to parse xml-file in given path to mujoco's MJCF-object """
 
     @staticmethod
-    def get_mjcf(*, xml_path: str = "../examples/humanoid.xml"):
+    def get_mjcf(*, xml_path: str):
         """ parses xml-file to MJCF-object
 
         Returns:
