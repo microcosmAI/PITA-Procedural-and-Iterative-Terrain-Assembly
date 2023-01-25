@@ -8,8 +8,8 @@ class Builder:
 
     @staticmethod
     def run():
-        """
-        omega class doing everything
+        """ run s.peters_algorithm to create xml-file containing objects specified in config file.
+            objects are given as xml by user
         """
 
         # read args set by user
@@ -32,7 +32,6 @@ class Builder:
         # call Parser class to read given config file and get mjcf-objects in given directory
         parser = Parser(config_path=config_path, xml_dir=xml_dir)
         config_file, mjcfs = parser.execute()
-        debug=True
 
         # ToDo: init environment
 
@@ -41,14 +40,6 @@ class Builder:
         # ToDo: init areas
 
         # ToDo: add mujoco-object to areas; objects from parser
-        """
-        for obj in objects:
-            for i in range(obj.amount):
-                area.add()
-        
-        for area in areas:
-            env.add(area)
-        """
 
     def _to_xml(self):
         """ combine MJCFs to single xml-file """
