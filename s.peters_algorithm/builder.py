@@ -29,7 +29,13 @@ class Builder:
         # ToDo: add mujoco-object to areas; objects from parser
 
     def _get_user_args(self):
-        """ read args set by user; if none are given, args are set to files and directories in "examples" """
+        """ read args set by user; if none are given, args are set to files and directories in "examples"
+
+        Returns:
+        -------
+        args: namespace obj
+            contains args set by user
+        """
 
         parser = argparse.ArgumentParser()
         parser.add_argument("--config_path", help="Specify folder where yaml file is located",
