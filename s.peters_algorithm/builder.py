@@ -1,8 +1,9 @@
 import argparse
 import warnings
 
-from .base.mujoco_object import MujocoObject
-from .utils.config_reader import ConfigReader
+from base.mujoco_object import MujocoObject
+from base.mujoco_loader import MujocoLoader
+from utils.config_reader import ConfigReader
 
 
 class Builder:
@@ -19,6 +20,10 @@ class Builder:
 
         # read config
         config = ConfigReader.execute(config_path=config_path)
+
+        # call mujoco loader to get dictionary of mujoco objects
+        muj_loader = MujocoLoader(config_file=config)
+        mujoco_objects = muj_loader.get_mujoco_objects()
 
         debug=True
         # ToDo: init environment
