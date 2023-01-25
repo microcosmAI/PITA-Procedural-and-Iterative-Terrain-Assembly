@@ -1,8 +1,9 @@
 import argparse
 import warnings
 
+from .base.mujoco_object import MujocoObject
 from .utils.config_reader import ConfigReader
-from .base.parser import Parser
+
 
 class Builder:
 
@@ -18,10 +19,6 @@ class Builder:
 
         # read config
         config = ConfigReader.execute(config_path=config_path)
-
-        # get mjcfs from parser
-        parser = Parser(xml_dir=xml_dir)
-        mjcfs = parser.get_mjcfs()
 
         debug=True
         # ToDo: init environment
