@@ -1,8 +1,8 @@
 import argparse
 import warnings
 
-from parser import Parser
-
+from .utils.config_reader import ConfigReader
+from .base.parser import Parser
 
 class Builder:
 
@@ -16,10 +16,14 @@ class Builder:
         config_path = args.config_path
         xml_dir = args.xml_dir
 
-        # call Parser class to read given config file and get mjcf-objects in given directory
-        parser = Parser(config_path=config_path, xml_dir=xml_dir)
-        config_file, mjcfs = parser.execute()
+        # read config
+        config = ConfigReader.execute(config_path=config_path)
 
+        # get mjcfs from parser
+        parser = Parser(xml_dir=xml_dir)
+        mjcfs = parser.get_mjcfs()
+
+        debug=True
         # ToDo: init environment
 
         # ToDo: LayoutManager
@@ -27,6 +31,8 @@ class Builder:
         # ToDo: init areas
 
         # ToDo: add mujoco-object to areas; objects from parser
+
+
 
     def _get_user_args(self):
         """ read args set by user; if none are given, args are set to files and directories in "examples"
