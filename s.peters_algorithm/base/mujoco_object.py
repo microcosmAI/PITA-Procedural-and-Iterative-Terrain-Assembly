@@ -21,26 +21,34 @@ class MujocoObject:
         self.obj_type = obj_type
         self.mjcf_obj = mjcf_obj
 
-    def get_name(self):
+    @property
+    def name(self):
         return self.name
 
-    def set_name(self, name):
+    @name.setter
+    def name(self, name):
         self.name = name
 
-    def get_container(self):
+    @property
+    def container(self):
         return self.container
 
-    def set_container(self, container):
+    @container.setter
+    def container(self, container):
         self.container = container
 
-    def get_obj_type(self):
+    @property
+    def obj_type(self):
         return self.obj_type
 
-    def set_type(self, obj_type):
+    @obj_type.setter
+    def obj_type(self, obj_type):
         self.obj_type = obj_type
 
-    def get_mjcf_obj(self):
+    @property
+    def mjcf_obj(self):
         return self.mjcf_obj
 
-    def set_mjcf_obj(self, mjcf_obj):
+    @mjcf_obj.setter
+    def mjcf_obj(self, mjcf_obj):
         self.mjcf_obj = mjcf_obj
