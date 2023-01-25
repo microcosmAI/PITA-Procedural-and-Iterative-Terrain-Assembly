@@ -1,27 +1,22 @@
 import os
-import yaml
 
 from dm_control import mjcf
 
 
 class Parser:
-    """ class to read yaml-file (containing configurations) and parse xml-files in given directory
-        to mujoco's MJCF-objects
+    """ class to parse xml-files in given directory to mujoco's MJCF-objects
 
     ToDo: change loading of whole directory to specific xml-files needed (defined in config)
 
     Attributes:
     ----------
-    config_path: str
-        path to yaml-config file
     xml_dir: str
         path to directory containing xml-files
     """
-    def __init__(self, *, config_path: str, xml_dir: str = "../examples/humanoid.xml"):
-        self.config_path = config_path
+    def __init__(self, *, xml_dir: str = "../examples/humanoid.xml"):
         self.xml_dir = xml_dir
 
-    def execute(self):
+    def get_mjcfs(self):
         """ executes config reader function and parses xml-files to MJCF-objects
 
         Returns:
@@ -31,25 +26,9 @@ class Parser:
         mjcfs: list
             contains list of mjcf-objects, parsed from xml-files in given directory
         """
-        config = self._read_config()
+
         mjcfs = self._obj_from_xml_to_mjcf()
-        return config, mjcfs
-
-    def _read_config(self):
-        """ reads yaml-config file
-
-        Returns:
-        config: dict
-            dictionary of yaml-config file entries
-        """
-        if self.config_path is None:
-            raise ValueError("No config file provided")
-        if not os.path.isfile(self.config_path):
-            raise ValueError("Could not find config file in path provided")
-
-        stream = open(self.config_path, 'r')
-        config = yaml.load(stream, Loader=yaml.SafeLoader)
-        return config
+        return mjcfs
 
     def _obj_from_xml_to_mjcf(self):
         """ parses xml-files in given directory to mujoco's mjcf-objects
