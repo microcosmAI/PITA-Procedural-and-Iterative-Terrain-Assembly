@@ -18,7 +18,7 @@ class Placer(ABC):
         Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the vlaidator.
 
-        Arguments:
+        Parameters:
             site (Site): Site class instance where the object is added to
             mujoco_object (mjcf.RootElement): To-be-placed mujoco object
             validator (Validator): Validator class instance used to check object placement
@@ -31,7 +31,7 @@ class Placer(ABC):
         Removes a mujoco object from a site by calling the sites remove method.
         Possibly checks placement via the vlaidator.
 
-        Arguments:
+        Parameters:
             site (Site): Site class instance where the object is removed from
             mujoco_object (mjcf.RootElement): To-be-removed mujoco object
         """
