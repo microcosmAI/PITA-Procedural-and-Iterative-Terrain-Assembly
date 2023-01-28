@@ -9,7 +9,7 @@ from utils.config_reader import ConfigReader
 class Builder:
 
     def run(self):
-        """ run s.peters_algorithm to create xml-file containing objects specified in config file.
+        """ run peters_algorithm to create xml-file containing objects specified in config file.
             objects are given as xml by user
         """
 
@@ -53,10 +53,10 @@ class Builder:
         args = parser.parse_args()
 
         if args.xml_dir is None:
-            args.xml_dir = "./examples/xml_objects"
+            args.xml_dir = "../examples/xml_objects"
             warnings.warn("xml directory not specified; running with default directory in examples")
         if args.config_path is None:
-            args.config_path = "./examples/config_files/simple-config.yml"
+            args.config_path = "../examples/config_files/simple-config.yml"
             warnings.warn("config path not specified; running with default directory in examples")
 
         return args

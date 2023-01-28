@@ -15,40 +15,40 @@ class MujocoObject:
     mjcf_object: mjcf
         objects xml parsed into mjcf-style model of mujoco
     """
-    def __init__(self, name: str, container: bool, obj_type: str, mjcf_obj: mjcf):
-        self.name = name
-        self.container = container
-        self.obj_type = obj_type
-        self.mjcf_obj = mjcf_obj
+    def __init__(self, name: str, mjcf_obj: mjcf, obj_type: str, attachable: bool):
+        self._name = name
+        self._mjcf_obj = mjcf_obj
+        self._obj_type = obj_type
+        self._attachable = attachable
 
     @property
     def name(self):
-        return self.name
+        return self._name
 
     @name.setter
     def name(self, name):
-        self.name = name
-
-    @property
-    def container(self):
-        return self.container
-
-    @container.setter
-    def container(self, container):
-        self.container = container
-
-    @property
-    def obj_type(self):
-        return self.obj_type
-
-    @obj_type.setter
-    def obj_type(self, obj_type):
-        self.obj_type = obj_type
+        self._name = name
 
     @property
     def mjcf_obj(self):
-        return self.mjcf_obj
+        return self._mjcf_obj
 
     @mjcf_obj.setter
     def mjcf_obj(self, mjcf_obj):
-        self.mjcf_obj = mjcf_obj
+        self._mjcf_obj = mjcf_obj
+
+    @property
+    def obj_type(self):
+        return self._obj_type
+
+    @obj_type.setter
+    def obj_type(self, obj_type):
+        self._obj_type = obj_type
+
+    @property
+    def attachable(self):
+        return self._attachable
+
+    @attachable.setter
+    def attachable(self, attachable):
+        self._attachable = attachable
