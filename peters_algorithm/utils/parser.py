@@ -11,9 +11,7 @@ class Parser:
         """ parses xml-file to MJCF-object
 
         Returns:
-        -------
-        mjcf_: mjcf-object
-            mjcf object of given xml-file
+            mjcf_ (mjcf): mjcf object of given xml-file
         """
         if xml_path is None:
             raise ValueError("No xml file provided")

@@ -5,15 +5,10 @@ class MujocoObject:
     """ class to define a MujocoObject
 
     Attributes:
-    ----------
-    name: str
-        specific name of object
-    container: bool
-        set to true if the object is a container; it can store another item (e.g. tree with container for an apple)
-    type: str
-        type of object (e.g. "tree" or "stone")
-    mjcf_object: mjcf
-        objects xml parsed into mjcf-style model of mujoco
+        name (str): specific name of object
+        container (bool): set to true if the object is a container; it can store another item (e.g. tree with container for an apple)
+        type (str): type of object (e.g. "tree" or "stone")
+        mjcf_object (mjcf): objects xml parsed into mjcf-style model of mujoco
     """
     def __init__(self, name: str, mjcf_obj: mjcf, obj_type: str, attachable: bool):
         self._name = name
