@@ -14,11 +14,11 @@ class Site(ABC):
         pass
 
     @abstractmethod
-    def _add(self):
+    def add(self):
         """ add functionality to place objects in child classes """
         pass
 
     @abstractmethod
-    def _remove(self):
+    def remove(self):
         """ remove functionality to place objects in child classes """
         pass
