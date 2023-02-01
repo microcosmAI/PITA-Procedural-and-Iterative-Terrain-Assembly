@@ -1,24 +1,49 @@
 from abc import ABC, abstractmethod
+from .mujoco_object import MujocoObject
 
 
 class Site(ABC):
-    """  abstract class for environment and area functionality
-    """
+    """  abstract class for environment and area """
     @abstractmethod
     def __init__(self):
         pass
 
     @abstractmethod
-    def get_mjcf(self):
-        """ functionality to retrieve mjcf object of finished world-design of child classes """
+    def add(self, mujoco_object: MujocoObject):
+        """ adds mujoco-object """
         pass
 
     @abstractmethod
-    def add(self):
-        """ add functionality to place objects in child classes """
+    def remove(self, mujoco_object: MujocoObject):
+        """ removes mujoco-object """
         pass
 
+    @property
     @abstractmethod
-    def remove(self):
-        """ remove functionality to place objects in child classes """
+    def name(self):
+        """ get name """
+        pass
+
+    @name.setter
+    @abstractmethod
+    def name(self, name: str):
+        """ set name """
+        pass
+
+    @property
+    @abstractmethod
+    def size(self):
+        """ get size """
+        pass
+
+    @property
+    @abstractmethod
+    def mjcf_model(self):
+        """ get mjcf model """
+        pass
+
+    @property
+    @abstractmethod
+    def mujoco_objects(self):
+        """ get mujoco objects """
         pass
