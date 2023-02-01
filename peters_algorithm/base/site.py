@@ -9,16 +9,16 @@ class Site(ABC):
         pass
 
     @abstractmethod
-    def add(self):
+    def get_mjcf(self):
+        """ functionality to retrieve mjcf object of finished world-design of child classes """
+        pass
+
+    @abstractmethod
+    def _add(self):
         """ add functionality to place objects in child classes """
         pass
 
     @abstractmethod
-    def remove(self):
+    def _remove(self):
         """ remove functionality to place objects in child classes """
-        pass
-
-    @abstractmethod
-    def get_mjcf(self):
-        """ functionality to retrieve mjcf object of finished design of child classes """
         pass
