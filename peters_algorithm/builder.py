@@ -2,6 +2,7 @@ import argparse
 import warnings
 
 from base.mujoco_loader import MujocoLoader
+from base.area import Area
 from utils.config_reader import ConfigReader
 
 
@@ -22,15 +23,17 @@ class Builder:
 
         # call mujoco loader to get dictionary of mujoco objects
         mujoco_loader = MujocoLoader(config_file=config, xml_dir=xml_dir)
-        mujoco_objects = mujoco_loader.get_mujoco_objects()
+        mujoco_objects_blueprint = mujoco_loader.get_mujoco_objects()
+
+        # exmaple on how to cretae an area and add and remove an object based on a mujoco-object
+        # Note: placer class will handle further details (e.g. amount of trees etc)
+        area = Area(name="Area1", size=(10, 10))
+        area.add(mujoco_object=mujoco_objects_blueprint["Tree"])
+        area.remove(mujoco_object=mujoco_objects_blueprint["Tree"])
 
         # ToDo: init environment
 
-        # ToDo: LayoutManager
-
-        # ToDo: init areas
-
-        # ToDo: add mujoco-object to areas; objects from parser
+        # ToDo: add mujoco-object to areas with a placer
 
     def _get_user_args(self):
         """ read args set by user; if none are given, args are set to files and directories in "examples"
