@@ -14,7 +14,7 @@ class ConfigReader:
             config_path (str): path to yaml-config file
 
         Returns:
-            config (dict) dictionary of yaml-config file entries
+            config (dict): dictionary of user defined configurations
         """
         if config_path is None:
             raise ValueError("No config file provided")
