@@ -12,7 +12,7 @@ class Placer(ABC):
 
     @abstractmethod
     def add(
-        self, site: Site, mujoco_object: mjcf.RootElement, validator: list[Validator]
+        self, site: Site, mujoco_object_blueprint: mjcf.RootElement, validator: list[Validator]
     ):
         """
         Adds a mujoco object to a site by calling the sites add method.
@@ -20,10 +20,10 @@ class Placer(ABC):
 
         Parameters:
             site (Site): Site class instance where the object is added to
-            mujoco_object (mjcf.RootElement): To-be-placed mujoco object
+            mujoco_object_blueprint (mjcf.RootElement): To-be-placed mujoco object
             validator (Validator): Validator class instance used to check object placement
         """
-        site.add(mujoco_object)
+        site.add(mujoco_object_blueprint)
 
     @abstractmethod
     def remove(self, site: Site, mujoco_object: mjcf.RootElement):
