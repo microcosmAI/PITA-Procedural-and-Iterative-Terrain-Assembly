@@ -1,7 +1,11 @@
 from dm_control import mjcf
-import Placer
-import Environment
+
+from .mujoco_object import MujocoObject
+from .placer import Placer
+from .environment import Environment
 import copy
+
+from .site import Site
 
 
 class BorderPlacer(Placer):
@@ -13,14 +17,14 @@ class BorderPlacer(Placer):
         super(BorderPlacer, self).__init__()
 
     def add(
-        self, environment: Environment, mujoco_object_blueprint: mjcf.RootElement, amount: int = 4
+        self, environment: Environment, mujoco_object_blueprint: MujocoObject, amount: int = 4
     ):
         """
         Adds the borders around the environment
 
         Parameters:
             environment (Environment): Environment class instance
-            mujoco_object_blueprint (mjcf.RootElement): Blueprint of to-be-placed mujoco object
+            mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             amount (int): Number of to-be-placed borders
 
         Returns:
@@ -38,10 +42,10 @@ class BorderPlacer(Placer):
         # Coordinates are given in halfs already
         coords = (top_middle, bottom_middle, right_middle, left_middle)
 
-        borders = [copy.deepcopy(mujoco_object_blueprint) for _ in range(amount)]
+        borders = [self._copy(mujoco_object_blueprint) for _ in range(amount)]
 
         for idx, border in enumerate(borders):
-            border_body = border.worldbody.body[0]
+            border_body = border.mjcf_obj.worldbody.body[0]
 
             # Enlarge border on x-axis
             if coords[idx][0] == 0:
@@ -57,4 +61,9 @@ class BorderPlacer(Placer):
                 border_body.pos[0] = coords[idx][0]
                 border_body.pos[1] = coords[idx][1]
 
-            environment.add(border)
+            environment.add(mujoco_object=border)
+
+    def remove(self, *, site: Site, mujoco_object: MujocoObject):
+        pass
+
+

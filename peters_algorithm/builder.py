@@ -4,7 +4,9 @@ import warnings
 from base.mujoco_loader import MujocoLoader
 from base.area import Area
 from utils.config_reader import ConfigReader
+from base.border_placer import BorderPlacer
 
+from base.environment import Environment
 
 class Builder:
 
@@ -23,13 +25,20 @@ class Builder:
 
         # call mujoco loader to get dictionary of mujoco objects
         mujoco_loader = MujocoLoader(config_file=config, xml_dir=xml_dir)
-        mujoco_objects_blueprint = mujoco_loader.get_mujoco_objects()
+        mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
+
+        # create environment
+        environment = Environment(name="Environment1", size=(10, 10, 0.1))
 
         # exmaple on how to cretae an area and add and remove an object based on a mujoco-object
         # Note: placer class will handle further details (e.g. amount of trees etc)
         area = Area(name="Area1", size=(10, 10))
-        area.add(mujoco_object=mujoco_objects_blueprint["Tree"])
-        area.remove(mujoco_object=mujoco_objects_blueprint["Tree"])
+        area.add(mujoco_object=mujoco_objects_blueprints["Tree"])
+        area.remove(mujoco_object=mujoco_objects_blueprints["Tree"])
+
+        BorderPlacer().add(environment=environment, mujoco_object_blueprint=mujoco_objects_blueprints["Border"], amount=4)
+
+        print(environment.mjcf_model.to_xml_string())
 
         # ToDo: init environment
 

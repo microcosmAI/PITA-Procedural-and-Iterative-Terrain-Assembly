@@ -20,3 +20,8 @@ Areas:
       - type: attachable_item
       - attaches: [Tree]
 
+      Border:
+        - amount: (4, 4)
+        - type: obstacle
+
+

@@ -9,12 +9,12 @@ class Site(ABC):
         pass
 
     @abstractmethod
-    def add(self, mujoco_object: MujocoObject):
+    def add(self, *, mujoco_object: MujocoObject):
         """ adds mujoco-object """
         pass
 
     @abstractmethod
-    def remove(self, mujoco_object: MujocoObject):
+    def remove(self, *, mujoco_object: MujocoObject):
         """ removes mujoco-object """
         pass
 
