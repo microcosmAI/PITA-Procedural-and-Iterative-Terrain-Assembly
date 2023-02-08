@@ -8,7 +8,7 @@ class MujocoLoader:
     """ class to load mujoco objects as dictionary"
 
     Attributes:
-        config_file (dict): contains config set by user
+        config_file (dict): dictionary of user defined configurations
         xml_dir (str): path to directory containing xml-file of objects
     """
     def __init__(self, *, config_file: dict, xml_dir: str):
@@ -37,7 +37,7 @@ class MujocoLoader:
                 obj_dict[name] = params
         return obj_dict
 
-    def _get_mujoco_dict(self, obj_dict):
+    def _get_mujoco_dict(self, obj_dict: dict):
         """ loads xml and parses with Parser class to mjcf and combines all information to a mujoco-object
 
         Parameters:
@@ -56,7 +56,7 @@ class MujocoLoader:
         return mujoco_dict
 
     @staticmethod
-    def _read_params(params):
+    def _read_params(params: list):
         """ helper function to read object specific parameters set in config file
 
         Parameters:
