@@ -1,5 +1,5 @@
 from dm_control import mjcf
-import Site
+from .site import Site
 
 
 class Environment(Site):
