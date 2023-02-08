@@ -17,7 +17,7 @@ class BorderPlacer(Placer):
         super(BorderPlacer, self).__init__()
 
     def add(
-        self, environment: Environment, mujoco_object_blueprint: MujocoObject, amount: int = 4
+        self, environment: Environment, mujoco_object_blueprint: MujocoObject, amount: int = 4, height: int = 2
     ):
         """
         Adds the borders around the environment
@@ -31,13 +31,15 @@ class BorderPlacer(Placer):
             mjcf_model (mjcf): An empty environment with borders around it
         """
         # TODO Account for height value i.e. not in the ground
+        # TODO Account for border overlap with env plane
         size = environment.size
+
+        border_height = size[2]/2 + height/2
 
         top_middle = (0, size[1])
         bottom_middle = (0, -size[1])
         right_middle = (size[0], 0)
         left_middle = (-size[0], 0)
-
 
         # Coordinates are given in halfs already
         coords = (top_middle, bottom_middle, right_middle, left_middle)
@@ -53,6 +55,7 @@ class BorderPlacer(Placer):
 
                 border_body.pos[0] = coords[idx][0]
                 border_body.pos[1] = coords[idx][1]
+                border_body.pos[2] = border_height
 
             # Enlarge border on y-axis
             else:
@@ -60,6 +63,7 @@ class BorderPlacer(Placer):
 
                 border_body.pos[0] = coords[idx][0]
                 border_body.pos[1] = coords[idx][1]
+                border_body.pos[2] = border_height
 
             environment.add(mujoco_object=border)
 

@@ -16,6 +16,7 @@ class Placer(ABC):
     def _copy(self, mujoco_object_blueprint: MujocoObject) -> MujocoObject:
         mujoco_object = copy.deepcopy(mujoco_object_blueprint)
         # TODO NameGenerator
+        # TODO modify references to relevant object attributes like size/pos
         return mujoco_object
 
     @abstractmethod

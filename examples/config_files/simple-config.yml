@@ -1,6 +1,8 @@
 Environment:
   size: [10, 10]
-  borders:
+  Border:
+    - amount: 4
+    - height: 2
 
 Areas:
   Area1:
