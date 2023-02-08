@@ -1,0 +1,22 @@
+Environment:
+  size: [10, 10]
+  borders:
+
+Areas:
+  Area1:
+    size: small
+
+    Objects:
+      Tree:
+      - amount: (10, 20)
+      - type: container
+
+      Stone:
+      - amount: (10, 10)
+      - type: obstacle
+
+      Apple:
+      - amount: (5,8)
+      - type: attachable_item
+      - attaches: [Tree]
+
