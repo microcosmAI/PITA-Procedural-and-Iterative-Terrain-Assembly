@@ -71,7 +71,7 @@ class CircularUniformDistribution(PlacerDistribution):
         
     def __call__(self):
         """Returns a two dimensional random sample, for the x and y coordinates respectively"""
-        length = np.sqrt(np.random.uniform(self.loc, self.scale))
+        length = np.sqrt(np.random.uniform(self.loc, self.scale**2))
         angle = np.pi * np.random.uniform(0, 2)
 
         x = length * np.cos(angle)
