@@ -12,7 +12,7 @@ class Area(Site):
         mjcf_model (mjcf): mjcf model of area
         mujoco_objects (dict(mujoco_objects)): contains objects in area as mujoco-objects
     """
-    def __init__(self, *, name: str, size: tuple):
+    def __init__(self, *, name: str, size: tuple[float, float, float]):
         self._name = name
         self._size = size
         self._mjcf_model = self._initialize_area()
@@ -25,8 +25,7 @@ class Area(Site):
             mjcf_model (mjcf): mjcf-object of area
         """
         self._mjcf_model = mjcf.RootElement(model=self.name)
-        self._mjcf_model.worldbody.add("geom", name="base_plane_area", type="plane",
-                                       size=self._size)
+        # self._mjcf_model.worldbody.add("geom", name="base_plane_area", type="plane", size=self._size)
         return self._mjcf_model
 
     def add(self, *, mujoco_object: MujocoObject):

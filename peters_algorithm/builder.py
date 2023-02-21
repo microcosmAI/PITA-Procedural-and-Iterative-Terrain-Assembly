@@ -8,6 +8,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from base.mujoco_loader import MujocoLoader
 from base.area import Area
+from peters_algorithm.base.random_placer import RandomPlacer
+from peters_algorithm.base.validator import Validator, MinDistanceRule
 from utils.config_reader import ConfigReader
 from base.border_placer import BorderPlacer
 
@@ -37,15 +39,43 @@ class Builder:
 
         # exmaple on how to cretae an area and add and remove an object based on a mujoco-object
         # Note: placer class will handle further details (e.g. amount of trees etc)
-        area = Area(name="Area1", size=(10, 10))
+        area = Area(name="Area1", size=(10, 10, 0.1))
         area.add(mujoco_object=mujoco_objects_blueprints["Tree"])
         area.remove(mujoco_object=mujoco_objects_blueprints["Tree"])
 
+
+        # Create Validators
+        minDistanceValidator = Validator([MinDistanceRule(3.0), ])
+        validators = [minDistanceValidator, ]
+
+        # Border Placement
+        #if config.environment.borders:
         BorderPlacer().add(environment=environment, mujoco_object_blueprint=mujoco_objects_blueprints["Border"], amount=4)
 
-        self._to_xml(xml_string=environment.mjcf_model.to_xml_string(), file_name="test")
 
-        # ToDo: init environment
+        """# Fixed Coordinate Mujoco Object Placement
+        for object_name in config.environment.objects:
+            if object_name.coordinates:
+                FixedPlacer(environment, fixed_mujoco_object, coordinates)
+                
+        for area in config.areas:
+            for object_name in area.objects:
+                if object_name.coordinates:
+                    FixedPlacer(environment, fixed_mujoco_object, coordinates)"""
+
+        # Global Mujoco Object Placement
+        for object_settings in config["Environment"]["Objects"]:
+            RandomPlacer().add(site=environment, mujoco_object_blueprint=mujoco_objects_blueprints[object_settings], validators=validators)
+
+        # Area Mujoco Object Placement
+        for area_name, area_settings in config["Areas"].items():
+            for object_name, object_settings in area_settings["Objects"].items():
+                attached_mujoco_object = RandomPlacer().add(site=area, mujoco_object_blueprint=mujoco_objects_blueprints[object_name], validators=validators, amount=object_settings[0]["amount"])
+
+        print(environment.mjcf_model.to_xml_string())
+        print(area.mjcf_model.to_xml_string())
+        environment.mjcf_model.attach(area.mjcf_model)
+        self._to_xml(xml_string=environment.mjcf_model.to_xml_string(), file_name="test")
 
         # ToDo: add mujoco-object to areas with a placer
 
