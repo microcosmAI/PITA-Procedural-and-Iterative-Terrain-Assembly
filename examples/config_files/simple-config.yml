@@ -1,8 +1,7 @@
 Environment:
   size: [10, 10]
-  Border:
-    - amount: 4
-    - height: 2
+  Objects:
+    Border:
 
 Areas:
   Area1:
@@ -21,9 +20,3 @@ Areas:
       - amount: (5,8)
       - type: attachable_item
       - attaches: [Tree]
-
-      Border:
-        - amount: (4, 4)
-        - type: obstacle
-
-
