@@ -29,9 +29,12 @@ class MujocoLoader:
         """ handles config file structure
 
         Returns:
-            obj_dict (dict): "Area" part of config file; contains information about world objects
+            obj_dict (dict): contains information about world objects
         """
         obj_dict = {}
+        for name, params in self.config_file['Environment']['Objects'].items():
+            obj_dict[name] = params
+
         for area, obj_in_area in self.config_file['Areas'].items():
             for name, params in self.config_file['Areas'][area]['Objects'].items():
                 obj_dict[name] = params
@@ -41,7 +44,7 @@ class MujocoLoader:
         """ loads xml and parses with Parser class to mjcf and combines all information to a mujoco-object
 
         Parameters:
-            obj_dict (dict): "Area" part of config file; contains information about world objects
+            obj_dict (dict): contains information about world objects
 
         Returns:
             mujoco_dict (dict): dictionary of world objects as mujoco-objects
@@ -68,9 +71,10 @@ class MujocoLoader:
         """
         obj_type = None
         attachable = None
-        for dict_ in params:
-            if "type" in dict_.keys():
-                obj_type = dict_["type"]
-            if "attachable" in dict_.keys():
-                attachable = dict_["attachable"]
+        if not params == None:
+            for dict_ in params:
+                if "type" in dict_.keys():
+                    obj_type = dict_["type"]
+                if "attachable" in dict_.keys():
+                    attachable = dict_["attachable"]
         return obj_type, attachable
