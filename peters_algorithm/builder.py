@@ -38,7 +38,7 @@ class Builder:
 
         BorderPlacer().add(environment=environment, mujoco_object_blueprint=mujoco_objects_blueprints["Border"], amount=4)
 
-        print(environment.mjcf_model.to_xml_string())
+        self._to_xml(xml_string=environment.mjcf_model.to_xml_string(), file_name="test")
 
         # ToDo: init environment
 
@@ -65,9 +65,11 @@ class Builder:
             warnings.warn("config path not specified; running with default directory in examples")
         return args
 
-    def _to_xml(self):
-        """ combine MJCFs to single xml-file """
-        pass
+    def _to_xml(self, *, xml_string, file_name):
+        """ Exports a given string to an .xml file """
+        
+        with open("../export/" + file_name + ".xml", "w") as f:
+            f.write(xml_string)
 
 
 if __name__ == "__main__":
