@@ -1,5 +1,10 @@
+import os 
+import sys
 import argparse
 import warnings
+
+# Add parent folder of builder.py to python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from base.mujoco_loader import MujocoLoader
 from base.area import Area
