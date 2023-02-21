@@ -17,7 +17,10 @@ class BorderPlacer(Placer):
         super(BorderPlacer, self).__init__()
 
     def add(
-        self, environment: Environment, mujoco_object_blueprint: MujocoObject, amount: int = 4, height: int = 2
+        self,
+        environment: Environment,
+        mujoco_object_blueprint: MujocoObject,
+        amount: int = 4,
     ):
         """
         Adds the borders around the environment
@@ -26,20 +29,25 @@ class BorderPlacer(Placer):
             environment (Environment): Environment class instance
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             amount (int): Number of to-be-placed borders
+            height (int): Height of to-be-placed borders
 
         Returns:
             mjcf_model (mjcf): An empty environment with borders around it
         """
-        # TODO Account for height value i.e. not in the ground
-        # TODO Account for border overlap with env plane
         size = environment.size
 
-        border_height = size[2]/2 + height/2
+        blueprint_x, blueprint_y, blueprint_z = (
+            mujoco_object_blueprint.mjcf_obj.worldbody.body[0].geom[0].size
+        )
 
-        top_middle = (0, size[1])
-        bottom_middle = (0, -size[1])
-        right_middle = (size[0], 0)
-        left_middle = (-size[0], 0)
+        # Calculate placing height of the to be placed borders
+        border_height = size[2] / 2 + blueprint_z / 2
+
+        # Calculate border coordinates, add/sub width/breadth of the object to remove overlap with the plane
+        top_middle = (0, size[1] + blueprint_y / 2)
+        bottom_middle = (0, -size[1] - blueprint_y / 2)
+        right_middle = (size[0] + blueprint_x / 2, 0)
+        left_middle = (-size[0] - blueprint_x / 2, 0)
 
         # Coordinates are given in halfs already
         coords = (top_middle, bottom_middle, right_middle, left_middle)
@@ -69,5 +77,3 @@ class BorderPlacer(Placer):
 
     def remove(self, *, site: Site, mujoco_object: MujocoObject):
         pass
-
-
