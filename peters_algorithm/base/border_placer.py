@@ -40,14 +40,11 @@ class BorderPlacer(Placer):
             mujoco_object_blueprint.mjcf_obj.worldbody.body[0].geom[0].size
         )
 
-        # Calculate placing height of the to be placed borders
-        border_height = size[2] / 2 + blueprint_z / 2
-
         # Calculate border coordinates, add/sub width/breadth of the object to remove overlap with the plane
-        top_middle = (0, size[1] + blueprint_y / 2)
-        bottom_middle = (0, -size[1] - blueprint_y / 2)
-        right_middle = (size[0] + blueprint_x / 2, 0)
-        left_middle = (-size[0] - blueprint_x / 2, 0)
+        top_middle = (0, size[1] + blueprint_y)
+        bottom_middle = (0, -size[1] - blueprint_y)
+        right_middle = (size[0] + blueprint_x, 0)
+        left_middle = (-size[0] - blueprint_x, 0)
 
         # Coordinates are given in halfs already
         coords = (top_middle, bottom_middle, right_middle, left_middle)
@@ -63,7 +60,7 @@ class BorderPlacer(Placer):
 
                 border_body.pos[0] = coords[idx][0]
                 border_body.pos[1] = coords[idx][1]
-                border_body.pos[2] = border_height
+                border_body.pos[2] = blueprint_z
 
             # Enlarge border on y-axis
             else:
@@ -71,7 +68,7 @@ class BorderPlacer(Placer):
 
                 border_body.pos[0] = coords[idx][0]
                 border_body.pos[1] = coords[idx][1]
-                border_body.pos[2] = border_height
+                border_body.pos[2] = blueprint_z
 
             environment.add(mujoco_object=border)
 

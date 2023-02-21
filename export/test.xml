@@ -1,0 +1,32 @@
+<mujoco model="unnamed_model">
+  <default>
+    <default class="/"/>
+    <default class="border/"/>
+    <default class="border_1/"/>
+    <default class="border_2/"/>
+    <default class="border_3/"/>
+  </default>
+  <worldbody>
+    <geom name="base_plane" class="/" type="plane" size="10 10 0.10000000000000001"/>
+    <body name="border/">
+      <body name="border/border" pos="0 11 2">
+        <geom name="border//unnamed_geom_0" class="border/" type="box" size="10 1 2" rgba="0.5 0.5 0.5 1"/>
+      </body>
+    </body>
+    <body name="border_1/">
+      <body name="border_1/border" pos="0 -11 2">
+        <geom name="border_1//unnamed_geom_0" class="border_1/" type="box" size="10 1 2" rgba="0.5 0.5 0.5 1"/>
+      </body>
+    </body>
+    <body name="border_2/">
+      <body name="border_2/border" pos="11 0 2">
+        <geom name="border_2//unnamed_geom_0" class="border_2/" type="box" size="1 10 2" rgba="0.5 0.5 0.5 1"/>
+      </body>
+    </body>
+    <body name="border_3/">
+      <body name="border_3/border" pos="-11 0 2">
+        <geom name="border_3//unnamed_geom_0" class="border_3/" type="box" size="1 10 2" rgba="0.5 0.5 0.5 1"/>
+      </body>
+    </body>
+  </worldbody>
+</mujoco>
