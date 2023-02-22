@@ -47,7 +47,6 @@ class Builder:
 
         # Border Placement
         # TODO: if config.environment.borders:
-        BorderPlacer().add(environment=environment, mujoco_object_blueprint=mujoco_objects_blueprints["Border"], amount=4)
         isActive = config["Environment"]["Borders"][0]['place']
         BorderPlacer().add(environment=environment, mujoco_object_blueprint=mujoco_objects_blueprints["Border"],
                            amount=4, isActive=isActive)
