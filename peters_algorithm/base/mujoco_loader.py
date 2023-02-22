@@ -9,7 +9,7 @@ class MujocoLoader:
 
     def __init__(self, *, config_file: dict, xml_dir: str):
         """Initializes MujocoLoader class
-        
+
         Parameters:
             config_file (dict): Dictionary of user defined configurations
             xml_dir (str): Path to directory containing xml-file of objects
@@ -17,7 +17,7 @@ class MujocoLoader:
         self.config_file = config_file
         self.xml_dir = xml_dir
 
-    def get_mujoco_objects(self): 
+    def get_mujoco_objects(self):
         """Calls class functions to get and return dictionary of mujoco-objects
 
         Returns:
@@ -34,13 +34,13 @@ class MujocoLoader:
             obj_dict (dict): Contains information about world objects
         """
         obj_dict = {}
-        for name, params in self.config_file['Environment'].items():
-            if name == 'Borders':
-                name = 'Border'  # possible type of border
+        for name, params in self.config_file["Environment"].items():
+            if name == "Borders":
+                name = "Border"  # possible type of border
                 obj_dict[name] = params
 
-        for area, obj_in_area in self.config_file['Areas'].items():
-            for name, params in self.config_file['Areas'][area]['Objects'].items():
+        for area, obj_in_area in self.config_file["Areas"].items():
+            for name, params in self.config_file["Areas"][area]["Objects"].items():
                 obj_dict[name] = params
         return obj_dict
 
@@ -58,7 +58,9 @@ class MujocoLoader:
             obj_xml_path = os.path.join(self.xml_dir, obj + ".xml")
             mjcf = Parser.get_mjcf(xml_path=obj_xml_path)
             obj_type, attachable = self._read_params(params)
-            mujoco_obj = MujocoObject(name=obj, mjcf_obj=mjcf, obj_type=obj_type, attachable=attachable)
+            mujoco_obj = MujocoObject(
+                name=obj, mjcf_obj=mjcf, obj_type=obj_type, attachable=attachable
+            )
             mujoco_dict[obj] = mujoco_obj
         return mujoco_dict
 

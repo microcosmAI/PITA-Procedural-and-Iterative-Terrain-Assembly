@@ -21,11 +21,10 @@ class Environment(Site):
         )
         self._mujoco_objects = {}
 
-
     @property
     def name(self):
         """Get name
-        
+
         Returns:
             name (str): Name of the environment
         """
@@ -34,7 +33,7 @@ class Environment(Site):
     @name.setter
     def name(self, name: str):
         """Set name
-        
+
         Parameters:
             name (str): Name of the environment
         """
@@ -42,8 +41,8 @@ class Environment(Site):
 
     @property
     def size(self):
-        """Get size 
-        
+        """Get size
+
         Returns:
             size (tuple): Tuple defining the size of the entire environment
         """
@@ -51,8 +50,8 @@ class Environment(Site):
 
     @property
     def mjcf_model(self):
-        """Get mjcf model 
-        
+        """Get mjcf model
+
         Returns:
             mjcf_model (mjcf): Mjcf model of the environment
         """
@@ -60,8 +59,8 @@ class Environment(Site):
 
     @property
     def mujoco_objects(self):
-        """Get mujoco objects 
-        
+        """Get mujoco objects
+
         Returns:
             mujoco_objects (dict): Dictionary of all mujoco objects in the environment
         """
@@ -84,5 +83,3 @@ class Environment(Site):
         """
         mujoco_object.mjcf_obj.detach()
         del self._mujoco_objects[mujoco_object.name]
-
-

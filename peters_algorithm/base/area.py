@@ -61,7 +61,7 @@ class Area(Site):
     @property
     def size(self):
         """Get size
-        
+
         Returns:
             size (tuple): Size of area
         """

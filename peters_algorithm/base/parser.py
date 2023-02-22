@@ -11,6 +11,7 @@ class Parser:
     Parameters:
         xml_dir (str): Path to directory containing xml-files
     """
+
     def __init__(self, *, xml_dir: str = "../examples/humanoid.xml"):
         self.xml_dir = xml_dir
 

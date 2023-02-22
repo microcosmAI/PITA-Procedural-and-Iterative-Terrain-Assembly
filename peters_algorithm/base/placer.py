@@ -15,7 +15,7 @@ class Placer(ABC):
 
     def _copy(self, mujoco_object_blueprint: MujocoObject) -> MujocoObject:
         """Creates a copy of a mujoco object blueprint
-        
+
         Parameters:
             mujoco_object_blueprint (MujocoObject): To-be-copied mujoco object
 
@@ -29,7 +29,11 @@ class Placer(ABC):
 
     @abstractmethod
     def add(
-        self, *, site: Site, mujoco_object_blueprint: MujocoObject, validator: list[Validator]
+        self,
+        *,
+        site: Site,
+        mujoco_object_blueprint: MujocoObject,
+        validator: list[Validator]
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the validator.

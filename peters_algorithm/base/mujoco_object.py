@@ -6,7 +6,7 @@ class MujocoObject:
 
     def __init__(self, name: str, mjcf_obj: mjcf, obj_type: str, attachable: bool):
         """Initializes the MujocoObject class
-           
+
         Parameters:
             name (str): Specific name of object
             container (bool): Set to true if the object is a container; it can store another item (e.g. tree with container for an apple)
@@ -21,7 +21,7 @@ class MujocoObject:
     @property
     def name(self) -> str:
         """Get name
-        
+
         Returns:
             name (str): Name of the object
         """
@@ -35,7 +35,7 @@ class MujocoObject:
     @property
     def mjcf_obj(self) -> mjcf.RootElement:
         """Get mjcf object
-        
+
         Returns:
             mjcf_obj (mjcf): Mjcf model of the object
         """
@@ -49,7 +49,7 @@ class MujocoObject:
     @property
     def obj_type(self) -> str:
         """Get object type
-        
+
         Returns:
             obj_type (str): Type of the object
         """
