@@ -7,7 +7,6 @@ from .site import Site
 from .placer import Placer
 
 
-
 class GlobalNamespace:
     """Placeholder until we know how to name objects, before attaching them"""
 
@@ -71,7 +70,7 @@ class Placer2DDistribution(PlacerDistribution):
 
     def __call__(self):
         """Draw a sample from the distribution
-        
+
         Returns:
             (float, float): sampled x and y coordinates
         """
@@ -94,7 +93,7 @@ class CircularUniformDistribution(PlacerDistribution):
 
     def __call__(self):
         """Draw a sample from the distribution
-        
+
         Returns:
             (float, float): sampled x and y coordinates
         """
