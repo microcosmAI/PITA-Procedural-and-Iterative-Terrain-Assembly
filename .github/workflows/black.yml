@@ -16,7 +16,7 @@ jobs:
           fail_on_error: false # optional, default is true
 
           # Main branch of the repository to speed up incremental diff
-          # main_branch: develop # optional, default is main
+          main_branch: develop # optional, default is main
           # (--quiet) Don't emit non-error messages to stderr. Errors are still emitted; silence those with 2>/dev/null
 
           # quiet_mode: # optional, default is false
