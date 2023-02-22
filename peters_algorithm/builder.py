@@ -6,14 +6,13 @@ import warnings
 # Add parent folder of builder.py to python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from base.mujoco_loader import MujocoLoader
-from base.area import Area
+from peters_algorithm.base.mujoco_loader import MujocoLoader
+from peters_algorithm.base.area import Area
 from peters_algorithm.base.random_placer import RandomPlacer
 from peters_algorithm.base.validator import Validator, MinDistanceRule
-from utils.config_reader import ConfigReader
-from base.border_placer import BorderPlacer
-
-from base.environment import Environment
+from peters_algorithm.utils.config_reader import ConfigReader
+from peters_algorithm.base.border_placer import BorderPlacer
+from peters_algorithm.base.environment import Environment
 
 class Builder:
 
