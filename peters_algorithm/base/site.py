@@ -3,47 +3,49 @@ from .mujoco_object import MujocoObject
 
 
 class Site(ABC):
-    """  abstract class for environment and area """
+    """Abstract class for environment and area"""
+
     @abstractmethod
     def __init__(self):
+        """Initializes the Site class."""
         pass
 
     @abstractmethod
     def add(self, *, mujoco_object: MujocoObject):
-        """ adds mujoco-object """
+        """Adds mujoco-object"""
         pass
 
     @abstractmethod
     def remove(self, *, mujoco_object: MujocoObject):
-        """ removes mujoco-object """
+        """Removes mujoco-object"""
         pass
 
     @property
     @abstractmethod
     def name(self):
-        """ get name """
+        """Get name"""
         pass
 
     @name.setter
     @abstractmethod
     def name(self, name: str):
-        """ set name """
+        """Set name"""
         pass
 
     @property
     @abstractmethod
     def size(self):
-        """ get size """
+        """Get size"""
         pass
 
     @property
     @abstractmethod
     def mjcf_model(self):
-        """ get mjcf model """
+        """Get mjcf model"""
         pass
 
     @property
     @abstractmethod
     def mujoco_objects(self):
-        """ get mujoco objects """
+        """Get mujoco objects"""
         pass

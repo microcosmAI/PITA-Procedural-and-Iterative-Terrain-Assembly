@@ -4,69 +4,83 @@ from .mujoco_object import MujocoObject
 
 
 class Area(Site):
-    """ area object class
+    """Area object class"""
 
-    Attributes:
-        name (str): name of area
-        size (tuple): size of area
-        mjcf_model (mjcf): mjcf model of area
-        mujoco_objects (dict(mujoco_objects)): contains objects in area as mujoco-objects
-    """
     def __init__(self, *, name: str, size: tuple[float, float, float]):
+        """Initialize area
+
+        Parameters:
+            name (str): Name of area
+            size (tuple): Size of area
+            mjcf_model (mjcf): Mjcf model of area
+            mujoco_objects (dict): Dictionary of mujoco objects in area
+        """
         self._name = name
         self._size = size
         self._mjcf_model = self._initialize_area()
         self._mujoco_objects = {}
 
     def _initialize_area(self):
-        """ initialize area
+        """Initialize area
 
         Returns:
-            mjcf_model (mjcf): mjcf-object of area
+            mjcf_model (mjcf): Mjcf-object of area
         """
         self._mjcf_model = mjcf.RootElement(model=self.name)
         # self._mjcf_model.worldbody.add("geom", name="base_plane_area", type="plane", size=self._size)
         return self._mjcf_model
 
     def add(self, *, mujoco_object: MujocoObject):
-        """ add object to area-mjcf and to mujoco-object dictionary of area
+        """Add object to area-mjcf and to mujoco-object dictionary of area
 
         Parameters:
-            mujoco_object (MujocoObject): mujoco object to add to area-mjcf and area-dictionary
+            mujoco_object (MujocoObject): Mujoco object to add to area-mjcf and area-dictionary
         """
         self._mjcf_model.attach(mujoco_object.mjcf_obj)
         self._mujoco_objects[mujoco_object.name] = mujoco_object
 
     def remove(self, *, mujoco_object: MujocoObject):
-        """ removes object from area-mjcf and from mujoco-object dictionary of area
+        """Removes object from area-mjcf and from mujoco-object dictionary of area
 
         Parameters:
-            mujoco_object (MujocoObject): mujoco object to remove from area-mjcf and area-dictionary
+            mujoco_object (MujocoObject): Mujoco object to remove from area-mjcf and area-dictionary
         """
         mujoco_object.mjcf_obj.detach()
         del self._mujoco_objects[mujoco_object.name]
 
     @property
     def name(self):
-        """ get name """
+        """Get name"""
         return self._name
 
     @name.setter
     def name(self, name: str):
-        """ set name """
+        """Set name"""
         self._name = name
 
     @property
     def size(self):
-        """ get size """
+        """Get size
+        
+        Returns:
+            size (tuple): Size of area
+        """
         return self._size
 
     @property
     def mjcf_model(self):
-        """ get mjcf_model """
+        """Get mjcf model
+
+        Returns:
+            mjcf_model (mjcf): Mjcf model of area
+        """
         return self._mjcf_model
 
     @property
     def mujoco_objects(self):
-        """ get mujoco_objects """
+        """Get mujoco objects
+
+        Returns:
+            mujoco_objects (dict): Dictionary of mujoco objects in area
+        """
         return self._mujoco_objects

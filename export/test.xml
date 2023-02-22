@@ -21,9 +21,6 @@
     <default class="Area1/tree_11/"/>
     <default class="Area1/tree_12/"/>
     <default class="Area1/tree_13/"/>
-    <default class="Area1/tree_14/"/>
-    <default class="Area1/tree_15/"/>
-    <default class="Area1/tree_16/"/>
     <default class="Area1/stone/"/>
     <default class="Area1/stone_1/"/>
     <default class="Area1/stone_2/"/>
@@ -40,6 +37,7 @@
     <default class="Area1/apple_3/"/>
     <default class="Area1/apple_4/"/>
     <default class="Area1/apple_5/"/>
+    <default class="Area1/apple_6/"/>
   </default>
   <worldbody>
     <geom name="base_plane" class="/" type="plane" size="10 10 0.10000000000000001"/>
@@ -64,174 +62,164 @@
       </body>
     </body>
     <body name="border_4/">
-      <body name="border_4/border" pos="-2.3904836088329016 -0.084173775061182871 0">
+      <body name="border_4/border" pos="-0.43945658168223595 1.1223086285194757 0">
         <geom name="border_4//unnamed_geom_0" class="border_4/" type="box" size="1 1 2" rgba="0.5 0.5 0.5 1"/>
       </body>
     </body>
     <body name="Area1/">
       <body name="Area1/tree/">
-        <body name="Area1/tree/tree" pos="-0.20680326368027507 -0.3865460637588245 0">
+        <body name="Area1/tree/tree" pos="-1.1063915186448212 1.0679849636510317 0">
           <geom name="Area1/tree//unnamed_geom_0" class="Area1/tree/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_1/">
-        <body name="Area1/tree_1/tree" pos="-0.1200909495204993 0.047371472427661258 0">
+        <body name="Area1/tree_1/tree" pos="-1.7510209089845752 -0.22521464331108282 0">
           <geom name="Area1/tree_1//unnamed_geom_0" class="Area1/tree_1/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_2/">
-        <body name="Area1/tree_2/tree" pos="1.0495853049726867 0.4834932467215422 0">
+        <body name="Area1/tree_2/tree" pos="0.64302571303116174 0.24967080634329086 0">
           <geom name="Area1/tree_2//unnamed_geom_0" class="Area1/tree_2/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_3/">
-        <body name="Area1/tree_3/tree" pos="0.38134523077590471 -0.62248065645953088 0">
+        <body name="Area1/tree_3/tree" pos="0.36093645846264227 0.99744561260149245 0">
           <geom name="Area1/tree_3//unnamed_geom_0" class="Area1/tree_3/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_4/">
-        <body name="Area1/tree_4/tree" pos="0.8005568218343363 -0.11130191508209147 0">
+        <body name="Area1/tree_4/tree" pos="-0.74965279510932037 1.7583736947592885 0">
           <geom name="Area1/tree_4//unnamed_geom_0" class="Area1/tree_4/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_5/">
-        <body name="Area1/tree_5/tree" pos="-0.83648426909881946 -0.06546522746594266 0">
+        <body name="Area1/tree_5/tree" pos="-0.79173519440758566 -0.030134331657966723 0">
           <geom name="Area1/tree_5//unnamed_geom_0" class="Area1/tree_5/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_6/">
-        <body name="Area1/tree_6/tree" pos="-0.042127719498112282 -1.4228352674075107 0">
+        <body name="Area1/tree_6/tree" pos="-0.11853315333002981 -0.29818257107770241 0">
           <geom name="Area1/tree_6//unnamed_geom_0" class="Area1/tree_6/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_7/">
-        <body name="Area1/tree_7/tree" pos="-0.9803920422991651 -0.19801610693156876 0">
+        <body name="Area1/tree_7/tree" pos="0.66215856632067682 0.98715191919819678 0">
           <geom name="Area1/tree_7//unnamed_geom_0" class="Area1/tree_7/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_8/">
-        <body name="Area1/tree_8/tree" pos="0.7976287161756993 0.93788903041225558 0">
+        <body name="Area1/tree_8/tree" pos="-1.6297500474976527 -1.8570987142387083 0">
           <geom name="Area1/tree_8//unnamed_geom_0" class="Area1/tree_8/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_9/">
-        <body name="Area1/tree_9/tree" pos="0.2891062741069314 -0.59991109178789148 0">
+        <body name="Area1/tree_9/tree" pos="-0.6933072971677614 -0.20950146765754948 0">
           <geom name="Area1/tree_9//unnamed_geom_0" class="Area1/tree_9/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_10/">
-        <body name="Area1/tree_10/tree" pos="-0.1969207031956958 0.84290503235611969 0">
+        <body name="Area1/tree_10/tree" pos="0.009937081748927365 0.68847854906368244 0">
           <geom name="Area1/tree_10//unnamed_geom_0" class="Area1/tree_10/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_11/">
-        <body name="Area1/tree_11/tree" pos="0.62381595063136808 -1.5884235429891502 0">
+        <body name="Area1/tree_11/tree" pos="-0.88268081573132751 -1.3753491477627788 0">
           <geom name="Area1/tree_11//unnamed_geom_0" class="Area1/tree_11/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_12/">
-        <body name="Area1/tree_12/tree" pos="-0.38234720218064916 -0.79901608005129265 0">
+        <body name="Area1/tree_12/tree" pos="-1.301919469852127 -0.70064959568348451 0">
           <geom name="Area1/tree_12//unnamed_geom_0" class="Area1/tree_12/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/tree_13/">
-        <body name="Area1/tree_13/tree" pos="0.56485701823428069 -0.077045057075439613 0">
+        <body name="Area1/tree_13/tree" pos="-0.31083838283831322 -0.75357271174026996 0">
           <geom name="Area1/tree_13//unnamed_geom_0" class="Area1/tree_13/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
-      <body name="Area1/tree_14/">
-        <body name="Area1/tree_14/tree" pos="-0.62037048077836476 -1.1988833799278651 0">
-          <geom name="Area1/tree_14//unnamed_geom_0" class="Area1/tree_14/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
-        </body>
-      </body>
-      <body name="Area1/tree_15/">
-        <body name="Area1/tree_15/tree" pos="0.29303955653427172 0.58368680110381188 0">
-          <geom name="Area1/tree_15//unnamed_geom_0" class="Area1/tree_15/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
-        </body>
-      </body>
-      <body name="Area1/tree_16/">
-        <body name="Area1/tree_16/tree" pos="0.60311165566195968 1.0392305742019039 0">
-          <geom name="Area1/tree_16//unnamed_geom_0" class="Area1/tree_16/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
-        </body>
-      </body>
       <body name="Area1/stone/">
-        <body name="Area1/stone/stone" pos="0.38028426876116356 1.1840342660489431 0">
+        <body name="Area1/stone/stone" pos="1.0054478083278706 -1.0506065563600433 0">
           <geom name="Area1/stone//unnamed_geom_0" class="Area1/stone/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/stone_1/">
-        <body name="Area1/stone_1/stone" pos="-0.53057202182383945 1.816671567144414 0">
+        <body name="Area1/stone_1/stone" pos="0.17217788803405684 -1.2869886776259201 0">
           <geom name="Area1/stone_1//unnamed_geom_0" class="Area1/stone_1/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/stone_2/">
-        <body name="Area1/stone_2/stone" pos="1.0888289490469794 -0.50582432482041018 0">
+        <body name="Area1/stone_2/stone" pos="0.3795463546484486 -0.67527075264301384 0">
           <geom name="Area1/stone_2//unnamed_geom_0" class="Area1/stone_2/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/stone_3/">
-        <body name="Area1/stone_3/stone" pos="-0.67049198031506319 0.31803671586728122 0">
+        <body name="Area1/stone_3/stone" pos="-0.86644739847650198 -0.04488177296660327 0">
           <geom name="Area1/stone_3//unnamed_geom_0" class="Area1/stone_3/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/stone_4/">
-        <body name="Area1/stone_4/stone" pos="0.48291688757790757 0.61763761410159124 0">
+        <body name="Area1/stone_4/stone" pos="0.55983111932400209 1.6656760078910229 0">
           <geom name="Area1/stone_4//unnamed_geom_0" class="Area1/stone_4/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/stone_5/">
-        <body name="Area1/stone_5/stone" pos="-1.1559582451439157 0.58733738735909646 0">
+        <body name="Area1/stone_5/stone" pos="0.63592934612848273 0.27899674356574122 0">
           <geom name="Area1/stone_5//unnamed_geom_0" class="Area1/stone_5/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/stone_6/">
-        <body name="Area1/stone_6/stone" pos="-0.27247807912933253 1.6792636655465656 0">
+        <body name="Area1/stone_6/stone" pos="-0.34271468521988036 -0.69295109356412954 0">
           <geom name="Area1/stone_6//unnamed_geom_0" class="Area1/stone_6/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/stone_7/">
-        <body name="Area1/stone_7/stone" pos="0.90139783297672715 -0.91219239500661431 0">
+        <body name="Area1/stone_7/stone" pos="0.97909701043999142 0.61401192554368555 0">
           <geom name="Area1/stone_7//unnamed_geom_0" class="Area1/stone_7/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/stone_8/">
-        <body name="Area1/stone_8/stone" pos="0.94738777546544295 -0.45782388121199585 0">
+        <body name="Area1/stone_8/stone" pos="-0.10477659070566914 1.5653395082174253 0">
           <geom name="Area1/stone_8//unnamed_geom_0" class="Area1/stone_8/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/stone_9/">
-        <body name="Area1/stone_9/stone" pos="1.5745820992728989 -0.60746830322617973 0">
+        <body name="Area1/stone_9/stone" pos="0.38723914619888589 1.3680104675067246 0">
           <geom name="Area1/stone_9//unnamed_geom_0" class="Area1/stone_9/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/apple/">
-        <body name="Area1/apple/apple" pos="0.33117108256337657 0.18001743669271281 0">
+        <body name="Area1/apple/apple" pos="0.79219474760546738 0.89766960900026116 0">
           <geom name="Area1/apple//unnamed_geom_0" class="Area1/apple/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/apple_1/">
-        <body name="Area1/apple_1/apple" pos="0.18241532236861491 0.16532335460434372 0">
+        <body name="Area1/apple_1/apple" pos="-0.67302830856519735 0.8995476222342228 0">
           <geom name="Area1/apple_1//unnamed_geom_0" class="Area1/apple_1/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/apple_2/">
-        <body name="Area1/apple_2/apple" pos="0.20496860672868564 0.33706281616830347 0">
+        <body name="Area1/apple_2/apple" pos="-0.098072203864202651 0.36819961259817402 0">
           <geom name="Area1/apple_2//unnamed_geom_0" class="Area1/apple_2/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/apple_3/">
-        <body name="Area1/apple_3/apple" pos="-1.1669435154107803 0.12993238529863693 0">
+        <body name="Area1/apple_3/apple" pos="0.64825487558989625 -0.67294560063065656 0">
           <geom name="Area1/apple_3//unnamed_geom_0" class="Area1/apple_3/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/apple_4/">
-        <body name="Area1/apple_4/apple" pos="0.12434760994696105 -1.7140539700394801 0">
+        <body name="Area1/apple_4/apple" pos="0.73678121667341312 -0.62054886711603718 0">
           <geom name="Area1/apple_4//unnamed_geom_0" class="Area1/apple_4/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
       <body name="Area1/apple_5/">
-        <body name="Area1/apple_5/apple" pos="0.32603518662143943 0.88657121315613174 0">
+        <body name="Area1/apple_5/apple" pos="0.50014477582907602 0.067943230925869527 0">
           <geom name="Area1/apple_5//unnamed_geom_0" class="Area1/apple_5/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
+        </body>
+      </body>
+      <body name="Area1/apple_6/">
+        <body name="Area1/apple_6/apple" pos="1.4427772000487864 -0.74507411433548199 0">
+          <geom name="Area1/apple_6//unnamed_geom_0" class="Area1/apple_6/" type="box" size="0.10000000000000001 0.10000000000000001 2" rgba="1 0 0 1"/>
         </body>
       </body>
     </body>

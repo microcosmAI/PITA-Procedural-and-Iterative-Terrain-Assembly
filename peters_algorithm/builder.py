@@ -18,7 +18,7 @@ from base.environment import Environment
 class Builder:
 
     def run(self):
-        """ run peters_algorithm to create xml-file containing objects specified in config file.
+        """Run peters_algorithm to create xml-file containing objects specified in config file.
             objects are given as xml by user
         """
 
@@ -37,11 +37,8 @@ class Builder:
         # create environment
         environment = Environment(name="Environment1", size=(10, 10, 0.1))
 
-        # exmaple on how to cretae an area and add and remove an object based on a mujoco-object
-        # Note: placer class will handle further details (e.g. amount of trees etc)
+        # create area
         area = Area(name="Area1", size=(10, 10, 0.1))
-        area.add(mujoco_object=mujoco_objects_blueprints["Tree"])
-        area.remove(mujoco_object=mujoco_objects_blueprints["Tree"])
 
 
         # Create Validators
@@ -49,10 +46,11 @@ class Builder:
         validators = [minDistanceValidator, ]
 
         # Border Placement
-        #if config.environment.borders:
+        # TODO: if config.environment.borders:
         BorderPlacer().add(environment=environment, mujoco_object_blueprint=mujoco_objects_blueprints["Border"], amount=4)
 
 
+        # TODO: Will be implemented in future
         """# Fixed Coordinate Mujoco Object Placement
         for object_name in config.environment.objects:
             if object_name.coordinates:
@@ -70,20 +68,18 @@ class Builder:
         # Area Mujoco Object Placement
         for area_name, area_settings in config["Areas"].items():
             for object_name, object_settings in area_settings["Objects"].items():
-                attached_mujoco_object = RandomPlacer().add(site=area, mujoco_object_blueprint=mujoco_objects_blueprints[object_name], validators=validators, amount=object_settings[0]["amount"])
+                RandomPlacer().add(site=area, mujoco_object_blueprint=mujoco_objects_blueprints[object_name], validators=validators, amount=object_settings[0]["amount"])
 
-        print(environment.mjcf_model.to_xml_string())
-        print(area.mjcf_model.to_xml_string())
         environment.mjcf_model.attach(area.mjcf_model)
         self._to_xml(xml_string=environment.mjcf_model.to_xml_string(), file_name="test")
 
-        # ToDo: add mujoco-object to areas with a placer
+        # TODO: add mujoco-object to areas with a placer
 
     def _get_user_args(self):
-        """ read args set by user; if none are given, args are set to files and directories in "examples"
+        """Read args set by user; if none are given, args are set to files and directories in "examples"
 
         Returns:
-            args (namespace obj): contains args set by user
+            args (namespace obj): Contains args set by user
         """
         parser = argparse.ArgumentParser()
         parser.add_argument("--config_path", help="Specify folder where yaml file is located",
@@ -101,7 +97,12 @@ class Builder:
         return args
 
     def _to_xml(self, *, xml_string, file_name):
-        """ Exports a given string to an .xml file """
+        """Exports a given string to an .xml file 
+
+        Parameters:
+            xml_string (str): String that contains the environment
+            file_name (str): Name of the file to be exported
+        """
         
         with open("../export/" + file_name + ".xml", "w") as f:
             f.write(xml_string)

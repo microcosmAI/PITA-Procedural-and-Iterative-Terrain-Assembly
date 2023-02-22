@@ -14,6 +14,14 @@ class Placer(ABC):
         pass
 
     def _copy(self, mujoco_object_blueprint: MujocoObject) -> MujocoObject:
+        """Creates a copy of a mujoco object blueprint
+        
+        Parameters:
+            mujoco_object_blueprint (MujocoObject): To-be-copied mujoco object
+
+        Returns:
+            mujoco_object (MujocoObject): Copy of the mujoco object blueprint
+        """
         mujoco_object = copy.deepcopy(mujoco_object_blueprint)
         # TODO NameGenerator
         # TODO modify references to relevant object attributes like size/pos
@@ -23,8 +31,7 @@ class Placer(ABC):
     def add(
         self, *, site: Site, mujoco_object_blueprint: MujocoObject, validator: list[Validator]
     ):
-        """
-        Adds a mujoco object to a site by calling the sites add method.
+        """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the validator.
 
         Parameters:
@@ -37,8 +44,7 @@ class Placer(ABC):
 
     @abstractmethod
     def remove(self, *, site: Site, mujoco_object: MujocoObject):
-        """
-        Removes a mujoco object from a site by calling the sites remove method.
+        """Removes a mujoco object from a site by calling the sites remove method.
         Possibly checks placement via the validator.
 
         Parameters:

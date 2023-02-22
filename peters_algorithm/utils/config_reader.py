@@ -3,18 +3,17 @@ import yaml
 
 
 class ConfigReader:
-    """ class to read yaml-file (containing configurations)
-    """
+    """Class to read yaml-file (containing configurations)"""
 
     @staticmethod
     def execute(*, config_path: str):
-        """ reads yaml-config file
+        """Reads yaml-config file
 
         Parameters:
-            config_path (str): path to yaml-config file
+            config_path (str): Path to yaml-config file
 
         Returns:
-            config (dict): dictionary of user defined configurations
+            config (dict): Dictionary of user defined configurations
         """
         if config_path is None:
             raise ValueError("No config file provided")

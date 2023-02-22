@@ -14,24 +14,33 @@ class GlobalNamespace:
 
     @staticmethod
     def get():
+        """Get a unique name
+        Returns: 
+            (str): unique name"""
         GlobalNamespace.counter += 1
         return str(GlobalNamespace.counter)
 
 
 class MujocoObject:
-    """placeholder until the real thing is implemented"""
+    """Placeholder until the real thing is implemented"""
 
     def __init__(self, name, mjcf_object):
+        """Initialize a MujocoObject
+        
+        Parameters:
+            name (str): name of the object
+            mjcf_object (mjcf): mjcf model of the object
+        
+        """
         self.name = name
         self.mjcf_object = mjcf_object
 
 
 class PlacerDistribution:
-    '''Class for holing Distribution with specific parameterizations'''
+    """Class for holing Distribution with specific parameterizations"""
 
     def __init__(self, distribution: Callable, *args):
-        """
-        Initialize a distribution for use in the RandomPlacer. The distribution 
+        """Initialize a distribution for use in the RandomPlacer. The distribution 
         object will be called with *args as paramters. 
         Write for instance:
         `PlacerDistribution(np.random.default_rng().normal, 2, 1)` if you intend
@@ -61,11 +70,10 @@ class Placer2DDistribution(PlacerDistribution):
 
 
 class CircularUniformDistribution(PlacerDistribution):
-    '''Class for holing Distribution with specific parameterizations'''
+    """Class for holing Distribution with specific parameterizations"""
 
     def __init__(self, loc: float = 0, scale: float = 1.0):
-        """
-        Distribution for uniformly drawing samples from a circle
+        """Distribution for uniformly drawing samples from a circle
 
         Parameters:
             loc (float): minimal euclidean distance from the center
@@ -87,35 +95,33 @@ class CircularUniformDistribution(PlacerDistribution):
 class RandomPlacer:
     """A placer that is meant for procedural and random map generation"""
 
-    '''The validator does not check, if the addition of an item is possible. Instead, after placement
-    has failed for MAX_TRIES times, an error gets thrown. MAX_TRIES could alternatively be implemented
-    dynamically, as a field of any Placer instantiation'''
+    #The validator does not check, if the addition of an item is possible. Instead, after placement
+    #has failed for MAX_TRIES times, an error gets thrown. MAX_TRIES could alternatively be implemented
+    #dynamically, as a field of any Placer instantiation
     MAX_TRIES = 10000
 
     def __init__(self, distribution: PlacerDistribution = Placer2DDistribution(
         np.random.default_rng().multivariate_normal, (0, 0), np.array([[0.5, 0], [0, 0.5]]))):
-        """
-        Initializes the Placer class. From the distribution a translation on the x and y axis will be
+        """Initializes the Placer class. From the distribution a translation on the x and y axis will be
         respectively sampled. So the distribution of the to be placed objects is actually centered at
         the position of the original object plus a loc parameter of the distribution (if it has one).
         Note, that this will result in square shaped distributions, unless an explicitly circular
         distribution is used.
         
         Parameters:
-            distribution (PlacerDistribution): distribution from which placement randomness will be sampled
+            distribution (PlacerDistribution): Distribution from which placement randomness will be sampled
         """
         self.distribution = distribution
 
     def add(self, site: Site, mujoco_object_blueprint: MujocoObject, validators: list[Validator], amount: tuple[int, int] = (1, 1)):
-        """
-        Adds a mujoco object to a site by calling the sites add method.
+        """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the vlaidator.
 
         Parameters:
             site (Site): Site class instance where the object is added to
             mujoco_object_blueprint (mjcf.RootElement): To-be-placed mujoco object
             validators (Validator): Validator class instance used to check object placement
-            amount tuple[int, int]: Range of possible amount of objects to be placed
+            amount (tuple): Range of possible amount of objects to be placed
         """
 
         amount = amount[0] if (amount[0] == amount[1]) else np.random.randint(int(amount[0]), int(amount[1]))
@@ -136,9 +142,8 @@ class RandomPlacer:
             site.add(mujoco_object=mujoco_object)
 
     def remove(self, site: Site, mujoco_object: MujocoObject):
-        """
-        Removes a mujoco object from a site by calling the sites remove method.
-        Possibly checks placement via the vlaidator.
+        """Removes a mujoco object from a site by calling the sites remove method.
+        Possibly checks placement via the validator.
 
         Parameters:
             site (Site): Site class instance where the object is removed from

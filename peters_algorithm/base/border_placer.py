@@ -22,8 +22,7 @@ class BorderPlacer(Placer):
         mujoco_object_blueprint: MujocoObject,
         amount: int = 4,
     ):
-        """
-        Adds the borders around the environment
+        """Adds the borders around the environment
 
         Parameters:
             environment (Environment): Environment class instance
@@ -73,4 +72,5 @@ class BorderPlacer(Placer):
             environment.add(mujoco_object=border)
 
     def remove(self, *, site: Site, mujoco_object: MujocoObject):
+        """Remove function, currently not implemented/needed"""
         pass
