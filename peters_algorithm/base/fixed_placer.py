@@ -1,18 +1,17 @@
 import copy
-from abc import ABC, abstractmethod
 from dm_control import mjcf
 
 from .mujoco_object import MujocoObject
+from .placer import Placer
 from .validator import Validator
 from .site import Site
 
 
-class Placer(ABC):
-    """Abstract class for placing objects"""
+class FixedPlacer(Placer):
+    """Class for placing objects in a fixed manner"""
 
-    @abstractmethod
     def __init__(self):
-        """Initializes the Placer class."""
+        """Initializes the FixedPlacer class."""
         pass
 
     def _copy(self, mujoco_object_blueprint: MujocoObject) -> MujocoObject:
@@ -29,7 +28,6 @@ class Placer(ABC):
         # TODO modify references to relevant object attributes like size/pos
         return mujoco_object
 
-    @abstractmethod
     def add(
         self,
         *,
@@ -46,9 +44,23 @@ class Placer(ABC):
             validator (Validator): Validator class instance used to check object placement
         """
         mujoco_object = self._copy(mujoco_object_blueprint)
+
+
+        # Set the position of the object to the user specified coordinates
+        mujoco_object.position = mujoco_object.coordinates
+
+        # TODO: Create a validator class that checks if the fixed object is placed in a valid way
+        # TODO: How should the coordinates be specified in the yaml file and are they correctly parsed by the parser and associated with the object?
+        # TODO: Test if the fixed placer works correctly
+        if not all([val.validate(mujoco_object) for val in validator]):
+            raise RuntimeError(
+                "User specified placement at {} could not be satisfied.".format(
+                    mujoco_object.coordinates
+                )
+            )
+
         site.add(mujoco_object=mujoco_object)
 
-    @abstractmethod
     def remove(self, *, site: Site, mujoco_object: MujocoObject):
         """Removes a mujoco object from a site by calling the sites remove method.
         Possibly checks placement via the validator.
