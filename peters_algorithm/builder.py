@@ -6,13 +6,14 @@ import warnings
 # Add parent folder of builder.py to python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from peters_algorithm.base.mujoco_loader import MujocoLoader
-from peters_algorithm.base.area import Area
+from base.mujoco_loader import MujocoLoader
+from base.area import Area
 from peters_algorithm.base.random_placer import RandomPlacer
 from peters_algorithm.base.validator import Validator, MinDistanceRule
-from peters_algorithm.utils.config_reader import ConfigReader
-from peters_algorithm.base.border_placer import BorderPlacer
-from peters_algorithm.base.environment import Environment
+from utils.config_reader import ConfigReader
+from base.border_placer import BorderPlacer
+from base.environment import Environment
+
 
 class Builder:
 
@@ -47,9 +48,11 @@ class Builder:
         # Border Placement
         # TODO: if config.environment.borders:
         BorderPlacer().add(environment=environment, mujoco_object_blueprint=mujoco_objects_blueprints["Border"], amount=4)
+        isActive = config["Environment"]["Borders"][0]['place']
+        BorderPlacer().add(environment=environment, mujoco_object_blueprint=mujoco_objects_blueprints["Border"],
+                           amount=4, isActive=isActive)
 
 
-        # TODO: Will be implemented in future
         """# Fixed Coordinate Mujoco Object Placement
         for object_name in config.environment.objects:
             if object_name.coordinates:
@@ -96,7 +99,7 @@ class Builder:
         return args
 
     def _to_xml(self, *, xml_string, file_name):
-        """Exports a given string to an .xml file 
+        """Exports a given string to an .xml file
 
         Parameters:
             xml_string (str): String that contains the environment
