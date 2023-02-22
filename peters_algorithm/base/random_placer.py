@@ -1,10 +1,11 @@
-from abc import ABC, abstractmethod
 from typing import Callable
-from dm_control import mjcf
-from peters_algorithm.base.validator import Validator
-from peters_algorithm.base.site import Site
 import numpy as np
 import copy
+
+from .validator import Validator
+from .site import Site
+from .placer import Placer
+
 
 
 class GlobalNamespace:
@@ -15,8 +16,10 @@ class GlobalNamespace:
     @staticmethod
     def get():
         """Get a unique name
+
         Returns:
-            (str): unique name"""
+            (str): unique name
+        """
         GlobalNamespace.counter += 1
         return str(GlobalNamespace.counter)
 
@@ -55,7 +58,11 @@ class PlacerDistribution:
         self.parameters = args
 
     def __call__(self):
-        """Returns two random samples, for the x and y axis respectively"""
+        """Draws samples from the distribution
+
+        Returns:
+            (float, float): sampled x and y coordinates
+        """
         return self.distribution(*self.parameters), self.distribution(*self.parameters)
 
 
@@ -63,8 +70,11 @@ class Placer2DDistribution(PlacerDistribution):
     """Class for two dimensional distributions, otherwise equivalent to its parent class"""
 
     def __call__(self):
-        """Returns a two dimensional random sample, for the x and y coordinates respectively"""
-
+        """Draw a sample from the distribution
+        
+        Returns:
+            (float, float): sampled x and y coordinates
+        """
         x, y = self.distribution(*self.parameters)
         return (x, y)
 
@@ -83,7 +93,11 @@ class CircularUniformDistribution(PlacerDistribution):
         self.scale = scale
 
     def __call__(self):
-        """Returns a two dimensional random sample, for the x and y coordinates respectively"""
+        """Draw a sample from the distribution
+        
+        Returns:
+            (float, float): sampled x and y coordinates
+        """
         length = np.sqrt(np.random.uniform(self.loc, self.scale**2))
         angle = np.pi * np.random.uniform(0, 2)
 
@@ -92,7 +106,7 @@ class CircularUniformDistribution(PlacerDistribution):
         return x, y
 
 
-class RandomPlacer:
+class RandomPlacer(Placer):
     """A placer that is meant for procedural and random map generation"""
 
     # The validator does not check, if the addition of an item is possible. Instead, after placement
@@ -119,11 +133,25 @@ class RandomPlacer:
         """
         self.distribution = distribution
 
+    def _copy(self, mujoco_object_blueprint: MujocoObject) -> MujocoObject:
+        """Creates a copy of a mujoco object blueprint
+
+        Parameters:
+            mujoco_object_blueprint (MujocoObject): To-be-copied mujoco object
+
+        Returns:
+            mujoco_object (MujocoObject): Copy of the mujoco object blueprint
+        """
+        mujoco_object = copy.deepcopy(mujoco_object_blueprint)
+        # TODO NameGenerator
+        # TODO modify references to relevant object attributes like size/pos
+        return mujoco_object
+
     def add(
         self,
         site: Site,
         mujoco_object_blueprint: MujocoObject,
-        validators: list[Validator],
+        validator: list[Validator],
         amount: tuple[int, int] = (1, 1),
     ):
         """Adds a mujoco object to a site by calling the sites add method.
@@ -144,12 +172,12 @@ class RandomPlacer:
         for _ in range(amount):
             count = 0
 
-            mujoco_object = copy.deepcopy(mujoco_object_blueprint)
+            mujoco_object = self._copy(mujoco_object_blueprint)
             old_position = mujoco_object.position
             z_position = old_position[2]
             mujoco_object.position = [*self.distribution(), z_position]
 
-            while not all([val.validate(mujoco_object) for val in validators]):
+            while not all([val.validate(mujoco_object) for val in validator]):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
                     raise RuntimeError(
