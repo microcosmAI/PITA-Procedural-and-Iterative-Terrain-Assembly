@@ -7,6 +7,7 @@ jobs:
     name: Black
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: DataDog/action-py-black-formatter@v2.5
         with:
           # Black additional input arguments.
