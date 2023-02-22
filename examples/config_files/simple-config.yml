@@ -4,6 +4,12 @@ Environment:
     - place: True
     #- type: Hecke
 
+  Objects:
+    Tree:
+      - amount: [1, 1]
+      - type: container
+      - coordinates: [1, 1, 0]
+
 Areas:
   Area1:
     size: small
