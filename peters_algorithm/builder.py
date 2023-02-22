@@ -1,15 +1,24 @@
+import os 
+import sys
 import argparse
 import warnings
 
+# Add parent folder of builder.py to python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from base.mujoco_loader import MujocoLoader
 from base.area import Area
+from peters_algorithm.base.random_placer import RandomPlacer
+from peters_algorithm.base.validator import Validator, MinDistanceRule
 from utils.config_reader import ConfigReader
+from base.border_placer import BorderPlacer
+from base.environment import Environment
 
 
 class Builder:
 
     def run(self):
-        """ run peters_algorithm to create xml-file containing objects specified in config file.
+        """Run peters_algorithm to create xml-file containing objects specified in config file.
             objects are given as xml by user
         """
 
@@ -23,23 +32,55 @@ class Builder:
 
         # call mujoco loader to get dictionary of mujoco objects
         mujoco_loader = MujocoLoader(config_file=config, xml_dir=xml_dir)
-        mujoco_objects_blueprint = mujoco_loader.get_mujoco_objects()
+        mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
 
-        # exmaple on how to cretae an area and add and remove an object based on a mujoco-object
-        # Note: placer class will handle further details (e.g. amount of trees etc)
-        area = Area(name="Area1", size=(10, 10))
-        area.add(mujoco_object=mujoco_objects_blueprint["Tree"])
-        area.remove(mujoco_object=mujoco_objects_blueprint["Tree"])
+        # create environment
+        environment = Environment(name="Environment1", size=(10, 10, 0.1))
 
-        # ToDo: init environment
+        # create area
+        area = Area(name="Area1", size=(10, 10, 0.1))
 
-        # ToDo: add mujoco-object to areas with a placer
+
+        # Create Validators
+        minDistanceValidator = Validator([MinDistanceRule(3.0), ])
+        validators = [minDistanceValidator, ]
+
+        # Border Placement
+        # TODO: if config.environment.borders:
+        isActive = config["Environment"]["Borders"][0]['place']
+        BorderPlacer().add(environment=environment, mujoco_object_blueprint=mujoco_objects_blueprints["Border"],
+                           amount=4, isActive=isActive)
+
+
+        """# Fixed Coordinate Mujoco Object Placement
+        for object_name in config.environment.objects:
+            if object_name.coordinates:
+                FixedPlacer(environment, fixed_mujoco_object, coordinates)
+                
+        for area in config.areas:
+            for object_name in area.objects:
+                if object_name.coordinates:
+                    FixedPlacer(environment, fixed_mujoco_object, coordinates)"""
+
+        # Global Mujoco Object Placement
+        for object_settings in config["Environment"]["Objects"]:
+            RandomPlacer().add(site=environment, mujoco_object_blueprint=mujoco_objects_blueprints[object_settings], validators=validators)
+
+        # Area Mujoco Object Placement
+        for area_name, area_settings in config["Areas"].items():
+            for object_name, object_settings in area_settings["Objects"].items():
+                RandomPlacer().add(site=area, mujoco_object_blueprint=mujoco_objects_blueprints[object_name], validators=validators, amount=object_settings[0]["amount"])
+
+        environment.mjcf_model.attach(area.mjcf_model)
+        self._to_xml(xml_string=environment.mjcf_model.to_xml_string(), file_name="test")
+
+        # TODO: add mujoco-object to areas with a placer
 
     def _get_user_args(self):
-        """ read args set by user; if none are given, args are set to files and directories in "examples"
+        """Read args set by user; if none are given, args are set to files and directories in "examples"
 
         Returns:
-            args (namespace obj): contains args set by user
+            args (namespace obj): Contains args set by user
         """
         parser = argparse.ArgumentParser()
         parser.add_argument("--config_path", help="Specify folder where yaml file is located",
@@ -56,9 +97,16 @@ class Builder:
             warnings.warn("config path not specified; running with default directory in examples")
         return args
 
-    def _to_xml(self):
-        """ combine MJCFs to single xml-file """
-        pass
+    def _to_xml(self, *, xml_string, file_name):
+        """Exports a given string to an .xml file
+
+        Parameters:
+            xml_string (str): String that contains the environment
+            file_name (str): Name of the file to be exported
+        """
+        
+        with open("../export/" + file_name + ".xml", "w") as f:
+            f.write(xml_string)
 
 
 if __name__ == "__main__":

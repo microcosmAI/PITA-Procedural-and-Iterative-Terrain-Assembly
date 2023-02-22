@@ -4,14 +4,17 @@ from dm_control import mjcf
 
 
 class Parser:
-    """ class to parse xml-file in given path to mujoco's MJCF-object """
+    """Class to parse xml-file in given path to mujoco's MJCF-object"""
 
     @staticmethod
-    def get_mjcf(*, xml_path: str):
-        """ parses xml-file to MJCF-object
+    def get_mjcf(*, xml_path: str) -> mjcf.RootElement:
+        """Parses xml-file to MJCF-object
+
+        Parameters:
+            xml_path (str): Path to xml-file
 
         Returns:
-            mjcf_ (mjcf): mjcf object of given xml-file
+            mjcf_ (mjcf): Mjcf object of given xml-file
         """
         if xml_path is None:
             raise ValueError("No xml file provided")
