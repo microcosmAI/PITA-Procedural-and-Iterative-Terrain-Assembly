@@ -12,8 +12,7 @@ from peters_algorithm.base.random_placer import RandomPlacer
 from peters_algorithm.base.validator import Validator, MinDistanceRule
 from peters_algorithm.utils.config_reader import ConfigReader
 from peters_algorithm.base.border_placer import BorderPlacer
-
-from base.environment import Environment
+from peters_algorithm.base.environment import Environment
 
 class Builder:
 
