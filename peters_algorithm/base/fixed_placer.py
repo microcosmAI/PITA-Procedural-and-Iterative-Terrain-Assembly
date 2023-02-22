@@ -45,7 +45,6 @@ class FixedPlacer(Placer):
         """
         mujoco_object = self._copy(mujoco_object_blueprint)
 
-
         # Set the position of the object to the user specified coordinates
         mujoco_object.position = mujoco_object.coordinates
 
