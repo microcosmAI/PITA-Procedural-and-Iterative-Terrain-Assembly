@@ -7,6 +7,7 @@ from peters_algorithm.base.site import Site
 from peters_algorithm.base.mujoco_object import MujocoObject
 from peters_algorithm.base.placer import Placer
 
+
 class GlobalNamespace:
     """Placeholder until we know how to name objects, before attaching them"""
 
