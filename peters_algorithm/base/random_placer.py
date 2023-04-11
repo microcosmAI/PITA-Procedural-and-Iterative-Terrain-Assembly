@@ -2,10 +2,10 @@ from typing import Callable
 import numpy as np
 import copy
 
-from .validator import Validator
-from .site import Site
-from .placer import Placer
-
+from peters_algorithm.base.validator import Validator
+from peters_algorithm.base.site import Site
+from peters_algorithm.base.mujoco_object import MujocoObject
+from peters_algorithm.base.placer import Placer
 
 class GlobalNamespace:
     """Placeholder until we know how to name objects, before attaching them"""
@@ -21,21 +21,6 @@ class GlobalNamespace:
         """
         GlobalNamespace.counter += 1
         return str(GlobalNamespace.counter)
-
-
-class MujocoObject:
-    """Placeholder until the real thing is implemented"""
-
-    def __init__(self, name, mjcf_object):
-        """Initialize a MujocoObject
-
-        Parameters:
-            name (str): name of the object
-            mjcf_object (mjcf): mjcf model of the object
-
-        """
-        self.name = name
-        self.mjcf_object = mjcf_object
 
 
 class PlacerDistribution:
