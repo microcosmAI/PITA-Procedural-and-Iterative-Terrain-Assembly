@@ -30,6 +30,7 @@ To create the documentation, follow these steps:
 6. Open `docs/build/html/index.html` to view the generated documentation.
 
 ## Steps for Updating Documentation
+0. Only after the first pull of the repository (since the build folder is ignored by git), run `sphinx-build -b html docs/source/ docs/build/html` to generate the necessary files for the documentation in the "build" folder.
 1. Run `sphinx-apidoc -M -P -e -d 5 -f -o docs/source/ peters_algorithm/` from the root folder to generate API documentation for the `peters_algorithm` module.
 2. Run `make html` from within the "docs" folder to generate the HTML files.
 3. Open `docs/build/html/index.html` to view the generated documentation.
