@@ -33,7 +33,7 @@ class Placer(ABC):
         *,
         site: Site,
         mujoco_object_blueprint: MujocoObject,
-        validator: list[Validator]
+        validators: list[Validator]
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the validator.
@@ -41,7 +41,7 @@ class Placer(ABC):
         Parameters:
             site (Site): Site class instance where the object is added to
             mujoco_object_blueprint (MujocoObject): To-be-placed mujoco object
-            validator (Validator): Validator class instance used to check object placement
+            validators (list): List of validator class instances used to check object placement
         """
         mujoco_object = self._copy(mujoco_object_blueprint)
         site.add(mujoco_object=mujoco_object)

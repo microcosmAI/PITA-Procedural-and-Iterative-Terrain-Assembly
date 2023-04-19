@@ -136,7 +136,7 @@ class RandomPlacer(Placer):
         self,
         site: Site,
         mujoco_object_blueprint: MujocoObject,
-        validator: list[Validator],
+        validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
     ):
         """Adds a mujoco object to a site by calling the sites add method.
@@ -145,7 +145,7 @@ class RandomPlacer(Placer):
         Parameters:
             site (Site): Site class instance where the object is added to
             mujoco_object_blueprint (mjcf.RootElement): To-be-placed mujoco object
-            validators (Validator): Validator class instance used to check object placement
+            validators (list): List of validator class instances used to check object placement
             amount (tuple): Range of possible amount of objects to be placed
         """
 
@@ -162,7 +162,7 @@ class RandomPlacer(Placer):
             z_position = old_position[2]
             mujoco_object.position = [*self.distribution(), z_position]
 
-            while not all([val.validate(mujoco_object) for val in validator]):
+            while not all([val.validate(mujoco_object) for val in validators]):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
                     raise RuntimeError(

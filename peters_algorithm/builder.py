@@ -74,7 +74,7 @@ class Builder:
             RandomPlacer().add(
                 site=environment,
                 mujoco_object_blueprint=mujoco_objects_blueprints[object_settings],
-                validator=validators,
+                validators=validators,
             )
 
         # Area Mujoco Object Placement
@@ -83,7 +83,7 @@ class Builder:
                 RandomPlacer().add(
                     site=area,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
-                    validator=validators,
+                    validators=validators,
                     amount=object_settings[0]["amount"],
                 )
 
