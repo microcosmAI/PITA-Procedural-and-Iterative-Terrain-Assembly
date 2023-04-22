@@ -5,9 +5,7 @@ from peters_algorithm.base.builder import Builder
 
 
 class PetersAlgorithm:
-
     def run(self):
-
         # assign user args to params
         args = self._get_user_args()
         config_path = args.config_path
