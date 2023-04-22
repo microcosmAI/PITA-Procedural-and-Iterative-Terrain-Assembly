@@ -1,11 +1,7 @@
-from dm_control import mjcf
-
-from .mujoco_object import MujocoObject
-from .placer import Placer
-from .environment import Environment
-import copy
-
-from .site import Site
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from peters_algorithm.base.asset_placement.placer import Placer
+from peters_algorithm.base.world.environment import Environment
+from peters_algorithm.base.world.abstract_base_plane import AbstractBasePlane
 
 
 class BorderPlacer(Placer):
@@ -73,6 +69,6 @@ class BorderPlacer(Placer):
 
                 environment.add(mujoco_object=border)
 
-    def remove(self, *, site: Site, mujoco_object: MujocoObject):
+    def remove(self, *, site: AbstractBasePlane, mujoco_object: MujocoObject):
         """Remove function, currently not implemented/needed"""
         pass

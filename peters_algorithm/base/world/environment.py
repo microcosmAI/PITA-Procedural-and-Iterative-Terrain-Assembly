@@ -1,9 +1,9 @@
 from dm_control import mjcf
-from .site import Site
-from .mujoco_object import MujocoObject
+from peters_algorithm.base.world.abstract_base_plane import AbstractBasePlane
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
-class Environment(Site):
+class Environment(AbstractBasePlane):
     """Class that represents the entire environment"""
 
     def __init__(self, *, size: tuple[float, float, float], name: str = "Environment"):

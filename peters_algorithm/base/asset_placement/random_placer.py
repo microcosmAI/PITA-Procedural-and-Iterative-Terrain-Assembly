@@ -1,10 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import Callable
-from dm_control import mjcf
-from peters_algorithm.base.validator import Validator
-from peters_algorithm.base.site import Site
 import numpy as np
 import copy
+from typing import Callable
+from dm_control import mjcf
+from peters_algorithm.base.asset_placement.validator import Validator
+from peters_algorithm.base.world.abstract_base_plane import AbstractBasePlane
 
 
 class GlobalNamespace:
@@ -121,7 +120,7 @@ class RandomPlacer:
 
     def add(
         self,
-        site: Site,
+        site: AbstractBasePlane,
         mujoco_object_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
@@ -130,7 +129,7 @@ class RandomPlacer:
         Possibly checks placement via the vlaidator.
 
         Parameters:
-            site (Site): Site class instance where the object is added to
+            site (AbstractBasePlane): Site class instance where the object is added to
             mujoco_object_blueprint (mjcf.RootElement): To-be-placed mujoco object
             validators (Validator): Validator class instance used to check object placement
             amount (tuple): Range of possible amount of objects to be placed
@@ -161,12 +160,12 @@ class RandomPlacer:
 
             site.add(mujoco_object=mujoco_object)
 
-    def remove(self, site: Site, mujoco_object: MujocoObject):
+    def remove(self, site: AbstractBasePlane, mujoco_object: MujocoObject):
         """Removes a mujoco object from a site by calling the sites remove method.
         Possibly checks placement via the validator.
 
         Parameters:
-            site (Site): Site class instance where the object is removed from
+            site (AbstractBasePlane): Site class instance where the object is removed from
             mujoco_object (mjcf.RootElement): To-be-removed mujoco object
         """
         site.remove(mujoco_object=mujoco_object)

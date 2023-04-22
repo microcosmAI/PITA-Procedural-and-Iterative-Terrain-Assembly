@@ -1,10 +1,8 @@
 import copy
 from abc import ABC, abstractmethod
-from dm_control import mjcf
-
-from .mujoco_object import MujocoObject
-from .validator import Validator
-from .site import Site
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from peters_algorithm.base.asset_placement.validator import Validator
+from peters_algorithm.base.world.abstract_base_plane import AbstractBasePlane
 
 
 class Placer(ABC):
@@ -31,7 +29,7 @@ class Placer(ABC):
     def add(
         self,
         *,
-        site: Site,
+        site: AbstractBasePlane,
         mujoco_object_blueprint: MujocoObject,
         validator: list[Validator]
     ):
@@ -39,7 +37,7 @@ class Placer(ABC):
         Possibly checks placement via the validator.
 
         Parameters:
-            site (Site): Site class instance where the object is added to
+            site (AbstractBasePlane): Site class instance where the object is added to
             mujoco_object_blueprint (MujocoObject): To-be-placed mujoco object
             validator (Validator): Validator class instance used to check object placement
         """
@@ -47,12 +45,12 @@ class Placer(ABC):
         site.add(mujoco_object=mujoco_object)
 
     @abstractmethod
-    def remove(self, *, site: Site, mujoco_object: MujocoObject):
+    def remove(self, *, site: AbstractBasePlane, mujoco_object: MujocoObject):
         """Removes a mujoco object from a site by calling the sites remove method.
         Possibly checks placement via the validator.
 
         Parameters:
-            site (Site): Site class instance where the object is removed from
+            site (AbstractBasePlane): Site class instance where the object is removed from
             mujoco_object (MujocoObject): To-be-removed mujoco object
         """
         site.remove(mujoco_object=mujoco_object)

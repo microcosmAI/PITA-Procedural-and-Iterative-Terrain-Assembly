@@ -1,9 +1,9 @@
-from .site import Site
 from dm_control import mjcf
-from .mujoco_object import MujocoObject
+from peters_algorithm.base.world.abstract_base_plane import AbstractBasePlane
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
-class Area(Site):
+class Area(AbstractBasePlane):
     """Area object class"""
 
     def __init__(self, *, name: str, size: tuple[float, float, float]):
