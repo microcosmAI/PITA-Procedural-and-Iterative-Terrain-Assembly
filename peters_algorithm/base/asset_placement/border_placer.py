@@ -1,7 +1,7 @@
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from peters_algorithm.base.asset_placement.placer import Placer
-from peters_algorithm.base.world.environment import Environment
-from peters_algorithm.base.world.abstract_base_plane import AbstractBasePlane
+from peters_algorithm.base.world_container.environment import Environment
+from peters_algorithm.base.world_container.abstract_base_plane import AbstractBasePlane
 
 
 class BorderPlacer(Placer):

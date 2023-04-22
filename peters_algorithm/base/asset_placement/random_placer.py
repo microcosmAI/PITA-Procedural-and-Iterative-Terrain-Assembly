@@ -3,7 +3,7 @@ import copy
 from typing import Callable
 from dm_control import mjcf
 from peters_algorithm.base.asset_placement.validator import Validator
-from peters_algorithm.base.world.abstract_base_plane import AbstractBasePlane
+from peters_algorithm.base.world_container.abstract_base_plane import AbstractBasePlane
 
 
 class GlobalNamespace:

@@ -31,7 +31,7 @@ class MujocoLoader:
         """Handles config file structure
 
         Returns:
-            obj_dict (dict): Contains information about world objects
+            obj_dict (dict): Contains information about world_container objects
         """
         obj_dict = {}
         for name, params in self.config_file["Environment"].items():
@@ -48,10 +48,10 @@ class MujocoLoader:
         """Loads xml and parses with Parser class to mjcf and combines all information to a mujoco-object
 
         Parameters:
-            obj_dict (dict): Contains information about world objects
+            obj_dict (dict): Contains information about world_container objects
 
         Returns:
-            mujoco_dict (dict): Dictionary of world objects as mujoco-objects
+            mujoco_dict (dict): Dictionary of world_container objects as mujoco-objects
         """
         mujoco_dict = {}
         for obj, params in obj_dict.items():
@@ -69,10 +69,10 @@ class MujocoLoader:
         """Helper function to read object specific parameters set in config file
 
         Parameters:
-            params (list(dict)): List of world object specific parameters given as dictionary
+            params (list(dict)): List of world_container object specific parameters given as dictionary
 
         Returns:
-            obj_type (str): Type of world-object; relates to mujoco-object parameter
+            obj_type (str): Type of world_container-object; relates to mujoco-object parameter
             attachable (bool): True if object can be attached to a container-type object; relates to mujoco-object parameter
         """
         obj_type = None

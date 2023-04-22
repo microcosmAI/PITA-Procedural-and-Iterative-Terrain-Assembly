@@ -5,11 +5,11 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from peters_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
-from peters_algorithm.base.world.area import Area
+from peters_algorithm.base.world_container.area import Area
 from peters_algorithm.base.asset_placement.random_placer import RandomPlacer
 from peters_algorithm.base.asset_placement.validator import Validator, MinDistanceRule
 from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
-from peters_algorithm.base.world.environment import Environment
+from peters_algorithm.base.world_container.environment import Environment
 
 
 class Builder:

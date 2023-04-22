@@ -1,5 +1,5 @@
 from dm_control import mjcf
-from peters_algorithm.base.world.abstract_base_plane import AbstractBasePlane
+from peters_algorithm.base.world_container.abstract_base_plane import AbstractBasePlane
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
