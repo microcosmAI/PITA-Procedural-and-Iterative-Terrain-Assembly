@@ -13,7 +13,6 @@ from peters_algorithm.base.world.environment import Environment
 
 
 class Builder:
-
     def __init__(self, config_file, xml_dir):
         self.config = config_file
         self.xml_dir = xml_dir
