@@ -21,12 +21,13 @@ class Assembler:
         config (dict): config file containing user defined parameters
         xml_dir (str): string to xml-directory (containing assets)
     """
+
     def __init__(self, config_file: dict, xml_dir: str):
         self.config = config_file
         self.xml_dir = xml_dir
 
     def assemble_world(self) -> mjcf:
-        """Calls the environment and areas and assembles them to create the world as and MJCF object """
+        """Calls the environment and areas and assembles them to create the world as and MJCF object"""
         # call mujoco loader to get dictionary of mujoco objects
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
