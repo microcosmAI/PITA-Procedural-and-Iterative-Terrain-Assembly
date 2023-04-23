@@ -1,9 +1,9 @@
 from dm_control import mjcf
-from peters_algorithm.base.world_container.abstract_base_plane import AbstractBasePlane
+from peters_algorithm.base.world_container.abstract_container import AbstractContainer
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
-class Area(AbstractBasePlane):
+class Area(AbstractContainer):
     """Area object class"""
 
     def __init__(self, *, name: str, size: tuple[float, float, float]):
@@ -17,18 +17,9 @@ class Area(AbstractBasePlane):
         """
         self._name = name
         self._size = size
-        self._mjcf_model = self._initialize_area()
-        self._mujoco_objects = {}
-
-    def _initialize_area(self):
-        """Initialize area
-
-        Returns:
-            mjcf_model (mjcf): Mjcf-object of area
-        """
         self._mjcf_model = mjcf.RootElement(model=self.name)
         # self._mjcf_model.worldbody.add("geom", name="base_plane_area", type="plane", size=self._size)
-        return self._mjcf_model
+        self._mujoco_objects = {}
 
     def add(self, *, mujoco_object: MujocoObject):
         """Add object to area-mjcf and to mujoco-object dictionary of area

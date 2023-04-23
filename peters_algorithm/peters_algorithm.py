@@ -1,24 +1,23 @@
 import argparse
 import warnings
 from peters_algorithm.utils.config_reader import ConfigReader
-from peters_algorithm.base.builder import Builder
+from peters_algorithm.base.assembler import Assembler
 
 
 class PetersAlgorithm:
+    """Main class to run stochastic world generation for ReinforcementLearning applications """
     def run(self):
+        """Run peters_algorithm to create xml-file containing objects specified in config file.
+           objects are given as xml by user
+        """
         # assign user args to params
         args = self._get_user_args()
         config_path = args.config_path
         xml_dir = args.xml_dir
 
-        # read config
         config = ConfigReader.execute(config_path=config_path)
-
-        environment = Builder(config_file=config, xml_dir=xml_dir).assemble_world()
-
-        self._to_xml(
-            xml_string=environment.mjcf_model.to_xml_string(), file_name="test"
-        )
+        environment = Assembler(config_file=config, xml_dir=xml_dir).assemble_world()
+        self._to_xml(xml_string=environment.mjcf_model.to_xml_string(), file_name="test")
 
     def _get_user_args(self):
         """Read args set by user; if none are given, args are set to files and directories in "examples"
@@ -64,4 +63,4 @@ class PetersAlgorithm:
 
 
 if __name__ == "__main__":
-    Peters_algorithm().run()
+    PetersAlgorithm().run()
