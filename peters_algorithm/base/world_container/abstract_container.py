@@ -7,7 +7,7 @@ class AbstractContainer(ABC):
 
     @abstractmethod
     def __init__(self):
-        """Initializes the Site class."""
+        """Initializes the container class."""
         pass
 
     @abstractmethod
