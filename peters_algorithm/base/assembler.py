@@ -11,6 +11,7 @@ from peters_algorithm.base.asset_placement.random_placer import RandomPlacer
 from peters_algorithm.base.asset_placement.validator import Validator, MinDistanceRule
 from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
 from peters_algorithm.base.world_container.environment import Environment
+from peters_algorithm.base.asset_placement.global_placer import GlobalPlacer
 
 
 class Assembler:
@@ -84,6 +85,14 @@ class Assembler:
                     validators=validators,
                     amount=object_settings[0]["amount"],
                 )
+
+        # adds global objects to mjcf
+        for global_object in self.config["GlobalObjects"]:
+            amount = global_object["amount"]
+            position = global_object["position"]
+            GlobalPlacer(site=environment).add(site=environment,
+                                               mujoco_object_blueprint=mujoco_objects_blueprints[global_object],
+                                               validator=minDistanceValidator, amount=amount, positon=position)
 
         environment.mjcf_model.attach(area.mjcf_model)
         # TODO: add mujoco-object to areas with a placer

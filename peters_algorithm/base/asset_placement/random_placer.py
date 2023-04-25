@@ -4,6 +4,7 @@ from typing import Callable
 from dm_control import mjcf
 from peters_algorithm.base.asset_placement.validator import Validator
 from peters_algorithm.base.world_container.abstract_container import AbstractContainer
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
 class GlobalNamespace:
@@ -18,21 +19,6 @@ class GlobalNamespace:
             (str): unique name"""
         GlobalNamespace.counter += 1
         return str(GlobalNamespace.counter)
-
-
-class MujocoObject:
-    """Placeholder until the real thing is implemented"""
-
-    def __init__(self, name, mjcf_object):
-        """Initialize a MujocoObject
-
-        Parameters:
-            name (str): name of the object
-            mjcf_object (mjcf): mjcf model of the object
-
-        """
-        self.name = name
-        self.mjcf_object = mjcf_object
 
 
 class PlacerDistribution:

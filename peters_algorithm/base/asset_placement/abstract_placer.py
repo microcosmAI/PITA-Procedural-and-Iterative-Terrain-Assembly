@@ -5,7 +5,7 @@ from peters_algorithm.base.asset_placement.validator import Validator
 from peters_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
-class Placer(ABC):
+class AbstractPlacer(ABC):
     @abstractmethod
     def __init__(self):
         """Initializes the Placer class."""
@@ -40,6 +40,9 @@ class Placer(ABC):
             site (AbstractContainer): Site class instance where the object is added to
             mujoco_object_blueprint (MujocoObject): To-be-placed mujoco object
             validator (Validator): Validator class instance used to check object placement
+
+        Returns:
+            site (AbstractContainer): Site class instance where the object is added to (with added mjcf-obj)
         """
         mujoco_object = self._copy(mujoco_object_blueprint)
         site.add(mujoco_object=mujoco_object)
@@ -52,5 +55,8 @@ class Placer(ABC):
         Parameters:
             site (AbstractContainer): Site class instance where the object is removed from
             mujoco_object (MujocoObject): To-be-removed mujoco object
+
+        Returns:
+            site (AbstractContainer): Site class instance where the object is added to (with removed mjcf-obj)
         """
         site.remove(mujoco_object=mujoco_object)

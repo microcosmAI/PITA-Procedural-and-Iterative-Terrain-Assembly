@@ -34,6 +34,9 @@ class MujocoLoader:
             obj_dict (dict): Contains information about world_container objects
         """
         obj_dict = {}
+        for name, params in self.config_file["GlobalObjects"].items():
+            obj_dict[name] = params
+
         for name, params in self.config_file["Environment"].items():
             if name == "Borders":
                 name = "Border"  # possible type of border

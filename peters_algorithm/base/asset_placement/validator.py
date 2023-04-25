@@ -70,7 +70,6 @@ class Validator:
         Returns:
             True if the new object satirsfies all rules
         """
-
         # TODO: not sure if the mjcf structure will be consistent all the time...
         shape_object = geometry.Point(mujoco_object.position[:2])
         for rule in self.rules:
