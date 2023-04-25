@@ -1,6 +1,5 @@
 from typing import Callable
 import numpy as np
-import copy
 
 from peters_algorithm.base.validator import Validator
 from peters_algorithm.base.site import Site
@@ -118,19 +117,6 @@ class RandomPlacer(Placer):
         """
         self.distribution = distribution
 
-    def _copy(self, mujoco_object_blueprint: MujocoObject) -> MujocoObject:
-        """Creates a copy of a mujoco object blueprint
-
-        Parameters:
-            mujoco_object_blueprint (MujocoObject): To-be-copied mujoco object
-
-        Returns:
-            mujoco_object (MujocoObject): Copy of the mujoco object blueprint
-        """
-        mujoco_object = copy.deepcopy(mujoco_object_blueprint)
-        # TODO NameGenerator
-        # TODO modify references to relevant object attributes like size/pos
-        return mujoco_object
 
     def add(
         self,
