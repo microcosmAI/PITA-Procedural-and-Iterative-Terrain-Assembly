@@ -1,10 +1,9 @@
-from typing import Callable
 import numpy as np
-
-from peters_algorithm.base.validator import Validator
-from peters_algorithm.base.site import Site
-from peters_algorithm.base.mujoco_object import MujocoObject
-from peters_algorithm.base.placer import Placer
+from typing import Callable
+from peters_algorithm.base.asset_placement.validator import Validator
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from peters_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
+from peters_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
 class GlobalNamespace:
@@ -90,7 +89,7 @@ class CircularUniformDistribution(PlacerDistribution):
         return x, y
 
 
-class RandomPlacer(Placer):
+class RandomPlacer(AbstractPlacer):
     """A placer that is meant for procedural and random map generation"""
 
     # The validator does not check, if the addition of an item is possible. Instead, after placement
@@ -119,7 +118,7 @@ class RandomPlacer(Placer):
 
     def add(
         self,
-        site: Site,
+        site: AbstractContainer,
         mujoco_object_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
@@ -128,7 +127,7 @@ class RandomPlacer(Placer):
         Possibly checks placement via the vlaidator.
 
         Parameters:
-            site (Site): Site class instance where the object is added to
+            site (AbstractContainer): Site class instance where the object is added to
             mujoco_object_blueprint (mjcf.RootElement): To-be-placed mujoco object
             validators (list): List of validator class instances used to check object placement
             amount (tuple): Range of possible amount of objects to be placed
@@ -159,12 +158,12 @@ class RandomPlacer(Placer):
 
             site.add(mujoco_object=mujoco_object)
 
-    def remove(self, site: Site, mujoco_object: MujocoObject):
+    def remove(self, site: AbstractContainer, mujoco_object: MujocoObject):
         """Removes a mujoco object from a site by calling the sites remove method.
         Possibly checks placement via the validator.
 
         Parameters:
-            site (Site): Site class instance where the object is removed from
+            site (AbstractContainer): Site class instance where the object is removed from
             mujoco_object (mjcf.RootElement): To-be-removed mujoco object
         """
         site.remove(mujoco_object=mujoco_object)
