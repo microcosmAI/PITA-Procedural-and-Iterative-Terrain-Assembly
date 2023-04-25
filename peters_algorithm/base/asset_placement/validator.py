@@ -1,9 +1,10 @@
-import matplotlib.pyplot as plt
 import re
 from shapely import geometry
-from shapely.geometry.base import BaseGeometry
-from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+import matplotlib.pyplot as plt
 from abc import ABC, abstractmethod
+from shapely.geometry.base import BaseGeometry
+
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
 class Rule(ABC):

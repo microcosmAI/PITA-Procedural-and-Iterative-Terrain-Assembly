@@ -1,5 +1,4 @@
 import os
-
 from dm_control import mjcf
 
 

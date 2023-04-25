@@ -1,5 +1,6 @@
 import numpy as np
 from typing import Callable
+
 from peters_algorithm.base.asset_placement.validator import Validator
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from peters_algorithm.base.asset_placement.abstract_placer import AbstractPlacer

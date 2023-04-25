@@ -1,7 +1,8 @@
 import argparse
 import warnings
-from peters_algorithm.utils.config_reader import ConfigReader
+
 from peters_algorithm.base.assembler import Assembler
+from peters_algorithm.utils.config_reader import ConfigReader
 
 
 class PetersAlgorithm:
