@@ -117,7 +117,6 @@ class RandomPlacer(Placer):
         """
         self.distribution = distribution
 
-
     def add(
         self,
         site: Site,
