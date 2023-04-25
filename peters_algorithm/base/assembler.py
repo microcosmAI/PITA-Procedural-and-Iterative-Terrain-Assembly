@@ -91,9 +91,13 @@ class Assembler:
         for global_object in self.config["GlobalObjects"]:
             amount = global_object["amount"]
             position = global_object["position"]
-            GlobalPlacer(site=environment).add(site=environment,
-                                               mujoco_object_blueprint=mujoco_objects_blueprints[global_object],
-                                               validator=minDistanceValidator, amount=amount, positon=position)
+            GlobalPlacer(site=environment).add(
+                site=environment,
+                mujoco_object_blueprint=mujoco_objects_blueprints[global_object],
+                validator=minDistanceValidator,
+                amount=amount,
+                positon=position,
+            )
 
         environment.mjcf_model.attach(area.mjcf_model)
         # TODO: add mujoco-object to areas with a placer
