@@ -1,14 +1,10 @@
-from dm_control import mjcf
-
-from .mujoco_object import MujocoObject
-from .placer import Placer
-from .environment import Environment
-import copy
-
-from .site import Site
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from peters_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
+from peters_algorithm.base.world_container.environment import Environment
+from peters_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
-class BorderPlacer(Placer):
+class BorderPlacer(AbstractPlacer):
     """Places borders into the given environment."""
 
     def __init__(self):
@@ -21,7 +17,7 @@ class BorderPlacer(Placer):
         environment: Environment,
         mujoco_object_blueprint: MujocoObject,
         amount: int = 4,
-        isActive: bool = False,
+        has_border: bool = False,
     ):
         """Adds the borders around the environment
 
@@ -29,12 +25,12 @@ class BorderPlacer(Placer):
             environment (Environment): Environment class instance
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             amount (int): Number of to-be-placed borders
-            isActive (bool): True if border is added to environment, else False
+            has_border (bool): True if border is added to environment, else False
 
         Returns:
             mjcf_model (mjcf): An empty environment with borders around it
         """
-        if isActive:
+        if has_border:
             size = environment.size
 
             blueprint_x, blueprint_y, blueprint_z = (
@@ -73,6 +69,6 @@ class BorderPlacer(Placer):
 
                 environment.add(mujoco_object=border)
 
-    def remove(self, *, site: Site, mujoco_object: MujocoObject):
+    def remove(self, *, site: AbstractContainer, mujoco_object: MujocoObject):
         """Remove function, currently not implemented/needed"""
         pass

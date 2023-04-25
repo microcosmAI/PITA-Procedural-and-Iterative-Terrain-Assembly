@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
-from .mujoco_object import MujocoObject
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
-class Site(ABC):
+class AbstractContainer(ABC):
     """Abstract class for environment and area"""
 
     @abstractmethod
     def __init__(self):
-        """Initializes the Site class."""
+        """Initializes the container class."""
         pass
 
     @abstractmethod

@@ -1,10 +1,9 @@
-from shapely import geometry
-from shapely.geometry.base import BaseGeometry
-from dm_control.mjcf import RootElement
-from .mujoco_object import MujocoObject
-from abc import ABC, abstractmethod
 import matplotlib.pyplot as plt
 import re
+from shapely import geometry
+from shapely.geometry.base import BaseGeometry
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from abc import ABC, abstractmethod
 
 
 class Rule(ABC):
@@ -71,7 +70,6 @@ class Validator:
         Returns:
             True if the new object satirsfies all rules
         """
-
         # TODO: not sure if the mjcf structure will be consistent all the time...
         shape_object = geometry.Point(mujoco_object.position[:2])
         for rule in self.rules:
