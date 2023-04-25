@@ -157,7 +157,7 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">site</span><span class="p">:</span> <span class="n">AbstractContainer</span><span class="p">,</span>
         <span class="n">mujoco_object_blueprint</span><span class="p">:</span> <span class="n">MujocoObject</span><span class="p">,</span>
-        <span class="n">validator</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Validator</span><span class="p">]</span>
+        <span class="n">validators</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Validator</span><span class="p">]</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a mujoco object to a site by calling the sites add method.</span>
 <span class="sd">        Possibly checks placement via the validator.</span>
@@ -165,10 +165,7 @@
 <span class="sd">        Parameters:</span>
 <span class="sd">            site (AbstractContainer): Site class instance where the object is added to</span>
 <span class="sd">            mujoco_object_blueprint (MujocoObject): To-be-placed mujoco object</span>
-<span class="sd">            validator (Validator): Validator class instance used to check object placement</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            site (AbstractContainer): Site class instance where the object is added to (with added mjcf-obj)</span>
+<span class="sd">            validators (list): List of validator class instances used to check object placement</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mujoco_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_copy</span><span class="p">(</span><span class="n">mujoco_object_blueprint</span><span class="p">)</span>
         <span class="n">site</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">mujoco_object</span><span class="o">=</span><span class="n">mujoco_object</span><span class="p">)</span></div>

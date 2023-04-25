@@ -125,12 +125,11 @@
                             
   <h1>Source code for peters_algorithm.base.asset_placement.random_placer</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
-<span class="kn">from</span> <span class="nn">dm_control</span> <span class="kn">import</span> <span class="n">mjcf</span>
 <span class="kn">from</span> <span class="nn">peters_algorithm.base.asset_placement.validator</span> <span class="kn">import</span> <span class="n">Validator</span>
-<span class="kn">from</span> <span class="nn">peters_algorithm.base.world_container.abstract_container</span> <span class="kn">import</span> <span class="n">AbstractContainer</span>
 <span class="kn">from</span> <span class="nn">peters_algorithm.base.asset_parsing.mujoco_object</span> <span class="kn">import</span> <span class="n">MujocoObject</span>
+<span class="kn">from</span> <span class="nn">peters_algorithm.base.asset_placement.abstract_placer</span> <span class="kn">import</span> <span class="n">AbstractPlacer</span>
+<span class="kn">from</span> <span class="nn">peters_algorithm.base.world_container.abstract_container</span> <span class="kn">import</span> <span class="n">AbstractContainer</span>
 
 
 <div class="viewcode-block" id="GlobalNamespace"><a class="viewcode-back" href="../../../../peters_algorithm.base.asset_placement.random_placer.html#peters_algorithm.base.asset_placement.random_placer.GlobalNamespace">[docs]</a><span class="k">class</span> <span class="nc">GlobalNamespace</span><span class="p">:</span>
@@ -141,8 +140,10 @@
 <div class="viewcode-block" id="GlobalNamespace.get"><a class="viewcode-back" href="../../../../peters_algorithm.base.asset_placement.random_placer.html#peters_algorithm.base.asset_placement.random_placer.GlobalNamespace.get">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a unique name</span>
+
 <span class="sd">        Returns:</span>
-<span class="sd">            (str): unique name&quot;&quot;&quot;</span>
+<span class="sd">            (str): unique name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">GlobalNamespace</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">GlobalNamespace</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span></div></div>
 
@@ -166,7 +167,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">args</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns two random samples, for the x and y axis respectively&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draws samples from the distribution</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (float, float): sampled x and y coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span></div>
 
 
@@ -174,8 +179,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for two dimensional distributions, otherwise equivalent to its parent class&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a two dimensional random sample, for the x and y coordinates respectively&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw a sample from the distribution</span>
 
+<span class="sd">        Returns:</span>
+<span class="sd">            (float, float): sampled x and y coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
 
@@ -194,7 +202,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a two dimensional random sample, for the x and y coordinates respectively&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw a sample from the distribution</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (float, float): sampled x and y coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
         <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
@@ -203,7 +215,7 @@
         <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span></div>
 
 
-<div class="viewcode-block" id="RandomPlacer"><a class="viewcode-back" href="../../../../peters_algorithm.base.asset_placement.random_placer.html#peters_algorithm.base.asset_placement.random_placer.RandomPlacer">[docs]</a><span class="k">class</span> <span class="nc">RandomPlacer</span><span class="p">:</span>
+<div class="viewcode-block" id="RandomPlacer"><a class="viewcode-back" href="../../../../peters_algorithm.base.asset_placement.random_placer.html#peters_algorithm.base.asset_placement.random_placer.RandomPlacer">[docs]</a><span class="k">class</span> <span class="nc">RandomPlacer</span><span class="p">(</span><span class="n">AbstractPlacer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A placer that is meant for procedural and random map generation&quot;&quot;&quot;</span>
 
     <span class="c1"># The validator does not check, if the addition of an item is possible. Instead, after placement</span>
@@ -243,7 +255,7 @@
 <span class="sd">        Parameters:</span>
 <span class="sd">            site (AbstractContainer): Site class instance where the object is added to</span>
 <span class="sd">            mujoco_object_blueprint (mjcf.RootElement): To-be-placed mujoco object</span>
-<span class="sd">            validators (Validator): Validator class instance used to check object placement</span>
+<span class="sd">            validators (list): List of validator class instances used to check object placement</span>
 <span class="sd">            amount (tuple): Range of possible amount of objects to be placed</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -255,7 +267,7 @@
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">amount</span><span class="p">):</span>
             <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 
-            <span class="n">mujoco_object</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">mujoco_object_blueprint</span><span class="p">)</span>
+            <span class="n">mujoco_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_copy</span><span class="p">(</span><span class="n">mujoco_object_blueprint</span><span class="p">)</span>
             <span class="n">old_position</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span>
             <span class="n">z_position</span> <span class="o">=</span> <span class="n">old_position</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
             <span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="p">(),</span> <span class="n">z_position</span><span class="p">]</span>

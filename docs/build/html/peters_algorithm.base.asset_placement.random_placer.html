@@ -158,9 +158,15 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.random_placer.GlobalNamespace.get">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/random_placer.html#GlobalNamespace.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.random_placer.GlobalNamespace.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a unique name
-:returns: unique name
-:rtype: (str)</p>
+<dd><p>Get a unique name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>unique name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(str)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -182,11 +188,16 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.random_placer.RandomPlacer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peters_algorithm.base.asset_placement.random_placer.</span></span><span class="sig-name descname"><span class="pre">RandomPlacer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution:</span> <span class="pre">~peters_algorithm.base.asset_placement.random_placer.PlacerDistribution</span> <span class="pre">=</span> <span class="pre">&lt;peters_algorithm.base.asset_placement.random_placer.Placer2DDistribution</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/random_placer.html#RandomPlacer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.random_placer.RandomPlacer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="peters_algorithm.base.asset_placement.abstract_placer.html#peters_algorithm.base.asset_placement.abstract_placer.AbstractPlacer" title="peters_algorithm.base.asset_placement.abstract_placer.AbstractPlacer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractPlacer</span></code></a></p>
 <p>A placer that is meant for procedural and random map generation</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.random_placer.RandomPlacer.MAX_TRIES">
 <span class="sig-name descname"><span class="pre">MAX_TRIES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10000</span></em><a class="headerlink" href="#peters_algorithm.base.asset_placement.random_placer.RandomPlacer.MAX_TRIES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.random_placer.RandomPlacer._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#peters_algorithm.base.asset_placement.random_placer.RandomPlacer._abc_impl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -199,7 +210,7 @@ Possibly checks placement via the vlaidator.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>site</strong> (<a class="reference internal" href="peters_algorithm.base.world_container.abstract_container.html#peters_algorithm.base.world_container.abstract_container.AbstractContainer" title="peters_algorithm.base.world_container.abstract_container.AbstractContainer"><em>AbstractContainer</em></a>) – Site class instance where the object is added to</p></li>
 <li><p><strong>mujoco_object_blueprint</strong> (<em>mjcf.RootElement</em>) – To-be-placed mujoco object</p></li>
-<li><p><strong>validators</strong> (<a class="reference internal" href="peters_algorithm.base.asset_placement.validator.html#peters_algorithm.base.asset_placement.validator.Validator" title="peters_algorithm.base.asset_placement.validator.Validator"><em>Validator</em></a>) – Validator class instance used to check object placement</p></li>
+<li><p><strong>validators</strong> (<em>list</em>) – List of validator class instances used to check object placement</p></li>
 <li><p><strong>amount</strong> (<em>tuple</em>) – Range of possible amount of objects to be placed</p></li>
 </ul>
 </dd>
