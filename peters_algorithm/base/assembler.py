@@ -5,6 +5,7 @@ from peters_algorithm.base.world_container.environment import Environment
 from peters_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 from peters_algorithm.base.asset_placement.random_placer import RandomPlacer
 from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
+
 # from peters_algorithm.base.asset_placement.global_placer import GlobalPlacer
 from peters_algorithm.base.asset_placement.validator import Validator, MinDistanceRule
 
