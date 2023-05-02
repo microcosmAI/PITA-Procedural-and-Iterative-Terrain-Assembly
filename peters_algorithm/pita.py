@@ -1,6 +1,10 @@
 import os
+import sys
 import argparse
 import warnings
+
+# Add parent folder of builder.py to python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from peters_algorithm.base.assembler import Assembler
 from peters_algorithm.utils.config_reader import ConfigReader
@@ -44,12 +48,12 @@ class PetersAlgorithm:
         args = parser.parse_args()
 
         if args.xml_dir is None:
-            args.xml_dir = "../examples/xml_objects"
+            args.xml_dir = "examples/xml_objects"
             warnings.warn(
                 "xml directory not specified; running with default directory in examples"
             )
         if args.config_path is None:
-            args.config_path = "../examples/config_files/simple-config.yml"
+            args.config_path = "examples/config_files/simple-config.yml"
             warnings.warn(
                 "config path not specified; running with default directory in examples"
             )
@@ -63,7 +67,7 @@ class PetersAlgorithm:
             file_name (str): Name of the file to be exported
         """
 
-        with open("../export/" + file_name + ".xml", "w") as f:
+        with open("export/" + file_name + ".xml", "w") as f:
             f.write(xml_string)
 
 
