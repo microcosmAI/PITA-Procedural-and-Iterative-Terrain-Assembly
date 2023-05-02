@@ -70,12 +70,14 @@ class Assembler:
                     FixedPlacer(environment, fixed_mujoco_object, coordinates)"""
 
         # Global Mujoco Object Placement
+        """
         for object_settings in self.config["Environment"]["Objects"]:
             RandomPlacer().add(
                 site=environment,
                 mujoco_object_blueprint=mujoco_objects_blueprints[object_settings],
                 validators=validators,
             )
+        """
 
         # Area Mujoco Object Placement
         for area_name, area_settings in self.config["Areas"].items():
@@ -87,6 +89,7 @@ class Assembler:
                     amount=object_settings[0]["amount"],
                 )
 
+        """
         # adds global objects to mjcf
         for global_object in self.config["GlobalObjects"]:
             amount = global_object["amount"]
@@ -98,6 +101,7 @@ class Assembler:
                 amount=amount,
                 positon=position,
             )
+        """
 
         environment.mjcf_model.attach(area.mjcf_model)
         # TODO: add mujoco-object to areas with a placer

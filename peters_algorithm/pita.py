@@ -1,4 +1,5 @@
 import argparse
+import os
 import warnings
 from peters_algorithm.utils.config_reader import ConfigReader
 from peters_algorithm.base.assembler import Assembler
@@ -42,12 +43,12 @@ class PetersAlgorithm:
         args = parser.parse_args()
 
         if args.xml_dir is None:
-            args.xml_dir = "../../examples/xml_objects"
+            args.xml_dir = "../examples/xml_objects"
             warnings.warn(
                 "xml directory not specified; running with default directory in examples"
             )
         if args.config_path is None:
-            args.config_path = "../../examples/config_files/simple-config.yml"
+            args.config_path = "../examples/config_files/simple-config.yml"
             warnings.warn(
                 "config path not specified; running with default directory in examples"
             )
