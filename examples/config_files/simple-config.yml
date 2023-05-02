@@ -1,3 +1,7 @@
+#  Agent:
+#    - amount: 2
+#    - position: [(10, 10), (50, 50)]
+
 Environment:
   size: [10, 10]
   Borders:
@@ -8,7 +12,6 @@ Environment:
     Tree:
       - amount: [1, 1]
       - type: container
-      - coordinates: [1, 1, 0]
 
 Areas:
   Area1:
@@ -27,3 +30,8 @@ Areas:
       - amount: [5, 8]
       - type: attachable_item
       - attaches: [Tree]
+
+      Ball:
+      - amount: [1, 1]
+      - type: obstacle
+      - coordinates: [2., 5., 1.]
