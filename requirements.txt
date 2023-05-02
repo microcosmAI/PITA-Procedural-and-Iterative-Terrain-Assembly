@@ -2,3 +2,5 @@ pyyaml  # config style reader
 dm_control  # handles mujoco/mjcfs
 shapely  # for collision detection
 matplotlib  # for plotting
+sphinx  # for documentation
+karma-sphinx-theme  # for documentation (theme)
