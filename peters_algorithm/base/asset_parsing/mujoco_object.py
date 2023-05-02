@@ -4,7 +4,7 @@ from dm_control import mjcf
 class MujocoObject:
     """Class to define a MujocoObject"""
 
-    def __init__(self, name: str, mjcf_obj: mjcf, obj_type: str, attachable: bool):
+    def __init__(self, name: str, mjcf_obj: mjcf.RootElement, obj_type: str, attachable: bool):
         """Initializes the MujocoObject class
 
         Parameters:
