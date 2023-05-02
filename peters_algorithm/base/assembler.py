@@ -63,11 +63,14 @@ class Assembler:
             for object_name, object_settings in area_settings["Objects"].items():
                 for object in object_settings:
                     if "coordinates" in object:
-                        FixedPlacer().add(site=area,
-                                          mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
-                                          validators=validators,
-                                          coordinates=object["coordinates"])
-                        
+                        FixedPlacer().add(
+                            site=area,
+                            mujoco_object_blueprint=mujoco_objects_blueprints[
+                                object_name
+                            ],
+                            validators=validators,
+                            coordinates=object["coordinates"],
+                        )
 
         # Global Mujoco Object Placement
         """
@@ -82,8 +85,10 @@ class Assembler:
         # Area Mujoco Object Placement
         for area_name, area_settings in self.config["Areas"].items():
             for object_name, object_settings in area_settings["Objects"].items():
-                # Get all keys from the 2d list of dictionaries 
-                if "coordinates" not in [list(setting.keys())[0] for setting in object_settings]:
+                # Get all keys from the 2d list of dictionaries
+                if "coordinates" not in [
+                    list(setting.keys())[0] for setting in object_settings
+                ]:
                     RandomPlacer().add(
                         site=area,
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],

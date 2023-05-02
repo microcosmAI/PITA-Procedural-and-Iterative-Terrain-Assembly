@@ -122,7 +122,7 @@ class RandomPlacer(AbstractPlacer):
         site: AbstractContainer,
         mujoco_object_blueprint: MujocoObject,
         validators: list[Validator],
-        amount: tuple[int, int] = (1, 1)
+        amount: tuple[int, int] = (1, 1),
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the vlaidator.

@@ -4,7 +4,14 @@ from dm_control import mjcf
 class MujocoObject:
     """Class to define a MujocoObject"""
 
-    def __init__(self, name: str, mjcf_obj: mjcf, obj_type: str, attachable: bool, coordinates: tuple[float, float, float] = None):
+    def __init__(
+        self,
+        name: str,
+        mjcf_obj: mjcf,
+        obj_type: str,
+        attachable: bool,
+        coordinates: tuple[float, float, float] = None,
+    ):
         """Initializes the MujocoObject class
 
         Parameters:
