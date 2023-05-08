@@ -7,7 +7,7 @@ class MujocoObject:
     def __init__(
         self,
         name: str,
-        mjcf_obj: mjcf,
+        mjcf_obj: mjcf.RootElement,
         obj_type: str,
         attachable: bool,
         coordinates: tuple[float, float, float] = None,
