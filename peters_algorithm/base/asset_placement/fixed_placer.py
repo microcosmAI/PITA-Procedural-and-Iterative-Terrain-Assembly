@@ -34,7 +34,7 @@ class FixedPlacer(AbstractPlacer):
         mujoco_object.position = coordinates
 
         # TODO: Create a validator class that checks if the fixed object is placed in a valid way
-        # either just use mindistance or create a new validator class e.g. using mujoco contact model 
+        # either just use mindistance or create a new validator class e.g. using mujoco contact model
         # TODO: Test if the fixed placer works correctly
         if not all([val.validate(mujoco_object) for val in validators]):
             raise RuntimeError(

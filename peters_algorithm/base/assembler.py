@@ -59,19 +59,18 @@ class Assembler:
 
         # TODO: Maybe see if its possible to not loop over these item a second time for random placement
         # Fixed Coordinate Mujoco Object Placement - Environment level
-        for object_name, object_settings in self.config["Environment"]["Objects"].items():
+        for object_name, object_settings in self.config["Environment"][
+            "Objects"
+        ].items():
             for object in object_settings:
                 if "coordinates" in object:
                     FixedPlacer().add(
-                            site=environment,
-                            mujoco_object_blueprint=mujoco_objects_blueprints[
-                                object_name
-                            ],
-                            validators=validators,
-                            coordinates=object["coordinates"],
-                        )
+                        site=environment,
+                        mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
+                        validators=validators,
+                        coordinates=object["coordinates"],
+                    )
 
-        
         # Fixed Coordinate Mujoco Object Placement - Area level
         for area_name, area_settings in self.config["Areas"].items():
             for object_name, object_settings in area_settings["Objects"].items():
@@ -86,7 +85,6 @@ class Assembler:
                             coordinates=object["coordinates"],
                         )
 
-
         # Area Mujoco Object Placement
         for area_name, area_settings in self.config["Areas"].items():
             for object_name, object_settings in area_settings["Objects"].items():
@@ -100,7 +98,6 @@ class Assembler:
                         validators=validators,
                         amount=object_settings[0]["amount"],
                     )
-
 
         environment.mjcf_model.attach(area.mjcf_model)
 
