@@ -23,16 +23,16 @@ Areas:
     size: small
     Objects:
       Tree:
-      - amount: [10, 20]
+      - amount: [1, 1]
       - type: container
       #- variants: ["Kiefer", ] # [kiefer,buche,...]
 
       Stone:
-      - amount: [10, 10]
+      - amount: [1, 1]
       - type: obstacle
 
       Apple:
-      - amount: [5, 8]
+      - amount: [1, 1]
       - type: attachable_item
       - attaches: [Tree]
 
