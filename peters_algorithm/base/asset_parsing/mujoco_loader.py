@@ -122,6 +122,7 @@ class MujocoLoader:
             else np.random.randint(int(sizes[0]), int(sizes[1]))
         )
 
+
         #ToDo: logic für deepcopys der objekte und dann pars anpassen + "validierung" dass auch jede color 2 Mal vorkommt
 
 
