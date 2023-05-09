@@ -6,7 +6,10 @@ Environment:
   size: [ 10, 10 ]
   Borders:
     - place: True
-    #- type: Hecke
+  Objects:
+    Ball:
+      - amount: [1, 5]
+      - type: obstacle
 
 Areas:
   Area1:
