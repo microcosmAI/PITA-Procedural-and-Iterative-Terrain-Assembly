@@ -90,7 +90,6 @@ class Assembler:
                             coordinates=object["coordinates"],
                         )
 
-
         # Area Mujoco Random Object Placement
         for area_index, (area_name, area_settings) in enumerate(
             self.config["Areas"].items()
