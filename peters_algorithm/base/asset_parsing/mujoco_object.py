@@ -5,7 +5,12 @@ class MujocoObject:
     """Class to define a MujocoObject"""
 
     def __init__(
-        self, name: str, mjcf_obj: mjcf.RootElement, obj_type: str, attachable: bool
+        self,
+        name: str,
+        mjcf_obj: mjcf.RootElement,
+        obj_type: str,
+        attachable: bool,
+        coordinates: tuple[float, float, float] = None,
     ):
         """Initializes the MujocoObject class
 
@@ -14,11 +19,13 @@ class MujocoObject:
             container (bool): Set to true if the object is a container; it can store another item (e.g. tree with container for an apple)
             type (str): Type of object (e.g. "tree" or "stone")
             mjcf_object (mjcf): Objects xml parsed into mjcf-style model of mujoco
+            coordinates (tuple): Coordinates of the object
         """
         self._name: str = name
         self._mjcf_obj: mjcf.RootElement = mjcf_obj
         self._obj_type: str = obj_type
         self._attachable: bool = attachable
+        self._coordinates: tuple = coordinates
 
     @property
     def name(self) -> str:

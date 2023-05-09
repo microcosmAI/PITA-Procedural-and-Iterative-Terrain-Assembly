@@ -3,28 +3,43 @@
 #    - position: [(10, 10), (50, 50)]
 
 Environment:
-  size: [10, 10]
+  size: [ 10, 10 ]
   Borders:
     - place: True
   Objects:
     Ball:
-      - amount: [1, 5]
+      - amount: [ 1, 5 ]
       - type: obstacle
+
+  Objects:
+    Tree:
+      - amount: [ 1, 1 ]
+      - type: container
+
+    Ball:
+      - amount: [ 1, 1 ]
+      - type: obstacle
+      - coordinates: [ 5., 5., 1. ]
 
 Areas:
   Area1:
     size: small
     Objects:
       Tree:
-      - amount: [10, 20]
-      - type: container
-      #- variants: ["Kiefer", ] # [kiefer,buche,...]
+        - amount: [ 10, 20 ]
+        - type: container
+        #- variants: ["Kiefer", ] # [kiefer,buche,...]
 
       Stone:
-      - amount: [10, 10]
-      - type: obstacle
+        - amount: [ 10, 10 ]
+        - type: obstacle
 
       Apple:
-      - amount: [5, 8]
-      - type: attachable_item
-      - attaches: [Tree]
+        - amount: [ 5, 8 ]
+        - type: attachable_item
+        - attaches: [ Tree ]
+
+      Ball:
+        - amount: [ 1, 1 ]
+        - type: obstacle
+        - coordinates: [ -5., -5., 1. ]
