@@ -155,7 +155,9 @@ class RandomPlacer(AbstractPlacer):
 
             count = 0
             # Ask every validator for approval until all approve or MAX_TRIES is reached, then throw error
-            while not all([validator.validate(mujoco_object) for validator in validators]):
+            while not all(
+                [validator.validate(mujoco_object) for validator in validators]
+            ):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
                     raise RuntimeError(
