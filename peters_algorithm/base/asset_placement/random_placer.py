@@ -134,19 +134,27 @@ class RandomPlacer(AbstractPlacer):
             amount (tuple): Range of possible amount of objects to be placed
         """
 
+        # Sample the amount of objects to be placed if amount is a tuple and differ
         amount = (
             amount[0]
             if (amount[0] == amount[1])
             else np.random.randint(int(amount[0]), int(amount[1]))
         )
         for _ in range(amount):
-            count = 0
-
+            # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
+
+            # Old position is used to keep the z position
             old_position = mujoco_object.position
+
+            # We only want to sample x and y, so we keep the old z position
             z_position = old_position[2]
+
+            # Sample a new position
             mujoco_object.position = [*self.distribution(), z_position]
 
+            count = 0
+            # Ask every validator for approval until all approve or MAX_TRIES is reached, then throw error
             while not all([validator.validate(mujoco_object) for validator in validators]):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
@@ -155,10 +163,14 @@ class RandomPlacer(AbstractPlacer):
                             RandomPlacer.MAX_TRIES
                         )
                     )
+                # If placement is not possible, sample a new position
                 mujoco_object.position = [*self.distribution(), old_position[2]]
 
+            # Keep track of the placement in the validators
             for validator in validators:
                 validator.add(mujoco_object)
+
+            # Add the object to the site
             site.add(mujoco_object=mujoco_object)
 
     def remove(self, site: AbstractContainer, mujoco_object: MujocoObject):
