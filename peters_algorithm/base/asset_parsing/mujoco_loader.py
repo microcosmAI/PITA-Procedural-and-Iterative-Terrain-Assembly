@@ -64,7 +64,7 @@ class MujocoLoader:
             obj_type, attachable, colors, sizes = self._read_params(params)
             #ToDo: abfangen falls colors und sizes da ist..
             if not colors == None and not sizes == None:
-                names, mjcf_objs, obj_types, attachables, colors_, sizes_ = self._randomize_object()
+                names, mjcf_objs, colors_, sizes_ = self._randomize_object()
 
             mujoco_obj = MujocoObject(
                 name=obj, mjcf_obj=mjcf, obj_type=obj_type, attachable=attachable,
@@ -101,29 +101,31 @@ class MujocoLoader:
         return obj_type, attachable, colors, sizes
 
     @staticmethod
-    def _randomize_object(mjcf, colors: tuple[int, int], sizes: tuple[int, int]):
-        #ToDo: ändere rgba und size
+    def _randomize_object(name: str, mjcf, colors: tuple[int, int], sizes: tuple[int, int]):
         names = list()
         mjcf_objs = list()
-        obj_types = list()
-        attachables = list()
         colors_ = list()
         sizes_ = list()
 
         # get random int in of range in colors
-        colors_randint = (colors[0]
-            if (colors[0] == colors[1])
-            else np.random.randint(int(colors[0]), int(colors[1]))
-        )
+        colors_randint = (colors[0] if (colors[0] == colors[1]) else np.random.randint(int(colors[0]), int(colors[1])))
+
+        # get random rgba for every color existing
+        colors_rgba = list()
+        for _ in range(colors_randint):
+            colors_rgba.append([np.random.random(), np.random.random(), np.random.random(), np.random.random()])
 
         # get random int in range of sizes
-        sizes_randint = (sizes[0]
-            if (sizes[0] == sizes[1])
-            else np.random.randint(int(sizes[0]), int(sizes[1]))
-        )
+        sizes_randint = (sizes[0] if (sizes[0] == sizes[1]) else np.random.randint(int(sizes[0]), int(sizes[1])))
 
+        # get random size for every size existing
+        sizes_lwh = list()
+        for _ in range(sizes_randint):
+            sizes_lwh.append([np.random.random(), np.random.random(), np.random.random(), np.random.random()])
 
+        #ToDo: Problem.......... amount muss hier klar sein aber random placer setzt erneut random amount
+
+        #ToDo: ändere rgba und size
         #ToDo: logic für deepcopys der objekte und dann pars anpassen + "validierung" dass auch jede color 2 Mal vorkommt
 
-
-        return names, mjcf_objs, obj_types, attachables, colors_, sizes_
+        return names, mjcf_objs, colors_, sizes_
