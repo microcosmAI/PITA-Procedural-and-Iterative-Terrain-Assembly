@@ -12,7 +12,7 @@ class MujocoObject:
         attachable: bool,
         coordinates: tuple[float, float, float] = None,
         colors: tuple[float, float, float, float] = None,
-        sizes: tuple[float, float, float] = None
+        sizes: tuple[float, float, float] = None,
     ):
         """Initializes the MujocoObject class
         ToDo: doc
@@ -108,14 +108,14 @@ class MujocoObject:
         Returns:
             colors (tuple[int, int]): amount of colors given as range
         """
-        #ToDo: aus mjcf holen
+        # ToDo: aus mjcf holen
         return self._colors
 
     @colors.setter
     def colors(self, colors: tuple[float, float, float, float]):
-        """Set colors as range """
+        """Set colors as range"""
         self._colors = colors
-        #ToDo: in mjcf ändern
+        # ToDo: in mjcf ändern
 
     @property
     def sizes(self) -> tuple[float, float, float]:
@@ -124,11 +124,11 @@ class MujocoObject:
         Returns:
             sizes (tuple[int, int]): sizes given as range
         """
-        #ToDo: aus mjcf holen
+        # ToDo: aus mjcf holen
         return self._sizes
 
     @sizes.setter
     def sizes(self, sizes: tuple[float, float, float]):
-        """Set sizes as range """
-        #ToDo: in mjcf ändern
+        """Set sizes as range"""
+        # ToDo: in mjcf ändern
         self._sizes = sizes
