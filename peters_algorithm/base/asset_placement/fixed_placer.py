@@ -1,6 +1,3 @@
-import copy
-from dm_control import mjcf
-
 from peters_algorithm.base.asset_placement.validator import Validator
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from peters_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
@@ -37,11 +34,14 @@ class FixedPlacer(AbstractPlacer):
         mujoco_object.position = coordinates
 
         # TODO: Create a validator class that checks if the fixed object is placed in a valid way
+        # either just use mindistance or create a new validator class e.g. using mujoco contact model 
         # TODO: Test if the fixed placer works correctly
         if not all([val.validate(mujoco_object) for val in validators]):
             raise RuntimeError(
-                "User specified placement at {} could not be satisfied.".format(
-                    mujoco_object.coordinates
+                "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                    mujoco_object.name,
+                    mujoco_object.position,
+                    site.name,
                 )
             )
 

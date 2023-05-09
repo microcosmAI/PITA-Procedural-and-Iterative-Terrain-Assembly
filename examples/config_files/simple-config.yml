@@ -13,6 +13,11 @@ Environment:
       - amount: [1, 1]
       - type: container
 
+    Ball:
+      - amount: [1, 1]
+      - type: obstacle
+      - coordinates: [5., 5., 1.]
+
 Areas:
   Area1:
     size: small
@@ -34,4 +39,4 @@ Areas:
       Ball:
       - amount: [1, 1]
       - type: obstacle
-      - coordinates: [2., 5., 1.]
+      - coordinates: [-5., -5., 1.]

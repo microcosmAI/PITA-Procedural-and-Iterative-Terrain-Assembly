@@ -58,7 +58,21 @@ class Assembler:
         )
 
         # TODO: Maybe see if its possible to not loop over these item a second time for random placement
-        # Fixed Coordinate Mujoco Object Placement
+        # Fixed Coordinate Mujoco Object Placement - Environment level
+        for object_name, object_settings in self.config["Environment"]["Objects"].items():
+            for object in object_settings:
+                if "coordinates" in object:
+                    FixedPlacer().add(
+                            site=environment,
+                            mujoco_object_blueprint=mujoco_objects_blueprints[
+                                object_name
+                            ],
+                            validators=validators,
+                            coordinates=object["coordinates"],
+                        )
+
+        
+        # Fixed Coordinate Mujoco Object Placement - Area level
         for area_name, area_settings in self.config["Areas"].items():
             for object_name, object_settings in area_settings["Objects"].items():
                 for object in object_settings:
@@ -72,15 +86,6 @@ class Assembler:
                             coordinates=object["coordinates"],
                         )
 
-        # Global Mujoco Object Placement
-        """
-        for object_settings in self.config["Environment"]["Objects"]:
-            RandomPlacer().add(
-                site=environment,
-                mujoco_object_blueprint=mujoco_objects_blueprints[object_settings],
-                validators=validators,
-            )
-        """
 
         # Area Mujoco Object Placement
         for area_name, area_settings in self.config["Areas"].items():
@@ -96,21 +101,7 @@ class Assembler:
                         amount=object_settings[0]["amount"],
                     )
 
-        """
-        # adds global objects to mjcf
-        for global_object in self.config["GlobalObjects"]:
-            amount = global_object["amount"]
-            position = global_object["position"]
-            GlobalPlacer(site=environment).add(
-                site=environment,
-                mujoco_object_blueprint=mujoco_objects_blueprints[global_object],
-                validator=minDistanceValidator,
-                amount=amount,
-                positon=position,
-            )
-        """
 
         environment.mjcf_model.attach(area.mjcf_model)
-        # TODO: add mujoco-object to areas with a placer
 
         return environment

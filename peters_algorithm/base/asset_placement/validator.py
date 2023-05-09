@@ -59,7 +59,7 @@ class Validator:
         self.map_2D = (
             {}
         )  # {str: BaseGeometry, ...} with str being the uniquely identifying mjcf name
-        self.rules = []
+        self.rules = rules
 
     def validate(self, mujoco_object: MujocoObject):
         """
