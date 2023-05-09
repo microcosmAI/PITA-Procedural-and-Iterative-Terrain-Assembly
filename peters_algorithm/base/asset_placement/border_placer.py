@@ -26,6 +26,7 @@ class BorderPlacer(AbstractPlacer):
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             amount (int): Number of to-be-placed borders
             has_border (bool): True if border is added to environment, else False
+            coordinates (tuple): Coordinates
 
         Returns:
             mjcf_model (mjcf): An empty environment with borders around it
