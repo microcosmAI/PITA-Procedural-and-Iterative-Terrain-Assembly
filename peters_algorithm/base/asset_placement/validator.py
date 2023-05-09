@@ -91,4 +91,3 @@ class Validator:
     def add(self, mujoco_object: MujocoObject):
         shape_object = geometry.Point(mujoco_object.position[:2])
         self.map_2D.update({mujoco_object.name: shape_object})
-

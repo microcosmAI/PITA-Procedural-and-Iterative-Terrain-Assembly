@@ -147,7 +147,9 @@ class RandomPlacer(AbstractPlacer):
             z_position = old_position[2]
             mujoco_object.position = [*self.distribution(), z_position]
 
-            while not all([validator.validate(mujoco_object) for validator in validators]):
+            while not all(
+                [validator.validate(mujoco_object) for validator in validators]
+            ):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
                     raise RuntimeError(
