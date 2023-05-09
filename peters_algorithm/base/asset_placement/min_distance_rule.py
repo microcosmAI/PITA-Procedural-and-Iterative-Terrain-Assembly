@@ -1,4 +1,4 @@
-from peters_algorithm.base.asset_placement.rule import Rule
+from peters_algorithm.base.asset_placement.abstract_rule import Rule
 from shapely.geometry.base import BaseGeometry
 
 

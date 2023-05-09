@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from abc import ABC, abstractmethod
 from shapely.geometry.base import BaseGeometry
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-from peters_algorithm.base.asset_placement.rule import Rule
+from peters_algorithm.base.asset_placement.abstract_rule import Rule
 from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
 
 
