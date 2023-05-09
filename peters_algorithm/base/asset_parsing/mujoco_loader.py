@@ -1,5 +1,5 @@
 import os.path
-
+import numpy as np
 from peters_algorithm.base.asset_parsing.parser import Parser
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
@@ -61,9 +61,14 @@ class MujocoLoader:
         for obj, params in obj_dict.items():
             obj_xml_path = os.path.join(self.xml_dir, obj + ".xml")
             mjcf = Parser.get_mjcf(xml_path=obj_xml_path)
-            obj_type, attachable = self._read_params(params)
+            obj_type, attachable, colors, sizes = self._read_params(params)
+            #ToDo: abfangen falls colors und sizes da ist..
+            if not colors == None and not sizes == None:
+                names, mjcf_objs, obj_types, attachables, colors_, sizes_ = self._randomize_object()
+
             mujoco_obj = MujocoObject(
-                name=obj, mjcf_obj=mjcf, obj_type=obj_type, attachable=attachable
+                name=obj, mjcf_obj=mjcf, obj_type=obj_type, attachable=attachable,
+                colors=colors, sizes=sizes
             )
             mujoco_dict[obj] = mujoco_obj
         return mujoco_dict
@@ -81,10 +86,43 @@ class MujocoLoader:
         """
         obj_type = None
         attachable = None
+        colors = None
+        sizes = None
         if not params == None:
             for dict_ in params:
                 if "type" in dict_.keys():
                     obj_type = dict_["type"]
                 if "attachable" in dict_.keys():
                     attachable = dict_["attachable"]
-        return obj_type, attachable
+                if "colors" in dict_.keys():
+                    colors = dict_["colors"]
+                if "sizes" in dict_.keys():
+                    sizes = dict_["sizes"]
+        return obj_type, attachable, colors, sizes
+
+    @staticmethod
+    def _randomize_object(mjcf, colors: tuple[int, int], sizes: tuple[int, int]):
+        #ToDo: ändere rgba und size
+        names = list()
+        mjcf_objs = list()
+        obj_types = list()
+        attachables = list()
+        colors_ = list()
+        sizes_ = list()
+
+        # get random int in of range in colors
+        colors_randint = (colors[0]
+            if (colors[0] == colors[1])
+            else np.random.randint(int(colors[0]), int(colors[1]))
+        )
+
+        # get random int in range of sizes
+        sizes_randint = (sizes[0]
+            if (sizes[0] == sizes[1])
+            else np.random.randint(int(sizes[0]), int(sizes[1]))
+        )
+
+        #ToDo: logic für deepcopys der objekte und dann pars anpassen + "validierung" dass auch jede color 2 Mal vorkommt
+
+
+        return names, mjcf_objs, obj_types, attachables, colors_, sizes_

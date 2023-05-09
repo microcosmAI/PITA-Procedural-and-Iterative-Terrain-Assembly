@@ -43,3 +43,5 @@ Areas:
         - amount: [ 1, 1 ]
         - type: obstacle
         - coordinates: [ -5., -5., 1. ]
+        - colors: [ 5, 5 ]
+        - sizes: [ 5, 10 ]

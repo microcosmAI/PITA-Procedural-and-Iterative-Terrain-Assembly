@@ -11,9 +11,11 @@ class MujocoObject:
         obj_type: str,
         attachable: bool,
         coordinates: tuple[float, float, float] = None,
+        colors: tuple[float, float, float, float] = None,
+        sizes: tuple[float, float, float] = None
     ):
         """Initializes the MujocoObject class
-
+        ToDo: doc
         Parameters:
             name (str): Specific name of object
             container (bool): Set to true if the object is a container; it can store another item (e.g. tree with container for an apple)
@@ -26,6 +28,8 @@ class MujocoObject:
         self._obj_type: str = obj_type
         self._attachable: bool = attachable
         self._coordinates: tuple = coordinates
+        self._colors: tuple = colors
+        self._sizes: tuple = sizes
 
     @property
     def name(self) -> str:
@@ -96,3 +100,35 @@ class MujocoObject:
     def position(self, position: tuple[float, float, float]):
         """Set position"""
         self._mjcf_obj.find("body", self._name.lower()).pos = position
+
+    @property
+    def colors(self) -> tuple[float, float, float, float]:
+        """Get amount of colors as range
+
+        Returns:
+            colors (tuple[int, int]): amount of colors given as range
+        """
+        #ToDo: aus mjcf holen
+        return self._colors
+
+    @colors.setter
+    def colors(self, colors: tuple[float, float, float, float]):
+        """Set colors as range """
+        self._colors = colors
+        #ToDo: in mjcf ändern
+
+    @property
+    def sizes(self) -> tuple[float, float, float]:
+        """Get sizes as range
+
+        Returns:
+            sizes (tuple[int, int]): sizes given as range
+        """
+        #ToDo: aus mjcf holen
+        return self._sizes
+
+    @sizes.setter
+    def sizes(self, sizes: tuple[float, float, float]):
+        """Set sizes as range """
+        #ToDo: in mjcf ändern
+        self._sizes = sizes
