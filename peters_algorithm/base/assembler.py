@@ -66,8 +66,12 @@ class Assembler:
                     FixedPlacer(environment, fixed_mujoco_object, coordinates)"""
 
         # Global Mujoco Object Placement
-        for object_name, object_settings in self.config["Environment"]["Objects"].items():
-            if "coordinates" not in [list(setting.keys())[0] for setting in object_settings]:
+        for object_name, object_settings in self.config["Environment"][
+            "Objects"
+        ].items():
+            if "coordinates" not in [
+                list(setting.keys())[0] for setting in object_settings
+            ]:
                 RandomPlacer().add(
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
