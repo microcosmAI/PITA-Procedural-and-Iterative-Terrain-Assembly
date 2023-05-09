@@ -74,6 +74,7 @@ class Assembler:
                         coordinates=object["coordinates"],
                     )
 
+
         # Fixed Coordinate Mujoco Object Placement - Area level
         for area_index, (area_name, area_settings) in enumerate(
             self.config["Areas"].items()
@@ -90,7 +91,23 @@ class Assembler:
                             coordinates=object["coordinates"],
                         )
 
-        # Area Mujoco Random Object Placement
+
+        # Random Mujoco Object Placement - Environment level
+        for object_name, object_settings in self.config["Environment"][
+            "Objects"
+        ].items():
+            if "coordinates" not in [
+                list(setting.keys())[0] for setting in object_settings
+            ]:
+                RandomPlacer().add(
+                    site=environment,
+                    mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
+                    validators=validators,
+                    amount=object_settings[0]["amount"],
+                )
+
+
+        # Random Mujoco Object Placement - Area level
         for area_index, (area_name, area_settings) in enumerate(
             self.config["Areas"].items()
         ):
