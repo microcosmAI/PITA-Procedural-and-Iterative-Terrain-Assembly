@@ -47,5 +47,10 @@ class Validator:
         plt.show()
 
     def add(self, mujoco_object: MujocoObject):
+        """Add object to 2d representation
+
+        Parameters:
+            mujoco_object (MujocoObject): The new object, that will be added to the 2d representation
+        """
         shape_object = geometry.Point(mujoco_object.position[:2])
         self.map_2D.update({mujoco_object.name: shape_object})
