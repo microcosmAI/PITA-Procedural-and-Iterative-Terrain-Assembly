@@ -32,8 +32,10 @@ class Assembler:
         # create environment
         environment = Environment(name="Environment1", size=(10, 10, 0.1))
 
-        # create area
-        area = Area(name="Area1", size=(10, 10, 0.1))
+        # create areas
+        areas = [Area(name = 'area1', size=(10, 10, 0.1))]
+        """for area_name, area_settings in self.config["Areas"].items():
+            areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
 
         # Create Validators
         minDistanceValidator = Validator(
@@ -76,14 +78,16 @@ class Assembler:
         """
 
         # Area Mujoco Object Placement
-        for area_name, area_settings in self.config["Areas"].items():
+        for area_index, (area_name, area_settings) in enumerate(self.config["Areas"].items()):
             for object_name, object_settings in area_settings["Objects"].items():
                 RandomPlacer().add(
-                    site=area,
+                    site=areas[area_index],
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
                     validators=validators,
                     amount=object_settings[0]["amount"],
                 )
+
+        
 
         """
         # adds global objects to mjcf
@@ -98,8 +102,10 @@ class Assembler:
                 positon=position,
             )
         """
+        for area in areas:
+            environment.mjcf_model.attach(area.mjcf_model)
 
-        environment.mjcf_model.attach(area.mjcf_model)
         # TODO: add mujoco-object to areas with a placer
 
         return environment
+
