@@ -1,6 +1,7 @@
 from peters_algorithm.base.asset_placement.rule import Rule
 from shapely.geometry.base import BaseGeometry
 
+
 class MinDistanceRule(Rule):
     """Check if a new object respects the minimum distance to other objects of a specified type"""
 

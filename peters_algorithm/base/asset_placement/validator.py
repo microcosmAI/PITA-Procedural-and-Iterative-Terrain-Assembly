@@ -7,6 +7,7 @@ from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from peters_algorithm.base.asset_placement.rule import Rule
 from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
 
+
 class Validator:
     """Class for maintaining a 2D representation for validation purposes, could be static"""
 

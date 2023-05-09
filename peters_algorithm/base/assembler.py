@@ -10,6 +10,7 @@ from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
 from peters_algorithm.base.asset_placement.validator import Validator
 from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
 
+
 class Assembler:
     """Assembles assets to corresponding world container
 
@@ -108,4 +109,3 @@ class Assembler:
         # TODO: add mujoco-object to areas with a placer
 
         return environment
-    

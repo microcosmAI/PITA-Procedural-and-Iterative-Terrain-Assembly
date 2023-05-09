@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from shapely.geometry.base import BaseGeometry
 
+
 class Rule(ABC):
     """Abstract class for rules."""
 
