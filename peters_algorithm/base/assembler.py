@@ -38,7 +38,7 @@ class Assembler:
         # Create Validators
         minDistanceValidator = Validator(
             [
-                MinDistanceRule(3.0),
+                MinDistanceRule(1.0),
             ]
         )
         validators = [

@@ -66,7 +66,7 @@ class Placer2DDistribution(PlacerDistribution):
 class CircularUniformDistribution(PlacerDistribution):
     """Class for holing Distribution with specific parameterizations"""
 
-    def __init__(self, loc: float = 0, scale: float = 1.0):
+    def __init__(self, loc: float = 0, scale: float = 10.0):
         """Distribution for uniformly drawing samples from a circle
 
         Parameters:
@@ -103,7 +103,7 @@ class RandomPlacer(AbstractPlacer):
         distribution: PlacerDistribution = Placer2DDistribution(
             np.random.default_rng().multivariate_normal,
             (0, 0),
-            np.array([[0.5, 0], [0, 0.5]]),
+            np.array([[10, 0], [0, 10]]),
         ),
     ):
         """Initializes the Placer class. From the distribution a translation on the x and y axis will be
@@ -147,7 +147,7 @@ class RandomPlacer(AbstractPlacer):
             z_position = old_position[2]
             mujoco_object.position = [*self.distribution(), z_position]
 
-            while not all([val.validate(mujoco_object) for val in validators]):
+            while not all([validator.validate(mujoco_object) for validator in validators]):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
                     raise RuntimeError(
@@ -157,6 +157,8 @@ class RandomPlacer(AbstractPlacer):
                     )
                 mujoco_object.position = [*self.distribution(), old_position[2]]
 
+            for validator in validators:
+                validator.add(mujoco_object)
             site.add(mujoco_object=mujoco_object)
 
     def remove(self, site: AbstractContainer, mujoco_object: MujocoObject):

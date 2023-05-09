@@ -59,7 +59,7 @@ class Validator:
         self.map_2D = (
             {}
         )  # {str: BaseGeometry, ...} with str being the uniquely identifying mjcf name
-        self.rules = []
+        self.rules = rules
 
     def validate(self, mujoco_object: MujocoObject):
         """
@@ -77,7 +77,6 @@ class Validator:
             if not rule(self.map_2D, shape_object):
                 return False
 
-        self.map_2D.update({mujoco_object.name: shape_object})
         return True
 
     def plot(self):
@@ -88,3 +87,8 @@ class Validator:
             except AttributeError:
                 plt.scatter(*shape.xy)
         plt.show()
+
+    def add(self, mujoco_object: MujocoObject):
+        shape_object = geometry.Point(mujoco_object.position[:2])
+        self.map_2D.update({mujoco_object.name: shape_object})
+
