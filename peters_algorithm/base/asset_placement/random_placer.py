@@ -161,8 +161,10 @@ class RandomPlacer(AbstractPlacer):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
                     raise RuntimeError(
-                        "Placement has failed {} times, please check your config.yaml".format(
-                            RandomPlacer.MAX_TRIES
+                        "Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
+                            mujoco_object.name,
+                            site.name,
+                            RandomPlacer.MAX_TRIES,
                         )
                     )
                 # If placement is not possible, sample a new position
