@@ -58,10 +58,10 @@ class Validator:
         # Custom plot configuration
         plt.xlim(-env_size[0], env_size[0])
         plt.xticks(range(-env_size[0], env_size[0] + 1))
-        plt.locator_params(axis='x', nbins=10)
+        plt.locator_params(axis="x", nbins=10)
         plt.ylim(-env_size[1], env_size[1])
         plt.yticks(range(-env_size[1], env_size[1] + 1))
-        plt.locator_params(axis='y', nbins=10)
+        plt.locator_params(axis="y", nbins=10)
         plt.legend()
         plt.show()
 
