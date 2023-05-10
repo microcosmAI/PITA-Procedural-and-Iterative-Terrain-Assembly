@@ -124,7 +124,7 @@ class RandomPlacer(AbstractPlacer):
         mujoco_object_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
-        colors_range: tuple[int, int] = None
+        colors_range: tuple[int, int] = None,
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the vlaidator.
@@ -207,19 +207,28 @@ class RandomPlacer(AbstractPlacer):
 
     @staticmethod
     def _get_random_colors(colors_range: tuple[int, int]):
-
         if colors_range is None:
             return None
 
         # get random int in of range in colors
-        colors_randint = (colors_range[0] if (colors_range[0] == colors_range[1])
-                          else np.random.randint(int(colors_range[0]), int(colors_range[1])))
+        colors_randint = (
+            colors_range[0]
+            if (colors_range[0] == colors_range[1])
+            else np.random.randint(int(colors_range[0]), int(colors_range[1]))
+        )
 
         # get random rgba for every color existing
         colors_rgba = list()
         for _ in range(colors_randint):
-            random_rgba = [np.random.random(), np.random.random(), np.random.random(), np.random.random()]
+            random_rgba = [
+                np.random.random(),
+                np.random.random(),
+                np.random.random(),
+                np.random.random(),
+            ]
             colors_rgba.append(random_rgba)
-            colors_rgba.append(random_rgba)  # append twice to have pairs of colors for ball pit scenario
+            colors_rgba.append(
+                random_rgba
+            )  # append twice to have pairs of colors for ball pit scenario
 
         return colors_rgba

@@ -64,8 +64,12 @@ class MujocoLoader:
             obj_type, attachable, colors, sizes = self._read_params(params)
 
             mujoco_obj = MujocoObject(
-                name=obj, mjcf_obj=mjcf, obj_type=obj_type, attachable=attachable,
-                colors=colors, sizes=sizes
+                name=obj,
+                mjcf_obj=mjcf,
+                obj_type=obj_type,
+                attachable=attachable,
+                colors=colors,
+                sizes=sizes,
             )
             mujoco_dict[obj] = mujoco_obj
         return mujoco_dict

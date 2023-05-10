@@ -113,7 +113,9 @@ class Assembler:
                 if "coordinates" not in [
                     list(setting.keys())[0] for setting in object_settings
                 ]:
-                    if "colors" not in [list(setting.keys())[0] for setting in object_settings]:
+                    if "colors" not in [
+                        list(setting.keys())[0] for setting in object_settings
+                    ]:
                         colors_range = None
                     else:
                         colors_range = object_settings[2]["colors"]
@@ -122,7 +124,7 @@ class Assembler:
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
                         validators=validators,
                         amount=object_settings[0]["amount"],
-                        colors_range=colors_range
+                        colors_range=colors_range,
                     )
 
         # Use global validator to plot the map layout
