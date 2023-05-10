@@ -1,5 +1,6 @@
 from shapely import geometry
 import matplotlib.pyplot as plt
+
 from peters_algorithm.base.asset_placement.abstract_rule import Rule
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
@@ -13,7 +14,7 @@ class Validator:
         Parameters:
             rules (list): List of Rule objects. Each time that a new object is validated, all Rules have to be satisfied in order for the validation to return True
         """
-        # TODO: maybe inclue global coordinates of env
+        # dict[str, list[geometry.Point]]
         self.map_2D = (
             {}
         )  # {str: BaseGeometry, ...} with str being the uniquely identifying mjcf name
@@ -37,13 +38,31 @@ class Validator:
 
         return True
 
-    def plot(self):
-        """Plot the current 2d representation to where ever the current mpl backend points."""
-        for shape in self.map_2D.values():
+    def plot(self, env_size: tuple[int, int, float]):
+        """Plot the current 2d representation to where ever the current mpl backend points.
+
+        Parameters:
+            env_size (tuple): Tuple containing the size of the environment
+        """
+        for index, shape_list in enumerate(self.map_2D.values()):
+            # Directly plot the list of coordinates associated with each key in the Map2D dict
             try:
-                plt.plot(*shape.exterior.xy)
+                x = [x.exterior.xy[0] for x in shape_list]
+                y = [y.exterior.xy[1] for y in shape_list]
+                plt.plot(x, y, label=list(self.map_2D.keys())[index])
             except AttributeError:
-                plt.scatter(*shape.xy)
+                x = [x.xy[0] for x in shape_list]
+                y = [y.xy[1] for y in shape_list]
+                plt.scatter(x, y, label=list(self.map_2D.keys())[index])
+
+        # Custom plot configuration
+        plt.xlim(-env_size[0], env_size[0])
+        plt.xticks(range(-env_size[0], env_size[0] + 1))
+        plt.locator_params(axis='x', nbins=10)
+        plt.ylim(-env_size[1], env_size[1])
+        plt.yticks(range(-env_size[1], env_size[1] + 1))
+        plt.locator_params(axis='y', nbins=10)
+        plt.legend()
         plt.show()
 
     def add(self, mujoco_object: MujocoObject):
@@ -53,4 +72,7 @@ class Validator:
             mujoco_object (MujocoObject): The new object, that will be added to the 2d representation
         """
         shape_object = geometry.Point(mujoco_object.position[:2])
-        self.map_2D.update({mujoco_object.name: shape_object})
+        if mujoco_object.name in self.map_2D.keys():
+            self.map_2D[mujoco_object.name].append(shape_object)
+        else:
+            self.map_2D[mujoco_object.name] = [shape_object]

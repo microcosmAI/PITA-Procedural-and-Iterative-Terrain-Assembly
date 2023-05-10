@@ -120,6 +120,9 @@ class Assembler:
                         amount=object_settings[0]["amount"],
                     )
 
+        # Use global validator to plot the map layout
+        validators[0].plot(env_size=environment.size)
+
         for area in areas:
             environment.mjcf_model.attach(area.mjcf_model)
 
