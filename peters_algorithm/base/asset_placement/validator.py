@@ -28,9 +28,10 @@ class Validator:
             mujoco_object (MujocoObject): the new object, that will be evaluated
 
         Returns:
-            True if the new object satirsfies all rules
+            (boolean): True if the new object satisfies all rules
         """
-        # TODO: not sure if the mjcf structure will be consistent all the time...
+        # TODO: support different geom types like spheres (they only have a radius and need to be indexed differently)
+        # E.g. if type == "sphere": mujoco_object.position[0]
         shape_object = geometry.Point(mujoco_object.position[:2])
         for rule in self.rules:
             if not rule(self.map_2D, shape_object):

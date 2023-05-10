@@ -5,7 +5,7 @@ from peters_algorithm.base.asset_placement.abstract_rule import Rule
 
 
 class MinDistanceRule(Rule):
-    """Check if a new object respects the minimum distance to other objects of a specified type"""
+    """Check if a new object respects the minimum distance to other objects, optionally of a specified type"""
 
     def __init__(self, dist: float, types: list([str, ...]) = []):
         """Initialize a new MinDistanceRule.
@@ -25,7 +25,7 @@ class MinDistanceRule(Rule):
             shape_object (BaseGeometry): Insertion that should be evaluated
 
         Returns:
-            True if shape_object is far enough away from each object that has any of self.types in their name.
+            (boolean): True if shape_object is far enough away from each object. If self.types is not empty, only objects of the specified type are considered.
         """
         for obj_class in map_2D:
             # If a type is specified, only validate against it
@@ -33,6 +33,8 @@ class MinDistanceRule(Rule):
             matches = [re.search(pattern, obj_class) for pattern in self.types]
             if any(matches) or not matches:
                 # Iterate over all placed objects within the map_2D[obj_class] list
+                # TODO: Either calculate distance by replicating the mujoco objects using shapely polygons or
+                # try finding a way to compute distances using the mujoco objects directly
                 for obj in map_2D[obj_class]:
                     if shape_object.distance(obj) < self.dist:
                         return False
