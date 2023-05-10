@@ -65,13 +65,14 @@ class Assembler:
         for object_name, object_settings in self.config["Environment"][
             "Objects"
         ].items():
-            for object in object_settings:
-                if "coordinates" in object:
+            for objects in object_settings:
+                if "coordinates" in objects:
                     FixedPlacer().add(
                         site=environment,
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
                         validators=validators,
-                        coordinates=object["coordinates"],
+                        amount=object_settings[0]["amount"],
+                        coordinates=objects["coordinates"],
                     )
 
         # Fixed Coordinate Mujoco Object Placement - Area level
@@ -79,15 +80,16 @@ class Assembler:
             self.config["Areas"].items()
         ):
             for object_name, object_settings in area_settings["Objects"].items():
-                for object in object_settings:
-                    if "coordinates" in object:
+                for objects in object_settings:
+                    if "coordinates" in objects:
                         FixedPlacer().add(
                             site=areas[area_index],
                             mujoco_object_blueprint=mujoco_objects_blueprints[
                                 object_name
                             ],
                             validators=validators,
-                            coordinates=object["coordinates"],
+                            amount=object_settings[0]["amount"],
+                            coordinates=objects["coordinates"],
                         )
 
         # Random Mujoco Object Placement - Environment level
