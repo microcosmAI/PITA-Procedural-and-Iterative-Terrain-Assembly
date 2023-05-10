@@ -6,10 +6,6 @@ Environment:
   size: [ 10, 10 ]
   Borders:
     - place: True
-  Objects:
-    Ball:
-      - amount: [ 1, 5 ]
-      - type: obstacle
 
   Objects:
     Tree:
@@ -40,8 +36,7 @@ Areas:
         - attaches: [ Tree ]
 
       Ball:
-        - amount: [ 1, 1 ]
+        - amount: [ 6, 6 ]
         - type: obstacle
-        - coordinates: [ -5., -5., 1. ]
-        - colors: [ 5, 5 ]
+        - colors: [ 3, 3 ]
         - sizes: [ 5, 10 ]
