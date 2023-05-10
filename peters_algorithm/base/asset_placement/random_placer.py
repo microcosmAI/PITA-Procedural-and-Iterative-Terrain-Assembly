@@ -1,3 +1,4 @@
+import random
 import numpy as np
 from typing import Callable
 
@@ -123,6 +124,7 @@ class RandomPlacer(AbstractPlacer):
         mujoco_object_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
+        colors_range: tuple[int, int] = None
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the vlaidator.
@@ -132,6 +134,7 @@ class RandomPlacer(AbstractPlacer):
             mujoco_object_blueprint (mjcf.RootElement): To-be-placed mujoco object
             validators (list): List of validator class instances used to check object placement
             amount (tuple): Range of possible amount of objects to be placed
+            colors_range (tuple): Range of possible different colors for object
         """
 
         # Sample the amount of objects to be placed if amount is a tuple and differ
@@ -140,9 +143,24 @@ class RandomPlacer(AbstractPlacer):
             if (amount[0] == amount[1])
             else np.random.randint(int(amount[0]), int(amount[1]))
         )
-        for _ in range(amount):
+
+        # get colors rgba
+        colors_rgba = self._get_random_colors(colors_range=colors_range)
+        if not colors_rgba is None:
+            if len(colors_rgba) > amount:
+                raise ValueError("Not enough objects for specified colors.")
+
+        for i in range(amount):
             # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
+
+            if not colors_rgba is None:
+                # apply colors to objects
+                if i > (len(colors_rgba) - 1):
+                    randint = random.randrange(len(colors_rgba))
+                    mujoco_object.colors = colors_rgba[randint]
+                else:
+                    mujoco_object.colors = colors_rgba[i]
 
             # Old position is used to keep the z position
             old_position = mujoco_object.position
@@ -186,3 +204,22 @@ class RandomPlacer(AbstractPlacer):
             mujoco_object (mjcf.RootElement): To-be-removed mujoco object
         """
         site.remove(mujoco_object=mujoco_object)
+
+    @staticmethod
+    def _get_random_colors(colors_range: tuple[int, int]):
+
+        if colors_range is None:
+            return None
+
+        # get random int in of range in colors
+        colors_randint = (colors_range[0] if (colors_range[0] == colors_range[1])
+                          else np.random.randint(int(colors_range[0]), int(colors_range[1])))
+
+        # get random rgba for every color existing
+        colors_rgba = list()
+        for _ in range(colors_randint):
+            random_rgba = [np.random.random(), np.random.random(), np.random.random(), np.random.random()]
+            colors_rgba.append(random_rgba)
+            colors_rgba.append(random_rgba)  # append twice to have pairs of colors for ball pit scenario
+
+        return colors_rgba
