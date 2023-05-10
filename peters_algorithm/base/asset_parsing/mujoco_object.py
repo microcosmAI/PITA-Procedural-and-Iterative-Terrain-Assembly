@@ -108,14 +108,14 @@ class MujocoObject:
         Returns:
             colors (tuple[int, int]): amount of colors given as range
         """
-        # ToDo: aus mjcf holen
-        return self._colors
+        # ToDo: testen
+        return self._mjcf_obj.find("geom", self._name.lower()).rgba
 
     @colors.setter
     def colors(self, colors: tuple[float, float, float, float]):
         """Set colors as range"""
-        self._colors = colors
-        # ToDo: in mjcf ändern
+        # ToDo: testen
+        self._mjcf_obj.worldbody.body[self._name.lower()].geom.rgba = colors
 
     @property
     def sizes(self) -> tuple[float, float, float]:
@@ -124,11 +124,11 @@ class MujocoObject:
         Returns:
             sizes (tuple[int, int]): sizes given as range
         """
-        # ToDo: aus mjcf holen
-        return self._sizes
+        # ToDo: testen
+        return self._mjcf_obj.find("body", self._name.lower()).sizes
 
     @sizes.setter
     def sizes(self, sizes: tuple[float, float, float]):
         """Set sizes as range"""
-        # ToDo: in mjcf ändern
-        self._sizes = sizes
+        # ToDo: testen
+        self._mjcf_obj.find("body", self._name.lower()).sizes = sizes
