@@ -45,6 +45,10 @@ class FixedPlacer(AbstractPlacer):
                 )
             )
 
+        # Keep track of the placement in the validators
+        for validator in validators:
+            validator.add(mujoco_object)
+
         site.add(mujoco_object=mujoco_object)
 
     def remove(self, *, site: AbstractContainer, mujoco_object: MujocoObject):
