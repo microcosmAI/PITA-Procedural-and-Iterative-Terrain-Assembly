@@ -32,11 +32,16 @@ class Assembler:
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
 
+        # parse size from the config
+        size = self.config["Environment"]["size"]
+
         # create environment
-        environment = Environment(name="Environment1", size=(10, 10, 0.1))
+        environment = Environment(name="Environment1", size=(size[0], size[1], 0.1))
 
         # create areas
-        areas = [Area(name="area1", size=(10, 10, 0.1))]
+        # as long as we only have one area we set its size to the one of the env
+        # TODO: set size with layout manager
+        areas = [Area(name="area1", size=(size[0], size[1], 0.1))]
         """for area_name, area_settings in self.config["Areas"].items():
             areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
 
