@@ -6,6 +6,7 @@ from peters_algorithm.base.world_container.environment import Environment
 
 class JSONExporter:
     """Exports all object information to a json file"""
+
     @staticmethod
     def export(*, filename: str, environment: Environment, areas: list[Area]):
         """Export all object information from the given Environment and Area instances to a json file

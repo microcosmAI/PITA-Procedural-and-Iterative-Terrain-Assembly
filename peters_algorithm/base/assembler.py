@@ -18,7 +18,7 @@ class Assembler:
 
     def __init__(self, config_file: dict, xml_dir: str):
         """Constructor for Assembler class
-        
+
         Parameters:
             config (dict): config file containing user defined parameters
             xml_dir (str): string to xml-directory (containing assets)
