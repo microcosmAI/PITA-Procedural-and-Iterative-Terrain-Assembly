@@ -28,7 +28,7 @@ class Assembler:
 
     def assemble_world(self) -> tuple[Environment, list[Area]]:
         """Calls the environment and areas and assembles them to create the world as and MJCF object
-        
+
         Returns:
             environment (Environment):
             areas (list):

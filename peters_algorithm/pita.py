@@ -24,7 +24,9 @@ class PetersAlgorithm:
         xml_dir = args.xml_dir
 
         config = ConfigReader.execute(config_path=config_path)
-        environment, areas = Assembler(config_file=config, xml_dir=xml_dir).assemble_world()
+        environment, areas = Assembler(
+            config_file=config, xml_dir=xml_dir
+        ).assemble_world()
         self._to_xml(
             xml_string=environment.mjcf_model.to_xml_string(), file_name="test"
         )
