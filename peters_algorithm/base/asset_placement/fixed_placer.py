@@ -38,8 +38,6 @@ class FixedPlacer(AbstractPlacer):
             # Set the position of the object to the user specified coordinates
             mujoco_object.position = coordinates[obj_idx]
 
-            # TODO: Create a validator class that checks if the fixed object is placed in a valid way
-            # either just use mindistance or create a new validator class e.g. using mujoco contact model
             if not all([val.validate(mujoco_object) for val in validators]):
                 raise RuntimeError(
                     "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
@@ -53,6 +51,7 @@ class FixedPlacer(AbstractPlacer):
             for validator in validators:
                 validator.add(mujoco_object)
 
+            # Add the object to the site
             site.add(mujoco_object=mujoco_object)
 
     def remove(self, *, site: AbstractContainer, mujoco_object: MujocoObject):
