@@ -13,9 +13,9 @@ Environment:
       - type: container
 
     Ball:
-      - amount: [ 1, 1 ]
+      - amount: 2
       - type: obstacle
-      - coordinates: [ 5., 5., 1. ]
+      - coordinates: [[ 5., 5., 1. ], [ -5., 5., 1. ]]
 
 Areas:
   Area1:
@@ -36,7 +36,6 @@ Areas:
         - attaches: [ Tree ]
 
       Ball:
-misc        - amount: [ 6,  10]
+        - amount: 2
         - type: obstacle
-        - colors: [ 3, 4 ]
-        - sizes: [ 3, 4 ]
+        - coordinates: [[ -5., -5., 1. ], [ 5., -5., 1. ]]
