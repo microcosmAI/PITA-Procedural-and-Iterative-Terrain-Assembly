@@ -1,0 +1,71 @@
+<mujoco model="agent">
+    <default>
+        <joint armature="1" damping="1" limited="true"/>
+    </default>
+    <worldbody>
+    <body name="agent" pos="3 0 3">
+        <camera name="agent1_track" mode="trackcom" pos="0 -3 0.3" xyaxes="1 0 0 0 0 1"/>
+        <site name="agent1_box_range" type="box" pos="0.4 0 0" size=".05 .05 .05" rgba="0 .9 0 1" euler="0 90 0"/>
+        <geom name="agent1_torso_geom" pos="0 0 0" size="0.25" type="sphere"/>
+        <joint armature="0" damping="0" limited="false" margin="0.01" name="agent1_root" pos="0 0 0" type="free"/>
+        <body name="agent1_front_left_leg" pos="0 0 0">
+            <geom fromto="0.0 0.0 0.0 0.2 0.2 0.0" name="agent1_aux_1_geom" size="0.08" type="capsule"/>
+            <body name="agent1_aux_1" pos="0.2 0.2 0">
+                <joint axis="0 0 1" name="agent1_hip_1" pos="0.0 0.0 0.0" range="-30 30" type="hinge"/>
+                <geom fromto="0.0 0.0 0.0 0.2 0.2 0.0" name="agent1_left_leg_geom" size="0.08" type="capsule"/>
+                <body pos="0.2 0.2 0">
+                    <joint axis="-1 1 0" name="agent1_ankle_1" pos="0.0 0.0 0.0" range="30 70" type="hinge"/>
+                    <geom fromto="0.0 0.0 0.0 0.4 0.4 0.0" name="agent1_left_ankle_geom" size="0.08" type="capsule"/>
+                </body>
+            </body>
+        </body>
+        <body name="agent1_front_right_leg" pos="0 0 0">
+            <geom fromto="0.0 0.0 0.0 -0.2 0.2 0.0" name="agent1_aux_2_geom" size="0.08" type="capsule"/>
+            <body name="agent1_aux_2" pos="-0.2 0.2 0">
+                <joint axis="0 0 1" name="agent1_hip_2" pos="0.0 0.0 0.0" range="-30 30" type="hinge"/>
+                <geom fromto="0.0 0.0 0.0 -0.2 0.2 0.0" name="agent1_right_leg_geom" size="0.08" type="capsule"/>
+                <body pos="-0.2 0.2 0">
+                    <joint axis="1 1 0" name="agent1_ankle_2" pos="0.0 0.0 0.0" range="-70 -30" type="hinge"/>
+                    <geom fromto="0.0 0.0 0.0 -0.4 0.4 0.0" name="agent1_right_ankle_geom" size="0.08" type="capsule"/>
+                </body>
+            </body>
+        </body>
+        <body name="agent1_back_leg" pos="0 0 0">
+            <geom fromto="0.0 0.0 0.0 -0.2 -0.2 0.0" name="agent1_aux_3_geom" size="0.08" type="capsule"/>
+            <body name="agent1_aux_3" pos="-0.2 -0.2 0">
+                <joint axis="0 0 1" name="agent1_hip_3" pos="0.0 0.0 0.0" range="-30 30" type="hinge"/>
+                <geom fromto="0.0 0.0 0.0 -0.2 -0.2 0.0" name="agent1_back_leg_geom" size="0.08" type="capsule"/>
+                <body pos="-0.2 -0.2 0">
+                    <joint axis="-1 1 0" name="agent1_ankle_3" pos="0.0 0.0 0.0" range="-70 -30" type="hinge"/>
+                    <geom fromto="0.0 0.0 0.0 -0.4 -0.4 0.0" name="agent1_third_ankle_geom" size="0.08" type="capsule"/>
+                </body>
+            </body>
+        </body>
+        <body name="agent1_right_back_leg" pos="0 0 0">
+            <geom fromto="0.0 0.0 0.0 0.2 -0.2 0.0" name="agent1_aux_4_geom" size="0.08" type="capsule"/>
+            <body name="agent1_aux_4" pos="0.2 -0.2 0">
+                <joint axis="0 0 1" name="agent1_hip_4" pos="0.0 0.0 0.0" range="-30 30" type="hinge"/>
+                <geom fromto="0.0 0.0 0.0 0.2 -0.2 0.0" name="agent1_rightback_leg_geom" size="0.08" type="capsule"/>
+                <body pos="0.2 -0.2 0">
+                    <joint axis="1 1 0" name="agent1_ankle_4" pos="0.0 0.0 0.0" range="30 70" type="hinge"/>
+                    <geom fromto="0.0 0.0 0.0 0.4 -0.4 0.0" name="agent1_fourth_ankle_geom" size="0.08" type="capsule"/>
+                </body>
+            </body>
+        </body>
+    </body>
+    </worldbody>
+    <actuator>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="agent1_hip_4" gear="150"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="agent1_ankle_4" gear="150"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="agent1_hip_1" gear="150"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="agent1_ankle_1" gear="150"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="agent1_hip_2" gear="150"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="agent1_ankle_2" gear="150"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="agent1_hip_3" gear="150"/>
+        <motor ctrllimited="true" ctrlrange="-1.0 1.0" joint="agent1_ankle_3" gear="150"/>
+    </actuator>
+    <sensor>
+        <rangefinder name="agent1_box1" site="agent1_box_range" cutoff="20"/>
+        <frameyaxis name="agent1_yAxis" objtype="site" objname="agent1_box_range"/>
+    </sensor>
+</mujoco>
