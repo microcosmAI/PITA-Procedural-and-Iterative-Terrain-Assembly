@@ -37,7 +37,9 @@ class Assembler:
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
         # create environment
-        environment = Environment(name="Environment1", size=(size[0], size[1], 0.1), pretty_mode=pretty_mode)
+        environment = Environment(
+            name="Environment1", size=(size[0], size[1], 0.1), pretty_mode=pretty_mode
+        )
 
         # create areas
         # as long as we only have one area we set its size to the one of the env

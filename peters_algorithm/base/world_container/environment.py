@@ -7,7 +7,13 @@ from peters_algorithm.base.world_container.abstract_container import AbstractCon
 class Environment(AbstractContainer):
     """Class that represents the entire environment"""
 
-    def __init__(self, *, size: tuple[float, float, float], name: str = "Environment", pretty_mode: bool = False):
+    def __init__(
+        self,
+        *,
+        size: tuple[float, float, float],
+        name: str = "Environment",
+        pretty_mode: bool = False
+    ):
         """Initializes the environment class
 
         Parameters:
@@ -21,13 +27,33 @@ class Environment(AbstractContainer):
 
         if pretty_mode:
             self._mjcf_model.asset.add(
-                "texture", type="skybox", builtin="gradient", rgb1=".3 .5 .7", rgb2="0 0 0", width="512", height="512"
+                "texture",
+                type="skybox",
+                builtin="gradient",
+                rgb1=".3 .5 .7",
+                rgb2="0 0 0",
+                width="512",
+                height="512",
             )
             self._mjcf_model.asset.add(
-                "texture", name="grid", type="2d", builtin="checker", rgb1=".1 .2 .3", rgb2=".2 .3 .4", width="300", height="300", mark="edge", markrgb=".2 .3 .4"
+                "texture",
+                name="grid",
+                type="2d",
+                builtin="checker",
+                rgb1=".1 .2 .3",
+                rgb2=".2 .3 .4",
+                width="300",
+                height="300",
+                mark="edge",
+                markrgb=".2 .3 .4",
             )
             self._mjcf_model.asset.add(
-                "material", name="grid", texture="grid", texrepeat="1 1", texuniform="true", reflectance=".2"
+                "material",
+                name="grid",
+                texture="grid",
+                texrepeat="1 1",
+                texuniform="true",
+                reflectance=".2",
             )
             self._mjcf_model.worldbody.add(
                 "geom", name="base_plane", type="plane", size=size, material="grid"
