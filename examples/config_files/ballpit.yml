@@ -1,0 +1,18 @@
+Environment:
+  size: [ 100, 100 ]
+  Borders:
+    - place: True
+  Objects:
+    Agent:
+      - amount: 2
+      - coordinates: [ [ -50., -50., 1. ], [ 50., 50., 1. ] ]
+Areas:
+  Area1:
+    size: large
+    Objects:
+      Ball:
+        - amount: [ 50, 100 ]
+        # - type: ?
+        - random_attributes:
+          - colors: [ 50, 50 ]
+          - sizes: [ 5, 10 ]
