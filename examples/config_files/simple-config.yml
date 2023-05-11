@@ -15,7 +15,7 @@ Environment:
     Ball:
       - amount: 2
       - type: obstacle
-      - coordinates: [[ 5., 5., 1. ], [ -5., 5., 1. ]]
+      - coordinates: [ [ 5., 5., 1. ], [ -5., 5., 1. ] ]
 
 Areas:
   Area1:
@@ -38,4 +38,4 @@ Areas:
       Ball:
         - amount: 2
         - type: obstacle
-        - coordinates: [[ -5., -5., 1. ], [ 5., -5., 1. ]]
+        - coordinates: [ [ -5., -5., 1. ], [ 5., -5., 1. ] ]
