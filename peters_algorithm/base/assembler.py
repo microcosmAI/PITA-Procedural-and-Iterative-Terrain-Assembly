@@ -14,15 +14,15 @@ from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceR
 
 
 class Assembler:
-    """Assembles assets to corresponding world container
-
-    Attributes
-    ----------
-        config (dict): config file containing user defined parameters
-        xml_dir (str): string to xml-directory (containing assets)
-    """
+    """Assembles assets to corresponding world container"""
 
     def __init__(self, config_file: dict, xml_dir: str):
+        """Constructor for Assembler class
+        
+        Parameters:
+            config (dict): config file containing user defined parameters
+            xml_dir (str): string to xml-directory (containing assets)
+        """
         self.config = config_file
         self.xml_dir = xml_dir
 
@@ -30,8 +30,8 @@ class Assembler:
         """Calls the environment and areas and assembles them to create the world as and MJCF object
 
         Returns:
-            environment (Environment):
-            areas (list):
+            environment (Environment): Environment class instance
+            areas (list): List of Area class instances
         """
         # call mujoco loader to get dictionary of mujoco objects
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)

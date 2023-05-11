@@ -23,6 +23,7 @@ class PetersAlgorithm:
         config_path = args.config_path
         xml_dir = args.xml_dir
 
+        # read config file and assemble world and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
         environment, areas = Assembler(
             config_file=config, xml_dir=xml_dir

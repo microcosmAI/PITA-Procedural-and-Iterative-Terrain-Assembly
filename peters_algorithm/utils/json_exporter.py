@@ -5,17 +5,20 @@ from peters_algorithm.base.world_container.environment import Environment
 
 
 class JSONExporter:
+    """Exports all object information to a json file"""
     @staticmethod
     def export(*, filename: str, environment: Environment, areas: list[Area]):
-        """
+        """Export all object information from the given Environment and Area instances to a json file
+
         Parameters:
-            filename (str):
-            environment (Environment):
-            areas (list):
+            filename (str): Name of the file to be exported
+            environment (Environment): Environment class instance
+            areas (list): List of Area class instances
         """
+        # Dictionary to store all objects
         all_objects = {"environment": {}, "areas": {}}
 
-        # environment loop
+        # Loop over Environment and its objects
         for mujoco_object in environment._mujoco_objects.values():
             values = {}
 
@@ -30,7 +33,7 @@ class JSONExporter:
 
             all_objects["environment"][mujoco_object.name] = values
 
-        # loop over all areas
+        # Loop over all Areas and their objects
         for area in areas:
             all_objects["areas"][area.name] = {}
             for mujoco_object in area._mujoco_objects.values():
@@ -47,5 +50,6 @@ class JSONExporter:
 
                 all_objects["areas"][area.name][mujoco_object.name] = values
 
+        # Export to json
         with open("export/" + filename + ".json", "w") as file:
             json.dump(all_objects, file, indent=4)
