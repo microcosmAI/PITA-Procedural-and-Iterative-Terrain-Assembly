@@ -18,9 +18,9 @@ class FixedPlacer(AbstractPlacer):
         mujoco_object_blueprint: MujocoObject,
         validators: list[Validator],
         amount: int,
-        coordinates: tuple[
-            float, float, float
-        ]  # TODO: use list of lists instead of tuple
+        coordinates: list[
+             list[float], list[float], list[float]
+        ]  
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Optionally checks placement via the validator.
@@ -29,7 +29,7 @@ class FixedPlacer(AbstractPlacer):
             site (AbstractContainer): AbstractContainer class instance where the object is added to
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             validators (Validator): Validator class instance used to check object placement
-            coordinates (list): List of coordinates where the object is placed
+            coordinates (list): List of coordinate lists where each object is placed
         """
         for obj_idx in range(amount):
             # Copy the blueprint to avoid changing the original
