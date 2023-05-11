@@ -26,8 +26,13 @@ class Assembler:
         self.config = config_file
         self.xml_dir = xml_dir
 
-    def assemble_world(self) -> mjcf:
-        """Calls the environment and areas and assembles them to create the world as and MJCF object"""
+    def assemble_world(self) -> tuple[Environment, list[Area]]:
+        """Calls the environment and areas and assembles them to create the world as and MJCF object
+        
+        Returns:
+            environment (Environment):
+            areas (list):
+        """
         # call mujoco loader to get dictionary of mujoco objects
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
@@ -133,4 +138,4 @@ class Assembler:
         for area in areas:
             environment.mjcf_model.attach(area.mjcf_model)
 
-        return environment
+        return environment, areas
