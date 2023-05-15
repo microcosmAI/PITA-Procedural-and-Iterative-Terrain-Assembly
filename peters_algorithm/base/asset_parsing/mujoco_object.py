@@ -52,7 +52,7 @@ class MujocoObject:
             xml_id (str): Id of object in xml
         """
         return self._xml_id
-    
+
     @xml_id.setter
     def xml_id(self, xml_id: str):
         """Set xml id"""

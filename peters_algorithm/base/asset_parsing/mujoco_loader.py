@@ -63,7 +63,11 @@ class MujocoLoader:
             mjcf = Parser.get_mjcf(xml_path=obj_xml_path)
             obj_type, attachable = self._read_params(params)
             mujoco_obj = MujocoObject(
-                name=obj, xml_id="", mjcf_obj=mjcf, obj_type=obj_type, attachable=attachable
+                name=obj,
+                xml_id="",
+                mjcf_obj=mjcf,
+                obj_type=obj_type,
+                attachable=attachable,
             )
             mujoco_dict[obj] = mujoco_obj
         return mujoco_dict
