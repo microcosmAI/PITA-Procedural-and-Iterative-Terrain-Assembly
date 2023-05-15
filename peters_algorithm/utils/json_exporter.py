@@ -24,15 +24,15 @@ class JSONExporter:
             values = {}
 
             # values['mjcf_obj'] = mujoco_object.mjcf_obj
+            values["name"] = mujoco_object.name
             values["type"] = mujoco_object.obj_type
             values["attachable"] = mujoco_object.attachable
             values["position"] = mujoco_object.position.tolist()
             # values['color'] = mujoco_object.color.tolist()
             # values['size'] = mujoco_object.size.tolist()
             # values['tag'] = mujoco_object.tag
-            # values['id'] = mujoco_object.id
 
-            all_objects["environment"][mujoco_object.name] = values
+            all_objects["environment"][mujoco_object.xml_id] = values
 
         # Loop over all Areas and their objects
         for area in areas:
@@ -41,15 +41,15 @@ class JSONExporter:
                 values = {}
 
                 # values['mjcf_obj'] = mujoco_object.mjcf_obj
+                values["name"] = mujoco_object.name
                 values["type"] = mujoco_object.obj_type
                 values["attachable"] = mujoco_object.attachable
                 values["position"] = mujoco_object.position.tolist()
                 # values['color'] = mujoco_object.color.tolist()
                 # values['size'] = mujoco_object.size.tolist()
                 # values['tag'] = mujoco_object.tag
-                # values['id'] = mujoco_object.id
 
-                all_objects["areas"][area.name][mujoco_object.name] = values
+                all_objects["areas"][area.name][mujoco_object.xml_id] = values
 
         # Export to json
         with open("export/" + filename + ".json", "w") as file:
