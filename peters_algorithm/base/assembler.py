@@ -53,15 +53,30 @@ class Assembler:
         """for area_name, area_settings in self.config["Areas"].items():
             areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
 
-        # Create Area Validator with Boundary and Minimum Distance Rules
-        areaValidator = Validator(
+        # Create Validators
+        environment_validator = Validator(
             [
                 MinDistanceRule(1.0),
                 BoundaryRule(boundary=(size[0], size[1])),
             ]
         )
 
-        validators = [areaValidator]
+        global_validators = [
+            environment_validator,
+        ]
+
+        area_validators = []
+        for area_index, (area_name, area_settings) in enumerate(
+            self.config["Areas"].items()
+        ):
+            area_validators.append(
+                Validator(
+                    [
+                        MinDistanceRule(1.5),
+                        BoundaryRule(boundary=(size[0], size[1])),
+                    ]
+                )
+            )
 
         # Border Placement
         # TODO: if config.environment.borders:
@@ -83,7 +98,7 @@ class Assembler:
                     FixedPlacer().add(
                         site=environment,
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
-                        validators=validators,
+                        validators=global_validators,
                         amount=object_settings[0]["amount"],
                         coordinates=objects["coordinates"],
                     )
@@ -100,7 +115,7 @@ class Assembler:
                             mujoco_object_blueprint=mujoco_objects_blueprints[
                                 object_name
                             ],
-                            validators=validators,
+                            validators=[area_validators[area_index],] + global_validators,
                             amount=object_settings[0]["amount"],
                             coordinates=objects["coordinates"],
                         )
@@ -129,7 +144,7 @@ class Assembler:
                 RandomPlacer().add(
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
-                    validators=validators,
+                    validators=global_validators,
                     amount=object_settings[0]["amount"],
                     colors_range=colors_range,
                     sizes_range=sizes_range,
@@ -147,12 +162,15 @@ class Assembler:
                     RandomPlacer().add(
                         site=areas[area_index],
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
-                        validators=validators,
+                        validators=[
+                            area_validators[area_index],
+                        ]
+                        + global_validators,
                         amount=object_settings[0]["amount"],
                     )
 
         # Use global validator to plot the map layout
-        validators[0].plot(env_size=environment.size)
+        global_validators[0].plot(env_size=environment.size)
 
         for area in areas:
             environment.mjcf_model.attach(area.mjcf_model)

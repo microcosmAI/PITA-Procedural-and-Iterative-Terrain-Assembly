@@ -4,6 +4,9 @@
 
 Environment:
   size: [ 100, 100 ]
+  rules:
+    - MinAllDistance:
+        - distance: 1.0
   Borders:
     - place: True
     - object: Hedge
@@ -35,6 +38,9 @@ Environment:
 Areas:
   Area1:
     size: small
+    rules:
+      - MinAllDistance:
+          - distance: 1.5
     Objects:
       Tree:
         - amount: [ 1, 3 ]
