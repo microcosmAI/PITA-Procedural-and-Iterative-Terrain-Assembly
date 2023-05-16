@@ -30,7 +30,10 @@ class PetersAlgorithm:
         config = ConfigReader.execute(config_path=config_path)
 
         # Set Random Seed
-        if "random_seed" in config["Environment"] and config["Environment"]["random_seed"] is not None:
+        if (
+            "random_seed" in config["Environment"]
+            and config["Environment"]["random_seed"] is not None
+        ):
             random_seed = config["Environment"]["random_seed"]
             print(f"Setting random seed to {random_seed}")
             np.random.seed(random_seed)
