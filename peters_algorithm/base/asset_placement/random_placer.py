@@ -99,14 +99,7 @@ class RandomPlacer(AbstractPlacer):
     # dynamically, as a field of any Placer instantiation
     MAX_TRIES = 10000
 
-    def __init__(
-        self,
-        distribution: PlacerDistribution = Placer2DDistribution(
-            np.random.default_rng().multivariate_normal,
-            (0, 0),
-            np.array([[10, 0], [0, 10]]),
-        ),
-    ):
+    def __init__(self, distribution: PlacerDistribution):
         """Initializes the Placer class. From the distribution a translation on the x and y axis will be
         respectively sampled. So the distribution of the to be placed objects is actually centered at
         the position of the original object plus a loc parameter of the distribution (if it has one).
