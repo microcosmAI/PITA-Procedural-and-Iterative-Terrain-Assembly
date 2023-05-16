@@ -1,16 +1,16 @@
 from dm_control import mjcf
 
 from peters_algorithm.base.world_container.area import Area
+from peters_algorithm.base.asset_placement.validator import Validator
 from peters_algorithm.base.world_container.environment import Environment
 from peters_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 from peters_algorithm.base.asset_placement.fixed_placer import FixedPlacer
 from peters_algorithm.base.asset_placement.random_placer import RandomPlacer
 from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
-
+from peters_algorithm.base.asset_placement.boundary_rule import BoundaryRule
+from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
 
 # from peters_algorithm.base.asset_placement.global_placer import GlobalPlacer
-from peters_algorithm.base.asset_placement.validator import Validator
-from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
 
 
 class Assembler:
@@ -45,14 +45,24 @@ class Assembler:
         """for area_name, area_settings in self.config["Areas"].items():
             areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
 
-        # Create Validators
+
+        # Create Boundary Validator
+        boundaryValidator = Validator(
+            [
+                BoundaryRule(boundary = (size[0], size[1])),
+            ]
+        )
+
+        # Create minimum distance Validator
         minDistanceValidator = Validator(
             [
                 MinDistanceRule(1.0),
             ]
         )
+
         validators = [
             minDistanceValidator,
+            boundaryValidator,
         ]
 
         # Border Placement
