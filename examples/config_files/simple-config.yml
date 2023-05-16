@@ -36,7 +36,7 @@ Areas:
         - attaches: [ Tree ]
 
       Ball:
-        - amount: [ 6, 6 ]
+misc        - amount: [ 6,  10]
         - type: obstacle
-        - colors: [ 3, 3 ]
-        - sizes: [ 5, 10 ]
+        - colors: [ 3, 4 ]
+        - sizes: [ 3, 4 ]
