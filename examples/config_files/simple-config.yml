@@ -1,21 +1,30 @@
-#  Agent:
-#    - amount: 2
-#    - position: [(10, 10), (50, 50)]
-
 Environment:
   size: [ 10, 10 ]
+
+  Style:
+    - pretty_mode: True
+
   Borders:
     - place: True
+    - tags: [ "Border" ]
 
   Objects:
+#    Light:
+#      - amount: 2
+#      - type: light
+#      - coordinates: [ [ 8., 8., 40. ], [ -8., 8., 40. ] ]
+#      - tags: [ "Light" ]
+
     Tree:
       - amount: [ 1, 1 ]
       - type: container
+      - tags: [ "Tree" , "Container" ]
 
     Ball:
       - amount: 2
       - type: obstacle
       - coordinates: [ [ 5., 5., 1. ], [ -5., 5., 1. ] ]
+      - tags: [ "Ball", "Obstacle" ]
 
 Areas:
   Area1:
@@ -25,17 +34,24 @@ Areas:
         - amount: [ 10, 20 ]
         - type: container
         #- variants: ["Kiefer", ] # [kiefer,buche,...]
+        - tags: [ "Tree" , "Container" ]
 
       Stone:
         - amount: [ 10, 10 ]
         - type: obstacle
+        - tags: [ "Stone" , "Container" ]
+        
 
       Apple:
         - amount: [ 5, 8 ]
         - type: attachable_item
         - attaches: [ Tree ]
+        - tags: [ "Apple" , "Attachable_Item" ]
 
       Ball:
-        - amount: 2
+        - amount: [ 6, 10 ]
         - type: obstacle
-        - coordinates: [ [ -5., -5., 1. ], [ 5., -5., 1. ] ]
+        - tags: [ "Ball", "Obstacle" ]
+        - colors: [ 3, 4 ]
+        - sizes: [ 3, 4 ]
+

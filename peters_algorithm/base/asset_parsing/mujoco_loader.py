@@ -61,9 +61,16 @@ class MujocoLoader:
         for obj, params in obj_dict.items():
             obj_xml_path = os.path.join(self.xml_dir, obj + ".xml")
             mjcf = Parser.get_mjcf(xml_path=obj_xml_path)
-            obj_type, attachable = self._read_params(params)
+            obj_type, attachable, tags = self._read_params(params)
             mujoco_obj = MujocoObject(
-                name=obj, mjcf_obj=mjcf, obj_type=obj_type, attachable=attachable
+                name=obj,
+                xml_id="",
+                mjcf_obj=mjcf,
+                obj_type=obj_type,
+                attachable=attachable,
+                color=None,
+                size=None,
+                tags=tags,
             )
             mujoco_dict[obj] = mujoco_obj
         return mujoco_dict
@@ -78,13 +85,17 @@ class MujocoLoader:
         Returns:
             obj_type (str): Type of world_container-object; relates to mujoco-object parameter
             attachable (bool): True if object can be attached to a container-type object; relates to mujoco-object parameter
+            tags (list): List of user specified tags for the object
         """
         obj_type = None
         attachable = None
+        tags = None
         if not params == None:
             for dict_ in params:
                 if "type" in dict_.keys():
                     obj_type = dict_["type"]
                 if "attachable" in dict_.keys():
                     attachable = dict_["attachable"]
-        return obj_type, attachable
+                if "tags" in dict_.keys():
+                    tags = dict_["tags"]
+        return obj_type, attachable, tags
