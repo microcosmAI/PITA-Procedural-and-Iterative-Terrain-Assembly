@@ -11,25 +11,27 @@ class MujocoObject:
         obj_type: str,
         attachable: bool,
         coordinates: tuple[float, float, float] = None,
-        colors: tuple[float, float, float, float] = None,
-        sizes: tuple[float, float, float] = None,
+        color: tuple[float, float, float, float] = None,
+        size: float = None,
     ):
         """Initializes the MujocoObject class
-        ToDo: doc
+
         Parameters:
             name (str): Specific name of object
-            container (bool): Set to true if the object is a container; it can store another item (e.g. tree with container for an apple)
-            type (str): Type of object (e.g. "tree" or "stone")
-            mjcf_object (mjcf): Objects xml parsed into mjcf-style model of mujoco
+            mjcf_obj (mjcf): Objects xml parsed into mjcf-style model of mujoco
+            obj_type (str): Type of object (e.g. "tree" or "stone")
+            attachable (bool): decides if object is attachable
             coordinates (tuple): Coordinates of the object
+            color (tuple[float, float, float, float]): color rgba
+            size (float): size of ball (radius)
         """
         self._name: str = name
         self._mjcf_obj: mjcf.RootElement = mjcf_obj
         self._obj_type: str = obj_type
         self._attachable: bool = attachable
         self._coordinates: tuple = coordinates
-        self._colors: tuple = colors
-        self._sizes: tuple = sizes
+        self._color: tuple = color
+        self._size: float = size
 
     @property
     def name(self) -> str:
@@ -102,33 +104,32 @@ class MujocoObject:
         self._mjcf_obj.find("body", self._name.lower()).pos = position
 
     @property
-    def colors(self) -> tuple[float, float, float, float]:
-        """Get amount of colors as range
+    def color(self) -> tuple[float, float, float, float]:
+        """Get color rgba
 
         Returns:
-            colors (tuple[int, int]): amount of colors given as range
+            color (tuple[float, float, float, float]): color rgba
         """
-        # ToDo: testen
-        return self._mjcf_obj.find("geom", self._name.lower()).rgba
+        return self._mjcf_obj.find("body", self._name.lower()).geom[0].rgba
 
-    @colors.setter
-    def colors(self, colors: tuple[float, float, float, float]):
-        """Set colors as range"""
-        # ToDo: testen
-        self._mjcf_obj.worldbody.body[self._name.lower()].geom.rgba = colors
+    @color.setter
+    def color(self, color: tuple[float, float, float, float]):
+        """Set color as rgba"""
+        self._mjcf_obj.find("body", self._name.lower()).geom[0].rgba = color
 
     @property
-    def sizes(self) -> tuple[float, float, float]:
-        """Get sizes as range
+    def size(self) -> float:
+        """Get size of object
 
         Returns:
-            sizes (tuple[int, int]): sizes given as range
+            size (float): size of object
         """
-        # ToDo: testen
-        return self._mjcf_obj.find("body", self._name.lower()).sizes
+        return self._mjcf_obj.find("body", self._name.lower()).geom[0].size
 
-    @sizes.setter
-    def sizes(self, sizes: tuple[float, float, float]):
-        """Set sizes as range"""
-        # ToDo: testen
-        self._mjcf_obj.find("body", self._name.lower()).sizes = sizes
+    @size.setter
+    def size(self, size: float):
+        """Set size of object"""
+        mjcf_pos = self.position
+        mjcf_pos[2] = size
+        self.position = mjcf_pos
+        self._mjcf_obj.find("body", self._name.lower()).geom[0].size = [size]
