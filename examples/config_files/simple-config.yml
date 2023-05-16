@@ -10,11 +10,11 @@ Environment:
     - tags: [ "Border" ]
 
   Objects:
-    Light:
-      - amount: 2
-      - type: light
-      - coordinates: [ [ 8., 8., 40. ], [ -8., 8., 40. ] ]
-      - tags: [ "Light" ]
+#    Light:
+#      - amount: 2
+#      - type: light
+#      - coordinates: [ [ 8., 8., 40. ], [ -8., 8., 40. ] ]
+#      - tags: [ "Light" ]
 
     Tree:
       - amount: [ 1, 1 ]
@@ -50,7 +50,9 @@ Areas:
         - tags: [ "Apple" , "Attachable_Item" ]
 
       Ball:
-        - amount: 2
+        - amount: [ 6, 10 ]
         - type: obstacle
-        - coordinates: [ [ -5., -5., 1. ], [ 5., -5., 1. ] ]
-        - tags: [ "Ball" , "Obstacle" ]
+        - tags: [ "Ball", "Obstacle" ]
+        - colors: [ 3, 4 ]
+        - sizes: [ 3, 4 ]
+
