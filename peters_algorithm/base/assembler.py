@@ -73,6 +73,7 @@ class Assembler:
                 Validator(
                     [
                         MinDistanceRule(1.5),
+                        BoundaryRule(boundary=(size[0], size[1])),
                     ]
                 )
             )
@@ -114,7 +115,7 @@ class Assembler:
                             mujoco_object_blueprint=mujoco_objects_blueprints[
                                 object_name
                             ],
-                            validators=global_validators,
+                            validators=[area_validators[area_index],] + global_validators,
                             amount=object_settings[0]["amount"],
                             coordinates=objects["coordinates"],
                         )
