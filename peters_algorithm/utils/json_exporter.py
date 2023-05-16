@@ -8,7 +8,9 @@ class JSONExporter:
     """Exports all object information to a json file"""
 
     @staticmethod
-    def export(*, filename: str, config: dict, environment: Environment, areas: list[Area]):
+    def export(
+        *, filename: str, config: dict, environment: Environment, areas: list[Area]
+    ):
         """Export all object information from the given Environment and Area instances to a json file
 
         Parameters:
@@ -38,11 +40,11 @@ class JSONExporter:
             values["type"] = mujoco_object.obj_type
             values["attachable"] = mujoco_object.attachable
             values["position"] = mujoco_object.position.tolist()
-            values['color'] = mujoco_object.color.tolist()
-            values['size'] = mujoco_object.size.tolist()
-            values['tags'] = mujoco_object.tags
+            values["color"] = mujoco_object.color.tolist()
+            values["size"] = mujoco_object.size.tolist()
+            values["tags"] = mujoco_object.tags
 
-            all_objects["environment"]['objects'][mujoco_object.xml_id] = values
+            all_objects["environment"]["objects"][mujoco_object.xml_id] = values
 
         # Loop over all Areas and their objects
         for area in areas:
@@ -65,11 +67,13 @@ class JSONExporter:
                 values["type"] = mujoco_object.obj_type
                 values["attachable"] = mujoco_object.attachable
                 values["position"] = mujoco_object.position.tolist()
-                values['color'] = mujoco_object.color.tolist()
-                values['size'] = mujoco_object.size.tolist()
-                values['tags'] = mujoco_object.tags
+                values["color"] = mujoco_object.color.tolist()
+                values["size"] = mujoco_object.size.tolist()
+                values["tags"] = mujoco_object.tags
 
-                all_objects["areas"][area.name]["objects"][mujoco_object.xml_id] = values
+                all_objects["areas"][area.name]["objects"][
+                    mujoco_object.xml_id
+                ] = values
 
         # Export to json
         with open("export/" + filename + ".json", "w") as file:
