@@ -60,12 +60,13 @@ class Assembler:
         for area_index, (area_name, area_settings) in enumerate(
             self.config["Areas"].items()
         ):
-            area_validators.append(Validator(
-                [
-                    MinDistanceRule(1.5),
-                ]
-            ))
-
+            area_validators.append(
+                Validator(
+                    [
+                        MinDistanceRule(1.5),
+                    ]
+                )
+            )
 
         # Border Placement
         # TODO: if config.environment.borders:
