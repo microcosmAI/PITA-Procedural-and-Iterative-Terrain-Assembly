@@ -113,12 +113,12 @@ class Assembler:
             if "coordinates" not in [
                 list(setting.keys())[0] for setting in object_settings
             ]:
-                environment_random_placer = Placer2DDistribution(
-                    np.random.default_rng().multivariate_normal,
+                environment_random_distribution = Placer2DDistribution(
+                    np.random.multivariate_normal,
                     (0, 0),
                     np.array([[environment.size[0], 0], [0, environment.size[1]]]),
                 )
-                RandomPlacer(environment_random_placer).add(
+                RandomPlacer(environment_random_distribution).add(
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
                     validators=validators,
@@ -134,12 +134,12 @@ class Assembler:
                 if "coordinates" not in [
                     list(setting.keys())[0] for setting in object_settings
                 ]:
-                    area_random_placer = Placer2DDistribution(
-                        np.random.default_rng().multivariate_normal,
+                    area_random_distribution = Placer2DDistribution(
+                        np.random.multivariate_normal,
                         (0, 0),
                         np.array([[areas[area_index].size[0], 0], [0, areas[area_index].size[1]]]),
                     )
-                    RandomPlacer(area_random_placer).add(
+                    RandomPlacer(area_random_distribution).add(
                         site=environment,
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
                         validators=validators,
