@@ -17,7 +17,8 @@ class FixedPlacer(AbstractPlacer):
         site: AbstractContainer,
         mujoco_object_blueprint: MujocoObject,
         validators: list[Validator],
-        coordinates: tuple[float, float, float]
+        amount: int,
+        coordinates: list[list[float, float, float]]
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Optionally checks placement via the validator.
@@ -26,30 +27,30 @@ class FixedPlacer(AbstractPlacer):
             site (AbstractContainer): AbstractContainer class instance where the object is added to
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             validators (Validator): Validator class instance used to check object placement
-            coordinates (list): List of coordinates where the object is placed
+            coordinates (list): List of coordinate lists where each object is placed
         """
-        mujoco_object = self._copy(mujoco_object_blueprint)
+        for obj_idx in range(amount):
+            # Copy the blueprint to avoid changing the original
+            mujoco_object = self._copy(mujoco_object_blueprint)
 
-        # Set the position of the object to the user specified coordinates
-        mujoco_object.position = coordinates
+            # Set the position of the object to the user specified coordinates
+            mujoco_object.position = coordinates[obj_idx]
 
-        # TODO: Create a validator class that checks if the fixed object is placed in a valid way
-        # either just use mindistance or create a new validator class e.g. using mujoco contact model
-        # TODO: Test if the fixed placer works correctly
-        if not all([val.validate(mujoco_object) for val in validators]):
-            raise RuntimeError(
-                "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
-                    mujoco_object.name,
-                    mujoco_object.position,
-                    site.name,
+            if not all([val.validate(mujoco_object) for val in validators]):
+                raise RuntimeError(
+                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                        mujoco_object.name,
+                        mujoco_object.position,
+                        site.name,
+                    )
                 )
-            )
 
-        # Keep track of the placement in the validators
-        for validator in validators:
-            validator.add(mujoco_object)
+            # Keep track of the placement in the validators
+            for validator in validators:
+                validator.add(mujoco_object)
 
-        site.add(mujoco_object=mujoco_object)
+            # Add the object to the site
+            site.add(mujoco_object=mujoco_object)
 
     def remove(self, *, site: AbstractContainer, mujoco_object: MujocoObject):
         """Removes a mujoco object from a site by calling the sites remove method.

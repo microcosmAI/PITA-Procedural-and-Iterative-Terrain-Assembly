@@ -1,12 +1,16 @@
 import os
+import random
 import sys
 import argparse
 import warnings
+
+import numpy as np
 
 # Add parent folder of builder.py to python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from peters_algorithm.base.assembler import Assembler
+from peters_algorithm.utils.json_exporter import JSONExporter
 from peters_algorithm.utils.config_reader import ConfigReader
 
 
@@ -22,10 +26,30 @@ class PetersAlgorithm:
         config_path = args.config_path
         xml_dir = args.xml_dir
 
+        # read config file and assemble world and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
-        environment = Assembler(config_file=config, xml_dir=xml_dir).assemble_world()
+
+        # Set Random Seed
+        if (
+            "random_seed" in config["Environment"]
+            and config["Environment"]["random_seed"] is not None
+        ):
+            random_seed = config["Environment"]["random_seed"]
+            print(f"Setting random seed to {random_seed}")
+            np.random.seed(random_seed)
+            random.seed(random_seed)
+
+        environment, areas = Assembler(
+            config_file=config, xml_dir=xml_dir
+        ).assemble_world()
         self._to_xml(
             xml_string=environment.mjcf_model.to_xml_string(), file_name="test"
+        )
+        JSONExporter.export(
+            filename="environment_configuration",
+            config=config,
+            environment=environment,
+            areas=areas,
         )
 
     def _get_user_args(self):
