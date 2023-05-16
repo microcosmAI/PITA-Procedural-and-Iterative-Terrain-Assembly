@@ -1,7 +1,10 @@
 import os
+import random
 import sys
 import argparse
 import warnings
+
+import numpy as np
 
 # Add parent folder of builder.py to python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -25,6 +28,14 @@ class PetersAlgorithm:
 
         # read config file and assemble world and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
+
+        # Set Random Seed
+        if "random_seed" in config["Environment"] and config["Environment"]["random_seed"] is not None:
+            random_seed = config["Environment"]["random_seed"]
+            print(f"Setting random seed to {random_seed}")
+            np.random.seed(random_seed)
+            random.seed(random_seed)
+
         environment, areas = Assembler(
             config_file=config, xml_dir=xml_dir
         ).assemble_world()
