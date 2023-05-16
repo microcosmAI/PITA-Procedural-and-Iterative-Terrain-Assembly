@@ -125,7 +125,7 @@ class RandomPlacer(AbstractPlacer):
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
         colors_range: tuple[int, int] = None,
-        sizes_range: tuple[int, int] = None
+        sizes_range: tuple[int, int] = None,
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the vlaidator.
@@ -236,18 +236,25 @@ class RandomPlacer(AbstractPlacer):
             return None
 
         # get random int in range of colors
-        colors_randint = (colors_range[0] if (colors_range[0] == colors_range[1])
-                          else np.random.randint(int(colors_range[0]), int(colors_range[1])))
+        colors_randint = (
+            colors_range[0]
+            if (colors_range[0] == colors_range[1])
+            else np.random.randint(int(colors_range[0]), int(colors_range[1]))
+        )
 
         # get random rgba for every color existing
         colors_rgba = list()
         for _ in range(colors_randint):
-            random_rgba = [round(np.random.random(), 2),
-                           round(np.random.random(), 2),
-                           round(np.random.random(), 2),
-                           1]  # transparency set to 1
+            random_rgba = [
+                round(np.random.random(), 2),
+                round(np.random.random(), 2),
+                round(np.random.random(), 2),
+                1,
+            ]  # transparency set to 1
             colors_rgba.append(random_rgba)
-            colors_rgba.append(random_rgba)  # append twice to have pairs of colors for ball pit scenario
+            colors_rgba.append(
+                random_rgba
+            )  # append twice to have pairs of colors for ball pit scenario
 
         return colors_rgba
 
@@ -266,13 +273,18 @@ class RandomPlacer(AbstractPlacer):
             return None
 
         # get random int in range of colors
-        sizes_randint = (sizes_range[0] if (sizes_range[0] == sizes_range[1])
-                         else np.random.randint(int(sizes_range[0]), int(sizes_range[1])))
+        sizes_randint = (
+            sizes_range[0]
+            if (sizes_range[0] == sizes_range[1])
+            else np.random.randint(int(sizes_range[0]), int(sizes_range[1]))
+        )
 
         # get random size for every size that exist
         sizes = list()
         for _ in range(sizes_randint):
-            random_size = round(np.random.random() * 2, 2)  # sets a size between 0 and 2
+            random_size = round(
+                np.random.random() * 2, 2
+            )  # sets a size between 0 and 2
             sizes.append(random_size)
             sizes.append(random_size)
 

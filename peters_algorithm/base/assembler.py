@@ -124,11 +124,15 @@ class Assembler:
                     list(setting.keys())[0] for setting in object_settings
                 ]:
                     # checks for color and size range which the random placer with handle
-                    if "colors" not in [list(setting.keys())[0] for setting in object_settings]:
+                    if "colors" not in [
+                        list(setting.keys())[0] for setting in object_settings
+                    ]:
                         colors_range = None
                     else:
                         colors_range = object_settings[2]["colors"]
-                    if "sizes" not in [list(setting.keys())[0] for setting in object_settings]:
+                    if "sizes" not in [
+                        list(setting.keys())[0] for setting in object_settings
+                    ]:
                         sizes_range = None
                     else:
                         sizes_range = object_settings[3]["sizes"]
@@ -139,7 +143,7 @@ class Assembler:
                         validators=validators,
                         amount=object_settings[0]["amount"],
                         colors_range=colors_range,
-                        sizes_range=sizes_range
+                        sizes_range=sizes_range,
                     )
 
         # Use global validator to plot the map layout
