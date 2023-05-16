@@ -1,5 +1,6 @@
 Environment:
   size: [ 10, 10 ]
+  random_seed: 42
 
   Style:
     - pretty_mode: True
