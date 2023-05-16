@@ -125,6 +125,7 @@ class RandomPlacer(AbstractPlacer):
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
         colors_range: tuple[int, int] = None,
+        sizes_range: tuple[int, int] = None
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the vlaidator.
@@ -135,6 +136,7 @@ class RandomPlacer(AbstractPlacer):
             validators (list): List of validator class instances used to check object placement
             amount (tuple): Range of possible amount of objects to be placed
             colors_range (tuple): Range of possible different colors for object
+            sizes_range (tuple): Range of possible different sizes for object
         """
 
         # Sample the amount of objects to be placed if amount is a tuple and differ
@@ -150,6 +152,12 @@ class RandomPlacer(AbstractPlacer):
             if len(colors_rgba) > amount:
                 raise ValueError("Not enough objects for specified colors.")
 
+        # get object size
+        sizes = self._get_random_sizes(sizes_range=sizes_range)
+        if not sizes is None:
+            if len(sizes) > amount:
+                raise ValueError("Not enough objects for specified sizes.")
+
         for i in range(amount):
             # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
@@ -158,9 +166,17 @@ class RandomPlacer(AbstractPlacer):
                 # apply colors to objects
                 if i > (len(colors_rgba) - 1):
                     randint = random.randrange(len(colors_rgba))
-                    mujoco_object.colors = colors_rgba[randint]
+                    mujoco_object.color = colors_rgba[randint]
                 else:
-                    mujoco_object.colors = colors_rgba[i]
+                    mujoco_object.color = colors_rgba[i]
+
+            if not sizes is None:
+                # appy sizes to objects
+                if i > (len(sizes) - 1):
+                    randint = random.randrange(len(sizes))
+                    mujoco_object.size = sizes[randint]
+                else:
+                    mujoco_object.size = sizes[i]
 
             # Old position is used to keep the z position
             old_position = mujoco_object.position
@@ -207,28 +223,57 @@ class RandomPlacer(AbstractPlacer):
 
     @staticmethod
     def _get_random_colors(colors_range: tuple[int, int]):
+        """Gets a list of random rgba colors (with alpha=1) with a random amount in given range.
+           Every color is added twice to the list, since the ball pit scenario requires color pairs of balls.
+
+        Parameters:
+            colors_range (tuple[int, int]): range of different colors
+
+        Returns:
+            colors_rgba (list(tuple[float, float, float, float]): list of randomized rgba colors
+        """
         if colors_range is None:
             return None
 
-        # get random int in of range in colors
-        colors_randint = (
-            colors_range[0]
-            if (colors_range[0] == colors_range[1])
-            else np.random.randint(int(colors_range[0]), int(colors_range[1]))
-        )
+        # get random int in range of colors
+        colors_randint = (colors_range[0] if (colors_range[0] == colors_range[1])
+                          else np.random.randint(int(colors_range[0]), int(colors_range[1])))
 
         # get random rgba for every color existing
         colors_rgba = list()
         for _ in range(colors_randint):
-            random_rgba = [
-                np.random.random(),
-                np.random.random(),
-                np.random.random(),
-                np.random.random(),
-            ]
+            random_rgba = [round(np.random.random(), 2),
+                           round(np.random.random(), 2),
+                           round(np.random.random(), 2),
+                           1]  # transparency set to 1
             colors_rgba.append(random_rgba)
-            colors_rgba.append(
-                random_rgba
-            )  # append twice to have pairs of colors for ball pit scenario
+            colors_rgba.append(random_rgba)  # append twice to have pairs of colors for ball pit scenario
 
         return colors_rgba
+
+    @staticmethod
+    def _get_random_sizes(sizes_range: tuple[float, float]):
+        """Gets a list of random sizes with a random amount in given range.
+           Every size is added twice to the list, since the ball pit scenario requires size pairs of balls.
+
+        Parameters:
+            sizes_range (tuple[int, int]): range of different sizes
+
+        Returns:
+            sizes (list(float)): list of randomized sizes between 0 and 2
+        """
+        if sizes_range is None:
+            return None
+
+        # get random int in range of colors
+        sizes_randint = (sizes_range[0] if (sizes_range[0] == sizes_range[1])
+                         else np.random.randint(int(sizes_range[0]), int(sizes_range[1])))
+
+        # get random size for every size that exist
+        sizes = list()
+        for _ in range(sizes_randint):
+            random_size = round(np.random.random() * 2, 2)  # sets a size between 0 and 2
+            sizes.append(random_size)
+            sizes.append(random_size)
+
+        return sizes
