@@ -1,5 +1,4 @@
 import os.path
-import numpy as np
 from peters_algorithm.base.asset_parsing.parser import Parser
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
@@ -61,15 +60,11 @@ class MujocoLoader:
         for obj, params in obj_dict.items():
             obj_xml_path = os.path.join(self.xml_dir, obj + ".xml")
             mjcf = Parser.get_mjcf(xml_path=obj_xml_path)
-            obj_type, attachable, colors, sizes = self._read_params(params)
+            obj_type, attachable = self._read_params(params)
 
             mujoco_obj = MujocoObject(
-                name=obj,
-                mjcf_obj=mjcf,
-                obj_type=obj_type,
-                attachable=attachable,
-                colors=colors,
-                sizes=sizes,
+                name=obj, mjcf_obj=mjcf, obj_type=obj_type, attachable=attachable,
+                color=None, size=None
             )
             mujoco_dict[obj] = mujoco_obj
         return mujoco_dict
@@ -87,16 +82,10 @@ class MujocoLoader:
         """
         obj_type = None
         attachable = None
-        colors = None
-        sizes = None
         if not params == None:
             for dict_ in params:
                 if "type" in dict_.keys():
                     obj_type = dict_["type"]
                 if "attachable" in dict_.keys():
                     attachable = dict_["attachable"]
-                if "colors" in dict_.keys():
-                    colors = dict_["colors"]
-                if "sizes" in dict_.keys():
-                    sizes = dict_["sizes"]
-        return obj_type, attachable, colors, sizes
+        return obj_type, attachable
