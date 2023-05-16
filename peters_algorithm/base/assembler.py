@@ -14,29 +14,37 @@ from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceR
 
 
 class Assembler:
-    """Assembles assets to corresponding world container
-
-    Attributes
-    ----------
-        config (dict): config file containing user defined parameters
-        xml_dir (str): string to xml-directory (containing assets)
-    """
+    """Assembles assets to corresponding world container"""
 
     def __init__(self, config_file: dict, xml_dir: str):
+        """Constructor for Assembler class
+
+        Parameters:
+            config (dict): config file containing user defined parameters
+            xml_dir (str): string to xml-directory (containing assets)
+        """
         self.config = config_file
         self.xml_dir = xml_dir
 
-    def assemble_world(self) -> mjcf:
-        """Calls the environment and areas and assembles them to create the world as and MJCF object"""
+    def assemble_world(self) -> tuple[Environment, list[Area]]:
+        """Calls the environment and areas and assembles them to create the world as and MJCF object
+
+        Returns:
+            environment (Environment): Environment class instance
+            areas (list): List of Area class instances
+        """
         # call mujoco loader to get dictionary of mujoco objects
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
 
         # parse size from the config
         size = self.config["Environment"]["size"]
+        pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
         # create environment
-        environment = Environment(name="Environment1", size=(size[0], size[1], 0.1))
+        environment = Environment(
+            name="Environment1", size=(size[0], size[1], 0.1), pretty_mode=pretty_mode
+        )
 
         # create areas
         # as long as we only have one area we set its size to the one of the env
@@ -133,4 +141,4 @@ class Assembler:
         for area in areas:
             environment.mjcf_model.attach(area.mjcf_model)
 
-        return environment
+        return environment, areas

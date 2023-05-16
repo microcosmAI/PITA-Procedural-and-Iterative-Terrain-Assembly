@@ -23,13 +23,18 @@ class Area(AbstractContainer):
         self._mujoco_objects = {}
 
     def add(self, *, mujoco_object: MujocoObject):
-        """Add object to area-mjcf and to mujoco-object dictionary of area
+        """Add object to area-mjcf and mujoco-object dictionary of area. Also sets name of object to the one given by mujoco
 
         Parameters:
             mujoco_object (MujocoObject): Mujoco object to add to area-mjcf and area-dictionary
         """
-        self._mjcf_model.attach(mujoco_object.mjcf_obj)
-        self._mujoco_objects[mujoco_object.name] = mujoco_object
+        # The attach() method returns the attachement frame (i.e. a body with the attached mujoco object)
+        attachement_frame = self._mjcf_model.attach(mujoco_object.mjcf_obj)
+        # By calling all_children() on the attachement frame, we can access their uniqe identifier
+        mujoco_object.xml_id = (
+            self._name + "/" + attachement_frame.all_children()[0].full_identifier
+        )
+        self._mujoco_objects[mujoco_object.xml_id] = mujoco_object
 
     def remove(self, *, mujoco_object: MujocoObject):
         """Removes object from area-mjcf and from mujoco-object dictionary of area
@@ -38,7 +43,7 @@ class Area(AbstractContainer):
             mujoco_object (MujocoObject): Mujoco object to remove from area-mjcf and area-dictionary
         """
         mujoco_object.mjcf_obj.detach()
-        del self._mujoco_objects[mujoco_object.name]
+        del self._mujoco_objects[mujoco_object.xml_id]
 
     @property
     def name(self):
