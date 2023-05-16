@@ -45,7 +45,6 @@ class Assembler:
         """for area_name, area_settings in self.config["Areas"].items():
             areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
 
-
         # Create Area Validator with Boundary and Minimum Distance Rules
         areaValidator = Validator(
             [
@@ -55,7 +54,6 @@ class Assembler:
         )
 
         validators = [areaValidator]
-
 
         # Border Placement
         # TODO: if config.environment.borders:
