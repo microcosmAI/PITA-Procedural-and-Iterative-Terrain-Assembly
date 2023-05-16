@@ -45,11 +45,10 @@ class Assembler:
         """for area_name, area_settings in self.config["Areas"].items():
             areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
 
-
         # Create Boundary Validator
         boundaryValidator = Validator(
             [
-                BoundaryRule(boundary = (size[0], size[1])),
+                BoundaryRule(boundary=(size[0], size[1])),
             ]
         )
 
