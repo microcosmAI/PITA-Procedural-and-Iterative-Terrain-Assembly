@@ -5,7 +5,10 @@ from peters_algorithm.base.world_container.area import Area
 from peters_algorithm.base.world_container.environment import Environment
 from peters_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 from peters_algorithm.base.asset_placement.fixed_placer import FixedPlacer
-from peters_algorithm.base.asset_placement.random_placer import RandomPlacer, Placer2DDistribution
+from peters_algorithm.base.asset_placement.random_placer import (
+    RandomPlacer,
+    Placer2DDistribution,
+)
 from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
 
 
@@ -137,7 +140,12 @@ class Assembler:
                     area_random_distribution = Placer2DDistribution(
                         np.random.multivariate_normal,
                         (0, 0),
-                        np.array([[areas[area_index].size[0], 0], [0, areas[area_index].size[1]]]),
+                        np.array(
+                            [
+                                [areas[area_index].size[0], 0],
+                                [0, areas[area_index].size[1]],
+                            ]
+                        ),
                     )
                     RandomPlacer(area_random_distribution).add(
                         site=environment,
