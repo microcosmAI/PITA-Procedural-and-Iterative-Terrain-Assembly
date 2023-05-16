@@ -130,4 +130,9 @@ dmypy.json
 .pyre/
 
 # Export of Peter Algorithm
-export/*
+/export/*
+/export/
+
+# General useless files
+.DS_Store
+
