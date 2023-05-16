@@ -30,8 +30,8 @@ class Environment(AbstractContainer):
                 "texture",
                 type="skybox",
                 builtin="gradient",
-                rgb1=".3 .5 .7",
-                rgb2="0 0 0",
+                rgb1="0. .82 1.",
+                rgb2=".035 .337 .475",
                 width="512",
                 height="512",
             )
