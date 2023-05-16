@@ -7,25 +7,30 @@ class MujocoObject:
     def __init__(
         self,
         name: str,
+        xml_id: str,
         mjcf_obj: mjcf.RootElement,
         obj_type: str,
         attachable: bool,
         coordinates: tuple[float, float, float] = None,
+        tags: list[str] = None,
     ):
         """Initializes the MujocoObject class
 
         Parameters:
             name (str): Specific name of object
+            xml_id (str): Id of object in xml
             container (bool): Set to true if the object is a container; it can store another item (e.g. tree with container for an apple)
             type (str): Type of object (e.g. "tree" or "stone")
             mjcf_object (mjcf): Objects xml parsed into mjcf-style model of mujoco
             coordinates (tuple): Coordinates of the object
         """
         self._name: str = name
+        self._xml_id: str = xml_id
         self._mjcf_obj: mjcf.RootElement = mjcf_obj
         self._obj_type: str = obj_type
         self._attachable: bool = attachable
         self._coordinates: tuple = coordinates
+        self._tags: list = tags
 
     @property
     def name(self) -> str:
@@ -40,6 +45,20 @@ class MujocoObject:
     def name(self, name: str):
         """Set name"""
         self._name = name
+
+    @property
+    def xml_id(self) -> str:
+        """Get xml id
+
+        Returns:
+            xml_id (str): Id of object in xml
+        """
+        return self._xml_id
+
+    @xml_id.setter
+    def xml_id(self, xml_id: str):
+        """Set xml id"""
+        self._xml_id = xml_id
 
     @property
     def mjcf_obj(self) -> mjcf.RootElement:
@@ -96,3 +115,17 @@ class MujocoObject:
     def position(self, position: tuple[float, float, float]):
         """Set position"""
         self._mjcf_obj.find("body", self._name.lower()).pos = position
+
+    @property
+    def tags(self) -> list[str]:
+        """Get tags
+
+        Returns:
+            tags (list): Tag list of the object
+        """
+        return self._tags
+
+    @tags.setter
+    def tags(self, tags: list[str]):
+        """Set tags"""
+        self._tags = tags

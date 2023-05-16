@@ -110,13 +110,16 @@ class Environment(AbstractContainer):
         return self._mujoco_objects
 
     def add(self, *, mujoco_object: MujocoObject):
-        """Adds a mujoco object
+        """Add object to environment-mjcf and mujoco-object dictionary of environment. Also sets name of object to the one given by mujoco
 
         Parameters:
             mujoco_object (MujocoObject): Tuple defining the size of the entire environment
         """
-        self._mjcf_model.attach(mujoco_object.mjcf_obj)
-        self._mujoco_objects[mujoco_object.name] = mujoco_object
+        # The attach() method returns the attachement frame (i.e. a body with the attached mujoco object)
+        attachement_frame = self._mjcf_model.attach(mujoco_object.mjcf_obj)
+        # By calling all_children() on the attachement frame, we can access their uniqe identifier
+        mujoco_object.xml_id = attachement_frame.all_children()[0].full_identifier
+        self._mujoco_objects[mujoco_object.xml_id] = mujoco_object
 
     def remove(self, *, mujoco_object: MujocoObject):
         """Removes a given mujoco object
@@ -125,4 +128,4 @@ class Environment(AbstractContainer):
             mujoco_object (MujocoObject): Tuple defining the size of the entire environment
         """
         mujoco_object.mjcf_obj.detach()
-        del self._mujoco_objects[mujoco_object.name]
+        del self._mujoco_objects[mujoco_object.xml_id]
