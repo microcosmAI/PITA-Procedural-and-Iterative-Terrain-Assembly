@@ -6,7 +6,10 @@ from peters_algorithm.base.asset_placement.validator import Validator
 from peters_algorithm.base.world_container.environment import Environment
 from peters_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 from peters_algorithm.base.asset_placement.fixed_placer import FixedPlacer
-from peters_algorithm.base.asset_placement.random_placer import RandomPlacer, Placer2DDistribution
+from peters_algorithm.base.asset_placement.random_placer import (
+    RandomPlacer,
+    Placer2DDistribution,
+)
 from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
 from peters_algorithm.base.asset_placement.boundary_rule import BoundaryRule
 from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
@@ -116,7 +119,10 @@ class Assembler:
                             mujoco_object_blueprint=mujoco_objects_blueprints[
                                 object_name
                             ],
-                            validators=[area_validators[area_index],] + global_validators,
+                            validators=[
+                                area_validators[area_index],
+                            ]
+                            + global_validators,
                             amount=object_settings[0]["amount"],
                             coordinates=objects["coordinates"],
                         )
