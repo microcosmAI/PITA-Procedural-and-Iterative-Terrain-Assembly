@@ -12,6 +12,7 @@ class MujocoObject:
         obj_type: str,
         attachable: bool,
         coordinates: tuple[float, float, float] = None,
+        tags: list[str] = None,
     ):
         """Initializes the MujocoObject class
 
@@ -29,6 +30,7 @@ class MujocoObject:
         self._obj_type: str = obj_type
         self._attachable: bool = attachable
         self._coordinates: tuple = coordinates
+        self._tags: list = tags
 
     @property
     def name(self) -> str:
@@ -113,3 +115,17 @@ class MujocoObject:
     def position(self, position: tuple[float, float, float]):
         """Set position"""
         self._mjcf_obj.find("body", self._name.lower()).pos = position
+
+    @property
+    def tags(self) -> list[str]:
+        """Get tags
+
+        Returns:
+            tags (list): Tag list of the object
+        """
+        return self._tags
+
+    @tags.setter
+    def tags(self, tags: list[str]):
+        """Set tags"""
+        self._tags = tags

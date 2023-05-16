@@ -33,6 +33,7 @@ class PetersAlgorithm:
         )
         JSONExporter.export(
             filename="environment_configuration",
+            config=config,
             environment=environment,
             areas=areas,
         )
