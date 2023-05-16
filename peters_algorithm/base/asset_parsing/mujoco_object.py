@@ -131,7 +131,6 @@ class MujocoObject:
         """
         return self._mjcf_obj.find("body", self._name.lower()).geom[0].rgba
 
-
     @color.setter
     def color(self, color: tuple[float, float, float, float]):
         """Set color as rgba"""
@@ -145,7 +144,6 @@ class MujocoObject:
             size (float): size of object
         """
         return self._mjcf_obj.find("body", self._name.lower()).geom[0].size
-
 
     @size.setter
     def size(self, size: float):

@@ -132,7 +132,7 @@ class Assembler:
                     validators=validators,
                     amount=object_settings[0]["amount"],
                     colors_range=colors_range,
-                    sizes_range=sizes_range
+                    sizes_range=sizes_range,
                 )
 
         # Random Mujoco Object Placement - Area level

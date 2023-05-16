@@ -70,7 +70,7 @@ class MujocoLoader:
                 attachable=attachable,
                 color=None,
                 size=None,
-                tags=tags
+                tags=tags,
             )
             mujoco_dict[obj] = mujoco_obj
         return mujoco_dict
