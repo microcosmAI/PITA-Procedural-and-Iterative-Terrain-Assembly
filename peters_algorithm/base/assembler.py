@@ -60,7 +60,7 @@ class Assembler:
         # Create Validators
         environment_validator = Validator(
             [
-                MinDistanceRule(1.0),
+                MinDistanceRule(2.0),
                 BoundaryRule(boundary=(size[0], size[1])),
             ]
         )
@@ -76,7 +76,7 @@ class Assembler:
             area_validators.append(
                 Validator(
                     [
-                        MinDistanceRule(1.5),
+                        MinDistanceRule(2.0),
                         BoundaryRule(boundary=(size[0], size[1])),
                     ]
                 )
