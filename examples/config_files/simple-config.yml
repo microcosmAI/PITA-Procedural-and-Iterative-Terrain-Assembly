@@ -4,10 +4,19 @@
 
 Environment:
   size: [ 10, 10 ]
+
+  Style:
+    - pretty_mode: True
+
   Borders:
     - place: True
 
   Objects:
+    Light:
+      - amount: 2
+      - type: light
+      - coordinates: [ [ 8., 8., 40. ], [ -8., 8., 40. ] ]
+
     Tree:
       - amount: [ 1, 1 ]
       - type: container
