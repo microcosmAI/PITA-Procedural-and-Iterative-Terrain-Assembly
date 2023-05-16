@@ -68,6 +68,8 @@ class MujocoLoader:
                 mjcf_obj=mjcf,
                 obj_type=obj_type,
                 attachable=attachable,
+                color=None,
+                size=None,
                 tags=tags,
             )
             mujoco_dict[obj] = mujoco_obj
