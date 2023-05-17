@@ -119,7 +119,6 @@ class Assembler:
             self.config["Areas"].items()
         ):
             for object_name, object_settings in area_settings["Objects"].items():
-
                 object_config_dict = {}
                 for dict_ in object_settings:
                     object_config_dict.update(dict_)
@@ -224,7 +223,7 @@ class Assembler:
                         + global_validators,
                         amount=object_config_dict["amount"],
                         colors_range=colors_range,
-                        sizes_range=sizes_range
+                        sizes_range=sizes_range,
                     )
 
         # Use global validator to plot the map layout
