@@ -1,3 +1,4 @@
+import copy
 import numpy as np
 from dm_control import mjcf
 
@@ -13,6 +14,8 @@ from peters_algorithm.base.asset_placement.random_placer import (
 from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
 from peters_algorithm.base.asset_placement.boundary_rule import BoundaryRule
 from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
+from peters_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import MinDistanceMujocoPhysicsRule
+
 
 # from peters_algorithm.base.asset_placement.global_placer import GlobalPlacer
 
@@ -41,6 +44,13 @@ class Assembler:
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
 
+        # duplicate blueprints for rule checking that can be manipulated without changing the original
+        mujoco_objects_rule_blueprints = {}
+        for name, mujoco_object in mujoco_objects_blueprints.items():
+            mujoco_object_copy = copy.deepcopy(mujoco_object)
+            mujoco_object_copy.mjcf_obj.worldbody.body[0].add("joint")
+            mujoco_objects_rule_blueprints[name] = mujoco_object_copy
+        
         # parse size from the config
         size = self.config["Environment"]["size"]
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
@@ -60,7 +70,7 @@ class Assembler:
         # Create Validators
         environment_validator = Validator(
             [
-                MinDistanceRule(2.0),
+                MinDistanceMujocoPhysicsRule(2.0),
                 BoundaryRule(boundary=(size[0], size[1])),
             ]
         )
@@ -76,7 +86,7 @@ class Assembler:
             area_validators.append(
                 Validator(
                     [
-                        MinDistanceRule(2.0),
+                        MinDistanceMujocoPhysicsRule(2.0),
                         BoundaryRule(boundary=(size[0], size[1])),
                     ]
                 )
@@ -102,6 +112,7 @@ class Assembler:
                     FixedPlacer().add(
                         site=environment,
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
+                        mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[object_name],
                         validators=global_validators,
                         amount=object_settings[0]["amount"],
                         coordinates=objects["coordinates"],
@@ -119,6 +130,7 @@ class Assembler:
                             mujoco_object_blueprint=mujoco_objects_blueprints[
                                 object_name
                             ],
+                            mujoco_objects_rule_blueprints=mujoco_objects_rule_blueprints[object_name],
                             validators=[
                                 area_validators[area_index],
                             ]
@@ -156,6 +168,7 @@ class Assembler:
                 RandomPlacer(environment_random_distribution).add(
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
+                    mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[object_name],
                     validators=global_validators,
                     amount=object_settings[0]["amount"],
                     colors_range=colors_range,
@@ -184,6 +197,7 @@ class Assembler:
                     RandomPlacer(area_random_distribution).add(
                         site=environment,
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
+                        mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[object_name],
                         validators=[
                             area_validators[area_index],
                         ]
@@ -193,6 +207,16 @@ class Assembler:
 
         # Use global validator to plot the map layout
         global_validators[0].plot(env_size=environment.size)
+
+        # Add plane
+        if pretty_mode:
+            environment.mjcf_model.worldbody.add(
+                    "geom", name="base_plane", type="plane", size="10 10 0.10000000000000001", material="grid"
+                )
+        else:
+            environment.mjcf_model.worldbody.add(
+                "geom", name="base_plane", type="plane", size="10 10 0.10000000000000001"
+            )
 
         for area in areas:
             environment.mjcf_model.attach(area.mjcf_model)

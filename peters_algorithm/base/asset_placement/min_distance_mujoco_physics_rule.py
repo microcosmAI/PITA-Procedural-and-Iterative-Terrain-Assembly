@@ -8,7 +8,7 @@ from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from peters_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
-class MinDistanceRule(Rule):
+class MinDistanceMujocoPhysicsRule(Rule):
     """Check if a new object respects the minimum distance to other objects, optionally of a specified type"""
 
     def __init__(self, dist: float, types: list([str, ...]) = []):
@@ -38,16 +38,14 @@ class MinDistanceRule(Rule):
         Returns:
             (boolean): True if mujoco_object is far enough away from each object.
         """
-        mujoco_object_copy = copy.deepcopy(mujoco_object.mjcf_obj)
-        mujoco_object_copy.worldbody.body[0].add("joint")
-        mujoco_object_copy.worldbody.body[0].geom[0].margin = self.dist
+        mujoco_object.mjcf_obj.worldbody.body[0].geom[0].margin = self.dist
 
-        site.mjcf_model.attach(mujoco_object_copy)
+        site.mjcf_model.attach(mujoco_object.mjcf_obj)
 
         physics = mjcf.Physics.from_mjcf_model(site.mjcf_model)
         num_contacts = physics.data.ncon
 
-        mujoco_object_copy.detach()
+        mujoco_object.mjcf_obj.detach()
 
         if num_contacts == 0:
             return True
