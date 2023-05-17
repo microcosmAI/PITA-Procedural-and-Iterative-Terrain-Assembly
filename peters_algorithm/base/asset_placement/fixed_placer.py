@@ -36,7 +36,7 @@ class FixedPlacer(AbstractPlacer):
             # Set the position of the object to the user specified coordinates
             mujoco_object.position = coordinates[obj_idx]
 
-            if not all([val.validate(mujoco_object) for val in validators]):
+            if not all([val.validate(mujoco_object, site) for val in validators]):
                 raise RuntimeError(
                     "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
                         mujoco_object.name,

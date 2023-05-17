@@ -1,5 +1,7 @@
 from shapely.geometry import Polygon, Point
 from peters_algorithm.base.asset_placement.abstract_rule import Rule
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from peters_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
 class BoundaryRule(Rule):
@@ -21,13 +23,15 @@ class BoundaryRule(Rule):
             ]
         )
 
-    def __call__(self, map2d: dict, shape: Polygon) -> bool:
+    def __call__(self, map2d: dict, shape: Polygon, mujoco_object: MujocoObject, site: AbstractContainer) -> bool:
         """
         Check if a given shape is within the boundary.
 
         Parameters:
             map2d (dict): A dictionary representing a 2D map of the environment.
             shape (Polygon): A Shapely Polygon object representing the shape to be checked.
+            mujoco_object (MujocoObject): The new object, that will be evaluated
+            site (AbstractContainer): AbstractContainer class instance where the object is added to
 
         Returns:
             bool: True if the shape is within the boundary, False otherwise.

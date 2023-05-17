@@ -33,8 +33,6 @@ class MinDistanceRule(Rule):
             matches = [re.search(pattern, obj_class) for pattern in self.types]
             if any(matches) or not matches:
                 # Iterate over all placed objects within the map_2D[obj_class] list
-                # TODO: Either calculate distance by replicating the mujoco objects using shapely polygons or
-                # try finding a way to compute distances using the mujoco objects directly
                 for obj in map_2D[obj_class]:
                     if shape_object.distance(obj) < self.dist:
                         return False
