@@ -113,6 +113,16 @@ class Environment(AbstractContainer):
         attachement_frame = self._mjcf_model.attach(mujoco_object.mjcf_obj)
         # By calling all_children() on the attachement frame, we can access their uniqe identifier
         mujoco_object.xml_id = attachement_frame.all_children()[0].full_identifier
+
+        # Check for free joints ( if there are any, always at position 0 in the .joint call)
+        # If present, remove it and add it again one level above
+        try:
+            joint = attachement_frame.all_children()[0].joint[0]
+            attachement_frame.add("joint", **joint.get_attributes())
+            joint.remove()
+        except IndexError:
+            pass
+
         self._mujoco_objects[mujoco_object.xml_id] = mujoco_object
 
     def remove(self, *, mujoco_object: MujocoObject):

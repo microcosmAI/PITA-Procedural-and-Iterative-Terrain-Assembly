@@ -96,7 +96,10 @@ class Assembler:
 
         # Border Placement
         # TODO: if config.environment.borders:
-        has_border = self.config["Environment"]["Borders"][0]["place"]
+        border_config_dict = {}
+        for dict_ in self.config["Environment"]["Borders"]:
+            border_config_dict.update(dict_)
+        has_border = border_config_dict["place"]
         BorderPlacer().add(
             environment=environment,
             mujoco_object_blueprint=mujoco_objects_blueprints["Border"],
@@ -109,6 +112,10 @@ class Assembler:
         for object_name, object_settings in self.config["Environment"][
             "Objects"
         ].items():
+            object_config_dict = {}
+            for dict_ in object_settings:
+                object_config_dict.update(dict_)
+
             for objects in object_settings:
                 if "coordinates" in objects:
                     FixedPlacer().add(
@@ -118,7 +125,7 @@ class Assembler:
                             object_name
                         ],
                         validators=global_validators,
-                        amount=object_settings[0]["amount"],
+                        amount=object_config_dict["amount"],
                         coordinates=objects["coordinates"],
                     )
 
@@ -127,6 +134,10 @@ class Assembler:
             self.config["Areas"].items()
         ):
             for object_name, object_settings in area_settings["Objects"].items():
+                object_config_dict = {}
+                for dict_ in object_settings:
+                    object_config_dict.update(dict_)
+
                 for objects in object_settings:
                     if "coordinates" in objects:
                         FixedPlacer().add(
@@ -141,7 +152,7 @@ class Assembler:
                                 area_validators[area_index],
                             ]
                             + global_validators,
-                            amount=object_settings[0]["amount"],
+                            amount=object_config_dict["amount"],
                             coordinates=objects["coordinates"],
                         )
 
@@ -152,19 +163,23 @@ class Assembler:
             if "coordinates" not in [
                 list(setting.keys())[0] for setting in object_settings
             ]:
+                object_config_dict = {}
+                for dict_ in object_settings:
+                    object_config_dict.update(dict_)
+
                 # checks for color and size range which the random placer with handle
                 if "colors" not in [
                     list(setting.keys())[0] for setting in object_settings
                 ]:
                     colors_range = None
                 else:
-                    colors_range = object_settings[2]["colors"]
+                    colors_range = object_config_dict["colors"]
                 if "sizes" not in [
                     list(setting.keys())[0] for setting in object_settings
                 ]:
                     sizes_range = None
                 else:
-                    sizes_range = object_settings[3]["sizes"]
+                    sizes_range = object_config_dict["sizes"]
 
                 environment_random_distribution = Placer2DDistribution(
                     np.random.multivariate_normal,
@@ -178,7 +193,7 @@ class Assembler:
                         object_name
                     ],
                     validators=global_validators,
-                    amount=object_settings[0]["amount"],
+                    amount=object_config_dict["amount"],
                     colors_range=colors_range,
                     sizes_range=sizes_range,
                 )
@@ -192,6 +207,24 @@ class Assembler:
                 if "coordinates" not in [
                     list(setting.keys())[0] for setting in object_settings
                 ]:
+                    object_config_dict = {}
+                    for dict_ in object_settings:
+                        object_config_dict.update(dict_)
+
+                    # checks for color and size range which the random placer with handle
+                    if "colors" not in [
+                        list(setting.keys())[0] for setting in object_settings
+                    ]:
+                        colors_range = None
+                    else:
+                        colors_range = object_config_dict["colors"]
+                    if "sizes" not in [
+                        list(setting.keys())[0] for setting in object_settings
+                    ]:
+                        sizes_range = None
+                    else:
+                        sizes_range = object_config_dict["sizes"]
+
                     area_random_distribution = Placer2DDistribution(
                         np.random.multivariate_normal,
                         (0, 0),
@@ -203,7 +236,7 @@ class Assembler:
                         ),
                     )
                     RandomPlacer(area_random_distribution).add(
-                        site=environment,
+                        site=areas[area_index],
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
                         mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[
                             object_name
@@ -212,7 +245,9 @@ class Assembler:
                             area_validators[area_index],
                         ]
                         + global_validators,
-                        amount=object_settings[0]["amount"],
+                        amount=object_config_dict["amount"],
+                        colors_range=colors_range,
+                        sizes_range=sizes_range,
                     )
 
         # Use global validator to plot the map layout
