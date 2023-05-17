@@ -276,7 +276,7 @@ class RandomPlacer(AbstractPlacer):
         sizes = list()
         for _ in range(sizes_randint):
             random_size = round(
-                np.random.random() * 2, 2
+                random.uniform(0.25, 1) * 2, 2
             )  # sets a size between 0 and 2
             sizes.append(random_size)
             sizes.append(random_size)
