@@ -182,7 +182,7 @@ class Assembler:
                         ),
                     )
                     RandomPlacer(area_random_distribution).add(
-                        site=environment,
+                        site=areas[area_index],
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
                         validators=[
                             area_validators[area_index],
