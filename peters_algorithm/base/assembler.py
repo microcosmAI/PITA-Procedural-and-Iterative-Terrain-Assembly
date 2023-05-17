@@ -29,6 +29,7 @@ class Assembler:
         """
         self.config = config_file
         self.xml_dir = xml_dir
+        print(self.config)
 
     def assemble_world(self) -> tuple[Environment, list[Area]]:
         """Calls the environment and areas and assembles them to create the world as and MJCF object
@@ -57,10 +58,19 @@ class Assembler:
         """for area_name, area_settings in self.config["Areas"].items():
             areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
 
+        
+        # loop to get rules, will be extended to a function 
+        # later to implement multiple rules
+        for rule in self.config['Environment']['rules']:
+            for rule_name, rule_values in rule.items():
+                for rule_value in rule_values:
+                    if 'distance' in rule_value:
+                        min_distance_user = rule_value['distance']
+            
         # Create Validators
         environment_validator = Validator(
             [
-                MinDistanceRule(2.0),
+                MinDistanceRule(min_distance_user),
                 BoundaryRule(boundary=(size[0], size[1])),
             ]
         )
