@@ -23,7 +23,13 @@ class BoundaryRule(Rule):
             ]
         )
 
-    def __call__(self, map2d: dict, shape: Polygon, mujoco_object: MujocoObject, site: AbstractContainer) -> bool:
+    def __call__(
+        self,
+        map2d: dict,
+        shape: Polygon,
+        mujoco_object: MujocoObject,
+        site: AbstractContainer,
+    ) -> bool:
         """
         Check if a given shape is within the boundary.
 

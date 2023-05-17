@@ -20,7 +20,13 @@ class MinDistanceRule(Rule):
         """
         self.dist = dist
 
-    def __call__(self, map_2D: dict, shape_object: BaseGeometry, mujoco_object: MujocoObject, site: AbstractContainer):
+    def __call__(
+        self,
+        map_2D: dict,
+        shape_object: BaseGeometry,
+        mujoco_object: MujocoObject,
+        site: AbstractContainer,
+    ):
         """Check if a new object can be placed at the specified position. The mujoco physics engine is used to check if the new object is far enough away from all other objects.
 
         Parameters:
