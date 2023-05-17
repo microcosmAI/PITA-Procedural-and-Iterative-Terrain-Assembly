@@ -154,7 +154,6 @@ class RandomPlacer(AbstractPlacer):
                 raise ValueError("Not enough objects for specified sizes.")
 
         for i in range(amount):
-
             if not colors_rgba is None:
                 # apply colors to objects
                 if i > (len(colors_rgba) - 1):
@@ -183,7 +182,10 @@ class RandomPlacer(AbstractPlacer):
             count = 0
             # Ask every validator for approval until all approve or MAX_TRIES is reached, then throw error
             while not all(
-                [validator.validate(mujoco_object_blueprint, site) for validator in validators]
+                [
+                    validator.validate(mujoco_object_blueprint, site)
+                    for validator in validators
+                ]
             ):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
@@ -195,8 +197,10 @@ class RandomPlacer(AbstractPlacer):
                         )
                     )
                 # If placement is not possible, sample a new position
-                mujoco_object_blueprint.position = [*self.distribution(), old_position[2]]
-
+                mujoco_object_blueprint.position = [
+                    *self.distribution(),
+                    old_position[2],
+                ]
 
             # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
@@ -208,7 +212,7 @@ class RandomPlacer(AbstractPlacer):
 
                 mujoco_object.color = mujoco_objects_rule_blueprint.color
                 mujoco_object.size = mujoco_objects_rule_blueprint.size
-  
+
                 mujoco_objects_rule_blueprint.color = old_color
                 mujoco_objects_rule_blueprint.size = old_size
 

@@ -32,11 +32,15 @@ class FixedPlacer(AbstractPlacer):
             coordinates (list): List of coordinate lists where each object is placed
         """
         for obj_idx in range(amount):
-            
             # Set the position of the object to the user specified coordinates
             mujoco_objects_rule_blueprint.position = coordinates[obj_idx]
 
-            if not all([val.validate(mujoco_objects_rule_blueprint, site) for val in validators]):
+            if not all(
+                [
+                    val.validate(mujoco_objects_rule_blueprint, site)
+                    for val in validators
+                ]
+            ):
                 raise RuntimeError(
                     "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
                         mujoco_objects_rule_blueprint.name,
