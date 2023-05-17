@@ -211,10 +211,10 @@ class RandomPlacer(AbstractPlacer):
                 old_size = mujoco_object.size
 
                 mujoco_object.color = mujoco_objects_rule_blueprint.color
-                mujoco_object.size = mujoco_objects_rule_blueprint.size
+                mujoco_object.size = mujoco_objects_rule_blueprint.size[0]
 
                 mujoco_objects_rule_blueprint.color = old_color
-                mujoco_objects_rule_blueprint.size = old_size
+                mujoco_objects_rule_blueprint.size = old_size[0]
 
             mujoco_object_blueprint.position = mujoco_objects_rule_blueprint.position
 
