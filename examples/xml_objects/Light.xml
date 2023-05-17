@@ -1,6 +1,7 @@
 <mujoco model="light">
     <worldbody>
         <body name="light" pos="0 0 0">
+            <geom rgba="0 0 0 0" size="0.01"/>
             <light/>
         </body>
     </worldbody>

@@ -1,5 +1,5 @@
 Environment:
-  size: [ 10, 10 ]
+  size: [ 20, 20 ]
   random_seed: 42
 
   Style:
@@ -10,11 +10,15 @@ Environment:
     - tags: [ "Border" ]
 
   Objects:
-#    Light:
-#      - amount: 2
-#      - type: light
-#      - coordinates: [ [ 8., 8., 40. ], [ -8., 8., 40. ] ]
-#      - tags: [ "Light" ]
+    Light:
+      - amount: 2
+      - type: light
+      - coordinates: [ [ 8., 8., 40. ], [ -8., 8., 40. ] ]
+      - tags: [ "Light" ]
+
+    Agent:
+      - amount: 2
+      - coordinates: [ [ 10., 10., 3. ], [ -10., -10., 3. ] ]
 
     Tree:
       - amount: [ 1, 1 ]
