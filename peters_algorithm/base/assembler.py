@@ -174,7 +174,7 @@ class Assembler:
                     validators=global_validators,
                     amount=object_config_dict["amount"],
                     colors_range=colors_range,
-                    sizes_range=sizes_range
+                    sizes_range=sizes_range,
                 )
 
         # Random Mujoco Object Placement - Area level
@@ -215,7 +215,7 @@ class Assembler:
                         ),
                     )
                     RandomPlacer(area_random_distribution).add(
-                        site=environment,
+                        site=areas[area_index],
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
                         validators=[
                             area_validators[area_index],
