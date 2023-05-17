@@ -150,6 +150,20 @@ class Assembler:
                 for dict_ in object_settings:
                     object_config_dict.update(dict_)
 
+                # checks for color and size range which the random placer with handle
+                if "colors" not in [
+                    list(setting.keys())[0] for setting in object_settings
+                ]:
+                    colors_range = None
+                else:
+                    colors_range = object_config_dict["colors"]
+                if "sizes" not in [
+                    list(setting.keys())[0] for setting in object_settings
+                ]:
+                    sizes_range = None
+                else:
+                    sizes_range = object_config_dict["sizes"]
+
                 environment_random_distribution = Placer2DDistribution(
                     np.random.multivariate_normal,
                     (0, 0),
@@ -159,7 +173,9 @@ class Assembler:
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
                     validators=global_validators,
-                    amount=object_config_dict["amount"]
+                    amount=object_config_dict["amount"],
+                    colors_range=colors_range,
+                    sizes_range=sizes_range
                 )
 
         # Random Mujoco Object Placement - Area level
