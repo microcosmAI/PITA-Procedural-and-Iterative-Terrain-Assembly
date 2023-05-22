@@ -210,7 +210,7 @@ class RandomPlacer(AbstractPlacer):
                 old_color = mujoco_object.color
                 mujoco_object.color = mujoco_objects_rule_blueprint.color
                 mujoco_objects_rule_blueprint.color = old_color
-            
+
             if sizes is not None:
                 # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
                 old_size = mujoco_object.size
