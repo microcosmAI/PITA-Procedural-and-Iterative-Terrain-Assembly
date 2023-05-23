@@ -158,17 +158,17 @@ class RandomPlacer(AbstractPlacer):
                 # apply colors to objects
                 if i > (len(colors_rgba) - 1):
                     randint = random.randrange(len(colors_rgba))
-                    mujoco_object_blueprint.color = colors_rgba[randint]
+                    mujoco_objects_rule_blueprint.color = colors_rgba[randint]
                 else:
-                    mujoco_object_blueprint.color = colors_rgba[i]
+                    mujoco_objects_rule_blueprint.color = colors_rgba[i]
 
             if not sizes is None:
-                # appy sizes to objects
+                # apply sizes to objects
                 if i > (len(sizes) - 1):
                     randint = random.randrange(len(sizes))
-                    mujoco_object_blueprint.size = sizes[randint]
+                    mujoco_objects_rule_blueprint.size = sizes[randint]
                 else:
-                    mujoco_object_blueprint.size = sizes[i]
+                    mujoco_objects_rule_blueprint.size = sizes[i]
 
             # Old position is used to keep the z position
             old_position = mujoco_object_blueprint.position
@@ -177,13 +177,13 @@ class RandomPlacer(AbstractPlacer):
             z_position = old_position[2]
 
             # Sample a new position
-            mujoco_object_blueprint.position = [*self.distribution(), z_position]
+            mujoco_objects_rule_blueprint.position = [*self.distribution(), z_position]
 
             count = 0
             # Ask every validator for approval until all approve or MAX_TRIES is reached, then throw error
             while not all(
                 [
-                    validator.validate(mujoco_object_blueprint, site)
+                    validator.validate(mujoco_objects_rule_blueprint, site)
                     for validator in validators
                 ]
             ):
@@ -197,7 +197,7 @@ class RandomPlacer(AbstractPlacer):
                         )
                     )
                 # If placement is not possible, sample a new position
-                mujoco_object_blueprint.position = [
+                mujoco_objects_rule_blueprint.position = [
                     *self.distribution(),
                     old_position[2],
                 ]
@@ -217,7 +217,7 @@ class RandomPlacer(AbstractPlacer):
                 mujoco_object.size = mujoco_objects_rule_blueprint.size[0]
                 mujoco_objects_rule_blueprint.size = old_size[0]
 
-            mujoco_object_blueprint.position = mujoco_objects_rule_blueprint.position
+            mujoco_object.position = mujoco_objects_rule_blueprint.position
 
             # Keep track of the placement in the validators
             for validator in validators:

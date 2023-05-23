@@ -259,7 +259,7 @@ class Assembler:
                 "geom",
                 name="base_plane",
                 type="plane",
-                size="10 10 0.10000000000000001",
+                size=(size[0], size[1], 0.1),
                 material="grid",
             )
         else:
@@ -267,7 +267,7 @@ class Assembler:
                 "geom",
                 name="base_plane",
                 type="plane",
-                size="10 10 0.10000000000000001",
+                size=(size[0], size[1], 0.1),
             )
 
         for area in areas:
