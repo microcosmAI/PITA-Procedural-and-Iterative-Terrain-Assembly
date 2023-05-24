@@ -51,7 +51,9 @@ class Assembler:
         for name, mujoco_object in mujoco_objects_blueprints.items():
             mujoco_object_copy = copy.deepcopy(mujoco_object)
             # If a free joint is present, replace it with a normal joint
-            joint_list = mujoco_object_copy.mjcf_obj.worldbody.body[0].find_all("joint", immediate_children_only=True)
+            joint_list = mujoco_object_copy.mjcf_obj.worldbody.body[0].find_all(
+                "joint", immediate_children_only=True
+            )
             if joint_list:
                 if joint_list[0].tag == "freejoint" or joint_list[0].type == "free":
                     joint_list[0].remove()
