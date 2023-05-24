@@ -53,7 +53,14 @@ class Assembler:
         # create areas
         # as long as we only have one area we set its size to the one of the env
         # TODO: set size and boundary with layout manager
-        areas = [Area(name="area1", size=(size[0], size[1], 0.1), environment=environment, boundary=None)]
+        areas = [
+            Area(
+                name="area1",
+                size=(size[0], size[1], 0.1),
+                environment=environment,
+                boundary=None,
+            )
+        ]
         """for area_name, area_settings in self.config["Areas"].items():
             areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
 

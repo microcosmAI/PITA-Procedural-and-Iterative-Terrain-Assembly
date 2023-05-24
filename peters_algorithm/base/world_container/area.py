@@ -8,7 +8,14 @@ from peters_algorithm.base.world_container.abstract_container import AbstractCon
 class Area(AbstractContainer):
     """Area object class"""
 
-    def __init__(self, *, name: str, size: tuple[float, float, float], environment: Environment, boundary: tuple):
+    def __init__(
+        self,
+        *,
+        name: str,
+        size: tuple[float, float, float],
+        environment: Environment,
+        boundary: tuple
+    ):
         """Initialize area
 
         Parameters:
@@ -34,9 +41,7 @@ class Area(AbstractContainer):
         # The attach() method returns the attachement frame (i.e. a body with the attached mujoco object)
         attachement_frame = self._mjcf_model.attach(mujoco_object.mjcf_obj)
         # By calling all_children() on the attachement frame, we can access their uniqe identifier
-        mujoco_object.xml_id = (
-            attachement_frame.all_children()[0].full_identifier
-        )
+        mujoco_object.xml_id = attachement_frame.all_children()[0].full_identifier
 
         # Check for free joints (either <joint type="free"/> or <freejoint/> but always as a direct child)
         # If present, remove it and add it again one level above
