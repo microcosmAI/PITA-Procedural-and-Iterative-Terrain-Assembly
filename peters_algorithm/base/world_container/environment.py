@@ -120,14 +120,15 @@ class Environment(AbstractContainer):
         # By calling all_children() on the attachement frame, we can access their uniqe identifier
         mujoco_object.xml_id = attachement_frame.all_children()[0].full_identifier
 
-        # Check for free joints ( if there are any, always at position 0 in the .joint call)
+        # Check for free joints (either <joint type="free"/> or <freejoint/> but always as a direct child)
         # If present, remove it and add it again one level above
-        try:
-            joint = attachement_frame.all_children()[0].joint[0]
-            attachement_frame.add("joint", **joint.get_attributes())
-            joint.remove()
-        except IndexError:
-            pass
+        joint_list = attachement_frame.all_children()[0].find_all("joint", immediate_children_only=True)
+        if joint_list:
+            if joint_list[0].tag == "freejoint" or joint_list[0].type == "free":
+                joint_attribute_dict = joint_list[0].get_attributes()
+                joint_attribute_dict.pop("type", None)  # pop type key if present
+                attachement_frame.add("joint", type="free", **joint_attribute_dict)
+                joint_list[0].remove()
 
         self._mujoco_objects[mujoco_object.xml_id] = mujoco_object
 
