@@ -46,11 +46,22 @@ class Assembler:
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
 
-        # duplicate blueprints for rule checking that can be manipulated without changing the original
+        # Duplicate blueprints for rule checking that can be manipulated without changing the original
         mujoco_objects_rule_blueprints = {}
         for name, mujoco_object in mujoco_objects_blueprints.items():
             mujoco_object_copy = copy.deepcopy(mujoco_object)
-            mujoco_object_copy.mjcf_obj.worldbody.body[0].add("joint")
+            # If a free joint is present, replace it with a normal joint
+            joint_list = mujoco_object_copy.mjcf_obj.worldbody.body[0].find_all("joint", immediate_children_only=True)
+            if joint_list:
+                if joint_list[0].tag == "freejoint" or joint_list[0].type == "free":
+                    joint_list[0].remove()
+                    mujoco_object_copy.mjcf_obj.worldbody.body[0].add("joint")
+                # Else keep joint as it is -> suffices for collision detection
+                else:
+                    pass
+            # If no joint is present, add a normal joint for collision detection
+            else:
+                mujoco_object_copy.mjcf_obj.worldbody.body[0].add("joint")
             mujoco_objects_rule_blueprints[name] = mujoco_object_copy
 
         # parse size from the config
@@ -72,7 +83,7 @@ class Assembler:
         # Create Validators
         environment_validator = Validator(
             [
-                MinDistanceMujocoPhysicsRule(2.0),
+                MinDistanceMujocoPhysicsRule(1.0),
                 BoundaryRule(boundary=(size[0], size[1])),
             ]
         )
@@ -88,7 +99,7 @@ class Assembler:
             area_validators.append(
                 Validator(
                     [
-                        MinDistanceMujocoPhysicsRule(2.0),
+                        MinDistanceMujocoPhysicsRule(1.0),
                         BoundaryRule(boundary=(size[0], size[1])),
                     ]
                 )
