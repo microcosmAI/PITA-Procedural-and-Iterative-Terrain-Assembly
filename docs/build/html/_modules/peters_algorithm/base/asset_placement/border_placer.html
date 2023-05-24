@@ -6,7 +6,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>peters_algorithm.base.asset_placement.border_placer &mdash; Peter Algorithm 1.0 documentation</title>
+  <title>peters_algorithm.base.asset_placement.border_placer &mdash; PITA 1.0 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
         <div class="container">
             <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
             <a class="site-title" href="../../../../index.html">
-                Peter Algorithm
+                PITA
             </a>
         </div>
     </header>
@@ -100,7 +100,7 @@
                         
                             
                             
-                                <p class="caption" role="heading"><span class="caption-text">Peter Algorithm Docs</span></p>
+                                <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../peters_algorithm.html">peters_algorithm package</a></li>
@@ -108,11 +108,6 @@
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../usage.html">Usage Guide</a></li>
 </ul>
 
                             
@@ -124,9 +119,9 @@
                         
                             
   <h1>Source code for peters_algorithm.base.asset_placement.border_placer</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">peters_algorithm.base.asset_parsing.mujoco_object</span> <span class="kn">import</span> <span class="n">MujocoObject</span>
+<span></span><span class="kn">from</span> <span class="nn">peters_algorithm.base.world_container.environment</span> <span class="kn">import</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">peters_algorithm.base.asset_parsing.mujoco_object</span> <span class="kn">import</span> <span class="n">MujocoObject</span>
 <span class="kn">from</span> <span class="nn">peters_algorithm.base.asset_placement.abstract_placer</span> <span class="kn">import</span> <span class="n">AbstractPlacer</span>
-<span class="kn">from</span> <span class="nn">peters_algorithm.base.world_container.environment</span> <span class="kn">import</span> <span class="n">Environment</span>
 <span class="kn">from</span> <span class="nn">peters_algorithm.base.world_container.abstract_container</span> <span class="kn">import</span> <span class="n">AbstractContainer</span>
 
 
@@ -152,6 +147,7 @@
 <span class="sd">            mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object</span>
 <span class="sd">            amount (int): Number of to-be-placed borders</span>
 <span class="sd">            has_border (bool): True if border is added to environment, else False</span>
+<span class="sd">            coordinates (tuple): Coordinates</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            mjcf_model (mjcf): An empty environment with borders around it</span>
@@ -228,7 +224,7 @@
   
     <div class="footer" role="contentinfo">
         <div class="container">
-            &#169; Copyright 2023, EBIMAS.
+            &#169; Copyright 2023, EBIMAS Study Project.
         Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
         </div>
     </div>  

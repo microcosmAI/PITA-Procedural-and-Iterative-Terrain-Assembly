@@ -17,10 +17,10 @@ sys.path.insert(0, os.path.abspath("../.."))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "Peter Algorithm"
-copyright = "2023, EBIMAS"
-author = "EBIMAS"
-release = "1.0"
+project = 'PITA'
+copyright = '2023, EBIMAS Study Project'
+author = 'EBIMAS Study Project'
+release = '1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -33,12 +33,13 @@ extensions = [
     "sphinx.ext.viewcode",
 ]
 
-templates_path = ["_templates"]
+templates_path = ['_templates']
 exclude_patterns = []
+
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "karma_sphinx_theme"
-html_static_path = ["_static"]
+html_theme = 'karma_sphinx_theme'
+html_static_path = ['_static']

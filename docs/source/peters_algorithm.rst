@@ -22,4 +22,4 @@ Submodules
 .. toctree::
    :maxdepth: 5
 
-   peters_algorithm.peters_algorithm
+   peters_algorithm.pita

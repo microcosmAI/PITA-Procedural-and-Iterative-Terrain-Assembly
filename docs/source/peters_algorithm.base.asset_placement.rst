@@ -14,6 +14,10 @@ Submodules
    :maxdepth: 5
 
    peters_algorithm.base.asset_placement.abstract_placer
+   peters_algorithm.base.asset_placement.abstract_rule
    peters_algorithm.base.asset_placement.border_placer
+   peters_algorithm.base.asset_placement.boundary_rule
+   peters_algorithm.base.asset_placement.fixed_placer
+   peters_algorithm.base.asset_placement.min_distance_rule
    peters_algorithm.base.asset_placement.random_placer
    peters_algorithm.base.asset_placement.validator
