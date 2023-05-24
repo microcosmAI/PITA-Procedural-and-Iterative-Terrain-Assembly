@@ -15,7 +15,10 @@ Environment:
       - type: light
       - coordinates: [ [ 8., 8., 40. ], [ -8., 8., 40. ] ]
       - tags: [ "Light" ]
-
+    
+    Agent:
+      - amount: 2
+      - coordinates: [ [ 10., 10., 3. ], [ -10., -10., 3. ] ]
 
     Tree:
       - amount: [ 1, 1 ]

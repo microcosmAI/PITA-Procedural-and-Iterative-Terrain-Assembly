@@ -1,7 +1,0 @@
-<mujoco model="apple">
-    <worldbody>
-        <body name="apple" pos="0 0 0">
-            <freejoint/>
-        </body>
-    </worldbody>
-</mujoco>
