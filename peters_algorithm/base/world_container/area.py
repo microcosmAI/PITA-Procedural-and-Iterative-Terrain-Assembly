@@ -40,7 +40,9 @@ class Area(AbstractContainer):
 
         # Check for free joints (either <joint type="free"/> or <freejoint/> but always as a direct child)
         # If present, remove it and add it again one level above
-        joint_list = attachement_frame.all_children()[0].find_all("joint", immediate_children_only=True)
+        joint_list = attachement_frame.all_children()[0].find_all(
+            "joint", immediate_children_only=True
+        )
         if joint_list:
             if joint_list[0].tag == "freejoint" or joint_list[0].type == "free":
                 joint_attribute_dict = joint_list[0].get_attributes()
