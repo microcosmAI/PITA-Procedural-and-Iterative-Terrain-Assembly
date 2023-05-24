@@ -17,9 +17,9 @@ sys.path.insert(0, os.path.abspath("../.."))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "Peter Algorithm"
-copyright = "2023, EBIMAS"
-author = "EBIMAS"
+project = "PITA"
+copyright = "2023, EBIMAS Study Project"
+author = "EBIMAS Study Project"
 release = "1.0"
 
 # -- General configuration ---------------------------------------------------
