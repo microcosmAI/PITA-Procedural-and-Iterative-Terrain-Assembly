@@ -58,7 +58,9 @@ class Assembler:
             if joint_list:
                 if joint_list[0].tag == "freejoint" or joint_list[0].type == "free":
                     joint_list[0].remove()
-                    mujoco_object_copy.mjcf_obj.worldbody.body[0].add("joint", limited="false")
+                    mujoco_object_copy.mjcf_obj.worldbody.body[0].add(
+                        "joint", limited="false"
+                    )
                 # Else keep joint as it is -> suffices for collision detection
                 else:
                     pass
