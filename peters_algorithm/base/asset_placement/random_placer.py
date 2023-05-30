@@ -170,14 +170,11 @@ class RandomPlacer(AbstractPlacer):
                 else:
                     mujoco_objects_rule_blueprint.size = sizes[i]
 
-            # Old position is used to keep the z position
-            old_position = mujoco_object_blueprint.position
-
-            # We only want to sample x and y, so we keep the old z position
-            z_position = old_position[2]
+            # Save size of object for setting the z coordinate
+            new_z_position = mujoco_objects_rule_blueprint.size[0]
 
             # Sample a new position
-            mujoco_objects_rule_blueprint.position = [*self.distribution(), z_position]
+            mujoco_objects_rule_blueprint.position = [*self.distribution(), new_z_position]
 
             count = 0
             # Ask every validator for approval until all approve or MAX_TRIES is reached, then throw error
@@ -199,7 +196,7 @@ class RandomPlacer(AbstractPlacer):
                 # If placement is not possible, sample a new position
                 mujoco_objects_rule_blueprint.position = [
                     *self.distribution(),
-                    old_position[2],
+                    new_z_position,
                 ]
 
             # Copy the blueprint to avoid changing the original
@@ -214,8 +211,8 @@ class RandomPlacer(AbstractPlacer):
             if sizes is not None:
                 # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
                 old_size = mujoco_object.size
-                mujoco_object.size = mujoco_objects_rule_blueprint.size[0]
-                mujoco_objects_rule_blueprint.size = old_size[0]
+                mujoco_object.size = mujoco_objects_rule_blueprint.size
+                mujoco_objects_rule_blueprint.size = old_size
 
             mujoco_object.position = mujoco_objects_rule_blueprint.position
 
@@ -300,7 +297,7 @@ class RandomPlacer(AbstractPlacer):
             random_size = round(
                 np.random.random() * 2, 2
             )  # sets a size between 0 and 2
-            sizes.append(random_size)
-            sizes.append(random_size)
+            sizes.append([random_size])
+            sizes.append([random_size])
 
         return sizes

@@ -148,10 +148,7 @@ class MujocoObject:
     @size.setter
     def size(self, size: float):
         """Set size of object"""
-        mjcf_pos = self.position
-        mjcf_pos[2] = size
-        self.position = mjcf_pos
-        self._mjcf_obj.find("body", self._name.lower()).geom[0].size = [size]
+        self._mjcf_obj.find("body", self._name.lower()).geom[0].size = size
 
     @property
     def tags(self) -> list[str]:
