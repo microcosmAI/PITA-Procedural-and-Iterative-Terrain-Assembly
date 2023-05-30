@@ -6,7 +6,7 @@ from pita_algorithm.base.world_container.abstract_container import AbstractConta
 
 
 class Area(AbstractContainer):
-    """Represents an area in the environment. An area is a part of 
+    """Represents an area in the environment. An area is a part of
     the environment that can contain objects.
     """
 
@@ -15,7 +15,7 @@ class Area(AbstractContainer):
         name: str,
         size: tuple[float, float, float],
         environment: Environment,
-        boundary: tuple
+        boundary: tuple,
     ):
         """Initializes area.
 
@@ -71,7 +71,7 @@ class Area(AbstractContainer):
     @property
     def name(self) -> str:
         """Get name.
-        
+
         Returns:
             name (str): Name of the area
         """
@@ -80,7 +80,7 @@ class Area(AbstractContainer):
     @name.setter
     def name(self, name: str):
         """Set name.
-        
+
         Parameters:
             name (str): Name of the area"""
         self._name = name
@@ -124,7 +124,7 @@ class Area(AbstractContainer):
     @boundary.setter
     def boundary(self, boundary: tuple):
         """Set boundary.
-        
+
         Parameters:
             boundary (tuple): Tuple with the area boundary
         """

@@ -52,7 +52,7 @@ class PITA:
         )
 
     def _get_user_args(self) -> argparse.Namespace:
-        """Read args defined by user. If none are given, args are set to files and 
+        """Read args defined by user. If none are given, args are set to files and
         directories in the 'examples' folder.
 
         Returns:

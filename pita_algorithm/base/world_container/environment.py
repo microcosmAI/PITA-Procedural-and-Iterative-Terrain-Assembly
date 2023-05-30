@@ -11,7 +11,7 @@ class Environment(AbstractContainer):
         self,
         size: tuple[float, float, float],
         name: str = "Environment",
-        pretty_mode: bool = False
+        pretty_mode: bool = False,
     ):
         """Initializes the environment class.
 
@@ -103,7 +103,7 @@ class Environment(AbstractContainer):
         return self._mujoco_objects
 
     def add(self, mujoco_object: MujocoObject):
-        """Add object to the environment _mjcf_model and its mujoco-object dictionary. 
+        """Add object to the environment _mjcf_model and its mujoco-object dictionary.
         Also sets name of object to the one given by mujoco.
 
         Parameters:
