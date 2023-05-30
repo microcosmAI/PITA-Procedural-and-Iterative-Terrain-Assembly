@@ -95,7 +95,7 @@ class Assembler:
             amount=4,
             has_border=has_border,
         )
-        
+
         if has_border:
             # Add Border to map2D of environment validator
             global_validators[0].map_2D[mujoco_objects_blueprints["Border"].name] = [
