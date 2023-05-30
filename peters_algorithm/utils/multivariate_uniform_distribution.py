@@ -1,19 +1,13 @@
 import numpy as np
 
 class MultivariateUniform():
-    """
-    Generate a multivariate uniform distribution.
+    """Generates a multivariate uniform distribution.
 
-    Parameters
-    ----------
-    ranges : list of tuples
-        Each tuple defines the range (low, high) for one dimension.
+    Parameters:
+        ranges (list of tuples): Each tuple defines the range (low, high) for one dimension.
 
-    Returns
-    -------
-    numpy.ndarray
-        An array of shape (num_samples, len(ranges)), where each row is a sample
-        from the multivariate uniform distribution.
+    Returns:
+        numpy.ndarray: An array of shape (num_samples, len(ranges)), where each row is a sample from the multivariate uniform distribution.
     """
 
     def __call__(self, ranges):
