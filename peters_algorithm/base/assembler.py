@@ -215,7 +215,12 @@ class Assembler:
 
                 environment_random_distribution = Placer2DDistribution(
                     MultivariateUniform(),
-                    np.array([[-environment.size[0], environment.size[0]], [-environment.size[1], environment.size[1]]]),
+                    np.array(
+                        [
+                            [-environment.size[0], environment.size[0]],
+                            [-environment.size[1], environment.size[1]],
+                        ]
+                    ),
                 )
                 RandomPlacer(environment_random_distribution).add(
                     site=environment,
@@ -258,7 +263,12 @@ class Assembler:
 
                     area_random_distribution = Placer2DDistribution(
                         MultivariateUniform(),
-                        np.array([[-environment.size[0], environment.size[0]], [-environment.size[1], environment.size[1]]]),
+                        np.array(
+                            [
+                                [-environment.size[0], environment.size[0]],
+                                [-environment.size[1], environment.size[1]],
+                            ]
+                        ),
                     )
                     RandomPlacer(area_random_distribution).add(
                         site=areas[area_index],
