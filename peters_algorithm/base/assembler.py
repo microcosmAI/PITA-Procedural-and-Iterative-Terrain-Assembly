@@ -16,7 +16,10 @@ from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
 from peters_algorithm.base.asset_placement.boundary_rule import BoundaryRule
 from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
 from peters_algorithm.utils.multivariate_uniform_distribution import MultivariateUniform
-from peters_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import MinDistanceMujocoPhysicsRule
+from peters_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
+    MinDistanceMujocoPhysicsRule,
+)
+
 
 class Assembler:
     """Assembles assets to corresponding world container"""
