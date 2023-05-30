@@ -58,7 +58,7 @@ class Assembler:
             if joint_list:
                 if joint_list[0].tag == "freejoint" or joint_list[0].type == "free":
                     joint_list[0].remove()
-                    mujoco_object_copy.mjcf_obj.worldbody.body[0].add("joint")
+                    mujoco_object_copy.mjcf_obj.worldbody.body[0].add("joint", limited="false")
                 # Else keep joint as it is -> suffices for collision detection
                 else:
                     pass
@@ -284,6 +284,23 @@ class Assembler:
                         colors_range=colors_range,
                         sizes_range=sizes_range,
                     )
+
+        # Add plane
+        if pretty_mode:
+            environment.mjcf_model.worldbody.add(
+                "geom",
+                name="base_plane",
+                type="plane",
+                size=(size[0], size[1], 0.1),
+                material="grid",
+            )
+        else:
+            environment.mjcf_model.worldbody.add(
+                "geom",
+                name="base_plane",
+                type="plane",
+                size=(size[0], size[1], 0.1),
+            )
 
         # Use global validator to plot the map layout
         global_validators[0].plot(env_size=environment.size)
