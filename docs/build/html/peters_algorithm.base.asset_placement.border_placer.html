@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>peters_algorithm.base.asset_placement.border_placer module &mdash; Peter Algorithm 1.0 documentation</title>
+  <title>peters_algorithm.base.asset_placement.border_placer module &mdash; PITA 1.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="_static/css/theme.min.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="peters_algorithm.base.asset_placement.random_placer module" href="peters_algorithm.base.asset_placement.random_placer.html" />
-    <link rel="prev" title="peters_algorithm.base.asset_placement.abstract_placer module" href="peters_algorithm.base.asset_placement.abstract_placer.html" /> 
+    <link rel="next" title="peters_algorithm.base.asset_placement.boundary_rule module" href="peters_algorithm.base.asset_placement.boundary_rule.html" />
+    <link rel="prev" title="peters_algorithm.base.asset_placement.abstract_rule module" href="peters_algorithm.base.asset_placement.abstract_rule.html" /> 
 
 </head>
 
@@ -40,7 +40,7 @@
         <div class="container">
             <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
             <a class="site-title" href="index.html">
-                Peter Algorithm
+                PITA
             </a>
         </div>
     </header>
@@ -113,7 +113,7 @@
                         
                             
                             
-                                <p class="caption" role="heading"><span class="caption-text">Peter Algorithm Docs</span></p>
+                                <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="peters_algorithm.html">peters_algorithm package</a></li>
@@ -121,11 +121,6 @@
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
 </ul>
 
                             
@@ -159,6 +154,7 @@
 <li><p><strong>mujoco_object_blueprint</strong> (<a class="reference internal" href="peters_algorithm.base.asset_parsing.mujoco_object.html#peters_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="peters_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><em>MujocoObject</em></a>) – Blueprint of to-be-placed mujoco object</p></li>
 <li><p><strong>amount</strong> (<em>int</em>) – Number of to-be-placed borders</p></li>
 <li><p><strong>has_border</strong> (<em>bool</em>) – True if border is added to environment, else False</p></li>
+<li><p><strong>coordinates</strong> (<em>tuple</em>) – Coordinates</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -209,7 +205,7 @@
   
     <div class="footer" role="contentinfo">
         <div class="container">
-            &#169; Copyright 2023, EBIMAS.
+            &#169; Copyright 2023, EBIMAS Study Project.
         Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
         </div>
     </div>  

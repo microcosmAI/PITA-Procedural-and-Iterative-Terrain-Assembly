@@ -6,7 +6,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>peters_algorithm.base.world_container.environment &mdash; Peter Algorithm 1.0 documentation</title>
+  <title>peters_algorithm.base.world_container.environment &mdash; PITA 1.0 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
         <div class="container">
             <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
             <a class="site-title" href="../../../../index.html">
-                Peter Algorithm
+                PITA
             </a>
         </div>
     </header>
@@ -100,7 +100,7 @@
                         
                             
                             
-                                <p class="caption" role="heading"><span class="caption-text">Peter Algorithm Docs</span></p>
+                                <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../peters_algorithm.html">peters_algorithm package</a></li>
@@ -108,11 +108,6 @@
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../usage.html">Usage Guide</a></li>
 </ul>
 
                             
@@ -125,26 +120,69 @@
                             
   <h1>Source code for peters_algorithm.base.world_container.environment</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">dm_control</span> <span class="kn">import</span> <span class="n">mjcf</span>
-<span class="kn">from</span> <span class="nn">peters_algorithm.base.world_container.abstract_container</span> <span class="kn">import</span> <span class="n">AbstractContainer</span>
+
 <span class="kn">from</span> <span class="nn">peters_algorithm.base.asset_parsing.mujoco_object</span> <span class="kn">import</span> <span class="n">MujocoObject</span>
+<span class="kn">from</span> <span class="nn">peters_algorithm.base.world_container.abstract_container</span> <span class="kn">import</span> <span class="n">AbstractContainer</span>
 
 
 <div class="viewcode-block" id="Environment"><a class="viewcode-back" href="../../../../peters_algorithm.base.world_container.environment.html#peters_algorithm.base.world_container.environment.Environment">[docs]</a><span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="n">AbstractContainer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class that represents the entire environment&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Environment&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Environment&quot;</span><span class="p">,</span>
+        <span class="n">pretty_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the environment class</span>
 
 <span class="sd">        Parameters:</span>
 <span class="sd">            size (tuple): Tuple defining the size of the entire environment (length, width, height)</span>
 <span class="sd">            name (str): Name of the environment</span>
+<span class="sd">            pretty_style (bool): If true, the environment will be created with a pretty style</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="n">size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span> <span class="o">=</span> <span class="n">mjcf</span><span class="o">.</span><span class="n">RootElement</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="s2">&quot;geom&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;base_plane&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;plane&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span>
-        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pretty_mode</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="s2">&quot;texture&quot;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;skybox&quot;</span><span class="p">,</span>
+                <span class="n">builtin</span><span class="o">=</span><span class="s2">&quot;gradient&quot;</span><span class="p">,</span>
+                <span class="n">rgb1</span><span class="o">=</span><span class="s2">&quot;0. .82 1.&quot;</span><span class="p">,</span>
+                <span class="n">rgb2</span><span class="o">=</span><span class="s2">&quot;.035 .337 .475&quot;</span><span class="p">,</span>
+                <span class="n">width</span><span class="o">=</span><span class="s2">&quot;512&quot;</span><span class="p">,</span>
+                <span class="n">height</span><span class="o">=</span><span class="s2">&quot;512&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="s2">&quot;texture&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;2d&quot;</span><span class="p">,</span>
+                <span class="n">builtin</span><span class="o">=</span><span class="s2">&quot;checker&quot;</span><span class="p">,</span>
+                <span class="n">rgb1</span><span class="o">=</span><span class="s2">&quot;.1 .2 .3&quot;</span><span class="p">,</span>
+                <span class="n">rgb2</span><span class="o">=</span><span class="s2">&quot;.2 .3 .4&quot;</span><span class="p">,</span>
+                <span class="n">width</span><span class="o">=</span><span class="s2">&quot;300&quot;</span><span class="p">,</span>
+                <span class="n">height</span><span class="o">=</span><span class="s2">&quot;300&quot;</span><span class="p">,</span>
+                <span class="n">mark</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">,</span>
+                <span class="n">markrgb</span><span class="o">=</span><span class="s2">&quot;.2 .3 .4&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="s2">&quot;material&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span>
+                <span class="n">texture</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span>
+                <span class="n">texrepeat</span><span class="o">=</span><span class="s2">&quot;1 1&quot;</span><span class="p">,</span>
+                <span class="n">texuniform</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">,</span>
+                <span class="n">reflectance</span><span class="o">=</span><span class="s2">&quot;.2&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="s2">&quot;geom&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;base_plane&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;plane&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">material</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="s2">&quot;geom&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;base_plane&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;plane&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="nd">@property</span>
@@ -193,13 +231,26 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span>
 
 <div class="viewcode-block" id="Environment.add"><a class="viewcode-back" href="../../../../peters_algorithm.base.world_container.environment.html#peters_algorithm.base.world_container.environment.Environment.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mujoco_object</span><span class="p">:</span> <span class="n">MujocoObject</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a mujoco object</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to environment-mjcf and mujoco-object dictionary of environment. Also sets name of object to the one given by mujoco</span>
 
 <span class="sd">        Parameters:</span>
 <span class="sd">            mujoco_object (MujocoObject): Tuple defining the size of the entire environment</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="p">[</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span></div>
+        <span class="c1"># The attach() method returns the attachement frame (i.e. a body with the attached mujoco object)</span>
+        <span class="n">attachement_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="p">)</span>
+        <span class="c1"># By calling all_children() on the attachement frame, we can access their uniqe identifier</span>
+        <span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span> <span class="o">=</span> <span class="n">attachement_frame</span><span class="o">.</span><span class="n">all_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">full_identifier</span>
+
+        <span class="c1"># Check for free joints ( if there are any, always at position 0 in the .joint call)</span>
+        <span class="c1"># If present, remove it and add it again one level above</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">joint</span> <span class="o">=</span> <span class="n">attachement_frame</span><span class="o">.</span><span class="n">all_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">joint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">attachement_frame</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">joint</span><span class="o">.</span><span class="n">get_attributes</span><span class="p">())</span>
+            <span class="n">joint</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="p">[</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span></div>
 
 <div class="viewcode-block" id="Environment.remove"><a class="viewcode-back" href="../../../../peters_algorithm.base.world_container.environment.html#peters_algorithm.base.world_container.environment.Environment.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mujoco_object</span><span class="p">:</span> <span class="n">MujocoObject</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes a given mujoco object</span>
@@ -208,7 +259,7 @@
 <span class="sd">            mujoco_object (MujocoObject): Tuple defining the size of the entire environment</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="p">[</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">name</span><span class="p">]</span></div></div>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="p">[</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span><span class="p">]</span></div></div>
 </pre></div>
 
                         
@@ -239,7 +290,7 @@
   
     <div class="footer" role="contentinfo">
         <div class="container">
-            &#169; Copyright 2023, EBIMAS.
+            &#169; Copyright 2023, EBIMAS Study Project.
         Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
         </div>
     </div>  

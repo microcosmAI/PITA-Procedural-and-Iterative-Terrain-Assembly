@@ -6,8 +6,8 @@
     <body name="agent" pos="3 0 3">
         <camera name="agent1_track" mode="trackcom" pos="0 -3 0.3" xyaxes="1 0 0 0 0 1"/>
         <site name="agent1_box_range" type="box" pos="0.4 0 0" size=".05 .05 .05" rgba="0 .9 0 1" euler="0 90 0"/>
-        <geom name="agent1_torso_geom" pos="0 0 0" size="0.25" type="sphere"/>
-        <joint armature="0" damping="0" limited="false" margin="0.01" name="agent1_root" pos="0 0 0" type="free"/>
+        <geom name="agent1_torso_geom" pos="0 0 0" size="0.25" rgba="0 0 0 1" type="sphere"/>
+        <joint armature="0" damping="0" limited="false" margin="0.01" name="agent1_root" type="free"/>
         <body name="agent1_front_left_leg" pos="0 0 0">
             <geom fromto="0.0 0.0 0.0 0.2 0.2 0.0" name="agent1_aux_1_geom" size="0.08" type="capsule"/>
             <body name="agent1_aux_1" pos="0.2 0.2 0">

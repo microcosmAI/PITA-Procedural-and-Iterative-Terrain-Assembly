@@ -2,10 +2,12 @@ import re
 from shapely.geometry.base import BaseGeometry
 
 from peters_algorithm.base.asset_placement.abstract_rule import Rule
+from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from peters_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
 class MinDistanceRule(Rule):
-    """Check if a new object respects the minimum distance to other objects of a specified type"""
+    """Check if a new object respects the minimum distance to other objects, optionally of a specified type"""
 
     def __init__(self, dist: float, types: list([str, ...]) = []):
         """Initialize a new MinDistanceRule.
@@ -17,15 +19,23 @@ class MinDistanceRule(Rule):
         self.dist = dist
         self.types = types
 
-    def __call__(self, map_2D: dict, shape_object: BaseGeometry):
+    def __call__(
+        self,
+        map_2D: dict,
+        shape_object: BaseGeometry,
+        mujoco_object: MujocoObject,
+        site: AbstractContainer,
+    ):
         """Check if a new object satisfies the rule.
 
         Parameters:
             map_2D (dict): Dictionary, mapping object classes to a list of their shapely 2d representations
             shape_object (BaseGeometry): Insertion that should be evaluated
+            mujoco_object (MujocoObject): The new object, that will be evaluated
+            site (AbstractContainer): AbstractContainer class instance where the object is added to
 
         Returns:
-            True if shape_object is far enough away from each object that has any of self.types in their name.
+            (boolean): True if shape_object is far enough away from each object. If self.types is not empty, only objects of the specified type are considered.
         """
         for obj_class in map_2D:
             # If a type is specified, only validate against it

@@ -55,13 +55,7 @@ class Environment(AbstractContainer):
                 texuniform="true",
                 reflectance=".2",
             )
-            self._mjcf_model.worldbody.add(
-                "geom", name="base_plane", type="plane", size=size, material="grid"
-            )
-        else:
-            self._mjcf_model.worldbody.add(
-                "geom", name="base_plane", type="plane", size=size
-            )
+
         self._mujoco_objects = {}
 
     @property
@@ -119,6 +113,19 @@ class Environment(AbstractContainer):
         attachement_frame = self._mjcf_model.attach(mujoco_object.mjcf_obj)
         # By calling all_children() on the attachement frame, we can access their uniqe identifier
         mujoco_object.xml_id = attachement_frame.all_children()[0].full_identifier
+
+        # Check for free joints (either <joint type="free"/> or <freejoint/> but always as a direct child)
+        # If present, remove it and add it again one level above
+        joint_list = attachement_frame.all_children()[0].find_all(
+            "joint", immediate_children_only=True
+        )
+        if joint_list:
+            if joint_list[0].tag == "freejoint" or joint_list[0].type == "free":
+                joint_attribute_dict = joint_list[0].get_attributes()
+                joint_attribute_dict.pop("type", None)  # pop type key if present
+                attachement_frame.add("joint", type="free", **joint_attribute_dict)
+                joint_list[0].remove()
+
         self._mujoco_objects[mujoco_object.xml_id] = mujoco_object
 
     def remove(self, *, mujoco_object: MujocoObject):

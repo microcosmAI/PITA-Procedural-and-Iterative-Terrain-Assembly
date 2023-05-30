@@ -115,6 +115,7 @@ class RandomPlacer(AbstractPlacer):
         self,
         site: AbstractContainer,
         mujoco_object_blueprint: MujocoObject,
+        mujoco_objects_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
         colors_range: tuple[int, int] = None,
@@ -126,6 +127,7 @@ class RandomPlacer(AbstractPlacer):
         Parameters:
             site (AbstractContainer): Site class instance where the object is added to
             mujoco_object_blueprint (mjcf.RootElement): To-be-placed mujoco object
+            mujoco_objects_rule_blueprint (mjcf.RootElement): To-be-checked mujoco object
             validators (list): List of validator class instances used to check object placement
             amount (tuple): Range of possible amount of objects to be placed
             colors_range (tuple): Range of possible different colors for object
@@ -152,50 +154,70 @@ class RandomPlacer(AbstractPlacer):
                 raise ValueError("Not enough objects for specified sizes.")
 
         for i in range(amount):
-            # Copy the blueprint to avoid changing the original
-            mujoco_object = self._copy(mujoco_object_blueprint)
-
             if not colors_rgba is None:
                 # apply colors to objects
                 if i > (len(colors_rgba) - 1):
                     randint = random.randrange(len(colors_rgba))
-                    mujoco_object.color = colors_rgba[randint]
+                    mujoco_objects_rule_blueprint.color = colors_rgba[randint]
                 else:
-                    mujoco_object.color = colors_rgba[i]
+                    mujoco_objects_rule_blueprint.color = colors_rgba[i]
 
             if not sizes is None:
-                # appy sizes to objects
+                # apply sizes to objects
                 if i > (len(sizes) - 1):
                     randint = random.randrange(len(sizes))
-                    mujoco_object.size = sizes[randint]
+                    mujoco_objects_rule_blueprint.size = sizes[randint]
                 else:
-                    mujoco_object.size = sizes[i]
+                    mujoco_objects_rule_blueprint.size = sizes[i]
 
             # Old position is used to keep the z position
-            old_position = mujoco_object.position
+            old_position = mujoco_object_blueprint.position
 
             # We only want to sample x and y, so we keep the old z position
             z_position = old_position[2]
 
             # Sample a new position
-            mujoco_object.position = [*self.distribution(), z_position]
+            mujoco_objects_rule_blueprint.position = [*self.distribution(), z_position]
 
             count = 0
             # Ask every validator for approval until all approve or MAX_TRIES is reached, then throw error
             while not all(
-                [validator.validate(mujoco_object) for validator in validators]
+                [
+                    validator.validate(mujoco_objects_rule_blueprint, site)
+                    for validator in validators
+                ]
             ):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
                     raise RuntimeError(
                         "Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
-                            mujoco_object.name,
+                            mujoco_object_blueprint.name,
                             site.name,
                             RandomPlacer.MAX_TRIES,
                         )
                     )
                 # If placement is not possible, sample a new position
-                mujoco_object.position = [*self.distribution(), old_position[2]]
+                mujoco_objects_rule_blueprint.position = [
+                    *self.distribution(),
+                    old_position[2],
+                ]
+
+            # Copy the blueprint to avoid changing the original
+            mujoco_object = self._copy(mujoco_object_blueprint)
+
+            if colors_rgba is not None:
+                # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
+                old_color = mujoco_object.color
+                mujoco_object.color = mujoco_objects_rule_blueprint.color
+                mujoco_objects_rule_blueprint.color = old_color
+
+            if sizes is not None:
+                # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
+                old_size = mujoco_object.size
+                mujoco_object.size = mujoco_objects_rule_blueprint.size[0]
+                mujoco_objects_rule_blueprint.size = old_size[0]
+
+            mujoco_object.position = mujoco_objects_rule_blueprint.position
 
             # Keep track of the placement in the validators
             for validator in validators:

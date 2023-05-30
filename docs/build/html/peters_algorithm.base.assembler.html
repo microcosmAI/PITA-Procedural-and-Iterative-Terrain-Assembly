@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>peters_algorithm.base.assembler module &mdash; Peter Algorithm 1.0 documentation</title>
+  <title>peters_algorithm.base.assembler module &mdash; PITA 1.0 documentation</title>
   
 
   
@@ -40,7 +40,7 @@
         <div class="container">
             <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
             <a class="site-title" href="index.html">
-                Peter Algorithm
+                PITA
             </a>
         </div>
     </header>
@@ -111,7 +111,7 @@
                         
                             
                             
-                                <p class="caption" role="heading"><span class="caption-text">Peter Algorithm Docs</span></p>
+                                <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="peters_algorithm.html">peters_algorithm package</a></li>
@@ -119,11 +119,6 @@
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
 </ul>
 
                             
@@ -134,8 +129,30 @@
                     <div class="document">
                         
                             
-  <section id="peters-algorithm-base-assembler-module">
-<h1>peters_algorithm.base.assembler module<a class="headerlink" href="#peters-algorithm-base-assembler-module" title="Permalink to this heading">¶</a></h1>
+  <section id="module-peters_algorithm.base.assembler">
+<span id="peters-algorithm-base-assembler-module"></span><h1>peters_algorithm.base.assembler module<a class="headerlink" href="#module-peters_algorithm.base.assembler" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="peters_algorithm.base.assembler.Assembler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peters_algorithm.base.assembler.</span></span><span class="sig-name descname"><span class="pre">Assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xml_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/assembler.html#Assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.assembler.Assembler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Assembles assets to corresponding world container</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="peters_algorithm.base.assembler.Assembler.assemble_world">
+<span class="sig-name descname"><span class="pre">assemble_world</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="peters_algorithm.base.world_container.environment.html#peters_algorithm.base.world_container.environment.Environment" title="peters_algorithm.base.world_container.environment.Environment"><span class="pre">peters_algorithm.base.world_container.environment.Environment</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="peters_algorithm.base.world_container.area.html#peters_algorithm.base.world_container.area.Area" title="peters_algorithm.base.world_container.area.Area"><span class="pre">peters_algorithm.base.world_container.area.Area</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/peters_algorithm/base/assembler.html#Assembler.assemble_world"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.assembler.Assembler.assemble_world" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the environment and areas and assembles them to create the world as and MJCF object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Environment class instance
+areas (list): List of Area class instances</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>environment (<a class="reference internal" href="peters_algorithm.base.world_container.environment.html#peters_algorithm.base.world_container.environment.Environment" title="peters_algorithm.base.world_container.environment.Environment">Environment</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -167,7 +184,7 @@
   
     <div class="footer" role="contentinfo">
         <div class="container">
-            &#169; Copyright 2023, EBIMAS.
+            &#169; Copyright 2023, EBIMAS Study Project.
         Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
         </div>
     </div>  
