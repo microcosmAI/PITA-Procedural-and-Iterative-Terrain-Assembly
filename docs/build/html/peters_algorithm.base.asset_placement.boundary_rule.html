@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>peters_algorithm.peters_algorithm module &mdash; Peter Algorithm 1.0 documentation</title>
+  <title>peters_algorithm.base.asset_placement.boundary_rule module &mdash; PITA 1.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="_static/css/theme.min.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation Guide" href="install.html" />
-    <link rel="prev" title="peters_algorithm.utils.config_reader module" href="peters_algorithm.utils.config_reader.html" /> 
+    <link rel="next" title="peters_algorithm.base.asset_placement.fixed_placer module" href="peters_algorithm.base.asset_placement.fixed_placer.html" />
+    <link rel="prev" title="peters_algorithm.base.asset_placement.border_placer module" href="peters_algorithm.base.asset_placement.border_placer.html" /> 
 
 </head>
 
@@ -40,7 +40,7 @@
         <div class="container">
             <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
             <a class="site-title" href="index.html">
-                Peter Algorithm
+                PITA
             </a>
         </div>
     </header>
@@ -74,13 +74,17 @@
         
           <li><a href="peters_algorithm.html">peters_algorithm package</a></li>
         
-      <li>peters_algorithm.peters_algorithm module</li>
+          <li><a href="peters_algorithm.base.html">peters_algorithm.base package</a></li>
+        
+          <li><a href="peters_algorithm.base.asset_placement.html">peters_algorithm.base.asset_placement package</a></li>
+        
+      <li>peters_algorithm.base.asset_placement.boundary_rule module</li>
     
     
       <li class="breadcrumbs-aside">
         
             
-            <a href="_sources/peters_algorithm.peters_algorithm.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/peters_algorithm.base.asset_placement.boundary_rule.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -109,7 +113,7 @@
                         
                             
                             
-                                <p class="caption" role="heading"><span class="caption-text">Peter Algorithm Docs</span></p>
+                                <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="peters_algorithm.html">peters_algorithm package</a></li>
@@ -117,11 +121,6 @@
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
 </ul>
 
                             
@@ -132,8 +131,20 @@
                     <div class="document">
                         
                             
-  <section id="peters-algorithm-peters-algorithm-module">
-<h1>peters_algorithm.peters_algorithm module<a class="headerlink" href="#peters-algorithm-peters-algorithm-module" title="Permalink to this heading">¶</a></h1>
+  <section id="module-peters_algorithm.base.asset_placement.boundary_rule">
+<span id="peters-algorithm-base-asset-placement-boundary-rule-module"></span><h1>peters_algorithm.base.asset_placement.boundary_rule module<a class="headerlink" href="#module-peters_algorithm.base.asset_placement.boundary_rule" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.boundary_rule.BoundaryRule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peters_algorithm.base.asset_placement.boundary_rule.</span></span><span class="sig-name descname"><span class="pre">BoundaryRule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/boundary_rule.html#BoundaryRule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.boundary_rule.BoundaryRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="peters_algorithm.base.asset_placement.abstract_rule.html#peters_algorithm.base.asset_placement.abstract_rule.Rule" title="peters_algorithm.base.asset_placement.abstract_rule.Rule"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rule</span></code></a></p>
+<p>A rule that checks if an object is within the given boundaries.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.boundary_rule.BoundaryRule._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#peters_algorithm.base.asset_placement.boundary_rule.BoundaryRule._abc_impl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -165,7 +176,7 @@
   
     <div class="footer" role="contentinfo">
         <div class="container">
-            &#169; Copyright 2023, EBIMAS.
+            &#169; Copyright 2023, EBIMAS Study Project.
         Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
         </div>
     </div>  

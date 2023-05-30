@@ -6,7 +6,7 @@ The documentation for the Peter Algorithm can be generated automatically using S
 
 First, make sure you have Sphinx and the Karma Sphinx theme installed. You can do this by running:
 
-`pip install sphinx karma-sphinx-theme`
+`pip install sphinx==6.2.1 karma-sphinx-theme`
 
 
 ## Steps for Creating Documentation from Scratch

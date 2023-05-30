@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>peters_algorithm.base.asset_placement.validator module &mdash; Peter Algorithm 1.0 documentation</title>
+  <title>peters_algorithm.base.asset_placement.validator module &mdash; PITA 1.0 documentation</title>
   
 
   
@@ -40,7 +40,7 @@
         <div class="container">
             <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
             <a class="site-title" href="index.html">
-                Peter Algorithm
+                PITA
             </a>
         </div>
     </header>
@@ -113,7 +113,7 @@
                         
                             
                             
-                                <p class="caption" role="heading"><span class="caption-text">Peter Algorithm Docs</span></p>
+                                <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="peters_algorithm.html">peters_algorithm package</a></li>
@@ -121,11 +121,6 @@
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
 </ul>
 
                             
@@ -139,38 +134,30 @@
   <section id="module-peters_algorithm.base.asset_placement.validator">
 <span id="peters-algorithm-base-asset-placement-validator-module"></span><h1>peters_algorithm.base.asset_placement.validator module<a class="headerlink" href="#module-peters_algorithm.base.asset_placement.validator" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.validator.MinDistanceRule">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peters_algorithm.base.asset_placement.validator.</span></span><span class="sig-name descname"><span class="pre">MinDistanceRule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist:</span> <span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types:</span> <span class="pre">[&lt;class</span> <span class="pre">'str'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ellipsis]</span> <span class="pre">=</span> <span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/validator.html#MinDistanceRule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.validator.MinDistanceRule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#peters_algorithm.base.asset_placement.validator.Rule" title="peters_algorithm.base.asset_placement.validator.Rule"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rule</span></code></a></p>
-<p>Check if a new object respects the minimum distance to other objects of a specified type</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.validator.MinDistanceRule._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#peters_algorithm.base.asset_placement.validator.MinDistanceRule._abc_impl" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.validator.Rule">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peters_algorithm.base.asset_placement.validator.</span></span><span class="sig-name descname"><span class="pre">Rule</span></span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/validator.html#Rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.validator.Rule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<p>Abstract class for rules.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.validator.Rule._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#peters_algorithm.base.asset_placement.validator.Rule._abc_impl" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.validator.Validator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peters_algorithm.base.asset_placement.validator.</span></span><span class="sig-name descname"><span class="pre">Validator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules:</span> <span class="pre">[&lt;class</span> <span class="pre">'peters_algorithm.base.asset_placement.validator.Rule'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ellipsis]</span> <span class="pre">=</span> <span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/validator.html#Validator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.validator.Validator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">peters_algorithm.base.asset_placement.validator.</span></span><span class="sig-name descname"><span class="pre">Validator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules:</span> <span class="pre">[&lt;class</span> <span class="pre">'peters_algorithm.base.asset_placement.abstract_rule.Rule'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ellipsis]</span> <span class="pre">=</span> <span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/validator.html#Validator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.validator.Validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class for maintaining a 2D representation for validation purposes, could be static</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.validator.Validator.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mujoco_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="peters_algorithm.base.asset_parsing.mujoco_object.html#peters_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="peters_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><span class="pre">MujocoObject</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/validator.html#Validator.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.validator.Validator.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add object to 2d representation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mujoco_object</strong> (<a class="reference internal" href="peters_algorithm.base.asset_parsing.mujoco_object.html#peters_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="peters_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><em>MujocoObject</em></a>) – The new object, that will be added to the 2d representation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="peters_algorithm.base.asset_placement.validator.Validator.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/validator.html#Validator.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.validator.Validator.plot" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/peters_algorithm/base/asset_placement/validator.html#Validator.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#peters_algorithm.base.asset_placement.validator.Validator.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the current 2d representation to where ever the current mpl backend points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>env_size</strong> (<em>tuple</em>) – Tuple containing the size of the environment</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -220,7 +207,7 @@
   
     <div class="footer" role="contentinfo">
         <div class="container">
-            &#169; Copyright 2023, EBIMAS.
+            &#169; Copyright 2023, EBIMAS Study Project.
         Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
         </div>
     </div>  

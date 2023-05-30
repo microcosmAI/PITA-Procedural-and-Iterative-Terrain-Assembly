@@ -14,3 +14,4 @@ Submodules
    :maxdepth: 5
 
    peters_algorithm.utils.config_reader
+   peters_algorithm.utils.json_exporter

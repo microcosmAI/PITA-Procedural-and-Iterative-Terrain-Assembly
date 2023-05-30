@@ -13,12 +13,12 @@ class Parser:
             xml_path (str): Path to xml-file
 
         Returns:
-            mjcf_ (mjcf): Mjcf object of given xml-file
+            mjcf_obj (mjcf.RootElement): Mjcf object of given xml-file
         """
         if xml_path is None:
             raise ValueError("No xml file provided")
         if not os.path.isfile(xml_path):
             raise ValueError("Could not find xml path provided")
 
-        mjcf_ = mjcf.from_path(xml_path)
-        return mjcf_
+        mjcf_obj = mjcf.from_path(xml_path)
+        return mjcf_obj
