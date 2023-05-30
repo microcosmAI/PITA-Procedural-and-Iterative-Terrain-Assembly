@@ -4,13 +4,13 @@ class MultivariateUniform():
     """Generates a multivariate uniform distribution.
 
     Parameters:
-        ranges (list of tuples): Each tuple defines the range (low, high) for one dimension.
+        ranges (list[tuple]): Each tuple defines the range (low, high) for one dimension.
 
     Returns:
-        numpy.ndarray: An array of shape (num_samples, len(ranges)), where each row is a sample from the multivariate uniform distribution.
+        (np.ndarray): An array of shape (num_samples, len(ranges)), where each row is a sample from the multivariate uniform distribution.
     """
 
-    def __call__(self, ranges):
+    def __call__(self, ranges: list[tuple]) -> tuple[np.ndarray, np.ndarray]:
         # Generate samples for each dimension
         samples = [np.random.uniform(low=low, high=high, size=1) for low, high in ranges]
 
