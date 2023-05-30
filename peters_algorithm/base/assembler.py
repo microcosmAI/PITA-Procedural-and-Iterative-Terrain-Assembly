@@ -15,12 +15,10 @@ from peters_algorithm.base.asset_placement.random_placer import (
 from peters_algorithm.base.asset_placement.border_placer import BorderPlacer
 from peters_algorithm.base.asset_placement.boundary_rule import BoundaryRule
 from peters_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
+from peters_algorithm.utils.multivariate_uniform_distribution import MultivariateUniform
 from peters_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
 )
-
-
-# from peters_algorithm.base.asset_placement.global_placer import GlobalPlacer
 
 
 class Assembler:
@@ -219,9 +217,13 @@ class Assembler:
                     sizes_range = object_config_dict["sizes"]
 
                 environment_random_distribution = Placer2DDistribution(
-                    np.random.multivariate_normal,
-                    (0, 0),
-                    np.array([[environment.size[0], 0], [0, environment.size[1]]]),
+                    MultivariateUniform(),
+                    np.array(
+                        [
+                            [-environment.size[0], environment.size[0]],
+                            [-environment.size[1], environment.size[1]],
+                        ]
+                    ),
                 )
                 RandomPlacer(environment_random_distribution).add(
                     site=environment,
@@ -263,12 +265,11 @@ class Assembler:
                         sizes_range = object_config_dict["sizes"]
 
                     area_random_distribution = Placer2DDistribution(
-                        np.random.multivariate_normal,
-                        (0, 0),
+                        MultivariateUniform(),
                         np.array(
                             [
-                                [areas[area_index].size[0], 0],
-                                [0, areas[area_index].size[1]],
+                                [-environment.size[0], environment.size[0]],
+                                [-environment.size[1], environment.size[1]],
                             ]
                         ),
                     )
