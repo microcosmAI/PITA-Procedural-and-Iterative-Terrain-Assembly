@@ -1,6 +1,7 @@
 import numpy as np
 
-class MultivariateUniform():
+
+class MultivariateUniform:
     """
     Generate a multivariate uniform distribution.
 
@@ -18,10 +19,11 @@ class MultivariateUniform():
 
     def __call__(self, ranges):
         # Generate samples for each dimension
-        samples = [np.random.uniform(low=low, high=high, size=1) for low, high in ranges]
+        samples = [
+            np.random.uniform(low=low, high=high, size=1) for low, high in ranges
+        ]
 
         # Combine the samples for each dimension
         multivariate_samples = np.column_stack(samples)
 
         return multivariate_samples[0][0], multivariate_samples[0][1]
-
