@@ -174,7 +174,10 @@ class RandomPlacer(AbstractPlacer):
             new_z_position = mujoco_objects_rule_blueprint.size[0]
 
             # Sample a new position
-            mujoco_objects_rule_blueprint.position = [*self.distribution(), new_z_position]
+            mujoco_objects_rule_blueprint.position = [
+                *self.distribution(),
+                new_z_position,
+            ]
 
             count = 0
             # Ask every validator for approval until all approve or MAX_TRIES is reached, then throw error
