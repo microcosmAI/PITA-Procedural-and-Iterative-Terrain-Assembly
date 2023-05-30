@@ -55,13 +55,7 @@ class Environment(AbstractContainer):
                 texuniform="true",
                 reflectance=".2",
             )
-            self._mjcf_model.worldbody.add(
-                "geom", name="base_plane", type="plane", size=size, material="grid"
-            )
-        else:
-            self._mjcf_model.worldbody.add(
-                "geom", name="base_plane", type="plane", size=size
-            )
+
         self._mujoco_objects = {}
 
     @property

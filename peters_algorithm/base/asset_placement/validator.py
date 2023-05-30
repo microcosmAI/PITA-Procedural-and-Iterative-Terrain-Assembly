@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 from peters_algorithm.base.asset_placement.abstract_rule import Rule
 from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from peters_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
 class Validator:
@@ -20,20 +21,21 @@ class Validator:
         )  # {str: BaseGeometry, ...} with str being the uniquely identifying mjcf name
         self.rules = rules
 
-    def validate(self, mujoco_object: MujocoObject):
+    def validate(self, mujoco_object: MujocoObject, site: AbstractContainer):
         """
         If all rules are satisfied, the new object will be included in the 2d representation and True is returned
 
         Parameters:
             mujoco_object (MujocoObject): the new object, that will be evaluated
+            site (AbstractContainer): AbstractContainer class instance where the object is added to
 
         Returns:
-            True if the new object satirsfies all rules
+            (boolean): True if the new object satisfies all rules
         """
-        # TODO: not sure if the mjcf structure will be consistent all the time...
         shape_object = geometry.Point(mujoco_object.position[:2])
+
         for rule in self.rules:
-            if not rule(self.map_2D, shape_object):
+            if not rule(self.map_2D, shape_object, mujoco_object, site):
                 return False
 
         return True
