@@ -5,13 +5,14 @@ from pita_algorithm.base.world_container.environment import Environment
 
 
 class JSONExporter:
-    """Exports all object information to a json file"""
+    """Exports all object information to a JSON file."""
 
     @staticmethod
     def export(
-        *, filename: str, config: dict, environment: Environment, areas: list[Area]
+        filename: str, config: dict, environment: Environment, areas: list[Area]
     ):
-        """Export all object information from the given Environment and Area instances to a json file
+        """Export all object information from the given Environment and Area instances
+        to a JSON file.
 
         Parameters:
             filename (str): Name of the file to be exported
@@ -35,7 +36,6 @@ class JSONExporter:
         for mujoco_object in environment._mujoco_objects.values():
             values = {}
 
-            # values['mjcf_obj'] = mujoco_object.mjcf_obj
             values["name"] = mujoco_object.name
             values["type"] = mujoco_object.obj_type
             values["attachable"] = mujoco_object.attachable
@@ -62,7 +62,6 @@ class JSONExporter:
             for mujoco_object in area._mujoco_objects.values():
                 values = {}
 
-                # values['mjcf_obj'] = mujoco_object.mjcf_obj
                 values["name"] = mujoco_object.name
                 values["type"] = mujoco_object.obj_type
                 values["attachable"] = mujoco_object.attachable
@@ -75,6 +74,6 @@ class JSONExporter:
                     mujoco_object.xml_id
                 ] = values
 
-        # Export to json
+        # Export to JSON file
         with open("export/" + filename + ".json", "w") as file:
             json.dump(all_objects, file, indent=4)

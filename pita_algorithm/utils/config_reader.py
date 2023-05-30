@@ -3,11 +3,11 @@ import yaml
 
 
 class ConfigReader:
-    """Class to read yaml-file (containing configurations)"""
+    """Reads yaml-file containing user defined configurations."""
 
     @staticmethod
-    def execute(*, config_path: str):
-        """Reads yaml-config file
+    def execute(config_path: str) -> dict:
+        """Reads yaml-config file.
 
         Parameters:
             config_path (str): Path to yaml-config file
@@ -23,4 +23,5 @@ class ConfigReader:
 
         stream = open(config_path, "r")
         config = yaml.load(stream, Loader=yaml.SafeLoader)
+        
         return config

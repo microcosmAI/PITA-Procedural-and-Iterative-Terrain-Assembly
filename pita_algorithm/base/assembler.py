@@ -1,6 +1,5 @@
 import copy
 import numpy as np
-from dm_control import mjcf
 from shapely import geometry
 
 from pita_algorithm.base.world_container.area import Area
@@ -22,33 +21,36 @@ from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import
 
 
 class Assembler:
-    """Assembles assets to corresponding world container"""
+    """Assembles the environment."""
 
     def __init__(self, config_file: dict, xml_dir: str):
-        """Constructor for Assembler class
+        """Constructor of the Assembler class.
 
         Parameters:
-            config (dict): config file containing user defined parameters
-            xml_dir (str): string to xml-directory (containing assets)
+            config_file (dict): Config file containing user defined parameters
+            xml_dir (str): String to xml-directory
         """
         self.config = config_file
         self.xml_dir = xml_dir
 
-    def assemble_world(self) -> tuple[Environment, list[Area]]:
-        """Calls the environment and areas and assembles them to create the world as and MJCF object
+    def assemble_environment(self) -> tuple[Environment, list[Area]]:
+        """Assembles the environment according to the users configuration.
 
         Returns:
             environment (Environment): Environment class instance
-            areas (list): List of Area class instances
+            areas (list[Area]): List of Area class instances
         """
-        # call mujoco loader to get dictionary of mujoco objects
+        # Call mujoco loader to get dictionary of mujoco objects
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
 
-        # Duplicate blueprints for rule checking that can be manipulated without changing the original
+        # Duplicate blueprints for rule checking that can be manipulated
+        # without changing the original
         mujoco_objects_rule_blueprints = {}
+
         for name, mujoco_object in mujoco_objects_blueprints.items():
             mujoco_object_copy = copy.deepcopy(mujoco_object)
+
             # If a free joint is present, replace it with a normal joint
             joint_list = mujoco_object_copy.mjcf_obj.worldbody.body[0].find_all(
                 "joint", immediate_children_only=True
@@ -67,17 +69,17 @@ class Assembler:
                 mujoco_object_copy.mjcf_obj.worldbody.body[0].add("joint")
             mujoco_objects_rule_blueprints[name] = mujoco_object_copy
 
-        # parse size from the config
+        # Parse size from the config
         size = self.config["Environment"]["size"]
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
-        # create environment
+        # Create environment
         environment = Environment(
             name="Environment1", size=(size[0], size[1], 0.1), pretty_mode=pretty_mode
         )
 
-        # create areas
-        # as long as we only have one area we set its size to the one of the env
+        # Create areas
+        # As long as we only have one area we set its size to the one of the environment
         # TODO: set size and boundary with layout manager
         areas = [
             Area(
@@ -87,6 +89,7 @@ class Assembler:
                 boundary=None,
             )
         ]
+        # TODO: Initialize multiple areas
         """for area_name, area_settings in self.config["Areas"].items():
             areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
 
@@ -116,7 +119,6 @@ class Assembler:
             )
 
         # Border Placement
-        # TODO: if config.environment.borders:
         border_config_dict = {}
         for dict_ in self.config["Environment"]["Borders"]:
             border_config_dict.update(dict_)
@@ -151,6 +153,7 @@ class Assembler:
             for dict_ in object_settings:
                 object_config_dict.update(dict_)
 
+            # Checks for coordinates and if they are present, place the object using the fixed placer
             for objects in object_settings:
                 if "coordinates" in objects:
                     FixedPlacer().add(
@@ -173,6 +176,7 @@ class Assembler:
                 for dict_ in object_settings:
                     object_config_dict.update(dict_)
 
+                # Checks for coordinates and if they are present, place the object using the fixed placer
                 for objects in object_settings:
                     if "coordinates" in objects:
                         FixedPlacer().add(
@@ -180,7 +184,7 @@ class Assembler:
                             mujoco_object_blueprint=mujoco_objects_blueprints[
                                 object_name
                             ],
-                            mujoco_objects_rule_blueprints=mujoco_objects_rule_blueprints[
+                            mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[
                                 object_name
                             ],
                             validators=[
@@ -202,13 +206,15 @@ class Assembler:
                 for dict_ in object_settings:
                     object_config_dict.update(dict_)
 
-                # checks for color and size range which the random placer with handle
+                # Checks for colors
                 if "colors" not in [
                     list(setting.keys())[0] for setting in object_settings
                 ]:
                     colors_range = None
                 else:
                     colors_range = object_config_dict["colors"]
+
+                # Checks for sizes
                 if "sizes" not in [
                     list(setting.keys())[0] for setting in object_settings
                 ]:
@@ -216,6 +222,7 @@ class Assembler:
                 else:
                     sizes_range = object_config_dict["sizes"]
 
+                # Instantiate placer distribution and call random placer
                 environment_random_distribution = Placer2DDistribution(
                     MultivariateUniform(),
                     np.array(
@@ -250,13 +257,15 @@ class Assembler:
                     for dict_ in object_settings:
                         object_config_dict.update(dict_)
 
-                    # checks for color and size range which the random placer with handle
+                    # Checks for colors
                     if "colors" not in [
                         list(setting.keys())[0] for setting in object_settings
                     ]:
                         colors_range = None
                     else:
                         colors_range = object_config_dict["colors"]
+
+                    # Checks for sizes
                     if "sizes" not in [
                         list(setting.keys())[0] for setting in object_settings
                     ]:
@@ -264,6 +273,7 @@ class Assembler:
                     else:
                         sizes_range = object_config_dict["sizes"]
 
+                    # Instantiate placer distribution and call random placer
                     area_random_distribution = Placer2DDistribution(
                         MultivariateUniform(),
                         np.array(
@@ -288,7 +298,7 @@ class Assembler:
                         sizes_range=sizes_range,
                     )
 
-        # Add plane
+        # Add plane to environment, if pretty mode is enabled also add grid material
         if pretty_mode:
             environment.mjcf_model.worldbody.add(
                 "geom",

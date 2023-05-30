@@ -1,8 +1,9 @@
+from typing import Union
 from dm_control import mjcf
 
 
 class MujocoObject:
-    """Class to define a MujocoObject"""
+    """Defines a MujocoObject."""
 
     def __init__(
         self,
@@ -11,12 +12,12 @@ class MujocoObject:
         mjcf_obj: mjcf.RootElement,
         obj_type: str,
         attachable: bool,
-        coordinates: tuple[float, float, float] = None,
-        color: tuple[float, float, float, float] = None,
-        size: float = None,
-        tags: list[str] = None,
+        coordinates: Union[tuple[float, float, float], None] = None,
+        color: Union[tuple[float, float, float, float], None] = None,
+        size: Union[float, None] = None,
+        tags: Union[list[str], None] = None,
     ):
-        """Initializes the MujocoObject class
+        """Initializes the MujocoObject class.
 
         Parameters:
             name (str): Specific name of object
@@ -28,19 +29,19 @@ class MujocoObject:
             size (float): size of ball (radius)
             tags (list(str)): user specified tags
         """
-        self._name: str = name
-        self._xml_id: str = xml_id
-        self._mjcf_obj: mjcf.RootElement = mjcf_obj
-        self._obj_type: str = obj_type
-        self._attachable: bool = attachable
-        self._coordinates: tuple = coordinates
-        self._color: tuple = color
-        self._size: float = size
-        self._tags: list = tags
+        self._name = name
+        self._xml_id = xml_id
+        self._mjcf_obj = mjcf_obj
+        self._obj_type = obj_type
+        self._attachable = attachable
+        self._coordinates = coordinates
+        self._color = color
+        self._size = size
+        self._tags = tags
 
     @property
     def name(self) -> str:
-        """Get name
+        """Get name.
 
         Returns:
             name (str): Name of the object
@@ -49,12 +50,16 @@ class MujocoObject:
 
     @name.setter
     def name(self, name: str):
-        """Set name"""
+        """Set name.
+        
+        Parameters:
+            name (str): Name of the object
+        """
         self._name = name
 
     @property
     def xml_id(self) -> str:
-        """Get xml id
+        """Get xml id.
 
         Returns:
             xml_id (str): Id of object in xml
@@ -63,26 +68,34 @@ class MujocoObject:
 
     @xml_id.setter
     def xml_id(self, xml_id: str):
-        """Set xml id"""
+        """Set xml id.
+        
+        Parameters:
+            xml_id (str): Id of object in xml
+        """
         self._xml_id = xml_id
 
     @property
     def mjcf_obj(self) -> mjcf.RootElement:
-        """Get mjcf object
+        """Get mjcf object.
 
         Returns:
-            mjcf_obj (mjcf): Mjcf model of the object
+            mjcf_obj (mjcf.RootElement): Mjcf model of the object
         """
         return self._mjcf_obj
 
     @mjcf_obj.setter
     def mjcf_obj(self, mjcf_obj: mjcf.RootElement):
-        """Set mjcf object"""
+        """Set mjcf object.
+        
+        Parameters:
+            mjcf_obj (mjcf.RootElement): Mjcf model of the object
+        """
         self._mjcf_obj = mjcf_obj
 
     @property
     def obj_type(self) -> str:
-        """Get object type
+        """Get object type.
 
         Returns:
             obj_type (str): Type of the object
@@ -91,12 +104,16 @@ class MujocoObject:
 
     @obj_type.setter
     def obj_type(self, obj_type: str):
-        """Set object type"""
+        """Set object type.
+        
+        Parameters:
+            obj_type (str): Type of the object
+        """
         self._obj_type = obj_type
 
     @property
     def attachable(self) -> bool:
-        """Get attachable
+        """Get attachable.
 
         Returns:
             attachable (bool): True if object is attachable, False otherwise
@@ -105,26 +122,34 @@ class MujocoObject:
 
     @attachable.setter
     def attachable(self, attachable: bool):
-        """Set attachable"""
+        """Set attachable.
+        
+        Parameters:
+            attachable (bool): True if object is attachable, False otherwise
+        """
         self._attachable = attachable
 
     @property
     def position(self) -> tuple[float, float, float]:
-        """Get position
+        """Get position.
 
         Returns:
-            position (tuple): Position of the object
+            position (tuple[float, float, float]): Position of the object
         """
         return self._mjcf_obj.find("body", self._name.lower()).pos
 
     @position.setter
     def position(self, position: tuple[float, float, float]):
-        """Set position"""
+        """Set position.
+        
+        Parameters:
+            position (tuple[float, float, float]): Position of the object
+        """
         self._mjcf_obj.find("body", self._name.lower()).pos = position
 
     @property
     def color(self) -> tuple[float, float, float, float]:
-        """Get color rgba
+        """Get color rgba.
 
         Returns:
             color (tuple[float, float, float, float]): color rgba
@@ -133,12 +158,16 @@ class MujocoObject:
 
     @color.setter
     def color(self, color: tuple[float, float, float, float]):
-        """Set color as rgba"""
+        """Set color as rgba.
+
+        Parameters:
+            color (tuple[float, float, float, float]): color rgba
+        """
         self._mjcf_obj.find("body", self._name.lower()).geom[0].rgba = color
 
     @property
     def size(self) -> float:
-        """Get size of object
+        """Get size of object.
 
         Returns:
             size (float): size of object
@@ -147,19 +176,27 @@ class MujocoObject:
 
     @size.setter
     def size(self, size: float):
-        """Set size of object"""
+        """Set size of object.
+        
+        Parameters:
+            size (float): size of object
+        """
         self._mjcf_obj.find("body", self._name.lower()).geom[0].size = size
 
     @property
-    def tags(self) -> list[str]:
-        """Get tags
+    def tags(self) -> Union[list[str], None]:
+        """Get tags.
 
         Returns:
-            tags (list): Tag list of the object
+            tags (list[str]): Tag list of the object
         """
         return self._tags
 
     @tags.setter
     def tags(self, tags: list[str]):
-        """Set tags"""
+        """Set tags.
+
+        Parameters:
+            tags (list): Tag list of the object
+        """
         self._tags = tags

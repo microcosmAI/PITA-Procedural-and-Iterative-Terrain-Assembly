@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from typing import Callable
+from typing import Callable, Union
 
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
@@ -118,8 +118,8 @@ class RandomPlacer(AbstractPlacer):
         mujoco_objects_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
-        colors_range: tuple[int, int] = None,
-        sizes_range: tuple[int, int] = None,
+        colors_range: Union[tuple[int, int], None] = None,
+        sizes_range: Union[tuple[int, int], None] = None,
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the vlaidator.

@@ -12,41 +12,53 @@ class AbstractContainer(ABC):
         pass
 
     @abstractmethod
-    def add(self, *, mujoco_object: MujocoObject):
-        """Adds mujoco-object"""
+    def add(self, mujoco_object: MujocoObject):
+        """Adds mujoco-object.
+
+        Parameters:
+            mujoco_object (MujocoObject): Mujoco object to add to container
+        """
         pass
 
     @abstractmethod
-    def remove(self, *, mujoco_object: MujocoObject):
-        """Removes mujoco-object"""
+    def remove(self, mujoco_object: MujocoObject):
+        """Removes mujoco-object.
+
+        Parameters:
+            mujoco_object (MujocoObject): Mujoco object to remove from container
+        """
         pass
 
     @property
     @abstractmethod
     def name(self):
-        """Get name"""
+        """Get name."""
         pass
 
     @name.setter
     @abstractmethod
     def name(self, name: str):
-        """Set name"""
+        """Set name.
+
+        Parameters:
+            name (str): Name of container
+        """
         pass
 
     @property
     @abstractmethod
     def size(self):
-        """Get size"""
+        """Get size."""
         pass
 
     @property
     @abstractmethod
     def mjcf_model(self):
-        """Get mjcf model"""
+        """Get mjcf model."""
         pass
 
     @property
     @abstractmethod
     def mujoco_objects(self):
-        """Get mujoco objects"""
+        """Get mujoco objects."""
         pass

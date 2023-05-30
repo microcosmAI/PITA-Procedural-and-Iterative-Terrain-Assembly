@@ -1,9 +1,8 @@
 import os
-import random
 import sys
+import random
 import argparse
 import warnings
-
 import numpy as np
 
 # Add parent folder of builder.py to python path
@@ -15,18 +14,18 @@ from pita_algorithm.utils.config_reader import ConfigReader
 
 
 class PITA:
-    """Main class to run stochastic world generation for ReinforcementLearning applications"""
+    """Main class to run the PITA algorithm."""
 
     def run(self):
         """Run pita_algorithm to create xml-file containing objects specified in config file.
-        objects are given as xml by user
+        Objects are given as xml by the user.
         """
-        # assign user args to params
+        # Assign user args to params
         args = self._get_user_args()
         config_path = args.config_path
         xml_dir = args.xml_dir
 
-        # read config file and assemble world and export to xml and json
+        # Read config file and assemble world and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
 
         # Set Random Seed
@@ -41,7 +40,7 @@ class PITA:
 
         environment, areas = Assembler(
             config_file=config, xml_dir=xml_dir
-        ).assemble_world()
+        ).assemble_environment()
         self._to_xml(
             xml_string=environment.mjcf_model.to_xml_string(), file_name="test"
         )
@@ -52,11 +51,12 @@ class PITA:
             areas=areas,
         )
 
-    def _get_user_args(self):
-        """Read args set by user; if none are given, args are set to files and directories in "examples"
+    def _get_user_args(self) -> argparse.Namespace:
+        """Read args defined by user. If none are given, args are set to files and 
+        directories in the 'examples' folder.
 
         Returns:
-            args (namespace obj): Contains args set by user
+            args (argparse.Namespace): Contains args defined by user
         """
         parser = argparse.ArgumentParser()
         parser.add_argument(
@@ -83,14 +83,13 @@ class PITA:
             )
         return args
 
-    def _to_xml(self, *, xml_string, file_name):
-        """Exports a given string to an .xml file
+    def _to_xml(self, xml_string, file_name):
+        """Exports a given string to an .xml file.
 
         Parameters:
-            xml_string (str): String that contains the environment
+            xml_string (str): String representation of the environment mjcf model
             file_name (str): Name of the file to be exported
         """
-
         with open("export/" + file_name + ".xml", "w") as f:
             f.write(xml_string)
 

@@ -3,11 +3,11 @@ from dm_control import mjcf
 
 
 class Parser:
-    """Class to parse xml-file in given path to mujoco's MJCF-object"""
+    """Class to parse xml-file in given path to mujoco's MJCF-object."""
 
     @staticmethod
-    def get_mjcf(*, xml_path: str) -> mjcf.RootElement:
-        """Parses xml-file to MJCF-object
+    def get_mjcf(xml_path: str) -> mjcf.RootElement:
+        """Parses xml-file to MJCF-object.
 
         Parameters:
             xml_path (str): Path to xml-file
@@ -21,4 +21,5 @@ class Parser:
             raise ValueError("Could not find xml path provided")
 
         mjcf_obj = mjcf.from_path(xml_path)
+        
         return mjcf_obj
