@@ -8,7 +8,7 @@ class MultivariateUniform:
         ranges (list[tuple]): Each tuple defines the range (low, high) for one dimension.
 
     Returns:
-        tuple[np.ndarray, np.ndarray]: An array of shape (num_samples, len(ranges)), where each row is a sample from the multivariate uniform distribution.
+        (tuple[np.ndarray, np.ndarray]): An array of shape (num_samples, len(ranges)), where each row is a sample from the multivariate uniform distribution.
     """
 
     def __call__(self, ranges: list[tuple]) -> tuple[np.ndarray, np.ndarray]:
