@@ -95,19 +95,20 @@ class Assembler:
             amount=4,
             has_border=has_border,
         )
-
-        # Add Border to map2D of environment validator
-        global_validators[0].map_2D[mujoco_objects_blueprints["Border"].name] = [
-            geometry.LineString(
-                [
-                    [-size[0], -size[1]],
-                    [-size[0], size[1]],
-                    [size[0], size[1]],
-                    [size[0], -size[1]],
-                    [-size[0], -size[1]],
-                ]
-            )
-        ]
+        
+        if has_border:
+            # Add Border to map2D of environment validator
+            global_validators[0].map_2D[mujoco_objects_blueprints["Border"].name] = [
+                geometry.LineString(
+                    [
+                        [-size[0], -size[1]],
+                        [-size[0], size[1]],
+                        [size[0], size[1]],
+                        [size[0], -size[1]],
+                        [-size[0], -size[1]],
+                    ]
+                )
+            ]
 
         # TODO: Maybe see if its possible to not loop over these item a second time for random placement
         # Fixed Coordinate Mujoco Object Placement - Environment level
