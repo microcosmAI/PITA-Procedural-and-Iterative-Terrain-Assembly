@@ -1,7 +1,7 @@
 import json
 
-from peters_algorithm.base.world_container.area import Area
-from peters_algorithm.base.world_container.environment import Environment
+from pita_algorithm.base.world_container.area import Area
+from pita_algorithm.base.world_container.environment import Environment
 
 
 class JSONExporter:

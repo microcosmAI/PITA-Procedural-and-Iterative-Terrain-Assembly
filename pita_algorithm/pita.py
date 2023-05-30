@@ -9,16 +9,16 @@ import numpy as np
 # Add parent folder of builder.py to python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from peters_algorithm.base.assembler import Assembler
-from peters_algorithm.utils.json_exporter import JSONExporter
-from peters_algorithm.utils.config_reader import ConfigReader
+from pita_algorithm.base.assembler import Assembler
+from pita_algorithm.utils.json_exporter import JSONExporter
+from pita_algorithm.utils.config_reader import ConfigReader
 
 
-class PetersAlgorithm:
+class PITA:
     """Main class to run stochastic world generation for ReinforcementLearning applications"""
 
     def run(self):
-        """Run peters_algorithm to create xml-file containing objects specified in config file.
+        """Run pita_algorithm to create xml-file containing objects specified in config file.
         objects are given as xml by user
         """
         # assign user args to params
@@ -96,4 +96,4 @@ class PetersAlgorithm:
 
 
 if __name__ == "__main__":
-    PetersAlgorithm().run()
+    PITA().run()

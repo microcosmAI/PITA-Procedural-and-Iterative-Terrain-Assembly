@@ -18,6 +18,7 @@ class ConfigReader:
         if config_path is None:
             raise ValueError("No config file provided")
         if not os.path.isfile(config_path):
+            print(config_path)
             raise ValueError("Could not find config file in path provided")
 
         stream = open(config_path, "r")

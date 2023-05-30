@@ -1,7 +1,7 @@
 import os.path
 
-from peters_algorithm.base.asset_parsing.parser import Parser
-from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from pita_algorithm.base.asset_parsing.parser import Parser
+from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
 class MujocoLoader:

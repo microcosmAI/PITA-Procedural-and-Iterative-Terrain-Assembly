@@ -1,7 +1,7 @@
-from peters_algorithm.base.world_container.environment import Environment
-from peters_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-from peters_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
-from peters_algorithm.base.world_container.abstract_container import AbstractContainer
+from pita_algorithm.base.world_container.environment import Environment
+from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
+from pita_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
 class BorderPlacer(AbstractPlacer):
