@@ -166,20 +166,20 @@ class MujocoObject:
         self._mjcf_obj.find("body", self._name.lower()).geom[0].rgba = color
 
     @property
-    def size(self) -> float:
+    def size(self) -> list[float]:
         """Get size of object.
 
         Returns:
-            size (float): size of object
+            size (list[float]): size of object
         """
         return self._mjcf_obj.find("body", self._name.lower()).geom[0].size
 
     @size.setter
-    def size(self, size: float):
+    def size(self, size: list[float]):
         """Set size of object.
         
         Parameters:
-            size (float): size of object
+            size (list[float]): size of object
         """
         self._mjcf_obj.find("body", self._name.lower()).geom[0].size = size
 

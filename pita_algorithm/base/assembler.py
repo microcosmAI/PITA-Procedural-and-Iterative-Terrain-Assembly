@@ -2,9 +2,9 @@ import copy
 import numpy as np
 from shapely import geometry
 
-from pita_algorithm.base.world_container.area import Area
+from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.asset_placement.validator import Validator
-from pita_algorithm.base.world_container.environment import Environment
+from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 from pita_algorithm.base.asset_placement.fixed_placer import FixedPlacer
 from pita_algorithm.base.asset_placement.random_placer import (
@@ -33,8 +33,8 @@ class Assembler:
         self.config = config_file
         self.xml_dir = xml_dir
 
-    def assemble_environment(self) -> tuple[Environment, list[Area]]:
-        """Assembles the environment according to the users configuration.
+    def assemble_world(self) -> tuple[Environment, list[Area]]:
+        """Assembles the world according to the users configuration.
 
         Returns:
             environment (Environment): Environment class instance
@@ -96,7 +96,7 @@ class Assembler:
         # Create Validators
         environment_validator = Validator(
             [
-                MinDistanceMujocoPhysicsRule(1.0),
+                MinDistanceMujocoPhysicsRule(distance=1.0),
                 BoundaryRule(boundary=(size[0], size[1])),
             ]
         )
@@ -112,7 +112,7 @@ class Assembler:
             area_validators.append(
                 Validator(
                     [
-                        MinDistanceMujocoPhysicsRule(1.0),
+                        MinDistanceMujocoPhysicsRule(distance=1.0),
                         BoundaryRule(boundary=(size[0], size[1])),
                     ]
                 )
@@ -159,7 +159,7 @@ class Assembler:
                     FixedPlacer().add(
                         site=environment,
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
-                        mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[
+                        mujoco_object_rule_blueprint=mujoco_objects_rule_blueprints[
                             object_name
                         ],
                         validators=global_validators,
@@ -184,7 +184,7 @@ class Assembler:
                             mujoco_object_blueprint=mujoco_objects_blueprints[
                                 object_name
                             ],
-                            mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[
+                            mujoco_object_rule_blueprint=mujoco_objects_rule_blueprints[
                                 object_name
                             ],
                             validators=[
@@ -232,10 +232,10 @@ class Assembler:
                         ]
                     ),
                 )
-                RandomPlacer(environment_random_distribution).add(
+                RandomPlacer(distribution=environment_random_distribution).add(
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
-                    mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[
+                    mujoco_object_rule_blueprint=mujoco_objects_rule_blueprints[
                         object_name
                     ],
                     validators=global_validators,
@@ -283,10 +283,10 @@ class Assembler:
                             ]
                         ),
                     )
-                    RandomPlacer(area_random_distribution).add(
+                    RandomPlacer(distribution=area_random_distribution).add(
                         site=areas[area_index],
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
-                        mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[
+                        mujoco_object_rule_blueprint=mujoco_objects_rule_blueprints[
                             object_name
                         ],
                         validators=[

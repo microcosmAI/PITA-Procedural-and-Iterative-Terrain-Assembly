@@ -3,12 +3,12 @@ from abc import ABC, abstractmethod
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
-class AbstractContainer(ABC):
-    """Abstract class for environment and area"""
+class AbstractSite(ABC):
+    """Abstract class for environment and area."""
 
     @abstractmethod
     def __init__(self):
-        """Initializes the container class."""
+        """Constructor of the AbstractSite class."""
         pass
 
     @abstractmethod
@@ -16,7 +16,7 @@ class AbstractContainer(ABC):
         """Adds mujoco-object.
 
         Parameters:
-            mujoco_object (MujocoObject): Mujoco object to add to container
+            mujoco_object (MujocoObject): Mujoco object to add to site
         """
         pass
 
@@ -25,7 +25,7 @@ class AbstractContainer(ABC):
         """Removes mujoco-object.
 
         Parameters:
-            mujoco_object (MujocoObject): Mujoco object to remove from container
+            mujoco_object (MujocoObject): Mujoco object to remove from site
         """
         pass
 
@@ -41,7 +41,7 @@ class AbstractContainer(ABC):
         """Set name.
 
         Parameters:
-            name (str): Name of container
+            name (str): Name of site
         """
         pass
 

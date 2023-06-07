@@ -1,15 +1,14 @@
-from pita_algorithm.base.world_container.environment import Environment
+from pita_algorithm.base.world_sites.environment import Environment
+from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
-from pita_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
 class BorderPlacer(AbstractPlacer):
     """Places borders into the given environment."""
 
     def __init__(self):
-        """Initializes the BorderPlacer class."""
-
+        """Constructor of the BorderPlacer class."""
         super(BorderPlacer, self).__init__()
 
     def add(
@@ -19,14 +18,13 @@ class BorderPlacer(AbstractPlacer):
         amount: int = 4,
         has_border: bool = False,
     ):
-        """Adds the borders around the environment
+        """Adds the borders around the environment.
 
         Parameters:
             environment (Environment): Environment class instance
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             amount (int): Number of to-be-placed borders
             has_border (bool): True if border is added to environment, else False
-            coordinates (tuple): Coordinates
 
         Returns:
             mjcf_model (mjcf): An empty environment with borders around it
@@ -38,7 +36,8 @@ class BorderPlacer(AbstractPlacer):
                 mujoco_object_blueprint.mjcf_obj.worldbody.body[0].geom[0].size
             )
 
-            # Calculate border coordinates, add/sub width/breadth of the object to remove overlap with the plane
+            # Calculate border coordinates, add/sub width/breadth of the object
+            # to remove overlap with the plane
             top_middle = (0, size[1] + blueprint_y)
             bottom_middle = (0, -size[1] - blueprint_y)
             right_middle = (size[0] + blueprint_x, 0)
@@ -70,6 +69,6 @@ class BorderPlacer(AbstractPlacer):
 
                 environment.add(mujoco_object=border)
 
-    def remove(self, *, site: AbstractContainer, mujoco_object: MujocoObject):
-        """Remove function, currently not implemented/needed"""
+    def remove(self, site: AbstractSite, mujoco_object: MujocoObject):
+        """Remove function, currently not implemented/needed."""
         pass

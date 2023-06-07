@@ -1,11 +1,11 @@
 from dm_control import mjcf
 
-from pita_algorithm.base.world_container.environment import Environment
+from pita_algorithm.base.world_sites.environment import Environment
+from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-from pita_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
-class Area(AbstractContainer):
+class Area(AbstractSite):
     """Represents an area in the environment. An area is a part of 
     the environment that can contain objects.
     """

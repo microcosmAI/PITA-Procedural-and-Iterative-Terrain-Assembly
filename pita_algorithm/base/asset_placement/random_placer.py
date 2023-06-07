@@ -1,87 +1,71 @@
 import random
 import numpy as np
-from typing import Callable, Union
+from typing import Callable, Union, Any
 
 from pita_algorithm.base.asset_placement.validator import Validator
+from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
-from pita_algorithm.base.world_container.abstract_container import AbstractContainer
-
-
-class GlobalNamespace:
-    """Placeholder until we know how to name objects, before attaching them"""
-
-    counter = 0
-
-    @staticmethod
-    def get():
-        """Get a unique name
-
-        Returns:
-            (str): unique name
-        """
-        GlobalNamespace.counter += 1
-        return str(GlobalNamespace.counter)
 
 
 class PlacerDistribution:
-    """Class for holing Distribution with specific parameterizations"""
+    """Abstract class for Placers Distributions."""
 
-    def __init__(self, distribution: Callable, *args):
-        """Initialize a distribution for use in the RandomPlacer. The distribution
-        object will be called with *args as paramters.
+    def __init__(self, distribution: Callable, *args: Any):
+        """Constructor for distributions used in the RandomPlacer. The distribution
+        object will be called with *args as parameters.
         Write for instance:
         `PlacerDistribution(np.random.default_rng().normal, 2, 1)` if you intend
         to sample from a normal distribution with loc=2 and scale = 1
         The samples will be drawn independently, which results in square like shapes.
 
         Parameters:
-            distribution (Callable): distribution(*args) will be used for sampling values
-            *args (sequence of floats): parameters for the random distribution
+            distribution (Callable): Distribution(*args) will be used for sampling values
+            *args (Any): Parameters for the random distribution
         """
         self.distribution = distribution
         self.parameters = args
 
-    def __call__(self):
-        """Draws samples from the distribution
+    def __call__(self) -> tuple[float, float]:
+        """Draws a sample from the distribution.
 
         Returns:
-            (float, float): sampled x and y coordinates
+            (tuple[float, float]): Sampled x and y coordinates
         """
         return self.distribution(*self.parameters), self.distribution(*self.parameters)
 
 
 class Placer2DDistribution(PlacerDistribution):
-    """Class for two dimensional distributions, otherwise equivalent to its parent class"""
+    """Class for two dimensional distributions, otherwise equivalent to its parent class."""
 
-    def __call__(self):
-        """Draw a sample from the distribution
+    def __call__(self) -> tuple[float, float]:
+        """Draws a sample from the distribution
 
         Returns:
-            (float, float): sampled x and y coordinates
+            (float, float): Sampled x and y coordinates
         """
         x, y = self.distribution(*self.parameters)
         return (x, y)
 
 
 class CircularUniformDistribution(PlacerDistribution):
-    """Class for holing Distribution with specific parameterizations"""
+    """Class for holing Distribution with specific parameterizations."""
 
     def __init__(self, loc: float = 0, scale: float = 10.0):
-        """Distribution for uniformly drawing samples from a circle
+        """Distribution for uniformly drawing samples from a circle.
 
         Parameters:
-            loc (float): minimal euclidean distance from the center
-            scale (float): maximal euclidean distance from the center
+            loc (float): Minimal euclidean distance from the center
+            scale (float): Maximal euclidean distance from the center
         """
         self.loc = loc
         self.scale = scale
 
     def __call__(self):
-        """Draw a sample from the distribution
+        """Draws a sample from the distribution.
 
         Returns:
-            (float, float): sampled x and y coordinates
+            (float, float): Sampled x and y coordinates
         """
         length = np.sqrt(np.random.uniform(self.loc, self.scale**2))
         angle = np.pi * np.random.uniform(0, 2)
@@ -92,46 +76,41 @@ class CircularUniformDistribution(PlacerDistribution):
 
 
 class RandomPlacer(AbstractPlacer):
-    """A placer that is meant for procedural and random map generation"""
+    """Places objects in a random manner."""
 
-    # The validator does not check, if the addition of an item is possible. Instead, after placement
-    # has failed for MAX_TRIES times, an error gets thrown. MAX_TRIES could alternatively be implemented
-    # dynamically, as a field of any Placer instantiation
+    # The validator does not check, if the addition of an item is possible.
+    # Instead, after placement has failed for MAX_TRIES times, an error is thrown.
     MAX_TRIES = 10000
 
     def __init__(self, distribution: PlacerDistribution):
-        """Initializes the Placer class. From the distribution a translation on the x and y axis will be
-        respectively sampled. So the distribution of the to be placed objects is actually centered at
-        the position of the original object plus a loc parameter of the distribution (if it has one).
-        Note, that this will result in square shaped distributions, unless an explicitly circular
-        distribution is used.
+        """Constructor of the RandomPlacer class.
 
         Parameters:
-            distribution (PlacerDistribution): Distribution from which placement randomness will be sampled
+            distribution (PlacerDistribution): Distribution used for sampling
         """
         self.distribution = distribution
 
     def add(
         self,
-        site: AbstractContainer,
+        site: AbstractSite,
         mujoco_object_blueprint: MujocoObject,
-        mujoco_objects_rule_blueprint: MujocoObject,
+        mujoco_object_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
         colors_range: Union[tuple[int, int], None] = None,
         sizes_range: Union[tuple[int, int], None] = None,
     ):
-        """Adds a mujoco object to a site by calling the sites add method.
-        Possibly checks placement via the vlaidator.
+        """Adds a mujoco object to a site by calling the sites add method
+        after checking placement via the validator.
 
         Parameters:
-            site (AbstractContainer): Site class instance where the object is added to
-            mujoco_object_blueprint (mjcf.RootElement): To-be-placed mujoco object
-            mujoco_objects_rule_blueprint (mjcf.RootElement): To-be-checked mujoco object
-            validators (list): List of validator class instances used to check object placement
-            amount (tuple): Range of possible amount of objects to be placed
-            colors_range (tuple): Range of possible different colors for object
-            sizes_range (tuple): Range of possible different sizes for object
+            site (AbstractSite): Site class instance where the object is added to
+            mujoco_object_blueprint (MujocoObject): To-be-placed mujoco object
+            mujoco_object_rule_blueprint (MujocoObject): Blueprint of the to-be-placed mujoco object
+            validators (list[Validator]): List of validators used to check object placement
+            amount (tuple[int, int]): Range of possible amount of objects to be placed
+            colors_range (Union[tuple[int, int], None]): Range of possible different colors for object
+            sizes_range (Union[tuple[int, int], None]): Range of possible different sizes for object
         """
 
         # Sample the amount of objects to be placed if amount is a tuple and differ
@@ -158,32 +137,33 @@ class RandomPlacer(AbstractPlacer):
                 # apply colors to objects
                 if i > (len(colors_rgba) - 1):
                     randint = random.randrange(len(colors_rgba))
-                    mujoco_objects_rule_blueprint.color = colors_rgba[randint]
+                    mujoco_object_rule_blueprint.color = colors_rgba[randint]
                 else:
-                    mujoco_objects_rule_blueprint.color = colors_rgba[i]
+                    mujoco_object_rule_blueprint.color = colors_rgba[i]
 
             if not sizes is None:
                 # apply sizes to objects
                 if i > (len(sizes) - 1):
                     randint = random.randrange(len(sizes))
-                    mujoco_objects_rule_blueprint.size = sizes[randint]
+                    mujoco_object_rule_blueprint.size = sizes[randint]
                 else:
-                    mujoco_objects_rule_blueprint.size = sizes[i]
+                    mujoco_object_rule_blueprint.size = sizes[i]
 
             # Save size of object for setting the z coordinate
-            new_z_position = mujoco_objects_rule_blueprint.size[0]
+            new_z_position = mujoco_object_rule_blueprint.size[0]
 
             # Sample a new position
-            mujoco_objects_rule_blueprint.position = [
+            mujoco_object_rule_blueprint.position = (
                 *self.distribution(),
                 new_z_position,
-            ]
+            )
 
             count = 0
-            # Ask every validator for approval until all approve or MAX_TRIES is reached, then throw error
+            # Ask every validator for approval until all approve or MAX_TRIES is reached,
+            # then throw error
             while not all(
                 [
-                    validator.validate(mujoco_objects_rule_blueprint, site)
+                    validator.validate(mujoco_object=mujoco_object_rule_blueprint, site=site)
                     for validator in validators
                 ]
             ):
@@ -197,10 +177,10 @@ class RandomPlacer(AbstractPlacer):
                         )
                     )
                 # If placement is not possible, sample a new position
-                mujoco_objects_rule_blueprint.position = [
+                mujoco_object_rule_blueprint.position = (
                     *self.distribution(),
                     new_z_position,
-                ]
+                )
 
             # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
@@ -208,16 +188,16 @@ class RandomPlacer(AbstractPlacer):
             if colors_rgba is not None:
                 # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
                 old_color = mujoco_object.color
-                mujoco_object.color = mujoco_objects_rule_blueprint.color
-                mujoco_objects_rule_blueprint.color = old_color
+                mujoco_object.color = mujoco_object_rule_blueprint.color
+                mujoco_object_rule_blueprint.color = old_color
 
             if sizes is not None:
                 # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
                 old_size = mujoco_object.size
-                mujoco_object.size = mujoco_objects_rule_blueprint.size
-                mujoco_objects_rule_blueprint.size = old_size
+                mujoco_object.size = mujoco_object_rule_blueprint.size
+                mujoco_object_rule_blueprint.size = old_size
 
-            mujoco_object.position = mujoco_objects_rule_blueprint.position
+            mujoco_object.position = mujoco_object_rule_blueprint.position
 
             # Keep track of the placement in the validators
             for validator in validators:
@@ -226,26 +206,25 @@ class RandomPlacer(AbstractPlacer):
             # Add the object to the site
             site.add(mujoco_object=mujoco_object)
 
-    def remove(self, site: AbstractContainer, mujoco_object: MujocoObject):
+    def remove(self, site: AbstractSite, mujoco_object: MujocoObject):
         """Removes a mujoco object from a site by calling the sites remove method.
-        Possibly checks placement via the validator.
 
         Parameters:
-            site (AbstractContainer): Site class instance where the object is removed from
-            mujoco_object (mjcf.RootElement): To-be-removed mujoco object
+            site (AbstractSite): Site class instance where the object is removed from
+            mujoco_object (MujocoObject): To-be-removed mujoco object
         """
         site.remove(mujoco_object=mujoco_object)
 
     @staticmethod
-    def _get_random_colors(colors_range: tuple[int, int]):
-        """Gets a list of random rgba colors (with alpha=1) with a random amount in given range.
-           Every color is added twice to the list, since the ball pit scenario requires color pairs of balls.
+    def _get_random_colors(colors_range: Union[tuple[int, int], None]) -> Union[list[tuple[float, float, float, float]], None]:
+        """Returns a list of random rgba colors (with alpha=1).
+           Every color is added twice to the list.
 
         Parameters:
-            colors_range (tuple[int, int]): range of different colors
+            colors_range (Union[tuple[float, float], None]): Range of different colors
 
         Returns:
-            colors_rgba (list(tuple[float, float, float, float]): list of randomized rgba colors
+            colors_rgba (Union[list[tuple[float, float, float, float]], None]): List of randomized rgba colors
         """
         if colors_range is None:
             return None
@@ -260,12 +239,12 @@ class RandomPlacer(AbstractPlacer):
         # get random rgba for every color existing
         colors_rgba = list()
         for _ in range(colors_randint):
-            random_rgba = [
+            random_rgba = (
                 round(np.random.random(), 2),
                 round(np.random.random(), 2),
                 round(np.random.random(), 2),
-                1,
-            ]  # transparency set to 1
+                1.0,
+            )  # transparency set to 1
             colors_rgba.append(random_rgba)
             colors_rgba.append(
                 random_rgba
@@ -274,15 +253,14 @@ class RandomPlacer(AbstractPlacer):
         return colors_rgba
 
     @staticmethod
-    def _get_random_sizes(sizes_range: tuple[float, float]):
-        """Gets a list of random sizes with a random amount in given range.
-           Every size is added twice to the list, since the ball pit scenario requires size pairs of balls.
+    def _get_random_sizes(sizes_range: Union[tuple[float, float], None]) -> Union[list[list[float]], None]:
+        """Returns a list of random sizes. Every size is added twice to the list.
 
         Parameters:
-            sizes_range (tuple[int, int]): range of different sizes
+            sizes_range (Union[tuple[float, float], None]): Range of different sizes
 
         Returns:
-            sizes (list(float)): list of randomized sizes between 0 and 2
+            sizes (list(float)): List of randomized sizes between 0 and 2
         """
         if sizes_range is None:
             return None

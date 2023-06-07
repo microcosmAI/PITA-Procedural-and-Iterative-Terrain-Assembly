@@ -1,49 +1,49 @@
-import re
-import copy
 import numpy as np
 from dm_control import mjcf
 from shapely.geometry.base import BaseGeometry
 
 from pita_algorithm.base.asset_placement.abstract_rule import Rule
+from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-from pita_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
 class MinDistanceMujocoPhysicsRule(Rule):
-    """Check if a new object respects the minimum distance to other objects, optionally of a specified type"""
+    """Checks if a new object respects the minimum distance to other objects."""
 
-    def __init__(self, dist: float, types: list([str, ...]) = []):
-        """Initialize a new MinDistanceRule.
+    def __init__(self, distance: float):
+        """Constructor of the MinDistanceMujocoPhysicsRule class.
 
         Parameters:
-            dist (float): Minimal distance from the new object to all existing of specified type
-            types (list): By default all objects in the environment will be considered. Alternatively a list with names can be passed and all mjcf-objects that include any of these names are considered, only. Can be regex.
+            distance (float): Minimal distance from the new object to all existing of specified type
         """
-        self.dist = dist
+        self.distance = distance
 
     def __call__(
         self,
         map_2D: dict,
         shape_object: BaseGeometry,
         mujoco_object: MujocoObject,
-        site: AbstractContainer,
-    ):
-        """Check if a new object can be placed at the specified position. The mujoco physics engine is used to check if the new object is far enough away from all other objects.
+        site: AbstractSite,
+    ) -> bool:
+        """Check if a new object can be placed at the specified position. Only utilizes
+        mujoco_object and site. The internal mujoco physics engine to check if the new
+        object has contacts inside a specified margin.
 
         Parameters:
-            map_2D (dict): Dictionary, mapping object classes to a list of their shapely 2d representations
+            map_2D (dict): Dict mapping object classes to a list of their shapely representations
             shape_object (BaseGeometry): Insertion that should be evaluated
             mujoco_object (MujocoObject): The new object, that will be evaluated
-            site (AbstractContainer): AbstractContainer class instance where the object is added to
+            site (AbstractSite): AbstractSite class instance where the object is added to
 
         Returns:
-            (boolean): True if mujoco_object is far enough away from each object.
+            (bool): True if mujoco_object is far enough away from each object.
         """
         attachement_frame = site.mjcf_model.attach(mujoco_object.mjcf_obj)
 
-        # If the attached mujoco_object is a composite object, we need to set the margin of each geom to the specified distance
+        # If the attached mujoco_object is a composite object,
+        # we need to set the margin of each geom to the specified distance
         for geom in attachement_frame.all_children()[0].find_all("geom"):
-            geom.margin = self.dist
+            geom.margin = self.distance
 
         # Create physics instance and get number of geom collisions
         physics = mjcf.Physics.from_mjcf_model(site.mjcf_model)
@@ -54,7 +54,8 @@ class MinDistanceMujocoPhysicsRule(Rule):
             mujoco_object.mjcf_obj.detach()
             return True
 
-        # If there are collisions, we need to check if the object is colliding only with itself or with other objects
+        # If there are collisions,
+        # we need to check if the object is colliding only with itself or with other objects
         else:
             all_ids = []
 
@@ -65,7 +66,8 @@ class MinDistanceMujocoPhysicsRule(Rule):
                 )
 
             # Create a boolean mask indicating pairs that contain exactly one integer from the list
-            # I.e. if the mask is true, the pair contains one geom from the mujoco_object and one geom from another object
+            # I.e. if the mask is true, the pair contains one geom from the mujoco_object 
+            # and one geom from another object
             mask = (
                 np.isin(physics.data.contact.geom1, all_ids)
                 & ~np.isin(physics.data.contact.geom2, all_ids)

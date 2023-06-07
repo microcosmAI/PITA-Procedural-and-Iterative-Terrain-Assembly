@@ -25,7 +25,7 @@ class PITA:
         config_path = args.config_path
         xml_dir = args.xml_dir
 
-        # Read config file and assemble world and export to xml and json
+        # Read config file and assemble environment and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
 
         # Set Random Seed
@@ -40,7 +40,7 @@ class PITA:
 
         environment, areas = Assembler(
             config_file=config, xml_dir=xml_dir
-        ).assemble_environment()
+        ).assemble_world()
         self._to_xml(
             xml_string=environment.mjcf_model.to_xml_string(), file_name="test"
         )
@@ -52,7 +52,7 @@ class PITA:
         )
 
     def _get_user_args(self) -> argparse.Namespace:
-        """Read args defined by user. If none are given, args are set to files and 
+        """Read args defined by user. If none are given, args are set to files and
         directories in the 'examples' folder.
 
         Returns:

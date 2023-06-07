@@ -54,10 +54,10 @@ class MujocoLoader:
         """Loads and parses xml to mjcf and combines all information to mujoco-objects.
 
         Parameters:
-            obj_dict (dict): Contains information about world_container objects
+            obj_dict (dict): Contains information about all objects
 
         Returns:
-            mujoco_dict (dict): Dictionary of world_container objects as mujoco-objects
+            mujoco_dict (dict): Dictionary of all objects as mujoco-objects
         """
         mujoco_dict = {}
 

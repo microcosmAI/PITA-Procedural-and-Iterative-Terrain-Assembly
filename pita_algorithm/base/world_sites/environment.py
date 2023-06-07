@@ -1,10 +1,10 @@
 from dm_control import mjcf
 
+from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-from pita_algorithm.base.world_container.abstract_container import AbstractContainer
 
 
-class Environment(AbstractContainer):
+class Environment(AbstractSite):
     """Represents the entire environment. An environment is a collection of at least one area."""
 
     def __init__(
