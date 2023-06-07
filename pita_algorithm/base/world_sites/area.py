@@ -6,7 +6,7 @@ from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
 class Area(AbstractSite):
-    """Represents an area in the environment. An area is a part of 
+    """Represents an area in the environment. An area is a part of
     the environment that can contain objects.
     """
 
@@ -15,7 +15,7 @@ class Area(AbstractSite):
         name: str,
         size: tuple[float, float, float],
         environment: Environment,
-        boundary: tuple
+        boundary: tuple,
     ):
         """Initializes area.
 
@@ -71,7 +71,7 @@ class Area(AbstractSite):
     @property
     def name(self) -> str:
         """Get name.
-        
+
         Returns:
             name (str): Name of the area
         """
@@ -80,7 +80,7 @@ class Area(AbstractSite):
     @name.setter
     def name(self, name: str):
         """Set name.
-        
+
         Parameters:
             name (str): Name of the area"""
         self._name = name
@@ -124,7 +124,7 @@ class Area(AbstractSite):
     @boundary.setter
     def boundary(self, boundary: tuple):
         """Set boundary.
-        
+
         Parameters:
             boundary (tuple): Tuple with the area boundary
         """

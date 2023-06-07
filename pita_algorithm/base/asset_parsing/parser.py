@@ -21,5 +21,5 @@ class Parser:
             raise ValueError("Could not find xml path provided")
 
         mjcf_obj = mjcf.from_path(xml_path)
-        
+
         return mjcf_obj

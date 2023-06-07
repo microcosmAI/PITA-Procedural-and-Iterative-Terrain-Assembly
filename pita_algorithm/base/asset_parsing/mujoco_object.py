@@ -51,7 +51,7 @@ class MujocoObject:
     @name.setter
     def name(self, name: str):
         """Set name.
-        
+
         Parameters:
             name (str): Name of the object
         """
@@ -69,7 +69,7 @@ class MujocoObject:
     @xml_id.setter
     def xml_id(self, xml_id: str):
         """Set xml id.
-        
+
         Parameters:
             xml_id (str): Id of object in xml
         """
@@ -87,7 +87,7 @@ class MujocoObject:
     @mjcf_obj.setter
     def mjcf_obj(self, mjcf_obj: mjcf.RootElement):
         """Set mjcf object.
-        
+
         Parameters:
             mjcf_obj (mjcf.RootElement): Mjcf model of the object
         """
@@ -105,7 +105,7 @@ class MujocoObject:
     @obj_type.setter
     def obj_type(self, obj_type: str):
         """Set object type.
-        
+
         Parameters:
             obj_type (str): Type of the object
         """
@@ -123,7 +123,7 @@ class MujocoObject:
     @attachable.setter
     def attachable(self, attachable: bool):
         """Set attachable.
-        
+
         Parameters:
             attachable (bool): True if object is attachable, False otherwise
         """
@@ -141,7 +141,7 @@ class MujocoObject:
     @position.setter
     def position(self, position: tuple[float, float, float]):
         """Set position.
-        
+
         Parameters:
             position (tuple[float, float, float]): Position of the object
         """
@@ -177,7 +177,7 @@ class MujocoObject:
     @size.setter
     def size(self, size: list[float]):
         """Set size of object.
-        
+
         Parameters:
             size (list[float]): size of object
         """
