@@ -32,7 +32,7 @@ class AbstractPlacer(ABC):
         self,
         site: AbstractSite,
         mujoco_object_blueprint: MujocoObject,
-        validators: list[Validator]
+        validators: list[Validator],
     ):
         """Adds a mujoco object to a site by calling the sites add method.
         Possibly checks placement via the validator.

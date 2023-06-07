@@ -9,9 +9,15 @@ class Rule(ABC):
     """Abstract class for rules."""
 
     @abstractmethod
-    def __call__(self, map_2D: dict, shape_object: BaseGeometry, mujoco_object: MujocoObject, site: AbstractSite) -> bool:
+    def __call__(
+        self,
+        map_2D: dict,
+        shape_object: BaseGeometry,
+        mujoco_object: MujocoObject,
+        site: AbstractSite,
+    ) -> bool:
         """Check if the rule is satisfied.
-        
+
         Parameters:
             map_2D (dict): Dict mapping object classes to a list of their shapely representations
             shape_object (BaseGeometry): A Shapely Polygon object representing the shape to be checked

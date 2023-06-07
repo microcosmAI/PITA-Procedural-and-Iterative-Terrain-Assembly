@@ -66,7 +66,7 @@ class MinDistanceMujocoPhysicsRule(Rule):
                 )
 
             # Create a boolean mask indicating pairs that contain exactly one integer from the list
-            # I.e. if the mask is true, the pair contains one geom from the mujoco_object 
+            # I.e. if the mask is true, the pair contains one geom from the mujoco_object
             # and one geom from another object
             mask = (
                 np.isin(physics.data.contact.geom1, all_ids)

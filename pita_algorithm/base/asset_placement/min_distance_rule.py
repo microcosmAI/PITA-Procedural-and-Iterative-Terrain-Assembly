@@ -46,7 +46,6 @@ class MinDistanceRule(Rule):
                 # Iterate over all placed objects within the map_2D[obj_class] list
                 for obj in map_2D[obj_class]:
                     if shape_object.distance(obj) < self.dist:
-                        
                         return False
-        
+
         return True

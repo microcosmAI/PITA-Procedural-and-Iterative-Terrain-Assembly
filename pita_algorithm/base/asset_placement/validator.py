@@ -15,9 +15,7 @@ class Validator:
         Parameters:
             rules (list[Rule]): List of Rules that have to be satisfied
         """
-        self.map_2D = (
-            {}
-        )
+        self.map_2D = {}
         self.rules = rules
 
     def validate(self, mujoco_object: MujocoObject, site: AbstractSite) -> bool:
@@ -34,7 +32,12 @@ class Validator:
         shape_object = geometry.Point(mujoco_object.position[:2])
 
         for rule in self.rules:
-            if not rule(map_2D=self.map_2D, shape_object=shape_object, mujoco_object=mujoco_object, site=site):
+            if not rule(
+                map_2D=self.map_2D,
+                shape_object=shape_object,
+                mujoco_object=mujoco_object,
+                site=site,
+            ):
                 return False
 
         return True
@@ -77,7 +80,7 @@ class Validator:
             mujoco_object (MujocoObject): The new object that will be added to the 2d representation
         """
         shape_object = geometry.Point(mujoco_object.position[:2])
-        
+
         if mujoco_object.name in self.map_2D.keys():
             self.map_2D[mujoco_object.name].append(shape_object)
 

@@ -163,7 +163,9 @@ class RandomPlacer(AbstractPlacer):
             # then throw error
             while not all(
                 [
-                    validator.validate(mujoco_object=mujoco_object_rule_blueprint, site=site)
+                    validator.validate(
+                        mujoco_object=mujoco_object_rule_blueprint, site=site
+                    )
                     for validator in validators
                 ]
             ):
@@ -216,7 +218,9 @@ class RandomPlacer(AbstractPlacer):
         site.remove(mujoco_object=mujoco_object)
 
     @staticmethod
-    def _get_random_colors(colors_range: Union[tuple[int, int], None]) -> Union[list[tuple[float, float, float, float]], None]:
+    def _get_random_colors(
+        colors_range: Union[tuple[int, int], None]
+    ) -> Union[list[tuple[float, float, float, float]], None]:
         """Returns a list of random rgba colors (with alpha=1).
            Every color is added twice to the list.
 
@@ -253,7 +257,9 @@ class RandomPlacer(AbstractPlacer):
         return colors_rgba
 
     @staticmethod
-    def _get_random_sizes(sizes_range: Union[tuple[float, float], None]) -> Union[list[list[float]], None]:
+    def _get_random_sizes(
+        sizes_range: Union[tuple[float, float], None]
+    ) -> Union[list[list[float]], None]:
         """Returns a list of random sizes. Every size is added twice to the list.
 
         Parameters:

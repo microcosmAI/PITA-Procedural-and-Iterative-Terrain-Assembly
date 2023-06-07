@@ -18,7 +18,7 @@ class FixedPlacer(AbstractPlacer):
         mujoco_object_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: int,
-        coordinates: list[list[float, float, float]]
+        coordinates: list[list[float, float, float]],
     ):
         """Adds a mujoco object to a site by calling the sites add method
         after checking placement via the validator.
