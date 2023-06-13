@@ -1,7 +1,7 @@
-peters_algorithm
-================
+pita_algorithm
+==============
 
 .. toctree::
    :maxdepth: 5
 
-   peters_algorithm
+   pita_algorithm
