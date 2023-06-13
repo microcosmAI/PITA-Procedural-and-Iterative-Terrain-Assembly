@@ -65,10 +65,16 @@ class Assembler:
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
         environment = Environment(
-            name="Environment1", size=(size[0], size[1
-], 0.1), pretty_mode=pretty_mode
+            name="Environment1", size=(size[0], size[1], 0.1), pretty_mode=pretty_mode
         )
-        areas = [Area(name="Area1", size=(size[0], size[1], 0.1), environment=environment, boundary=None)]
+        areas = [
+            Area(
+                name="Area1",
+                size=(size[0], size[1], 0.1),
+                environment=environment,
+                boundary=None,
+            )
+        ]
         validators = self.create_validators(size, areas)
 
         self.place_border(environment, size, validators[0])
@@ -81,7 +87,10 @@ class Assembler:
 
     def create_validators(self, size, areas):
         """Creates validators for environment and areas."""
-        rules = [MinDistanceMujocoPhysicsRule(distance=1.0), BoundaryRule(boundary=(size[0], size[1]))]
+        rules = [
+            MinDistanceMujocoPhysicsRule(distance=1.0),
+            BoundaryRule(boundary=(size[0], size[1])),
+        ]
         environment_validator = Validator(rules)
         global_validators = [environment_validator]
 
@@ -91,28 +100,54 @@ class Assembler:
 
     def place_border(self, environment, size, validator):
         """Adds borders to the environment."""
-        border_config_dict = {k: v for dict_ in self.config["Environment"]["Borders"] for k, v in dict_.items()}
+        border_config_dict = {
+            k: v
+            for dict_ in self.config["Environment"]["Borders"]
+            for k, v in dict_.items()
+        }
         has_border = border_config_dict["place"]
-        BorderPlacer().add(environment=environment, mujoco_object_blueprint=self.mujoco_objects_blueprints["Border"], amount=4, has_border=has_border)
+        BorderPlacer().add(
+            environment=environment,
+            mujoco_object_blueprint=self.mujoco_objects_blueprints["Border"],
+            amount=4,
+            has_border=has_border,
+        )
 
         if has_border:
-            validator.map_2D[self.mujoco_objects_blueprints["Border"].name] = [geometry.LineString(
-                [[-size[0], -size[1]], [-size[0], size[1]], [size[0], size[1]], [size[0], -size[1]], [-size[0], -size[1]]])]
+            validator.map_2D[self.mujoco_objects_blueprints["Border"].name] = [
+                geometry.LineString(
+                    [
+                        [-size[0], -size[1]],
+                        [-size[0], size[1]],
+                        [size[0], size[1]],
+                        [size[0], -size[1]],
+                        [-size[0], -size[1]],
+                    ]
+                )
+            ]
 
     def place_fixed_objects(self, environment, areas, validators):
         """Places objects with fixed coordinates at both environment and area level."""
         fixed_placer = FixedPlacer()
-        sites_configs = [self.config["Environment"]["Objects"]] + [self.config["Areas"][area]["Objects"] for area in self.config["Areas"]]
+        sites_configs = [self.config["Environment"]["Objects"]] + [
+            self.config["Areas"][area]["Objects"] for area in self.config["Areas"]
+        ]
         for site_index, site in enumerate([environment] + areas):
             for object_name, object_settings in sites_configs[site_index].items():
-                object_config_dict = {k: v for dict_ in object_settings for k, v in dict_.items()}
+                object_config_dict = {
+                    k: v for dict_ in object_settings for k, v in dict_.items()
+                }
 
                 for objects in object_settings:
                     if "coordinates" in objects:
                         fixed_placer.add(
                             site=site,
-                            mujoco_object_blueprint=self.mujoco_objects_blueprints[object_name],
-                            mujoco_object_rule_blueprint=self.mujoco_objects_rule_blueprints[object_name],
+                            mujoco_object_blueprint=self.mujoco_objects_blueprints[
+                                object_name
+                            ],
+                            mujoco_object_rule_blueprint=self.mujoco_objects_rule_blueprints[
+                                object_name
+                            ],
                             validators=[validators[0], validators[site_index]],
                             amount=object_config_dict["amount"],
                             coordinates=objects["coordinates"],
@@ -130,20 +165,29 @@ class Assembler:
             ),
         )
         random_placer = RandomPlacer(distribution=environment_random_distribution)
-        sites_configs = [self.config["Environment"]["Objects"]] + [self.config["Areas"][area]["Objects"] for area in self.config["Areas"]]
+        sites_configs = [self.config["Environment"]["Objects"]] + [
+            self.config["Areas"][area]["Objects"] for area in self.config["Areas"]
+        ]
 
         for site_index, site in enumerate([environment] + areas):
             for object_name, object_settings in sites_configs[site_index].items():
-                if "coordinates" not in [list(setting.keys())[0] for setting in object_settings]:
-                    object_config_dict = {k: v for dict_ in object_settings for k, v in dict_.items()}
+                if "coordinates" not in [
+                    list(setting.keys())[0] for setting in object_settings
+                ]:
+                    object_config_dict = {
+                        k: v for dict_ in object_settings for k, v in dict_.items()
+                    }
                     colors_range = object_config_dict.get("colors", None)
                     sizes_range = object_config_dict.get("sizes", None)
 
                     random_placer.add(
                         site=site,
-                        mujoco_object_blueprint
-=self.mujoco_objects_blueprints[object_name],
-                        mujoco_object_rule_blueprint=self.mujoco_objects_rule_blueprints[object_name],
+                        mujoco_object_blueprint=self.mujoco_objects_blueprints[
+                            object_name
+                        ],
+                        mujoco_object_rule_blueprint=self.mujoco_objects_rule_blueprints[
+                            object_name
+                        ],
                         validators=[validators[0], validators[site_index]],
                         amount=object_config_dict["amount"],
                         colors_range=colors_range,
@@ -159,4 +203,6 @@ class Assembler:
             "material": "grid" if pretty_mode else None,
         }
 
-        environment.mjcf_model.worldbody.add("geom", **{k: v for k, v in plane_options.items() if v is not None})
+        environment.mjcf_model.worldbody.add(
+            "geom", **{k: v for k, v in plane_options.items() if v is not None}
+        )
