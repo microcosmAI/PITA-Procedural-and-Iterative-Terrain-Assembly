@@ -7,14 +7,16 @@ from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 from pita_algorithm.base.asset_placement.fixed_placer import FixedPlacer
-from pita_algorithm.base.asset_placement.random_placer import (
-    RandomPlacer,
-    Placer2DDistribution,
-)
+from pita_algorithm.base.asset_placement.random_placer import RandomPlacer
 from pita_algorithm.base.asset_placement.border_placer import BorderPlacer
 from pita_algorithm.base.asset_placement.boundary_rule import BoundaryRule
 from pita_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
-from pita_algorithm.utils.multivariate_uniform_distribution import MultivariateUniform
+from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import (
+    MultivariateUniformDistribution
+    )
+from pita_algorithm.base.asset_placement.circular_uniform_distribution import (
+    CircularUniformDistribution
+    )
 from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
 )
@@ -223,15 +225,11 @@ class Assembler:
                     sizes_range = object_config_dict["sizes"]
 
                 # Instantiate placer distribution and call random placer
-                environment_random_distribution = Placer2DDistribution(
-                    MultivariateUniform(),
-                    np.array(
-                        [
-                            [-environment.size[0], environment.size[0]],
-                            [-environment.size[1], environment.size[1]],
-                        ]
-                    ),
+                environment_random_distribution = MultivariateUniformDistribution(
+                    parameters={"low": [-environment.size[0], -environment.size[1]], 
+                                "high": [environment.size[0], environment.size[1]]}
                 )
+                    
                 RandomPlacer(distribution=environment_random_distribution).add(
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
@@ -274,15 +272,11 @@ class Assembler:
                         sizes_range = object_config_dict["sizes"]
 
                     # Instantiate placer distribution and call random placer
-                    area_random_distribution = Placer2DDistribution(
-                        MultivariateUniform(),
-                        np.array(
-                            [
-                                [-environment.size[0], environment.size[0]],
-                                [-environment.size[1], environment.size[1]],
-                            ]
-                        ),
+                    area_random_distribution = MultivariateUniformDistribution(
+                        parameters={"low": [-environment.size[0], -environment.size[1]],
+                                    "high": [environment.size[0], environment.size[1]]}
                     )
+                    
                     RandomPlacer(distribution=area_random_distribution).add(
                         site=areas[area_index],
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
