@@ -1,6 +1,8 @@
 import numpy as np
 
-from pita_algorithm.base.asset_placement.abstract_placer_distribution import AbstractPlacerDistribution
+from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
+    AbstractPlacerDistribution,
+)
 
 
 class CircularUniformDistribution(AbstractPlacerDistribution):
@@ -14,7 +16,6 @@ class CircularUniformDistribution(AbstractPlacerDistribution):
         """
         self.loc = parameters["loc"]
         self.scale = parameters["scale"]
-
 
     def __call__(self):
         """Draws a 2D sample from a circular uniform distribution.

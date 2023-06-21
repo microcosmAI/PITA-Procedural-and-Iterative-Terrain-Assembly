@@ -12,11 +12,11 @@ from pita_algorithm.base.asset_placement.border_placer import BorderPlacer
 from pita_algorithm.base.asset_placement.boundary_rule import BoundaryRule
 from pita_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
 from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import (
-    MultivariateUniformDistribution
-    )
+    MultivariateUniformDistribution,
+)
 from pita_algorithm.base.asset_placement.circular_uniform_distribution import (
-    CircularUniformDistribution
-    )
+    CircularUniformDistribution,
+)
 from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
 )
@@ -226,10 +226,12 @@ class Assembler:
 
                 # Instantiate placer distribution and call random placer
                 environment_random_distribution = MultivariateUniformDistribution(
-                    parameters={"low": [-environment.size[0], -environment.size[1]], 
-                                "high": [environment.size[0], environment.size[1]]}
+                    parameters={
+                        "low": [-environment.size[0], -environment.size[1]],
+                        "high": [environment.size[0], environment.size[1]],
+                    }
                 )
-                    
+
                 RandomPlacer(distribution=environment_random_distribution).add(
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
@@ -273,10 +275,12 @@ class Assembler:
 
                     # Instantiate placer distribution and call random placer
                     area_random_distribution = MultivariateUniformDistribution(
-                        parameters={"low": [-environment.size[0], -environment.size[1]],
-                                    "high": [environment.size[0], environment.size[1]]}
+                        parameters={
+                            "low": [-environment.size[0], -environment.size[1]],
+                            "high": [environment.size[0], environment.size[1]],
+                        }
                     )
-                    
+
                     RandomPlacer(distribution=area_random_distribution).add(
                         site=areas[area_index],
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],

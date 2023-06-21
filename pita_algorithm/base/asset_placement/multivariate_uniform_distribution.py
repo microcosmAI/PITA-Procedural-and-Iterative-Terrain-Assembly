@@ -1,6 +1,8 @@
 import numpy as np
 
-from pita_algorithm.base.asset_placement.abstract_placer_distribution import AbstractPlacerDistribution
+from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
+    AbstractPlacerDistribution,
+)
 
 
 class MultivariateUniformDistribution(AbstractPlacerDistribution):
