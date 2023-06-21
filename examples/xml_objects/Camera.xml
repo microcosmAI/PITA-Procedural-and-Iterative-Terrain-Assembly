@@ -1,0 +1,8 @@
+<mujoco model="camera">
+    <worldbody>       
+        <body pos="0.0 0.0 0.5" name="camera">
+            <geom name="camera_geom" rgba="0 0 0 0" size="0.01"/>
+            <camera name="3rd_p_camera" pos="0 0 0" euler="0 0 0"/>
+        </body>
+    </worldbody>
+</mujoco>
