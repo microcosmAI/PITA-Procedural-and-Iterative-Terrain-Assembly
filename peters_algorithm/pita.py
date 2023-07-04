@@ -3,7 +3,6 @@ import random
 import sys
 import argparse
 import warnings
-
 import numpy as np
 
 # Add parent folder of builder.py to python path
