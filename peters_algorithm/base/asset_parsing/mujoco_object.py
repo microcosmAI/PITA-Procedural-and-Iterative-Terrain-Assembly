@@ -9,6 +9,7 @@ class MujocoObject:
         name: str,
         xml_id: str,
         mjcf_obj: mjcf.RootElement,
+        obj_class: str,
         obj_type: str,
         attachable: bool,
         coordinates: tuple[float, float, float] = None,
@@ -31,6 +32,7 @@ class MujocoObject:
         self._name: str = name
         self._xml_id: str = xml_id
         self._mjcf_obj: mjcf.RootElement = mjcf_obj
+        self._obj_class: str = obj_class
         self._obj_type: str = obj_type
         self._attachable: bool = attachable
         self._coordinates: tuple = coordinates
@@ -79,6 +81,20 @@ class MujocoObject:
     def mjcf_obj(self, mjcf_obj: mjcf.RootElement):
         """Set mjcf object"""
         self._mjcf_obj = mjcf_obj
+
+    @property
+    def obj_class(self) -> str:
+        """Get object class
+
+        Returns:
+            obj_class (str): Object class
+        """
+        return self._obj_class
+
+    @obj_class.setter
+    def obj_class(self, obj_class: str):
+        """Set object class"""
+        self._obj_class = obj_class
 
     @property
     def obj_type(self) -> str:
