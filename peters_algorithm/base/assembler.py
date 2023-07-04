@@ -180,7 +180,7 @@ class Assembler:
                             mujoco_object_blueprint=mujoco_objects_blueprints[
                                 object_name
                             ],
-                            mujoco_objects_rule_blueprints=mujoco_objects_rule_blueprints[
+                            mujoco_objects_rule_blueprint=mujoco_objects_rule_blueprints[
                                 object_name
                             ],
                             validators=[
@@ -216,6 +216,7 @@ class Assembler:
                 else:
                     sizes_range = object_config_dict["sizes"]
 
+                # Instantiate placer distribution and call random placer
                 environment_random_distribution = Placer2DDistribution(
                     MultivariateUniform(),
                     np.array(
