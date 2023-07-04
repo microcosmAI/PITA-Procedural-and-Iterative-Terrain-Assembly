@@ -10,6 +10,7 @@ class MujocoObject:
         name: str,
         xml_id: str,
         mjcf_obj: mjcf.RootElement,
+        obj_class: str,
         obj_type: str,
         attachable: bool,
         coordinates: Union[tuple[float, float, float], None] = None,
