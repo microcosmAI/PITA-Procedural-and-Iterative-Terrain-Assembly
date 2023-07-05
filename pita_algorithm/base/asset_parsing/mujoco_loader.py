@@ -62,7 +62,6 @@ class MujocoLoader:
         mujoco_dict = {}
 
         for obj, params in obj_dict.items():
-
             # reads xml_name keyword in yml
             xml_name = None
             for entry in params:
@@ -75,8 +74,10 @@ class MujocoLoader:
 
             # adjust asset name in xml
             asset_name = xml_name.split(".xml")[0]
-            mjcf.find("body", asset_name.lower()).name = obj.lower()        # overwrites inner body name in xml
-            mjcf.root.model = obj.lower()                                   # overwrites outer body name in xml (root)
+            mjcf.find(
+                "body", asset_name.lower()
+            ).name = obj.lower()  # overwrites inner body name in xml
+            mjcf.root.model = obj.lower()  # overwrites outer body name in xml (root)
 
             # read params from yml and create mujoco object
             obj_type, attachable, tags = self._read_params(params)
