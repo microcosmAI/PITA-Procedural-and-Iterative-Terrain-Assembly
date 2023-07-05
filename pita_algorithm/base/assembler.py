@@ -162,7 +162,9 @@ class ObjectPlacer:
         sites_configs = self._get_site_configs(sites)
         for site_index, site in enumerate(sites):
             for object_name, object_settings in sites_configs[site_index].items():
-                placer: FixedPlacer | RandomPlacer = FixedPlacer() if is_fixed else self._get_random_placer(site)
+                placer: FixedPlacer | RandomPlacer = (
+                    FixedPlacer() if is_fixed else self._get_random_placer(site)
+                )
                 if self._should_place_object(is_fixed, object_settings):
                     object_config_dict = {
                         k: v for dict_ in object_settings for k, v in dict_.items()
@@ -186,8 +188,12 @@ class ObjectPlacer:
             validators (list[Validator]): List of Validator objects
             is_fixed (bool): True if the objects should be placed with fixed coordinates, False otherwise
         """
-        placer: FixedPlacer | RandomPlacer = FixedPlacer() if is_fixed else self._get_random_placer(environment)
-        for object_name, object_settings in self.config["Environment"]["Objects"].items():
+        placer: FixedPlacer | RandomPlacer = (
+            FixedPlacer() if is_fixed else self._get_random_placer(environment)
+        )
+        for object_name, object_settings in self.config["Environment"][
+            "Objects"
+        ].items():
             if self._should_place_object(is_fixed, object_settings):
                 object_config_dict = {
                     k: v for dict_ in object_settings for k, v in dict_.items()
@@ -216,8 +222,12 @@ class ObjectPlacer:
                 "Objects"
             ].items():
                 if self._should_place_object(is_fixed, object_settings):
-                    object_config_dict = {k: v for dict_ in object_settings for k, v in dict_.items()}
-                    placer: FixedPlacer | RandomPlacer = FixedPlacer() if is_fixed else self._get_random_placer(area)
+                    object_config_dict = {
+                        k: v for dict_ in object_settings for k, v in dict_.items()
+                    }
+                    placer: FixedPlacer | RandomPlacer = (
+                        FixedPlacer() if is_fixed else self._get_random_placer(area)
+                    )
                     placer.add(
                         site=area,
                         mujoco_object_blueprint=self.blueprints[object_name],
@@ -331,8 +341,12 @@ class Assembler:
         size = self.config["Environment"]["size"]
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
-        environment = Environment(name="Environment1", size=(size[0], size[1], 0.1), pretty_mode=pretty_mode)
-        areas = [Area(name="Area1", size=(size[0], size[1], 0.1), environment=environment)]
+        environment = Environment(
+            name="Environment1", size=(size[0], size[1], 0.1), pretty_mode=pretty_mode
+        )
+        areas = [
+            Area(name="Area1", size=(size[0], size[1], 0.1), environment=environment)
+        ]
         return environment, areas
 
     @staticmethod
