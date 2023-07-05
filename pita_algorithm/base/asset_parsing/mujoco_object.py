@@ -10,6 +10,7 @@ class MujocoObject:
         name: str,
         xml_id: str,
         mjcf_obj: mjcf.RootElement,
+        obj_class: str,
         obj_type: str,
         attachable: bool,
         coordinates: Union[tuple[float, float, float], None] = None,  # ToDo: implement getter and setter
@@ -34,6 +35,7 @@ class MujocoObject:
         self._name = name
         self._xml_id = xml_id
         self._mjcf_obj = mjcf_obj
+        self._obj_class: str = obj_class
         self._obj_type = obj_type
         self._attachable = attachable
         self._coordinates = coordinates
@@ -96,6 +98,24 @@ class MujocoObject:
             mjcf_obj (mjcf.RootElement): Mjcf model of the object
         """
         self._mjcf_obj = mjcf_obj
+
+    @property
+    def obj_class(self) -> str:
+        """Get object class.
+
+        Returns:
+            obj_class (str): Object class
+        """
+        return self._obj_class
+
+    @obj_class.setter
+    def obj_class(self, obj_class: str):
+        """Set object class.
+
+        Parameters:
+            obj_class (str): Object class
+        """
+        self._obj_class = obj_class
 
     @property
     def obj_type(self) -> str:
