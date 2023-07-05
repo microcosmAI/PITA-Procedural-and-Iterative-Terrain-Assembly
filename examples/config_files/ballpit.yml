@@ -3,16 +3,29 @@ Environment:
   Style:
     - pretty_mode: False
   Borders:
+    - xml_name: "Border.xml"
     - place: True
   Objects:
     Agent:
+      - xml_name: "Agent.xml"
       - amount: 2
       - coordinates: [ [ -50., -50., 1. ], [ 50., 50., 1. ] ]
+
+    Agent_two:
+      - xml_name: "Agent.xml"
+      - amount: [1, 1]
+      - rotation: [0, 0, 180]
+
 Areas:
   Area1:
     size: large
     Objects:
       Ball:
-        - amount: [ 50, 100 ]
-        - colors: [ 25, 25 ]
-        - sizes: [ 5, 10 ]
+        - xml_name: "Ball.xml"
+        - amount: [ 2, 2 ]
+        - colors: [ 1, 1 ]
+        - sizes: [ 1, 1 ]
+
+#      Ball_duplicate:
+#        - amount: 1
+#        - coordinates: [ [ -42, 42, 42 ] ]
