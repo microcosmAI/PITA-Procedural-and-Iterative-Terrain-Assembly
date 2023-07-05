@@ -12,7 +12,9 @@ class MujocoObject:
         mjcf_obj: mjcf.RootElement,
         obj_type: str,
         attachable: bool,
-        coordinates: Union[tuple[float, float, float], None] = None,  # ToDo: implement getter and setter
+        coordinates: Union[
+            tuple[float, float, float], None
+        ] = None,  # ToDo: implement getter and setter
         rotation: Union[tuple[float, float, float], None] = None,
         color: Union[tuple[float, float, float, float], None] = None,
         size: Union[float, None] = None,
