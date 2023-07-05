@@ -80,14 +80,13 @@ class MujocoLoader:
             mjcf.root.model = obj.lower()  # overwrites outer body name in xml (root)
 
             # read params from yml and create mujoco object
-            obj_type, attachable, tags = self._read_params(params)
+            obj_type, tags = self._read_params(params)
             mujoco_obj = MujocoObject(
                 name=obj,
                 xml_id="",
                 mjcf_obj=mjcf,
                 obj_class=asset_name,
                 obj_type=obj_type,
-                attachable=attachable,
                 color=None,
                 size=None,
                 tags=tags,
@@ -106,20 +105,16 @@ class MujocoLoader:
 
         Returns:
             obj_type (str): Type of object
-            attachable (bool): True if object can be attached to a container-type object
             tags (list): List of user specified tags for the object
         """
         obj_type = None
-        attachable = None
         tags = None
 
         if not params == None:
             for dict_ in params:
                 if "type" in dict_.keys():
                     obj_type = dict_["type"]
-                if "attachable" in dict_.keys():
-                    attachable = dict_["attachable"]
                 if "tags" in dict_.keys():
                     tags = dict_["tags"]
 
-        return obj_type, attachable, tags
+        return obj_type, tags
