@@ -1,4 +1,5 @@
 import copy
+from typing import Sequence
 
 import numpy as np
 from shapely import geometry
@@ -32,17 +33,16 @@ class BlueprintManager:
             config (dict): Configuration dictionary
             xml_dir (str): Path to the xml files
         """
-        self.config = config
-        self.xml_dir = xml_dir
-        self.mujoco_objects_blueprints = None
-        self.mujoco_objects_rule_blueprints = None
+        self.config: dict = config
+        self.xml_dir: str = xml_dir
+        self.mujoco_objects_blueprints: dict[str, MujocoObject] = {}
+        self.mujoco_objects_rule_blueprints: dict[str, MujocoObject] = {}
 
     def get_object_blueprints(self) -> None:
         """Creates and manipulates the mujoco objects blueprints."""
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         self.mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
 
-        self.mujoco_objects_rule_blueprints = {}
         for name, mujoco_object in self.mujoco_objects_blueprints.items():
             mujoco_object_copy = self._create_rule_blueprint(mujoco_object)
             self.mujoco_objects_rule_blueprints[name] = mujoco_object_copy
@@ -128,7 +128,7 @@ class ObjectPlacer:
         sites_configs = self._get_site_configs(sites)
         for site_index, site in enumerate(sites):
             for object_name, object_settings in sites_configs[site_index].items():
-                placer = FixedPlacer() if is_fixed else self._get_random_placer(site)
+                placer: FixedPlacer | RandomPlacer = FixedPlacer() if is_fixed else self._get_random_placer(site)
                 if self._should_place_object(is_fixed, object_settings):
                     object_config_dict = {k: v for dict_ in object_settings for k, v in dict_.items()}
                     placer.add(
@@ -148,7 +148,7 @@ class ObjectPlacer:
             validators (list[Validator]): List of Validator objects
             is_fixed (bool): True if the objects should be placed with fixed coordinates, False otherwise
         """
-        placer = FixedPlacer() if is_fixed else self._get_random_placer(environment)
+        placer: FixedPlacer | RandomPlacer = FixedPlacer() if is_fixed else self._get_random_placer(environment)
         for object_name, object_settings in self.config["Environment"]["Objects"].items():
             if self._should_place_object(is_fixed, object_settings):
                 object_config_dict = {k: v for dict_ in object_settings for k, v in dict_.items()}
@@ -173,7 +173,7 @@ class ObjectPlacer:
             for object_name, object_settings in self.config["Areas"][area.name]["Objects"].items():
                 if self._should_place_object(is_fixed, object_settings):
                     object_config_dict = {k: v for dict_ in object_settings for k, v in dict_.items()}
-                    placer = FixedPlacer() if is_fixed else self._get_random_placer(area)
+                    placer: FixedPlacer | RandomPlacer = FixedPlacer() if is_fixed else self._get_random_placer(area)
                     placer.add(
                         site=area,
                         mujoco_object_blueprint=self.blueprints[object_name],
@@ -193,15 +193,15 @@ class ObjectPlacer:
         return [self.config["Environment"]["Objects"] if "Environment" in site.name else self.config["Areas"][site.name]["Objects"] for site in sites]
 
     @staticmethod
-    def _get_random_placer(environment: Environment) -> RandomPlacer:
+    def _get_random_placer(site: AbstractSite) -> RandomPlacer:
         """Creates and returns a RandomPlacer instance.
 
         Parameters:
-            environment (Environment): Environment object
+            site (AbstractSite): AbstractSite object
         """
         distribution = Placer2DDistribution(
             MultivariateUniform(),
-            np.array([[-environment.size[0], environment.size[0]], [-environment.size[1], environment.size[1]]])
+            np.array([[-site.size[0], site.size[0]], [-site.size[1], site.size[1]]])
         )
         return RandomPlacer(distribution=distribution)
 
@@ -268,11 +268,11 @@ class Assembler:
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
         environment = Environment(name="Environment1", size=(size[0], size[1], 0.1), pretty_mode=pretty_mode)
-        areas = [Area(name="Area1", size=(size[0], size[1], 0.1), environment=environment, boundary=None)]
+        areas = [Area(name="Area1", size=(size[0], size[1], 0.1), environment=environment)]
         return environment, areas
 
     @staticmethod
-    def _create_validators(size: tuple[float, float], areas: list[Area]) -> list[Validator]:
+    def _create_validators(size: tuple[float, float, float], areas: list[Area]) -> list[Validator]:
         """Creates and returns the validators for the environment and areas.
 
         Parameters:

@@ -55,7 +55,7 @@ class Environment(AbstractSite):
                 reflectance=".2",
             )
 
-        self._mujoco_objects = {}
+        self._mujoco_objects: dict[str, MujocoObject] = {}
 
     @property
     def name(self) -> str:

@@ -42,11 +42,11 @@ class Validator:
 
         return True
 
-    def plot(self, env_size: tuple[int, int, float]):
+    def plot(self, env_size: tuple[float, float, float]):
         """Plots the current 2d representation to where the current mpl backend points.
 
         Parameters:
-            env_size (tuple[int, int, float]): Tuple containing the size of the environment
+            env_size (tuple[float, float, float]): Tuple containing the size of the environment
         """
         for index, shape_list in enumerate(self.map_2D.values()):
             # Directly plot the list of coordinates associated with each key in the Map2D dict
