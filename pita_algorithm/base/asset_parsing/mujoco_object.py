@@ -42,8 +42,7 @@ class MujocoObject:
         self._tags = tags
         self._color = color
         self._size = size
-
-        self.rotation = rotation
+        self._rotation = rotation
 
     @property
     def name(self) -> str:
