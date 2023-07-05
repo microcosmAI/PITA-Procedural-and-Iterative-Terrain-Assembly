@@ -36,9 +36,11 @@ class JSONExporter:
         for mujoco_object in environment._mujoco_objects.values():
             values = {}
 
-            values["name"] = mujoco_object.name
-            values["type"] = mujoco_object.obj_type
-            values["attachable"] = mujoco_object.attachable
+            values["name"] = mujoco_object.xml_id
+            values[
+                "type"
+            ] = mujoco_object.obj_type  # TODO: Check if this is still needed
+            values["class"] = mujoco_object.obj_class
             values["position"] = mujoco_object.position.tolist()
             values["color"] = mujoco_object.color.tolist()
             values["size"] = mujoco_object.size.tolist()
@@ -62,9 +64,11 @@ class JSONExporter:
             for mujoco_object in area._mujoco_objects.values():
                 values = {}
 
-                values["name"] = mujoco_object.name
-                values["type"] = mujoco_object.obj_type
-                values["attachable"] = mujoco_object.attachable
+                values["name"] = mujoco_object.xml_id
+                values[
+                    "type"
+                ] = mujoco_object.obj_type  # TODO: Check if this is still needed
+                values["class"] = mujoco_object.obj_class
                 values["position"] = mujoco_object.position.tolist()
                 values["color"] = mujoco_object.color.tolist()
                 values["size"] = mujoco_object.size.tolist()

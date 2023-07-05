@@ -80,14 +80,13 @@ class MujocoLoader:
             mjcf.root.model = obj.lower()  # overwrites outer body name in xml (root)
 
             # read params from yml and create mujoco object
-            obj_type, attachable, tags, rotation = self._read_params(params)
+            obj_type, tags, rotation = self._read_params(params)
             mujoco_obj = MujocoObject(
                 name=obj,
                 xml_id="",
                 mjcf_obj=mjcf,
                 obj_class=asset_name,
                 obj_type=obj_type,
-                attachable=attachable,
                 rotation=rotation,
                 color=None,
                 size=None,
@@ -107,23 +106,19 @@ class MujocoLoader:
 
         Returns:
             obj_type (str): Type of object
-            attachable (bool): True if object can be attached to a container-type object
             tags (list): List of user specified tags for the object
             rotation (tuple[float, float, float]): Rotation of object
         """
         obj_type = None
-        attachable = None
         tags = None
         rotation = None
         if not params == None:
             for dict_ in params:
                 if "type" in dict_.keys():
                     obj_type = dict_["type"]
-                if "attachable" in dict_.keys():
-                    attachable = dict_["attachable"]
                 if "tags" in dict_.keys():
                     tags = dict_["tags"]
                 if "rotation" in dict_.keys():
                     rotation = dict_["rotation"]
 
-        return obj_type, attachable, tags, rotation
+        return obj_type, tags, rotation

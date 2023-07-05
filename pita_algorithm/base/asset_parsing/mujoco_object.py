@@ -12,7 +12,6 @@ class MujocoObject:
         mjcf_obj: mjcf.RootElement,
         obj_class: str,
         obj_type: str,
-        attachable: bool,
         coordinates: Union[
             tuple[float, float, float], None
         ] = None,  # ToDo: implement getter and setter
@@ -27,7 +26,6 @@ class MujocoObject:
             name (str): Specific name of object
             mjcf_obj (mjcf): Objects xml parsed into mjcf-style model of mujoco
             obj_type (str): Type of object (e.g. "tree" or "stone")
-            attachable (bool): Decides if object is attachable
             coordinates (tuple): Coordinates of the object
             rotation (tuple[float, float, float]): Rotation of object
             color (tuple[float, float, float, float]): Color rgba
@@ -39,7 +37,6 @@ class MujocoObject:
         self._mjcf_obj = mjcf_obj
         self._obj_class: str = obj_class
         self._obj_type = obj_type
-        self._attachable = attachable
         self._coordinates = coordinates
         self._tags = tags
         self._color = color
@@ -135,24 +132,6 @@ class MujocoObject:
             obj_type (str): Type of the object
         """
         self._obj_type = obj_type
-
-    @property
-    def attachable(self) -> bool:
-        """Get attachable.
-
-        Returns:
-            attachable (bool): True if object is attachable, False otherwise
-        """
-        return self._attachable
-
-    @attachable.setter
-    def attachable(self, attachable: bool):
-        """Set attachable.
-
-        Parameters:
-            attachable (bool): True if object is attachable, False otherwise
-        """
-        self._attachable = attachable
 
     @property
     def position(self) -> tuple[float, float, float]:
