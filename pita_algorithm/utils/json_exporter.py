@@ -37,7 +37,9 @@ class JSONExporter:
             values = {}
 
             values["name"] = mujoco_object.xml_id
-            values["type"] = mujoco_object.obj_type #TODO: Check if this is still needed
+            values[
+                "type"
+            ] = mujoco_object.obj_type  # TODO: Check if this is still needed
             values["class"] = mujoco_object.obj_class
             values["position"] = mujoco_object.position.tolist()
             values["color"] = mujoco_object.color.tolist()
@@ -63,7 +65,9 @@ class JSONExporter:
                 values = {}
 
                 values["name"] = mujoco_object.xml_id
-                values["type"] = mujoco_object.obj_type #TODO: Check if this is still needed
+                values[
+                    "type"
+                ] = mujoco_object.obj_type  # TODO: Check if this is still needed
                 values["class"] = mujoco_object.obj_class
                 values["position"] = mujoco_object.position.tolist()
                 values["color"] = mujoco_object.color.tolist()
