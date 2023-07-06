@@ -13,9 +13,9 @@ Environment:
 
     Agent_two:
       - xml_name: "Agent.xml"
-      - amount: [1, 1]
+      - amount: [10, 10]
       - rotation: [0, 0, 180]
-
+      - color_groups: [2, 3]
 Areas:
   Area1:
     size: large
@@ -23,8 +23,10 @@ Areas:
       Ball:
         - xml_name: "Ball.xml"
         - amount: [ 2, 2 ]
-        - colors: [ 1, 1 ]
-        - sizes: [ 1, 1 ]
+        - z_rotation_range: [ 0, 180 ]
+        - color_groups: [ 2, 3 ]
+        - sizes_value_range: [ 1, 2 ]
+        - sizes_groups: [ 2, 3 ]
 
 #      Ball_duplicate:
 #        - amount: 1
