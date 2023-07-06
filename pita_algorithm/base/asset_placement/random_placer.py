@@ -1,6 +1,8 @@
 import random
 import numpy as np
+import webcolors
 from typing import Callable, Union, Any
+from PIL import ImageColor
 
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
@@ -97,8 +99,10 @@ class RandomPlacer(AbstractPlacer):
         mujoco_object_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
-        colors_range: Union[tuple[int, int], None] = None,
-        sizes_range: Union[tuple[int, int], None] = None,
+        z_rotation_range: Union[tuple[int, int], None] = None,
+        color_groups: Union[tuple[int, int], None] = None,
+        size_groups: Union[tuple[int, int], None] = None,
+        size_value_range: Union[tuple[int, int], None] = None
     ):
         """Adds a mujoco object to a site by calling the sites add method
         after checking placement via the validator.
@@ -113,25 +117,26 @@ class RandomPlacer(AbstractPlacer):
             sizes_range (Union[tuple[int, int], None]): Range of possible different sizes for object
         """
 
-        # Sample the amount of objects to be placed if amount is a tuple and differ
-        amount = (
-            amount[0]
-            if (amount[0] == amount[1])
-            else np.random.randint(int(amount[0]), int(amount[1]))
-        )
+        # sample from amount range
+        amount = self._sample_from_amount(amount=amount)
 
         # get colors rgba
-        colors_rgba = self._get_random_colors(colors_range=colors_range)
+        colors_rgba = self._get_random_colors(amount=amount, color_groups=color_groups)
+        ############################################################### Move to function
+        # ToDo: check since it actually currently gets a list of double the amount
         if not colors_rgba is None:
             if len(colors_rgba) > amount:
                 raise ValueError("Not enough objects for specified colors.")
 
         # get object size
-        sizes = self._get_random_sizes(sizes_range=sizes_range)
+        # ToDo: check since it actually currently gets a list of double the amount
+        sizes = self._get_random_sizes(sizes_range=size_groups)
         if not sizes is None:
             if len(sizes) > amount:
                 raise ValueError("Not enough objects for specified sizes.")
+        ###############################################################
 
+        # ToDo: adjust
         for i in range(amount):
             if not colors_rgba is None:
                 # apply colors to objects
@@ -218,41 +223,58 @@ class RandomPlacer(AbstractPlacer):
         site.remove(mujoco_object=mujoco_object)
 
     @staticmethod
-    def _get_random_colors(
-        colors_range: Union[tuple[int, int], None]
+    def _sample_from_amount(amount: tuple[int, int]) -> int:
+        # Sample the amount of objects to be placed if amount is a tuple and differ
+        amount = (
+            amount[0]
+            if (amount[0] == amount[1])
+            else np.random.randint(int(amount[0]), int(amount[1]) + 1)  # randint function is exclusive on high val
+        )
+        return amount
+
+    def _get_random_colors(self, amount: int,
+        color_groups: Union[tuple[int, int], None]
     ) -> Union[list[tuple[float, float, float, float]], None]:
         """Returns a list of random rgba colors (with alpha=1).
            Every color is added twice to the list.
 
         Parameters:
-            colors_range (Union[tuple[float, float], None]): Range of different colors
+            amount (Union[tuple[int, int], None): Range of amount of object
+            color_groups (Union[tuple[int, int], None]): Range of different colors
 
         Returns:
             colors_rgba (Union[list[tuple[float, float, float, float]], None]): List of randomized rgba colors
         """
-        if colors_range is None:
+        if color_groups is None:
             return None
+
+        # get list of available color names
+        color_names = list(webcolors.CSS3_NAMES_TO_HEX.keys())
 
         # get random int in range of colors
         colors_randint = (
-            colors_range[0]
-            if (colors_range[0] == colors_range[1])
-            else np.random.randint(int(colors_range[0]), int(colors_range[1]))
+            color_groups[0]
+            if (color_groups[0] == color_groups[1])
+            else np.random.randint(int(color_groups[0]), int(color_groups[1]) + 1)  # higher is excluding
         )
 
-        # get random rgba for every color existing
+        # get number of different colors needed by amount / color_groups
+        colors_needed = int(amount / colors_randint)    # int type cast automatically rounds down
+
+        # get random rgba for number of colors needed
         colors_rgba = list()
-        for _ in range(colors_randint):
-            random_rgba = (
-                round(np.random.random(), 2),
-                round(np.random.random(), 2),
-                round(np.random.random(), 2),
-                1.0,
-            )  # transparency set to 1
-            colors_rgba.append(random_rgba)
-            colors_rgba.append(
-                random_rgba
-            )  # append twice to have pairs of colors for ball pit scenario
+        colors_used = list()
+        for _ in range(colors_needed):
+            rand_color_int = np.random.randint(0, len(color_names) + 1)
+            random_color = color_names[rand_color_int]
+            while random_color in colors_used:
+                random_color = color_names[rand_color_int]
+            colors_used.append(random_color)
+            color_rgba = self._get_rgba_from_color_name(random_color)
+            color_rgba_normalized = [(float(val) / 255) for val in color_rgba]
+            colors_rgba.append(color_rgba_normalized)
+
+        # generate list of colors depending on amount an
 
         return colors_rgba
 
@@ -288,3 +310,14 @@ class RandomPlacer(AbstractPlacer):
             sizes.append([random_size])
 
         return sizes
+
+    def _get_rgba_from_color_name(self, color_name):
+        try:
+            # Get hexadecimal color code
+            hex_code = webcolors.name_to_hex(color_name)
+            # Convert hexadecimal to RGBA
+            rgba = ImageColor.getcolor(hex_code, "RGBA")
+            return rgba
+        except ValueError:
+            # Handle invalid color names
+            return None
