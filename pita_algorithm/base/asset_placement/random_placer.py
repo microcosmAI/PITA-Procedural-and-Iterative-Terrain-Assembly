@@ -102,7 +102,7 @@ class RandomPlacer(AbstractPlacer):
         z_rotation_range: Union[tuple[int, int], None] = None,
         color_groups: Union[tuple[int, int], None] = None,
         size_groups: Union[tuple[int, int], None] = None,
-        size_value_range: Union[tuple[int, int], None] = None
+        size_value_range: Union[tuple[int, int], None] = None,
     ):
         """Adds a mujoco object to a site by calling the sites add method
         after checking placement via the validator.
@@ -124,8 +124,9 @@ class RandomPlacer(AbstractPlacer):
         if not color_groups is None:
             if max(color_groups) > amount:
                 raise ValueError("Not enough objects for specified colors.")
-        colors_for_placement = self._get_random_colors(amount=amount, color_groups=color_groups)
-
+        colors_for_placement = self._get_random_colors(
+            amount=amount, color_groups=color_groups
+        )
 
         ############################################################### Move to function
         # get object size
@@ -224,12 +225,14 @@ class RandomPlacer(AbstractPlacer):
         amount = (
             amount[0]
             if (amount[0] == amount[1])
-            else np.random.randint(int(amount[0]), int(amount[1]) + 1)  # randint function is exclusive on high val
+            else np.random.randint(
+                int(amount[0]), int(amount[1]) + 1
+            )  # randint function is exclusive on high val
         )
         return amount
 
-    def _get_random_colors(self, amount: int,
-        color_groups: Union[tuple[int, int], None]
+    def _get_random_colors(
+        self, amount: int, color_groups: Union[tuple[int, int], None]
     ) -> Union[list[list[float]], None]:
         """Returns a list of random rgba colors (with alpha=1).
            Every color is added twice to the list.
@@ -251,11 +254,15 @@ class RandomPlacer(AbstractPlacer):
         colors_randint = (
             color_groups[0]
             if (color_groups[0] == color_groups[1])
-            else np.random.randint(int(color_groups[0]), int(color_groups[1]) + 1)  # higher is excluding
+            else np.random.randint(
+                int(color_groups[0]), int(color_groups[1]) + 1
+            )  # higher is excluding
         )
 
         # get number of different colors needed by amount / color_groups
-        colors_needed = int(amount / colors_randint)    # int type cast automatically rounds down
+        colors_needed = int(
+            amount / colors_randint
+        )  # int type cast automatically rounds down
 
         # get random rgba for number of colors needed
         colors_rgba = list()
