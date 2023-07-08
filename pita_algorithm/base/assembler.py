@@ -284,7 +284,7 @@ class Assembler:
                         z_rotation_range=colors_range,
                         color_groups=colors_range,
                         size_groups=sizes_range,
-                        size_value_range=sizes_range
+                        size_value_range=sizes_range,
                     )
 
         # Add plane to environment, if pretty mode is enabled also add grid material
