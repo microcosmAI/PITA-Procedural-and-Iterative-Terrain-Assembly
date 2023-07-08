@@ -3,7 +3,7 @@ import numpy as np
 import webcolors
 from typing import Callable, Union, Any
 from PIL import ImageColor
-
+from random import sample
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
@@ -121,13 +121,13 @@ class RandomPlacer(AbstractPlacer):
         amount = self._sample_from_amount(amount=amount)
 
         # get colors rgba
-        colors_rgba = self._get_random_colors(amount=amount, color_groups=color_groups)
-        ############################################################### Move to function
-        # ToDo: check since it actually currently gets a list of double the amount
-        if not colors_rgba is None:
-            if len(colors_rgba) > amount:
+        if not color_groups is None:
+            if max(color_groups) > amount:
                 raise ValueError("Not enough objects for specified colors.")
+        colors_for_placement = self._get_random_colors(amount=amount, color_groups=color_groups)
 
+
+        ############################################################### Move to function
         # get object size
         # ToDo: check since it actually currently gets a list of double the amount
         sizes = self._get_random_sizes(sizes_range=size_groups)
@@ -136,16 +136,12 @@ class RandomPlacer(AbstractPlacer):
                 raise ValueError("Not enough objects for specified sizes.")
         ###############################################################
 
-        # ToDo: adjust
         for i in range(amount):
-            if not colors_rgba is None:
+            if not colors_for_placement is None:
                 # apply colors to objects
-                if i > (len(colors_rgba) - 1):
-                    randint = random.randrange(len(colors_rgba))
-                    mujoco_object_rule_blueprint.color = colors_rgba[randint]
-                else:
-                    mujoco_object_rule_blueprint.color = colors_rgba[i]
+                mujoco_object_rule_blueprint.color = colors_for_placement[i]
 
+            # ToDo: adjust
             if not sizes is None:
                 # apply sizes to objects
                 if i > (len(sizes) - 1):
@@ -192,7 +188,7 @@ class RandomPlacer(AbstractPlacer):
             # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
 
-            if colors_rgba is not None:
+            if colors_for_placement is not None:
                 # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
                 old_color = mujoco_object.color
                 mujoco_object.color = mujoco_object_rule_blueprint.color
@@ -234,7 +230,7 @@ class RandomPlacer(AbstractPlacer):
 
     def _get_random_colors(self, amount: int,
         color_groups: Union[tuple[int, int], None]
-    ) -> Union[list[tuple[float, float, float, float]], None]:
+    ) -> Union[list[list[float]], None]:
         """Returns a list of random rgba colors (with alpha=1).
            Every color is added twice to the list.
 
@@ -243,7 +239,7 @@ class RandomPlacer(AbstractPlacer):
             color_groups (Union[tuple[int, int], None]): Range of different colors
 
         Returns:
-            colors_rgba (Union[list[tuple[float, float, float, float]], None]): List of randomized rgba colors
+            colors_rgba (Union[list[list[float]], None]): List of randomized rgba colors
         """
         if color_groups is None:
             return None
@@ -275,8 +271,18 @@ class RandomPlacer(AbstractPlacer):
             colors_rgba.append(color_rgba_normalized)
 
         # generate list of colors depending on amount an
+        colors_for_placement = list()
+        for color in colors_rgba:
+            for _ in range(colors_randint):
+                colors_for_placement.append(color)
 
-        return colors_rgba
+        # fill colors_for_placement list if amount of objects is greater than colors in the list.
+        # this happens if amount % color_groups != 0
+        while amount > len(colors_for_placement):
+            sampled_color = sample(colors_rgba, 1)[0]
+            colors_for_placement.append(sampled_color)
+
+        return colors_for_placement
 
     @staticmethod
     def _get_random_sizes(
