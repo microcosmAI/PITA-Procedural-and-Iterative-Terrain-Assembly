@@ -113,10 +113,10 @@ class RandomPlacer(AbstractPlacer):
             mujoco_object_rule_blueprint (MujocoObject): Blueprint of the to-be-placed mujoco object
             validators (list[Validator]): List of validators used to check object placement
             amount (tuple[int, int]): Range of possible amount of objects to be placed
-            z_rotation_range (Union[tuple[int, int]]): Range of degrees for z-axis rotation
+            z_rotation_range (Union[tuple[int, int], None]): Range of degrees for z-axis rotation
             color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
             size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
-            size_value_range (Union[tuple[float, float]]): Range of size values allowed in randomization
+            size_value_range (Union[tuple[float, float], None]): Range of size values allowed in randomization
         """
 
         # sample from amount range
@@ -135,6 +135,9 @@ class RandomPlacer(AbstractPlacer):
         sizes_for_placement = self._get_random_sizes(amount=amount, size_groups=size_groups,
                                                      size_value_range=size_value_range)
 
+        # get object z-axis rotation
+        z_rotation_for_placement = self._get_random_rotation(amount=amount, z_rotation_range=z_rotation_range)
+
         for i in range(amount):
             if not colors_for_placement is None:
                 # apply colors to objects
@@ -143,6 +146,15 @@ class RandomPlacer(AbstractPlacer):
             if not sizes_for_placement is None:
                 # apply sizes to objects
                 mujoco_object_rule_blueprint.size = sizes_for_placement[i]
+
+            if not z_rotation_for_placement is None:
+                # apply rotation to z-axis of object
+                rotation = mujoco_object_rule_blueprint.rotation
+                if rotation is None:
+                    rotation = [0, 0, z_rotation_for_placement[i]]
+                else:
+                    rotation[2] = z_rotation_for_placement[i]
+                mujoco_object_rule_blueprint.rotation = rotation
 
             # Save size of object for setting the z coordinate
             new_z_position = mujoco_object_rule_blueprint.size[0]
@@ -194,6 +206,12 @@ class RandomPlacer(AbstractPlacer):
                 mujoco_object.size = mujoco_object_rule_blueprint.size
                 mujoco_object_rule_blueprint.size = old_size
 
+            if z_rotation_for_placement is not None:
+                # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
+                old_rotation = mujoco_object.rotation
+                mujoco_object.rotation = mujoco_object_rule_blueprint.rotation
+                mujoco_object_rule_blueprint.rotation = old_rotation
+
             mujoco_object.position = mujoco_object_rule_blueprint.position
 
             # Keep track of the placement in the validators
@@ -236,7 +254,7 @@ class RandomPlacer(AbstractPlacer):
            Every color is added twice to the list.
 
         Parameters:
-            amount (Union[tuple[int, int], None): Range of amount of object
+            amount (int): Number of objects
             color_groups (Union[tuple[int, int], None]): Range of different colors
 
         Returns:
@@ -265,7 +283,9 @@ class RandomPlacer(AbstractPlacer):
             rand_color_int = np.random.randint(0, len(color_names) + 1)
             random_color = color_names[rand_color_int]
             while random_color in colors_used:
+                rand_color_int = np.random.randint(0, len(color_names) + 1)
                 random_color = color_names[rand_color_int]
+
             colors_used.append(random_color)
             color_rgba = self._get_rgba_from_color_name(random_color)
             color_rgba_normalized = [(float(val) / 255) for val in color_rgba]
@@ -292,12 +312,12 @@ class RandomPlacer(AbstractPlacer):
         """Returns a list of random sizes. Every size is added twice to the list.
 
         Parameters:
-            amount (int): Number of object
+            amount (int): Number of objects
             size_groups (Union[tuple[float, float], None]): Range of different sizes
             size_value_range (Union[tuple[float, float], None]): Defines the value size of the randomization process
 
         Returns:
-            sizes_for_placement (list(float)): List of randomized sizes
+            sizes_for_placement (Union[list(float, float, float), None]): List of randomized sizes
         """
         if size_groups is None:
             return None
@@ -309,7 +329,7 @@ class RandomPlacer(AbstractPlacer):
             else np.random.randint(int(size_groups[0]), int(size_groups[1]) + 1)  # higher is excluding
         )
 
-        ## get number of different sizes needed by amount / size_groups
+        # get number of different sizes needed by amount / size_groups
         sizes_needed = int(amount / sizes_randint)    # int type cast automatically rounds down
 
         # get random sizes for number of sizes needed
@@ -346,7 +366,7 @@ class RandomPlacer(AbstractPlacer):
             color_name (str): Name of color
 
         Returns:
-            rgba (Union[tuple[float, float, float, float]]): Tuple of rgba values for the corresponding color string
+            rgba (Union[tuple[float, float, float, float], None]): Rgba values for the corresponding color string
         """
         try:
             # Get hexadecimal color code
@@ -358,17 +378,36 @@ class RandomPlacer(AbstractPlacer):
             # Handle invalid color names
             return None
 
-    def _get_size_array(self, size_value_range: Union[tuple[float, float]]) -> Union[list[float, float, float]]:
+    def _get_size_array(self, size_value_range: tuple[float, float]) -> list[float, float, float]:
         """Generates 3D random size in given range
 
         Parameters:
-            size_value_range (Union[tuple[float, float]]): Range of possible size values
+            size_value_range (tuple[float, float]): Range of possible size values
 
         Returns:
-            random_size (Union[list[float, float, float]]): Randomized size values in given range for 3D
+            random_size (list[float, float, float]): Randomized size values in given range for 3D
         """
         x_rand_size_float = np.random.uniform(size_value_range[0], size_value_range[1])  # higher is excluding
         y_rand_size_float = np.random.uniform(size_value_range[0], size_value_range[1])  # higher is excluding
         z_rand_size_float = np.random.uniform(size_value_range[0], size_value_range[1])  # higher is excluding
         random_size = [x_rand_size_float, y_rand_size_float, z_rand_size_float]
         return random_size
+
+    def _get_random_rotation(self, amount: int, z_rotation_range: Union[tuple[int, int], None]) -> Union[list[float], None]:
+        """Generate random number in z_rotation_range
+
+        Parameters:
+            amount (int): Number of objects
+            z_rotation_range (Union[tuple[int, int], None]): Range of degrees for randomization of z-axis
+
+        Returns:
+            z_rotations_for_placement (Union[list[float], None]): Random numbers in given range for z-axis rotation
+        """
+        if z_rotation_range is None:
+            return None
+
+        z_rotations_for_placement = list()
+        for _ in range(amount):
+            z_rotation = np.random.uniform(z_rotation_range[0], z_rotation_range[1])  # higher is excluding
+            z_rotations_for_placement.append(z_rotation)
+        return z_rotations_for_placement
