@@ -6,12 +6,6 @@ Environment:
     - xml_name: "Border.xml"
     - place: True
   Objects:
-
-    Ball:
-      - xml_name: "Ball.xml"
-      - amount: [ 10, 10 ]
-      - color_groups: [ 2, 3 ]
-
     Agent:
       - xml_name: "Agent.xml"
       - amount: 2
@@ -19,19 +13,20 @@ Environment:
 
     Agent_two:
       - xml_name: "Agent.xml"
-      - amount: [ 1, 1 ]
+      - amount: [ 2, 2 ]
       - rotation: [0, 0, 180]
+
 Areas:
   Area1:
     size: large
     Objects:
-      Ball:
+      Ball_test:
         - xml_name: "Ball.xml"
-        - amount: [ 2, 2 ]
+        - amount: [ 10, 10 ]
         - z_rotation_range: [ 0, 180 ]
         - color_groups: [ 2, 3 ]
-        - sizes_value_range: [ 1, 2 ]
-        - sizes_groups: [ 2, 3 ]
+        - size_value_range: [ 1, 2 ]
+        - size_groups: [ 2, 3 ]
 
 #      Ball_duplicate:
 #        - amount: 1
