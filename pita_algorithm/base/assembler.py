@@ -216,8 +216,14 @@ class Assembler:
                         ]
                     ),
                 )
-                z_rotation_range, color_groups, size_groups, size_value_range = self._get_randomization_parameters(
-                    object_config_dict=object_config_dict)
+                (
+                    z_rotation_range,
+                    color_groups,
+                    size_groups,
+                    size_value_range,
+                ) = self._get_randomization_parameters(
+                    object_config_dict=object_config_dict
+                )
                 RandomPlacer(distribution=environment_random_distribution).add(
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
@@ -229,7 +235,7 @@ class Assembler:
                     z_rotation_range=z_rotation_range,
                     color_groups=color_groups,
                     size_groups=size_groups,
-                    size_value_range=size_value_range
+                    size_value_range=size_value_range,
                 )
 
         # Random Mujoco Object Placement - Area level
@@ -255,8 +261,14 @@ class Assembler:
                             ]
                         ),
                     )
-                    z_rotation_range, color_groups, size_groups, size_value_range = self._get_randomization_parameters(
-                        object_config_dict=object_config_dict)
+                    (
+                        z_rotation_range,
+                        color_groups,
+                        size_groups,
+                        size_value_range,
+                    ) = self._get_randomization_parameters(
+                        object_config_dict=object_config_dict
+                    )
                     RandomPlacer(distribution=area_random_distribution).add(
                         site=areas[area_index],
                         mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
@@ -271,7 +283,7 @@ class Assembler:
                         z_rotation_range=z_rotation_range,
                         color_groups=color_groups,
                         size_groups=size_groups,
-                        size_value_range=size_value_range
+                        size_value_range=size_value_range,
                     )
 
         # Add plane to environment, if pretty mode is enabled also add grid material
