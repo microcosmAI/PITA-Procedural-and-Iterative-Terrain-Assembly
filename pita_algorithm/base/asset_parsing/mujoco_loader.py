@@ -44,9 +44,10 @@ class MujocoLoader:
         for name, params in self.config_file["Environment"]["Objects"].items():
             obj_dict[name] = params
 
-        for area, obj_in_area in self.config_file["Areas"].items():
-            for name, params in self.config_file["Areas"][area]["Objects"].items():
-                obj_dict[name] = params
+        if self.config_file.get("Areas") is not None:
+            for area, obj_in_area in self.config_file["Areas"].items():
+                for name, params in self.config_file["Areas"][area]["Objects"].items():
+                    obj_dict[name] = params
 
         return obj_dict
 
