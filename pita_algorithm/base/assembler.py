@@ -316,11 +316,11 @@ class Assembler:
 
         Returns:
             z_rotation_range (tuple[int, int]): Range of z-axis rotation for randomization (degrees)
-            color_groups (tuple[int, int]): Range of different colors for randomization
-            size_groups (tuple[int, int]): Range of different sizes for randomization
+            color_groups (tuple[int, int]): Range of members per distinctly colored group
+            size_groups (tuple[int, int]): Range of members per distinctly sized group
             size_value_range (tuple[float, float]): Range of size values for randomization
         """
-        # checks for z rotation range
+        # Checks for z rotation range
         if "z_rotation_range" not in object_config_dict.keys():
             z_rotation_range = None
         else:
@@ -338,7 +338,7 @@ class Assembler:
         else:
             size_groups = object_config_dict["size_groups"]
 
-        # checks for sizes value range
+        # Checks for sizes value range
         if "size_value_range" not in object_config_dict.keys():
             size_value_range = None
         else:

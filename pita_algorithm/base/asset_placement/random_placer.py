@@ -119,10 +119,10 @@ class RandomPlacer(AbstractPlacer):
             size_value_range (Union[tuple[float, float], None]): Range of size values allowed in randomization
         """
 
-        # sample from amount range
+        # Sample from amount range
         amount = self._sample_from_amount(amount=amount)
 
-        # get colors rgba
+        # Get colors rgba
         if not color_groups is None:
             if max(color_groups) > amount:
                 raise ValueError("Not enough objects for specified colors.")
@@ -130,7 +130,7 @@ class RandomPlacer(AbstractPlacer):
             amount=amount, color_groups=color_groups
         )
 
-        # get object size
+        # Get object size
         if not size_groups is None:
             if len(size_groups) > amount:
                 raise ValueError("Not enough objects for specified sizes.")
@@ -138,22 +138,22 @@ class RandomPlacer(AbstractPlacer):
             amount=amount, size_groups=size_groups, size_value_range=size_value_range
         )
 
-        # get object z-axis rotation
+        # Get object z-axis rotation
         z_rotation_for_placement = self._get_random_rotation(
             amount=amount, z_rotation_range=z_rotation_range
         )
 
         for i in range(amount):
             if not colors_for_placement is None:
-                # apply colors to objects
+                # Apply colors to objects
                 mujoco_object_rule_blueprint.color = colors_for_placement[i]
 
             if not sizes_for_placement is None:
-                # apply sizes to objects
+                # Apply sizes to objects
                 mujoco_object_rule_blueprint.size = sizes_for_placement[i]
 
             if not z_rotation_for_placement is None:
-                # apply rotation to z-axis of object
+                # Apply rotation to z-axis of object
                 rotation = mujoco_object_rule_blueprint.rotation
                 if rotation is None:
                     rotation = [0, 0, z_rotation_for_placement[i]]
@@ -237,20 +237,20 @@ class RandomPlacer(AbstractPlacer):
 
     @staticmethod
     def _sample_from_amount(amount: tuple[int, int]) -> int:
-        """Sample the amount of objects to be placed if amount is a tuple and differ
+        """Sample the amount of objects to be placed if amount is a tuple of different values.
 
         Parameters:
-            amount (tuple[int, int]): Range of number of objects for randomization
+            amount (tuple[int, int]): Range of objects for randomization
 
         Returns:
-            amount_int (int): Random number of amount picked in given range
+            amount_int (int): Sample drawn from amount range
         """
         amount_int = (
             amount[0]
             if (amount[0] == amount[1])
             else np.random.randint(
                 int(amount[0]), int(amount[1]) + 1
-            )  # randint function is exclusive on high val
+            )  # Randint function is exclusive on high val
         )
         return amount_int
 
@@ -261,18 +261,19 @@ class RandomPlacer(AbstractPlacer):
 
         Parameters:
             amount (int): Number of objects
-            color_groups (Union[tuple[int, int], None]): Range of different colors
+            color_groups (Union[tuple[int, int], None]): Range of members per distinctly colored group
 
         Returns:
-            colors_rgba (Union[list[list[float]], None]): List of randomized rgba colors
+            colors_for_placement (Union[list[list[float]], None]): List of randomized rgba colors
+                (with duplicate entries for each group member, if color_groups > 1)
         """
         if color_groups is None:
             return None
 
-        # get list of available color names
+        # Get list of available color names
         color_names = list(webcolors.CSS3_NAMES_TO_HEX.keys())
 
-        # get random int in range of colors
+        # Get random int in range of colors
         colors_randint = (
             color_groups[0]
             if (color_groups[0] == color_groups[1])
@@ -281,34 +282,32 @@ class RandomPlacer(AbstractPlacer):
             )  # higher is excluding
         )
 
-        # get number of different colors needed by amount / color_groups
+        # Get number of different colors needed by amount / color_groups
         colors_needed = int(
             amount / colors_randint
-        )  # int type cast automatically rounds down
+        )  # Int type cast automatically rounds down
 
-        # get random rgba for number of colors needed
+        # Get random rgba for number of colors needed
         colors_rgba = list()
-        colors_used = list()
-        for _ in range(colors_needed):
-            rand_color_int = np.random.randint(0, len(color_names) + 1)
-            random_color = color_names[rand_color_int]
-            while random_color in colors_used:
-                rand_color_int = np.random.randint(0, len(color_names) + 1)
-                random_color = color_names[rand_color_int]
 
-            colors_used.append(random_color)
-            color_rgba = self._get_rgba_from_color_name(random_color)
+        # Shuffle color names
+        random.shuffle(color_names)
+
+        # Loop over the first 'colors_needed' colors and convert them to rgba
+        # and normalize between 0 and 1
+        for color in color_names[:colors_needed]:
+            color_rgba = self._get_rgba_from_color_name(color)
             color_rgba_normalized = [(float(val) / 255) for val in color_rgba]
             colors_rgba.append(color_rgba_normalized)
 
-        # generate list of colors depending on amount an
+        # Generate list of colors depending on amount an
         colors_for_placement = list()
         for color in colors_rgba:
             for _ in range(colors_randint):
                 colors_for_placement.append(color)
 
-        # fill colors_for_placement list if amount of objects is greater than colors in the list.
-        # this happens if amount % color_groups != 0
+        # Fill colors_for_placement list if amount of objects is greater than colors in the list.
+        # This happens if amount % color_groups != 0
         while amount > len(colors_for_placement):
             sampled_color = sample(colors_rgba, 1)[0]
             colors_for_placement.append(sampled_color)
@@ -325,30 +324,31 @@ class RandomPlacer(AbstractPlacer):
 
         Parameters:
             amount (int): Number of objects
-            size_groups (Union[tuple[float, float], None]): Range of different sizes
+            size_groups (Union[tuple[float, float], None]): Range of members per distinctly sized group
             size_value_range (Union[tuple[float, float], None]): Defines the value size of the randomization process
 
         Returns:
             sizes_for_placement (Union[list(float, float, float), None]): List of randomized sizes
+                (with duplicate entries for each group member, if size_groups > 1)
         """
         if size_groups is None:
             return None
 
-        # get random int in range of sizes
+        # Get random int in range of sizes
         sizes_randint = (
             size_groups[0]
             if (size_groups[0] == size_groups[1])
             else np.random.randint(
                 int(size_groups[0]), int(size_groups[1]) + 1
-            )  # higher is excluding
+            )  # Higher is excluding
         )
 
-        # get number of different sizes needed by amount / size_groups
+        # Get number of different sizes needed by amount / size_groups
         sizes_needed = int(
             amount / sizes_randint
-        )  # int type cast automatically rounds down
+        )  # Int type cast automatically rounds down
 
-        # get random sizes for number of sizes needed
+        # Get random sizes for number of sizes needed
         sizes = list()
         sizes_used = list()
         for _ in range(sizes_needed):
@@ -358,19 +358,19 @@ class RandomPlacer(AbstractPlacer):
             sizes_used.append(random_size)
             sizes.append(random_size)
 
-        # generate list of colors depending on amount an
+        # Generate list of colors depending on amount an
         sizes_for_placement = list()
         for size in sizes:
             for _ in range(sizes_randint):
                 sizes_for_placement.append(size)
 
-        # fill colors_for_placement list if amount of objects is greater than colors in the list.
-        # this happens if amount % color_groups != 0
+        # Fill colors_for_placement list if amount of objects is greater than colors in the list.
+        # This happens if amount % color_groups != 0
         while amount > len(sizes_for_placement):
             sampled_color = sample(sizes, 1)[0]
             sizes_for_placement.append(sampled_color)
 
-        # apply shuffling so that color and size is not synchronized
+        # Apply shuffling so that color and size is not synchronized
         random.shuffle(sizes_for_placement)
 
         return sizes_for_placement
@@ -378,7 +378,7 @@ class RandomPlacer(AbstractPlacer):
     def _get_rgba_from_color_name(
         self, color_name: str
     ) -> Union[tuple[float, float, float, float], None]:
-        """Takes color as argument and returns the corresponding rgba color code
+        """Takes color as argument and returns the corresponding rgba color code.
 
         Parameters:
             color_name (str): Name of color
@@ -399,7 +399,7 @@ class RandomPlacer(AbstractPlacer):
     def _get_size_array(
         self, size_value_range: tuple[float, float]
     ) -> list[float, float, float]:
-        """Generates 3D random size in given range
+        """Generates 3D random size in given range.
 
         Parameters:
             size_value_range (tuple[float, float]): Range of possible size values
@@ -409,20 +409,20 @@ class RandomPlacer(AbstractPlacer):
         """
         x_rand_size_float = np.random.uniform(
             size_value_range[0], size_value_range[1]
-        )  # higher is excluding
+        )  # Higher is excluding
         y_rand_size_float = np.random.uniform(
             size_value_range[0], size_value_range[1]
-        )  # higher is excluding
+        )  # Higher is excluding
         z_rand_size_float = np.random.uniform(
             size_value_range[0], size_value_range[1]
-        )  # higher is excluding
+        )  # Higher is excluding
         random_size = [x_rand_size_float, y_rand_size_float, z_rand_size_float]
         return random_size
 
     def _get_random_rotation(
         self, amount: int, z_rotation_range: Union[tuple[int, int], None]
     ) -> Union[list[float], None]:
-        """Generate random number in z_rotation_range
+        """Generate random number in z_rotation_range.
 
         Parameters:
             amount (int): Number of objects
@@ -438,6 +438,6 @@ class RandomPlacer(AbstractPlacer):
         for _ in range(amount):
             z_rotation = np.random.uniform(
                 z_rotation_range[0], z_rotation_range[1]
-            )  # higher is excluding
+            )  # Higher is excluding
             z_rotations_for_placement.append(z_rotation)
         return z_rotations_for_placement
