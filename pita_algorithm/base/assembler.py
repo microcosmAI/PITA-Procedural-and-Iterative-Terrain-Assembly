@@ -81,14 +81,21 @@ class Assembler:
         # Create areas
         # As long as we only have one area we set its size to the one of the environment
         # TODO: set size and boundary with layout manager
-        areas = [
-            Area(
-                name="area1",
-                size=(size[0], size[1], 0.1),
-                environment=environment,
-                boundary=None,
-            )
-        ]
+        areas = []
+        
+        # TODO: Dynamically create areas according to config
+        if self.config.get("Areas") is not None:
+            for area_index, _ in enumerate(
+                self.config["Areas"].items()
+            ):
+                areas.append(
+                    Area(
+                        name=f"Area{area_index+1}",
+                        size=(size[0], size[1], 0.1),
+                        environment=environment,
+                        boundary=None,
+                    )
+                )
         # TODO: Initialize multiple areas
         """for area_name, area_settings in self.config["Areas"].items():
             areas.append(Area(name=area_name, size=(10, 10, 0.1)))"""
@@ -106,17 +113,18 @@ class Assembler:
         ]
 
         area_validators = []
-        for area_index, (area_name, area_settings) in enumerate(
-            self.config["Areas"].items()
-        ):
-            area_validators.append(
-                Validator(
-                    [
-                        MinDistanceMujocoPhysicsRule(distance=1.0),
-                        BoundaryRule(boundary=(size[0], size[1])),
-                    ]
+        if self.config.get("Areas") is not None:
+            for area_index, (area_name, area_settings) in enumerate(
+                self.config["Areas"].items()
+            ):
+                area_validators.append(
+                    Validator(
+                        [
+                            MinDistanceMujocoPhysicsRule(distance=1.0),
+                            BoundaryRule(boundary=(size[0], size[1])),
+                        ]
+                    )
                 )
-            )
 
         # Border Placement
         border_config_dict = {}
@@ -168,32 +176,33 @@ class Assembler:
                     )
 
         # Fixed Coordinate Mujoco Object Placement - Area level
-        for area_index, (area_name, area_settings) in enumerate(
-            self.config["Areas"].items()
-        ):
-            for object_name, object_settings in area_settings["Objects"].items():
-                object_config_dict = {}
-                for dict_ in object_settings:
-                    object_config_dict.update(dict_)
+        if self.config.get("Areas") is not None:
+            for area_index, (area_name, area_settings) in enumerate(
+                self.config["Areas"].items()
+            ):
+                for object_name, object_settings in area_settings["Objects"].items():
+                    object_config_dict = {}
+                    for dict_ in object_settings:
+                        object_config_dict.update(dict_)
 
-                # Checks for coordinates and if they are present, place the object using the fixed placer
-                for objects in object_settings:
-                    if "coordinates" in objects:
-                        FixedPlacer().add(
-                            site=areas[area_index],
-                            mujoco_object_blueprint=mujoco_objects_blueprints[
-                                object_name
-                            ],
-                            mujoco_object_rule_blueprint=mujoco_objects_rule_blueprints[
-                                object_name
-                            ],
-                            validators=[
-                                area_validators[area_index],
-                            ]
-                            + global_validators,
-                            amount=object_config_dict["amount"],
-                            coordinates=objects["coordinates"],
-                        )
+                    # Checks for coordinates and if they are present, place the object using the fixed placer
+                    for objects in object_settings:
+                        if "coordinates" in objects:
+                            FixedPlacer().add(
+                                site=areas[area_index],
+                                mujoco_object_blueprint=mujoco_objects_blueprints[
+                                    object_name
+                                ],
+                                mujoco_object_rule_blueprint=mujoco_objects_rule_blueprints[
+                                    object_name
+                                ],
+                                validators=[
+                                    area_validators[area_index],
+                                ]
+                                + global_validators,
+                                amount=object_config_dict["amount"],
+                                coordinates=objects["coordinates"],
+                            )
 
         # Random Mujoco Object Placement - Environment level
         for object_name, object_settings in self.config["Environment"][
@@ -239,52 +248,53 @@ class Assembler:
                 )
 
         # Random Mujoco Object Placement - Area level
-        for area_index, (area_name, area_settings) in enumerate(
-            self.config["Areas"].items()
-        ):
-            for object_name, object_settings in area_settings["Objects"].items():
-                # Get all keys from the 2d list of dictionaries
-                if "coordinates" not in [
-                    list(setting.keys())[0] for setting in object_settings
-                ]:
-                    object_config_dict = {}
-                    for dict_ in object_settings:
-                        object_config_dict.update(dict_)
+        if self.config.get("Areas") is not None:
+            for area_index, (area_name, area_settings) in enumerate(
+                self.config["Areas"].items()
+            ):
+                for object_name, object_settings in area_settings["Objects"].items():
+                    # Get all keys from the 2d list of dictionaries
+                    if "coordinates" not in [
+                        list(setting.keys())[0] for setting in object_settings
+                    ]:
+                        object_config_dict = {}
+                        for dict_ in object_settings:
+                            object_config_dict.update(dict_)
 
-                    # Instantiate placer distribution and call random placer
-                    area_random_distribution = Placer2DDistribution(
-                        MultivariateUniform(),
-                        np.array(
-                            [
-                                [-environment.size[0], environment.size[0]],
-                                [-environment.size[1], environment.size[1]],
+                        # Instantiate placer distribution and call random placer
+                        area_random_distribution = Placer2DDistribution(
+                            MultivariateUniform(),
+                            np.array(
+                                [
+                                    [-environment.size[0], environment.size[0]],
+                                    [-environment.size[1], environment.size[1]],
+                                ]
+                            ),
+                        )
+                        (
+                            z_rotation_range,
+                            color_groups,
+                            size_groups,
+                            size_value_range,
+                        ) = self._get_randomization_parameters(
+                            object_config_dict=object_config_dict
+                        )
+                        RandomPlacer(distribution=area_random_distribution).add(
+                            site=areas[area_index],
+                            mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
+                            mujoco_object_rule_blueprint=mujoco_objects_rule_blueprints[
+                                object_name
+                            ],
+                            validators=[
+                                area_validators[area_index],
                             ]
-                        ),
-                    )
-                    (
-                        z_rotation_range,
-                        color_groups,
-                        size_groups,
-                        size_value_range,
-                    ) = self._get_randomization_parameters(
-                        object_config_dict=object_config_dict
-                    )
-                    RandomPlacer(distribution=area_random_distribution).add(
-                        site=areas[area_index],
-                        mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
-                        mujoco_object_rule_blueprint=mujoco_objects_rule_blueprints[
-                            object_name
-                        ],
-                        validators=[
-                            area_validators[area_index],
-                        ]
-                        + global_validators,
-                        amount=object_config_dict["amount"],
-                        z_rotation_range=z_rotation_range,
-                        color_groups=color_groups,
-                        size_groups=size_groups,
-                        size_value_range=size_value_range,
-                    )
+                            + global_validators,
+                            amount=object_config_dict["amount"],
+                            z_rotation_range=z_rotation_range,
+                            color_groups=color_groups,
+                            size_groups=size_groups,
+                            size_value_range=size_value_range,
+                        )
 
         # Add plane to environment, if pretty mode is enabled also add grid material
         if pretty_mode:
