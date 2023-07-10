@@ -258,7 +258,6 @@ class RandomPlacer(AbstractPlacer):
         self, amount: int, color_groups: Union[tuple[int, int], None]
     ) -> Union[list[list[float]], None]:
         """Returns a list of random rgba colors (with alpha=1).
-           Every color is added twice to the list.
 
         Parameters:
             amount (int): Number of objects
@@ -322,7 +321,7 @@ class RandomPlacer(AbstractPlacer):
         size_groups: Union[tuple[float, float], None],
         size_value_range: Union[tuple[float, float], None],
     ) -> Union[list[list[float]], None]:
-        """Returns a list of random sizes. Every size is added twice to the list.
+        """Returns a list of random sizes.
 
         Parameters:
             amount (int): Number of objects
