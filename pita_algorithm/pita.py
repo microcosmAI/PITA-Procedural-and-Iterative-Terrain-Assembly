@@ -18,11 +18,11 @@ class PITA:
     """Main class to run the PITA algorithm."""
 
     def run(
-            self,
-            random_seed: Union[int, None] = None,
-            config_path: Union[str, None] = None,
-            xml_dir: Union[str, None] = None,
-            export_path: Union[str, None] = None,
+        self,
+        random_seed: Union[int, None] = None,
+        config_path: Union[str, None] = None,
+        xml_dir: Union[str, None] = None,
+        export_path: Union[str, None] = None,
     ):
         """Run pita_algorithm to create xml-file containing objects specified in config file.
         Objects are given as xml by the user.
@@ -58,7 +58,9 @@ class PITA:
             and "random_seed" in config["Environment"]
             and config["Environment"]["random_seed"] is not None
         ):
-            print("Two seeds were specified (call argument to PITA.run() and in level config file). Using the one from the call.")
+            print(
+                "Two seeds were specified (call argument to PITA.run() and in level config file). Using the one from the call."
+            )
             print(f"Setting random seed to {random_seed}")
             np.random.seed(random_seed)
             random.seed(random_seed)
