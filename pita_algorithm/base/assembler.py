@@ -82,12 +82,10 @@ class Assembler:
         # As long as we only have one area we set its size to the one of the environment
         # TODO: set size and boundary with layout manager
         areas = []
-        
+
         # TODO: Dynamically create areas according to config
         if self.config.get("Areas") is not None:
-            for area_index, _ in enumerate(
-                self.config["Areas"].items()
-            ):
+            for area_index, _ in enumerate(self.config["Areas"].items()):
                 areas.append(
                     Area(
                         name=f"Area{area_index+1}",
@@ -281,7 +279,9 @@ class Assembler:
                         )
                         RandomPlacer(distribution=area_random_distribution).add(
                             site=areas[area_index],
-                            mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
+                            mujoco_object_blueprint=mujoco_objects_blueprints[
+                                object_name
+                            ],
                             mujoco_object_rule_blueprint=mujoco_objects_rule_blueprints[
                                 object_name
                             ],
