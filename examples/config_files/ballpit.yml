@@ -20,14 +20,10 @@ Areas:
   Area1:
     size: large
     Objects:
-      Ball_test:
+      Ball:
         - xml_name: "Ball.xml"
         - amount: [ 10, 10 ]
         - z_rotation_range: [ 0, 180 ]
         - color_groups: [ 2, 3 ]
         - size_value_range: [ 1, 2 ]
         - size_groups: [ 2, 3 ]
-
-#      Ball_duplicate:
-#        - amount: 1
-#        - coordinates: [ [ -42, 42, 42 ] ]
