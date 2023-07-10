@@ -206,22 +206,6 @@ class Assembler:
                 for dict_ in object_settings:
                     object_config_dict.update(dict_)
 
-                # Checks for colors
-                if "colors" not in [
-                    list(setting.keys())[0] for setting in object_settings
-                ]:
-                    colors_range = None
-                else:
-                    colors_range = object_config_dict["colors"]
-
-                # Checks for sizes
-                if "sizes" not in [
-                    list(setting.keys())[0] for setting in object_settings
-                ]:
-                    sizes_range = None
-                else:
-                    sizes_range = object_config_dict["sizes"]
-
                 # Instantiate placer distribution and call random placer
                 environment_random_distribution = Placer2DDistribution(
                     MultivariateUniform(),
@@ -232,6 +216,14 @@ class Assembler:
                         ]
                     ),
                 )
+                (
+                    z_rotation_range,
+                    color_groups,
+                    size_groups,
+                    size_value_range,
+                ) = self._get_randomization_parameters(
+                    object_config_dict=object_config_dict
+                )
                 RandomPlacer(distribution=environment_random_distribution).add(
                     site=environment,
                     mujoco_object_blueprint=mujoco_objects_blueprints[object_name],
@@ -240,8 +232,10 @@ class Assembler:
                     ],
                     validators=global_validators,
                     amount=object_config_dict["amount"],
-                    colors_range=colors_range,
-                    sizes_range=sizes_range,
+                    z_rotation_range=z_rotation_range,
+                    color_groups=color_groups,
+                    size_groups=size_groups,
+                    size_value_range=size_value_range,
                 )
 
         # Random Mujoco Object Placement - Area level
@@ -257,22 +251,6 @@ class Assembler:
                     for dict_ in object_settings:
                         object_config_dict.update(dict_)
 
-                    # Checks for colors
-                    if "colors" not in [
-                        list(setting.keys())[0] for setting in object_settings
-                    ]:
-                        colors_range = None
-                    else:
-                        colors_range = object_config_dict["colors"]
-
-                    # Checks for sizes
-                    if "sizes" not in [
-                        list(setting.keys())[0] for setting in object_settings
-                    ]:
-                        sizes_range = None
-                    else:
-                        sizes_range = object_config_dict["sizes"]
-
                     # Instantiate placer distribution and call random placer
                     area_random_distribution = Placer2DDistribution(
                         MultivariateUniform(),
@@ -282,6 +260,14 @@ class Assembler:
                                 [-environment.size[1], environment.size[1]],
                             ]
                         ),
+                    )
+                    (
+                        z_rotation_range,
+                        color_groups,
+                        size_groups,
+                        size_value_range,
+                    ) = self._get_randomization_parameters(
+                        object_config_dict=object_config_dict
                     )
                     RandomPlacer(distribution=area_random_distribution).add(
                         site=areas[area_index],
@@ -294,8 +280,10 @@ class Assembler:
                         ]
                         + global_validators,
                         amount=object_config_dict["amount"],
-                        colors_range=colors_range,
-                        sizes_range=sizes_range,
+                        z_rotation_range=z_rotation_range,
+                        color_groups=color_groups,
+                        size_groups=size_groups,
+                        size_value_range=size_value_range,
                     )
 
         # Add plane to environment, if pretty mode is enabled also add grid material
@@ -319,3 +307,41 @@ class Assembler:
         global_validators[0].plot(env_size=environment.size)
 
         return environment, areas
+
+    def _get_randomization_parameters(self, object_config_dict: dict):
+        """Reads the randomization parameters in config dict; config dict is the settings dict for an object.
+
+        Parameters:
+            object_config_dict (dict): Contains information about settings of object
+
+        Returns:
+            z_rotation_range (tuple[int, int]): Range of z-axis rotation for randomization (degrees)
+            color_groups (tuple[int, int]): Range of members per distinctly colored group
+            size_groups (tuple[int, int]): Range of members per distinctly sized group
+            size_value_range (tuple[float, float]): Range of size values for randomization
+        """
+        # Checks for z rotation range
+        if "z_rotation_range" not in object_config_dict.keys():
+            z_rotation_range = None
+        else:
+            z_rotation_range = object_config_dict["z_rotation_range"]
+
+        # Checks for colors
+        if "color_groups" not in object_config_dict.keys():
+            color_groups = None
+        else:
+            color_groups = object_config_dict["color_groups"]
+
+        # Checks for sizes
+        if "size_groups" not in object_config_dict.keys():
+            size_groups = None
+        else:
+            size_groups = object_config_dict["size_groups"]
+
+        # Checks for sizes value range
+        if "size_value_range" not in object_config_dict.keys():
+            size_value_range = None
+        else:
+            size_value_range = object_config_dict["size_value_range"]
+
+        return z_rotation_range, color_groups, size_groups, size_value_range
