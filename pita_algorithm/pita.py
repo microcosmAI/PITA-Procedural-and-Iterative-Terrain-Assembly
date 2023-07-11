@@ -59,8 +59,12 @@ class PITA:
             and config["Environment"]["random_seed"] is not None
         ):
             print(
-                "Two seeds were specified (call argument to PITA.run() and in level config file). Using the one from the call."
+                "Two seeds were specified (call argument to PITA.run() and in level config file). Using seed from the call."
             )
+            print(f"Setting random seed to {random_seed}")
+            np.random.seed(random_seed)
+            random.seed(random_seed)
+        elif random_seed is not None:
             print(f"Setting random seed to {random_seed}")
             np.random.seed(random_seed)
             random.seed(random_seed)
