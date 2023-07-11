@@ -77,7 +77,7 @@ class PITA:
                 "xml directory not specified; running with default directory in examples"
             )
         if args.config_path is None:
-            args.config_path = "examples/config_files/ballpit.yml"
+            args.config_path = "examples/config_files/simple-config.yml"
             warnings.warn(
                 "config path not specified; running with default directory in examples"
             )
