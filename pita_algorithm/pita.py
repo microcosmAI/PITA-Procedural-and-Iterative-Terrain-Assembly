@@ -64,9 +64,7 @@ class PITA:
             print(f"Setting random seed to {random_seed}")
             np.random.seed(random_seed)
             random.seed(random_seed)
-        elif (
-            random_seed is not None
-        ):
+        elif random_seed is not None:
             print(f"Setting random seed to {random_seed}")
             np.random.seed(random_seed)
             random.seed(random_seed)
