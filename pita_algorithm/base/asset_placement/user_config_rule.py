@@ -21,11 +21,11 @@ class UserRules:
             list or None: The extracted rules if found, None otherwise.
         """
         if isinstance(data, dict):
-            return data.get('rules')
+            return data.get("rules")
         elif isinstance(data, list):
             for item in data:
-                if isinstance(item, dict) and 'rules' in item:
-                    return item.get('rules')
+                if isinstance(item, dict) and "rules" in item:
+                    return item.get("rules")
         return None
 
     def extract_object_rules(self, objects, rules_dict, parent_keys=None):
@@ -47,11 +47,11 @@ class UserRules:
                 d = rules_dict
                 for key in current_keys:
                     d = d.setdefault(key, {})
-                d['rules'] = obj_rules
+                d["rules"] = obj_rules
 
             # Check for nested objects
-            if isinstance(obj_data, dict) and 'Objects' in obj_data:
-                nested_objects = obj_data['Objects']
+            if isinstance(obj_data, dict) and "Objects" in obj_data:
+                nested_objects = obj_data["Objects"]
                 self.extract_object_rules(nested_objects, rules_dict, current_keys)
 
     def get_rules(self):
@@ -68,19 +68,25 @@ class UserRules:
         rules_dict = {}
 
         # Extract rules for the Environment
-        environment_rules = self.extract_rules(self.config.get('Environment', {}))
+        environment_rules = self.extract_rules(self.config.get("Environment", {}))
         if environment_rules:
-            rules_dict['Environment'] = {'rules': environment_rules}
+            rules_dict["Environment"] = {"rules": environment_rules}
 
         # Extract rules for the objects in the Environment
-        self.extract_object_rules(self.config.get('Environment', {}).get('Objects', {}), rules_dict, ['Environment'])
+        self.extract_object_rules(
+            self.config.get("Environment", {}).get("Objects", {}),
+            rules_dict,
+            ["Environment"],
+        )
 
         # Extract rules for each Area and the objects within them
-        for area_name, area_data in self.config.get('Areas', {}).items():
+        for area_name, area_data in self.config.get("Areas", {}).items():
             area_rules = self.extract_rules(area_data)
             if area_rules:
-                rules_dict.setdefault(area_name, {})['rules'] = area_rules
+                rules_dict.setdefault(area_name, {})["rules"] = area_rules
 
-            self.extract_object_rules(area_data.get('Objects', {}), rules_dict, [area_name])
+            self.extract_object_rules(
+                area_data.get("Objects", {}), rules_dict, [area_name]
+            )
 
         return rules_dict

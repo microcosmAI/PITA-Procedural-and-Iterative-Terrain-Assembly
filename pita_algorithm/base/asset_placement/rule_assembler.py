@@ -3,7 +3,7 @@ class RuleAssembler:
     Represents a mapping between rule names and rule objects,
     and assembles rule objects based on user rules, with other important usable methods
     """
-    
+
     def __init__(self, userrules):
         """
         Initializes an instance of RuleAssembler.
@@ -11,7 +11,7 @@ class RuleAssembler:
         self.user_validators = self._assemble_rules(userrules)
 
         self.user_validators = self._assemble_rules(userrules)
-        
+
     def _assemble_rules(self, userrules):
         """
         Private method to assemble rule objects from user rules.
@@ -40,7 +40,7 @@ class RuleAssembler:
                             rule_obj = self._get_rule_object(rulename, rule_details)
                             validators[category][subcategory][rulename] = rule_obj
         return validators
-    
+
     def _get_rule_object(self, rulename, userrule):
         """
         Returns the appropriate rule object based on the rule name.
@@ -58,20 +58,14 @@ class RuleAssembler:
         # More conditions as fitting can be added here as we develop further
         if rulename == "MinObjectDistance":
             return {
-                'type': 'MinObjectDistance',
-                'target_object': userrule[1].get("object"),
-                'distance': userrule[0].get("distance")
+                "type": "MinObjectDistance",
+                "target_object": userrule[1].get("object"),
+                "distance": userrule[0].get("distance"),
             }
         elif rulename == "MinAllDistance":
-            return {
-                'type': 'MinAllDistance',
-                'distance': userrule[0].get("distance")
-            }
+            return {"type": "MinAllDistance", "distance": userrule[0].get("distance")}
         elif rulename == "Vanish":
-            return {
-                'type': 'Vanish',
-                'van': userrule.get("van")
-            }
+            return {"type": "Vanish", "van": userrule.get("van")}
         else:
             raise ValueError(f"Unknown rule name: {rulename}")
 
@@ -92,11 +86,12 @@ class RuleAssembler:
         except KeyError:
             return None
 
-    
-    def filter_rules(self, category=None, subcategory=None, rule_name=None, attribute=None):
+    def filter_rules(
+        self, category=None, subcategory=None, rule_name=None, attribute=None
+    ):
         """
         Filters and returns rules based on category, subcategory, rule name, and attribute.
-        
+
         Args:
             category (str, optional): The category to filter by (e.g. "Environment", "Area1").
             subcategory (str, optional): The subcategory to filter by. (e.g "Tree", "Stone")
@@ -107,24 +102,24 @@ class RuleAssembler:
             dict or any: A dictionary containing the filtered rules or specific attribute value.
         """
         result = self.user_validators
-        
+
         if category is not None:
             result = result.get(category, {})
-            
+
         if subcategory is not None:
             result = result.get(subcategory, {})
-            
+
         if rule_name is not None:
             result = result.get(rule_name, {})
-            
+
         if attribute is not None:
             if isinstance(result, dict):
                 return result.get(attribute)
             else:
                 return None
-            
+
         return result
-    
+
     def add_rule(self, category, rule_obj, subcategory=None):
         """
         Adds a new rule to an existing category, subcategory or a completely new category or subcategory.
@@ -177,8 +172,10 @@ class RuleAssembler:
         for category, rules in self.user_validators.items():
             for subcategory, sub_rules in rules.items():
                 for rule_name, rule in sub_rules.items():
-                    if 'type' not in rule:
-                        print(f"Rule {rule_name} in category {category}/{subcategory} is missing 'type' key.")
+                    if "type" not in rule:
+                        print(
+                            f"Rule {rule_name} in category {category}/{subcategory} is missing 'type' key."
+                        )
 
     def apply_rules(self, object):
         """
@@ -198,7 +195,8 @@ class RuleAssembler:
             filename (str): The file to which the rule set is to be exported.
         """
         import json
-        with open(filename, 'w') as f:
+
+        with open(filename, "w") as f:
             json.dump(self.user_validators, f)
 
     def search_rules(self, search_term):

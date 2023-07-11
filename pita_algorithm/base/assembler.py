@@ -21,6 +21,7 @@ from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import
     MinDistanceMujocoPhysicsRule,
 )
 
+
 class Assembler:
     """Assembles the environment."""
 
@@ -35,9 +36,14 @@ class Assembler:
         self.xml_dir = xml_dir
         self.user_rules = UserRules(self.config).get_rules()
         self.rule_assembler = RuleAssembler(self.user_rules)
-        filtered_by_subcategory = self.rule_assembler.filter_rules(category='Area1', subcategory="Tree", rule_name='MinObjectDistance', attribute="distance") 
+        filtered_by_subcategory = self.rule_assembler.filter_rules(
+            category="Area1",
+            subcategory="Tree",
+            rule_name="MinObjectDistance",
+            attribute="distance",
+        )
         print(filtered_by_subcategory)
-        
+
     def assemble_world(self) -> tuple[Environment, list[Area]]:
         """Assembles the world according to the users configuration.
 
@@ -324,4 +330,3 @@ class Assembler:
         global_validators[0].plot(env_size=environment.size)
 
         return environment, areas
-    
