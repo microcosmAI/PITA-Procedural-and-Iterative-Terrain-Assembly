@@ -36,13 +36,15 @@ class Assembler:
         self.xml_dir = xml_dir
         self.user_rules = UserRules(self.config).get_rules()
         self.rule_assembler = RuleAssembler(self.user_rules)
-        filtered_by_subcategory = self.rule_assembler.filter_rules(
+        """
+        filtered_by_attribute = self.rule_assembler.filter_rules(
             category="Area1",
-            subcategory="Tree",
+            subcategory="Stone",
             rule_name="MinObjectDistance",
             attribute="distance",
         )
-        print(filtered_by_subcategory)
+        print(filtered_by_attribute)
+        """
 
     def assemble_world(self) -> tuple[Environment, list[Area]]:
         """Assembles the world according to the users configuration.

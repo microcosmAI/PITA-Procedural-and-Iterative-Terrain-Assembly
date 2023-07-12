@@ -44,10 +44,10 @@ class UserRules:
             current_keys = parent_keys + [obj_name]
 
             if obj_rules:
-                d = rules_dict
+                temp = rules_dict
                 for key in current_keys:
-                    d = d.setdefault(key, {})
-                d["rules"] = obj_rules
+                    temp = temp.setdefault(key, {})
+                temp["rules"] = obj_rules
 
             # Check for nested objects
             if isinstance(obj_data, dict) and "Objects" in obj_data:

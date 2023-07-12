@@ -10,8 +10,6 @@ class RuleAssembler:
         """
         self.user_validators = self._assemble_rules(userrules)
 
-        self.user_validators = self._assemble_rules(userrules)
-
     def _assemble_rules(self, userrules):
         """
         Private method to assemble rule objects from user rules.
@@ -31,14 +29,15 @@ class RuleAssembler:
                     for rulename, rule_details in rule_dict.items():
                         rule_obj = self._get_rule_object(rulename, rule_details)
                         validators[category][rulename] = rule_obj
-            else:
-                # For non-nested rule entries
-                for subcategory, subcategory_rules in category_rules.items():
-                    validators[category][subcategory] = {}
-                    for rule_dict in subcategory_rules["rules"]:
-                        for rulename, rule_details in rule_dict.items():
-                            rule_obj = self._get_rule_object(rulename, rule_details)
-                            validators[category][subcategory][rulename] = rule_obj
+            # Check for subcategory rules regardless of whether there were "rules" directly under the category
+            for subcategory, subcategory_rules in category_rules.items():
+                if subcategory == "rules":
+                    continue  # We've already processed this in the block above
+                validators[category][subcategory] = {}
+                for rule_dict in subcategory_rules["rules"]:
+                    for rulename, rule_details in rule_dict.items():
+                        rule_obj = self._get_rule_object(rulename, rule_details)
+                        validators[category][subcategory][rulename] = rule_obj
         return validators
 
     def _get_rule_object(self, rulename, userrule):
@@ -85,10 +84,8 @@ class RuleAssembler:
             return self.user_validators[category][rule_name][attribute]
         except KeyError:
             return None
-
-    def filter_rules(
-        self, category=None, subcategory=None, rule_name=None, attribute=None
-    ):
+    
+    def filter_rules(self, category=None, subcategory=None, rule_name=None, attribute=None):
         """
         Filters and returns rules based on category, subcategory, rule name, and attribute.
 
@@ -101,24 +98,24 @@ class RuleAssembler:
         Returns:
             dict or any: A dictionary containing the filtered rules or specific attribute value.
         """
-        result = self.user_validators
+        if category:
+            result = self.user_validators.get(category, {})
 
-        if category is not None:
-            result = result.get(category, {})
+            if subcategory:
+                result = result.get(subcategory, {})
 
-        if subcategory is not None:
-            result = result.get(subcategory, {})
+                if rule_name:
+                    result = result.get(rule_name, {})
 
-        if rule_name is not None:
-            result = result.get(rule_name, {})
+                    if attribute:
+                        if isinstance(result, dict):
+                            return result.get(attribute)
+                        else:
+                            return None
+            return result
+        else:
+            return None
 
-        if attribute is not None:
-            if isinstance(result, dict):
-                return result.get(attribute)
-            else:
-                return None
-
-        return result
 
     def add_rule(self, category, rule_obj, subcategory=None):
         """
