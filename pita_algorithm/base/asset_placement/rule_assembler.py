@@ -84,8 +84,10 @@ class RuleAssembler:
             return self.user_validators[category][rule_name][attribute]
         except KeyError:
             return None
-    
-    def filter_rules(self, category=None, subcategory=None, rule_name=None, attribute=None):
+
+    def filter_rules(
+        self, category=None, subcategory=None, rule_name=None, attribute=None
+    ):
         """
         Filters and returns rules based on category, subcategory, rule name, and attribute.
 
@@ -115,7 +117,6 @@ class RuleAssembler:
             return result
         else:
             return None
-
 
     def add_rule(self, category, rule_obj, subcategory=None):
         """
