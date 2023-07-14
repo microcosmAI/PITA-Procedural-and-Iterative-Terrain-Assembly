@@ -70,26 +70,52 @@ class Assembler:
             mujoco_objects_rule_blueprints[name] = mujoco_object_copy
 
         # Parse size from the config
-        size_range = self._get_randomization_parameters(config_dict=self.config["Environment"], keys=["size_range"])
+        size_range = self._get_randomization_parameters(
+            config_dict=self.config["Environment"], keys=["size_range"]
+        )
 
         if size_range is None:
             raise ValueError("No size range provided.")
-        
+
         if isinstance(size_range[0][0], (float, int)):
-            size = list(np.random.uniform(low=size_range[0][0], high=size_range[0][1], size=1)) * 2
-        
+            size = (
+                list(
+                    np.random.uniform(
+                        low=size_range[0][0], high=size_range[0][1], size=1
+                    )
+                )
+                * 2
+            )
+
         else:
             # Drop outer tuple and list and merge dictionaries
-            size_range_dict = {key: value for dictionary in size_range[0] for key, value in dictionary.items()}
+            size_range_dict = {
+                key: value
+                for dictionary in size_range[0]
+                for key, value in dictionary.items()
+            }
 
-            if not {"length_range", "width_range"}.issubset(set(size_range_dict.keys())):
+            if not {"length_range", "width_range"}.issubset(
+                set(size_range_dict.keys())
+            ):
                 raise ValueError("Both length_range and width_range must be specified.")
 
             else:
                 size = []
-                size.extend(np.random.uniform(low=size_range_dict["length_range"][0], high=size_range_dict["length_range"][1], size=1))
-                size.extend(np.random.uniform(low=size_range_dict["width_range"][0], high=size_range_dict["width_range"][1], size=1))
-               
+                size.extend(
+                    np.random.uniform(
+                        low=size_range_dict["length_range"][0],
+                        high=size_range_dict["length_range"][1],
+                        size=1,
+                    )
+                )
+                size.extend(
+                    np.random.uniform(
+                        low=size_range_dict["width_range"][0],
+                        high=size_range_dict["width_range"][1],
+                        size=1,
+                    )
+                )
 
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
@@ -250,7 +276,12 @@ class Assembler:
                     size_value_range,
                 ) = self._get_randomization_parameters(
                     config_dict=object_config_dict,
-                    keys=["z_rotation_range", "color_groups", "size_groups", "size_value_range"],
+                    keys=[
+                        "z_rotation_range",
+                        "color_groups",
+                        "size_groups",
+                        "size_value_range",
+                    ],
                 )
                 RandomPlacer(distribution=environment_random_distribution).add(
                     site=environment,
@@ -297,7 +328,12 @@ class Assembler:
                             size_value_range,
                         ) = self._get_randomization_parameters(
                             config_dict=object_config_dict,
-                            keys=["z_rotation_range", "color_groups", "size_groups", "size_value_range"],
+                            keys=[
+                                "z_rotation_range",
+                                "color_groups",
+                                "size_groups",
+                                "size_value_range",
+                            ],
                         )
                         RandomPlacer(distribution=area_random_distribution).add(
                             site=areas[area_index],
@@ -340,7 +376,6 @@ class Assembler:
 
         return environment, areas
 
-    
     def _get_randomization_parameters(self, config_dict: dict, keys: list) -> tuple:
         """Reads the randomization parameters in config_dict for the given keys.
 
