@@ -1,5 +1,6 @@
 Environment:
-  size: [ 20, 20 ]
+  size_range: [ 20, 20 ]
+
   random_seed: 42
 
   Style:

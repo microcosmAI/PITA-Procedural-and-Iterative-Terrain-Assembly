@@ -1,5 +1,8 @@
 Environment:
-  size: [ 100, 100 ]
+  size_range:
+    - length_range: [ 20, 30 ]
+    - width_range: [ 20, 30 ]
+
   random_seed: 42
   rules:
     - MinAllDistance:

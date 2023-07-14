@@ -70,7 +70,27 @@ class Assembler:
             mujoco_objects_rule_blueprints[name] = mujoco_object_copy
 
         # Parse size from the config
-        size = self.config["Environment"]["size"]
+        size_range = self._get_randomization_parameters(config_dict=self.config["Environment"], keys=["size_range"])
+
+        if size_range is None:
+            raise ValueError("No size range provided.")
+        
+        if isinstance(size_range[0][0], (float, int)):
+            size = list(np.random.uniform(low=size_range[0][0], high=size_range[0][1], size=1)) * 2
+        
+        else:
+            # Drop outer tuple and list and merge dictionaries
+            size_range_dict = {key: value for dictionary in size_range[0] for key, value in dictionary.items()}
+
+            if not {"length_range", "width_range"}.issubset(set(size_range_dict.keys())):
+                raise ValueError("Both length_range and width_range must be specified.")
+
+            else:
+                size = []
+                size.extend(np.random.uniform(low=size_range_dict["length_range"][0], high=size_range_dict["length_range"][1], size=1))
+                size.extend(np.random.uniform(low=size_range_dict["width_range"][0], high=size_range_dict["width_range"][1], size=1))
+               
+
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
         # Create environment
@@ -229,7 +249,8 @@ class Assembler:
                     size_groups,
                     size_value_range,
                 ) = self._get_randomization_parameters(
-                    object_config_dict=object_config_dict
+                    config_dict=object_config_dict,
+                    keys=["z_rotation_range", "color_groups", "size_groups", "size_value_range"],
                 )
                 RandomPlacer(distribution=environment_random_distribution).add(
                     site=environment,
@@ -275,7 +296,8 @@ class Assembler:
                             size_groups,
                             size_value_range,
                         ) = self._get_randomization_parameters(
-                            object_config_dict=object_config_dict
+                            config_dict=object_config_dict,
+                            keys=["z_rotation_range", "color_groups", "size_groups", "size_value_range"],
                         )
                         RandomPlacer(distribution=area_random_distribution).add(
                             site=areas[area_index],
@@ -318,40 +340,23 @@ class Assembler:
 
         return environment, areas
 
-    def _get_randomization_parameters(self, object_config_dict: dict):
-        """Reads the randomization parameters in config dict; config dict is the settings dict for an object.
+    
+    def _get_randomization_parameters(self, config_dict: dict, keys: list) -> tuple:
+        """Reads the randomization parameters in config_dict for the given keys.
 
         Parameters:
-            object_config_dict (dict): Contains information about settings of object
+            config_dict (dict): Contains information about world settings
+            keys (list): List of keys to read from the config_dict
 
         Returns:
-            z_rotation_range (tuple[int, int]): Range of z-axis rotation for randomization (degrees)
-            color_groups (tuple[int, int]): Range of members per distinctly colored group
-            size_groups (tuple[int, int]): Range of members per distinctly sized group
-            size_value_range (tuple[float, float]): Range of size values for randomization
+            tuple: Tuple containing the values for the given keys in the order they were passed
         """
-        # Checks for z rotation range
-        if "z_rotation_range" not in object_config_dict.keys():
-            z_rotation_range = None
-        else:
-            z_rotation_range = object_config_dict["z_rotation_range"]
+        # Initialize default values
+        default_values = [None] * len(keys)
 
-        # Checks for colors
-        if "color_groups" not in object_config_dict.keys():
-            color_groups = None
-        else:
-            color_groups = object_config_dict["color_groups"]
+        # Loop over keys and update default values
+        for i, key in enumerate(keys):
+            if key in config_dict:
+                default_values[i] = config_dict[key]
 
-        # Checks for sizes
-        if "size_groups" not in object_config_dict.keys():
-            size_groups = None
-        else:
-            size_groups = object_config_dict["size_groups"]
-
-        # Checks for sizes value range
-        if "size_value_range" not in object_config_dict.keys():
-            size_value_range = None
-        else:
-            size_value_range = object_config_dict["size_value_range"]
-
-        return z_rotation_range, color_groups, size_groups, size_value_range
+        return tuple(default_values)
