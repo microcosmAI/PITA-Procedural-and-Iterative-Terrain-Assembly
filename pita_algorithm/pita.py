@@ -4,6 +4,7 @@ import random
 import argparse
 import warnings
 import numpy as np
+from typing import Union
 
 # Add parent folder of builder.py to python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -16,20 +17,58 @@ from pita_algorithm.utils.config_reader import ConfigReader
 class PITA:
     """Main class to run the PITA algorithm."""
 
-    def run(self):
+    def run(
+        self,
+        random_seed: Union[int, None] = None,
+        config_path: Union[str, None] = None,
+        xml_dir: Union[str, None] = None,
+        export_path: Union[str, None] = None,
+    ):
         """Run pita_algorithm to create xml-file containing objects specified in config file.
         Objects are given as xml by the user.
+
+        Parameters:
+            random_seed (Union[int, None]): Seed for reproducibility
+            config_path (Union[str, None]): Path to where the yaml file is located
+            xml_dir (Union[str, None]): Folder where all xml files are located
+            export_path (Union[str, None]): Path (including file name but excluding extension) to export to
         """
-        # Assign user args to params
-        args = self._get_user_args()
-        config_path = args.config_path
-        xml_dir = args.xml_dir
+        if config_path is None:
+            config_path = "examples/config_files/ballpit.yml"
+            warnings.warn(
+                "config path not specified; running with default directory in examples"
+            )
+        if xml_dir is None:
+            xml_dir = "examples/xml_objects"
+            warnings.warn(
+                "xml directory not specified; running with default directory in examples"
+            )
+        if export_path is None:
+            export_path = "export/test"
+            warnings.warn(
+                "export path not specified; running with default directory in export and filename 'test'"
+            )
 
         # Read config file and assemble environment and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
 
-        # Set Random Seed
+        # Set random seed
         if (
+            random_seed is not None
+            and "random_seed" in config["Environment"]
+            and config["Environment"]["random_seed"] is not None
+        ):
+            print(
+                "Two seeds were specified (call argument to PITA.run() and in level config file). Using seed from the call."
+            )
+            print(f"Setting random seed to {random_seed}")
+            np.random.seed(random_seed)
+            random.seed(random_seed)
+        elif random_seed is not None:
+            print(f"Setting random seed to {random_seed}")
+            np.random.seed(random_seed)
+            random.seed(random_seed)
+        elif (
             "random_seed" in config["Environment"]
             and config["Environment"]["random_seed"] is not None
         ):
@@ -42,55 +81,24 @@ class PITA:
             config_file=config, xml_dir=xml_dir
         ).assemble_world()
         self._to_xml(
-            xml_string=environment.mjcf_model.to_xml_string(), file_name="test"
+            xml_string=environment.mjcf_model.to_xml_string(),
+            export_path=export_path,
         )
         JSONExporter.export(
-            filename="environment_configuration",
+            export_path=export_path,
             config=config,
             environment=environment,
             areas=areas,
         )
 
-    def _get_user_args(self) -> argparse.Namespace:
-        """Read args defined by user. If none are given, args are set to files and
-        directories in the 'examples' folder.
-
-        Returns:
-            args (argparse.Namespace): Contains args defined by user
-        """
-        parser = argparse.ArgumentParser()
-        parser.add_argument(
-            "--config_path",
-            help="Specify folder where yaml file is located",
-            default=None,
-        )
-        parser.add_argument(
-            "--xml_dir",
-            help="Specify folder where all xml files are located",
-            default=None,
-        )
-        args = parser.parse_args()
-
-        if args.xml_dir is None:
-            args.xml_dir = "examples/xml_objects"
-            warnings.warn(
-                "xml directory not specified; running with default directory in examples"
-            )
-        if args.config_path is None:
-            args.config_path = "examples/config_files/ballpit.yml"
-            warnings.warn(
-                "config path not specified; running with default directory in examples"
-            )
-        return args
-
-    def _to_xml(self, xml_string, file_name):
+    def _to_xml(self, xml_string, export_path):
         """Exports a given string to an .xml file.
 
         Parameters:
             xml_string (str): String representation of the environment mjcf model
-            file_name (str): Name of the file to be exported
+            export_path (str): Path of the file to be exported
         """
-        with open("export/" + file_name + ".xml", "w") as f:
+        with open(export_path + ".xml", "w") as f:
             f.write(xml_string)
 
 

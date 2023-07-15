@@ -4,3 +4,5 @@ shapely  # for collision detection
 matplotlib  # for plotting
 sphinx  # for documentation
 karma-sphinx-theme  # for documentation (theme)
+webcolors
+pillow

@@ -6,54 +6,63 @@ Environment:
     - pretty_mode: True
 
   Borders:
+    - xml_name: "Border.xml"
     - place: True
     - tags: [ "Border" ]
 
   Objects:
     Light:
+      - xml_name: "Light.xml"
       - amount: 2
       - type: light
       - coordinates: [ [ 8., 8., 40. ], [ -8., 8., 40. ] ]
       - tags: [ "Light" ]
     
     Agent:
+      - xml_name: "Agent.xml"
       - amount: 2
       - coordinates: [ [ 10., 10., 3. ], [ -10., -10., 3. ] ]
 
-    Tree:
-      - amount: [ 1, 1 ]
-      - type: container
-      - tags: [ "Tree" , "Container" ]
-
     Ball:
+      - xml_name: "Ball.xml"
       - amount: 2
       - type: obstacle
       - coordinates: [ [ 5., 5., 1. ], [ -5., 5., 1. ] ]
       - tags: [ "Ball", "Obstacle" ]
+
+    Tree:
+      - xml_name: "Tree.xml"
+      - amount: [ 2, 2 ]
+      - type: container
+      - tags: [ "Tree" , "Container" ]
+      - colors: [ 1, 1]
 
 Areas:
   Area1:
     size: small
     Objects:
       Tree:
-        - amount: [ 10, 20 ]
+        - xml_name: "Tree.xml"
+        - amount: [ 1, 1 ]
         - type: container
         #- variants: ["Kiefer", ] # [kiefer,buche,...]
         - tags: [ "Tree" , "Container" ]
 
       Stone:
+        - xml_name: "Stone.xml"
         - amount: [ 10, 10 ]
         - type: obstacle
         - tags: [ "Stone" , "Container" ]
-        
 
       Apple:
+        - xml_name: "Apple.xml"
         - amount: [ 5, 8 ]
         - type: attachable_item
         - attaches: [ Tree ]
         - tags: [ "Apple" , "Attachable_Item" ]
 
       Ball:
+        - xml_name: "Ball.xml"
         - amount: [ 6, 10 ]
         - type: obstacle
         - tags: [ "Ball", "Obstacle" ]
