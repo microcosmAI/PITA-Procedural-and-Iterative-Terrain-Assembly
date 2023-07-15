@@ -6,12 +6,12 @@ from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
 
 
 class MultivariateNormalDistribution(AbstractPlacerDistribution):
-    """A multivariate normal distribution. The distribution is defined by the mean values 
+    """A multivariate normal distribution. The distribution is defined by the mean values
     for each dimension and the covariance matrix. The covariance matrix controls the shape,
-    orientation, and spread of the distribution. 
+    orientation, and spread of the distribution.
 
-    The covariance matrix is a symmetric matrix that describes the relationship between variables 
-    in a multivariatenormal distribution. It provides information about the variances and covariances 
+    The covariance matrix is a symmetric matrix that describes the relationship between variables
+    in a multivariatenormal distribution. It provides information about the variances and covariances
     of the variables.
 
     - Diagonal Covariance Matrix:
@@ -20,12 +20,12 @@ class MultivariateNormalDistribution(AbstractPlacerDistribution):
 
     - Non-Diagonal Covariance Matrix:
       If the covariance matrix is non-diagonal, it means that the variables are correlated.
-      The off-diagonal elements represent the covariance between the variables. 
+      The off-diagonal elements represent the covariance between the variables.
       The distribution can be rotated by introducing non-zero off-diagonal elements.
 
     - Scaling Covariance Matrix:
-      You can scale the covariance matrix to control the spread of the distribution. 
-      Increasing the values on the diagonal will increase the variances, 
+      You can scale the covariance matrix to control the spread of the distribution.
+      Increasing the values on the diagonal will increase the variances,
       resulting in a wider distribution.
     """
 
@@ -49,4 +49,3 @@ class MultivariateNormalDistribution(AbstractPlacerDistribution):
         x, y = sample
 
         return x, y
-
