@@ -183,7 +183,7 @@ class Assembler:
                         z_rotation_range=z_rotation_range,
                         color_groups=color_groups,
                         size_groups=size_groups,
-                        size_value_range=size_value_range
+                        size_value_range=size_value_range,
                     )
 
         # Fixed Coordinate Mujoco Object Placement - Area level
@@ -225,7 +225,7 @@ class Assembler:
                                 z_rotation_range=z_rotation_range,
                                 color_groups=color_groups,
                                 size_groups=size_groups,
-                                size_value_range=size_value_range
+                                size_value_range=size_value_range,
                             )
 
         # Random Mujoco Object Placement - Environment level

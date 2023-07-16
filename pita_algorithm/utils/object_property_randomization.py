@@ -29,7 +29,9 @@ class ObjectPropertyRandomization:
         return amount_int
 
     @staticmethod
-    def get_random_colors(amount: int, color_groups: Union[tuple[int, int], None]) -> Union[list[list[float]], None]:
+    def get_random_colors(
+        amount: int, color_groups: Union[tuple[int, int], None]
+    ) -> Union[list[list[float]], None]:
         """Returns a list of random rgba colors (with alpha=1).
 
         Parameters:
@@ -48,10 +50,10 @@ class ObjectPropertyRandomization:
 
         # Get random int in range of colors
         colors_randint = (
-        color_groups[0]
-        if (color_groups[0] == color_groups[1])
-        else np.random.randint(
-            int(color_groups[0]), int(color_groups[1]) + 1
+            color_groups[0]
+            if (color_groups[0] == color_groups[1])
+            else np.random.randint(
+                int(color_groups[0]), int(color_groups[1]) + 1
             )  # higher is excluding
         )
 
@@ -88,9 +90,11 @@ class ObjectPropertyRandomization:
         return colors_for_placement
 
     @staticmethod
-    def get_random_sizes(amount: int, size_groups: Union[tuple[float, float], None],
-            size_value_range: Union[tuple[float, float], None],
-        ) -> Union[list[list[float]], None]:
+    def get_random_sizes(
+        amount: int,
+        size_groups: Union[tuple[float, float], None],
+        size_value_range: Union[tuple[float, float], None],
+    ) -> Union[list[list[float]], None]:
         """Returns a list of random sizes.
 
         Parameters:
@@ -123,9 +127,13 @@ class ObjectPropertyRandomization:
         sizes = list()
         sizes_used = list()
         for _ in range(sizes_needed):
-            random_size = ObjectPropertyRandomization.get_size_array(size_value_range=size_value_range)
+            random_size = ObjectPropertyRandomization.get_size_array(
+                size_value_range=size_value_range
+            )
             while random_size in sizes_used:
-                random_size = ObjectPropertyRandomization.get_size_array(size_value_range=size_value_range)
+                random_size = ObjectPropertyRandomization.get_size_array(
+                    size_value_range=size_value_range
+                )
             sizes_used.append(random_size)
             sizes.append(random_size)
 
@@ -147,7 +155,9 @@ class ObjectPropertyRandomization:
         return sizes_for_placement
 
     @staticmethod
-    def get_rgba_from_color_name(color_name: str) -> Union[tuple[float, float, float, float], None]:
+    def get_rgba_from_color_name(
+        color_name: str,
+    ) -> Union[tuple[float, float, float, float], None]:
         """Takes color as argument and returns the corresponding rgba color code.
 
         Parameters:
@@ -167,7 +177,9 @@ class ObjectPropertyRandomization:
             return None
 
     @staticmethod
-    def get_size_array(size_value_range: tuple[float, float]) -> list[float, float, float]:
+    def get_size_array(
+        size_value_range: tuple[float, float]
+    ) -> list[float, float, float]:
         """Generates 3D random size in given range.
 
         Parameters:
@@ -189,7 +201,9 @@ class ObjectPropertyRandomization:
         return random_size
 
     @staticmethod
-    def get_random_rotation(amount: int, z_rotation_range: Union[tuple[int, int], None]) -> Union[list[float], None]:
+    def get_random_rotation(
+        amount: int, z_rotation_range: Union[tuple[int, int], None]
+    ) -> Union[list[float], None]:
         """Generate random number in z_rotation_range.
 
         Parameters:
