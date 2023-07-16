@@ -63,11 +63,11 @@ class Validator:
                 plt.scatter(x, y, label=list(self.map_2D.keys())[index])
 
         # Custom plot configuration
-        plt.xlim(-env_size[0], env_size[0])
-        plt.xticks(range(-env_size[0], env_size[0] + 1))
+        plt.xlim(-int(env_size[0]), int(env_size[0]))
+        plt.xticks(range(-int(env_size[0]), int(env_size[0]) + 1))
         plt.locator_params(axis="x", nbins=10)
-        plt.ylim(-env_size[1], env_size[1])
-        plt.yticks(range(-env_size[1], env_size[1] + 1))
+        plt.ylim(-int(env_size[1]), int(env_size[1]))
+        plt.yticks(range(-int(env_size[1]), int(env_size[1]) + 1))
         plt.locator_params(axis="y", nbins=10)
         plt.legend()
 
