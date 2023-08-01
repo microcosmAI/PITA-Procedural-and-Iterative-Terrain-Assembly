@@ -17,6 +17,9 @@ from pita_algorithm.base.asset_placement.multivariate_uniform_distribution impor
 from pita_algorithm.base.asset_placement.circular_uniform_distribution import (
     CircularUniformDistribution,
 )
+from pita_algorithm.base.asset_placement.multivariate_normal_distribution import (
+    MultivariateNormalDistribution,
+)
 from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
 )
