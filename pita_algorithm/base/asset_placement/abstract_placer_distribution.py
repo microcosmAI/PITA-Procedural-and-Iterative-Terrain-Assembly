@@ -11,7 +11,7 @@ class AbstractPlacerDistribution(ABC):
         Parameters:
             parameters (dict): Parameters for the placer distribution
         """
-        self.parameters = parameters
+        pass
 
     @abstractmethod
     def __call__(self) -> Tuple[float, float]:
