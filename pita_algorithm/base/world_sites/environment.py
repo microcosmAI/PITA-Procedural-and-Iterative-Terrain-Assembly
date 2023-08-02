@@ -141,6 +141,15 @@ class Environment(AbstractSite):
         del self._mujoco_objects[mujoco_object.xml_id]
 
     def calculate_size(self, size_range: tuple ) -> tuple[float, float, float]:
+        """Calculates the size of the environment with a given size_range (can be many different types).
+
+
+        Parameters:
+            size_range (tuple): Tuple defining the size range of the environment (length, width, height)
+
+        Returns:
+            size (tuple[float, float, float]): Tuple defining the size of the entire environment
+        """
 
         if size_range is None:
             raise ValueError("No size range provided.")
