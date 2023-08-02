@@ -21,7 +21,7 @@ class RandomWalkDistribution(AbstractPlacerDistribution):
         self.bounds = parameters["bounds"]
         self.current_x, self.current_y = 0.0, 0.0
 
-    def __call__(self):
+    def __call__(self) -> tuple[float, float]:
         """Generates the next random object placement using a random walk.
 
         Returns:
