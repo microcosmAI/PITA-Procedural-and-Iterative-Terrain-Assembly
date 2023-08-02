@@ -11,8 +11,8 @@ from pita_algorithm.base.asset_placement.random_placer import RandomPlacer
 from pita_algorithm.base.asset_placement.border_placer import BorderPlacer
 from pita_algorithm.base.asset_placement.boundary_rule import BoundaryRule
 from pita_algorithm.base.asset_placement.min_distance_rule import MinDistanceRule
-from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import (
-    MultivariateUniformDistribution,
+from pita_algorithm.base.asset_placement.random_walk_distribution import (
+    RandomWalkDistribution,
 )
 from pita_algorithm.base.asset_placement.circular_uniform_distribution import (
     CircularUniformDistribution,
@@ -22,6 +22,9 @@ from pita_algorithm.base.asset_placement.multivariate_normal_distribution import
 )
 from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
+)
+from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import (
+    MultivariateUniformDistribution,
 )
 
 
