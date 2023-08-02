@@ -140,8 +140,7 @@ class Environment(AbstractSite):
         mujoco_object.mjcf_obj.detach()
         del self._mujoco_objects[mujoco_object.xml_id]
 
-    def calculate_size(self, size_range: tuple ) -> tuple[float, float, float]:
-
+    def calculate_size(self, size_range: tuple) -> tuple[float, float, float]:
         if size_range is None:
             raise ValueError("No size range provided.")
 
