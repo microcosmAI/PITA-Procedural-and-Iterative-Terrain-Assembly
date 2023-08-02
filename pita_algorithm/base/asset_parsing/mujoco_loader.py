@@ -70,11 +70,16 @@ class MujocoLoader:
                 if entry.get("asset_pool") is not None:
                     for asset in entry["asset_pool"]:
                         asset_obj = asset.split(".xml")[0]
-                        mujoco_dict = self._add_object_to_dict(xml_name=asset, obj=asset_obj, params=params,
-                                                               mujoco_dict=mujoco_dict)
+                        mujoco_dict = self._add_object_to_dict(
+                            xml_name=asset,
+                            obj=asset_obj,
+                            params=params,
+                            mujoco_dict=mujoco_dict,
+                        )
 
-            mujoco_dict = self._add_object_to_dict(xml_name=xml_name, obj=obj, params=params,
-                                                   mujoco_dict=mujoco_dict)
+            mujoco_dict = self._add_object_to_dict(
+                xml_name=xml_name, obj=obj, params=params, mujoco_dict=mujoco_dict
+            )
         return mujoco_dict
 
     @staticmethod
@@ -103,7 +108,9 @@ class MujocoLoader:
 
         return obj_type, tags, rotation
 
-    def _add_object_to_dict(self, xml_name: str, obj: str, params: list, mujoco_dict: dict) -> dict:
+    def _add_object_to_dict(
+        self, xml_name: str, obj: str, params: list, mujoco_dict: dict
+    ) -> dict:
         """Loads and adds assets to mujoco_dict.
 
         Parameters:

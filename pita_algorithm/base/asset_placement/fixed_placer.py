@@ -29,7 +29,7 @@ class FixedPlacer(AbstractPlacer):
         size_groups: Union[tuple[int, int], None] = None,
         size_value_range: Union[tuple[int, int], None] = None,
         asset_pool: Union[list, None] = None,
-        mujoco_objects_blueprints: Union[dict, None] = None
+        mujoco_objects_blueprints: Union[dict, None] = None,
     ):
         """Adds a mujoco object to a site by calling the sites add method
         after checking placement via the validator.
@@ -72,8 +72,12 @@ class FixedPlacer(AbstractPlacer):
             # Sample from asset pool if asset_pool is given by user
             if asset_pool is not None:
                 asset_name = random.choice(asset_pool).split(".xml")[0]
-                mujoco_object_rule_blueprint = self._copy(mujoco_objects_blueprints[asset_name])
-                mujoco_object_blueprint = self._copy(mujoco_objects_blueprints[asset_name])
+                mujoco_object_rule_blueprint = self._copy(
+                    mujoco_objects_blueprints[asset_name]
+                )
+                mujoco_object_blueprint = self._copy(
+                    mujoco_objects_blueprints[asset_name]
+                )
 
             # Set the position of the object to the user specified coordinates
             mujoco_object_rule_blueprint.position = coordinates[obj_idx]
