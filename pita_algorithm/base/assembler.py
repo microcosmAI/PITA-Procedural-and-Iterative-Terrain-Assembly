@@ -218,6 +218,7 @@ class Assembler:
                 color_groups,
                 size_groups,
                 size_value_range,
+                asset_pool,
             ) = self._get_randomization_parameters(
                 config_dict=object_config_dict,
                 keys=[
@@ -225,6 +226,7 @@ class Assembler:
                     "color_groups",
                     "size_groups",
                     "size_value_range",
+                    "asset_pool"
                 ],
             )
 
@@ -244,6 +246,8 @@ class Assembler:
                         color_groups=color_groups,
                         size_groups=size_groups,
                         size_value_range=size_value_range,
+                        asset_pool=asset_pool,
+                        mujoco_objects_blueprints=mujoco_objects_blueprints
                     )
 
         # Fixed Coordinate Mujoco Object Placement - Area level
@@ -261,6 +265,7 @@ class Assembler:
                         color_groups,
                         size_groups,
                         size_value_range,
+                        asset_pool
                     ) = self._get_randomization_parameters(
                         config_dict=object_config_dict,
                         keys=[
@@ -268,6 +273,7 @@ class Assembler:
                             "color_groups",
                             "size_groups",
                             "size_value_range",
+                            "asset_pool"
                         ],
                     )
 
@@ -292,6 +298,8 @@ class Assembler:
                                 color_groups=color_groups,
                                 size_groups=size_groups,
                                 size_value_range=size_value_range,
+                                asset_pool=asset_pool,
+                                mujoco_objects_blueprints=mujoco_objects_blueprints
                             )
 
         # Random Mujoco Object Placement - Environment level
@@ -317,6 +325,7 @@ class Assembler:
                     color_groups,
                     size_groups,
                     size_value_range,
+                    asset_pool
                 ) = self._get_randomization_parameters(
                     config_dict=object_config_dict,
                     keys=[
@@ -324,6 +333,7 @@ class Assembler:
                         "color_groups",
                         "size_groups",
                         "size_value_range",
+                        "asset_pool"
                     ],
                 )
                 RandomPlacer(distribution=environment_random_distribution).add(
@@ -338,6 +348,8 @@ class Assembler:
                     color_groups=color_groups,
                     size_groups=size_groups,
                     size_value_range=size_value_range,
+                    asset_pool=asset_pool,
+                    mujoco_objects_blueprints=mujoco_objects_blueprints
                 )
 
         # Random Mujoco Object Placement - Area level
@@ -366,6 +378,7 @@ class Assembler:
                             color_groups,
                             size_groups,
                             size_value_range,
+                            asset_pool
                         ) = self._get_randomization_parameters(
                             config_dict=object_config_dict,
                             keys=[
@@ -373,6 +386,7 @@ class Assembler:
                                 "color_groups",
                                 "size_groups",
                                 "size_value_range",
+                                "asset_pool"
                             ],
                         )
                         RandomPlacer(distribution=area_random_distribution).add(
@@ -392,6 +406,8 @@ class Assembler:
                             color_groups=color_groups,
                             size_groups=size_groups,
                             size_value_range=size_value_range,
+                            asset_pool=asset_pool,
+                            mujoco_objects_blueprints=mujoco_objects_blueprints
                         )
 
         # Add plane to environment, if pretty mode is enabled also add grid material
