@@ -23,6 +23,7 @@ class PITA:
         config_path: Union[str, None] = None,
         xml_dir: Union[str, None] = None,
         export_path: Union[str, None] = None,
+        plot: Union[bool, None] = None
     ):
         """Run pita_algorithm to create xml-file containing objects specified in config file.
         Objects are given as xml by the user.
@@ -47,6 +48,11 @@ class PITA:
             export_path = "export/test"
             warnings.warn(
                 "export path not specified; running with default directory in export and filename 'test'"
+            )
+        if plot is None:
+            plot = False
+            warnings.warn(
+                "plot output not specified; running with default 'False'"
             )
 
         # Read config file and assemble environment and export to xml and json
@@ -78,7 +84,7 @@ class PITA:
             random.seed(random_seed)
 
         environment, areas = Assembler(
-            config_file=config, xml_dir=xml_dir
+            config_file=config, xml_dir=xml_dir, plot=plot
         ).assemble_world()
         self._to_xml(
             xml_string=environment.mjcf_model.to_xml_string(),

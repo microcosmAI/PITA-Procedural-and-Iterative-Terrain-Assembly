@@ -31,7 +31,7 @@ from pita_algorithm.base.asset_placement.multivariate_uniform_distribution impor
 class Assembler:
     """Assembles the environment."""
 
-    def __init__(self, config_file: dict, xml_dir: str):
+    def __init__(self, config_file: dict, xml_dir: str, plot: bool = False):
         """Constructor of the Assembler class.
 
         Parameters:
@@ -40,6 +40,7 @@ class Assembler:
         """
         self.config = config_file
         self.xml_dir = xml_dir
+        self.plot = plot
 
     def assemble_world(self) -> tuple[Environment, list[Area]]:
         """Assembles the world according to the users configuration.
@@ -412,7 +413,8 @@ class Assembler:
             )
 
         # Use global validator to plot the map layout
-        global_validators[0].plot(env_size=environment.size)
+        if self.plot:
+            global_validators[0].plot(env_size=environment.size)
 
         return environment, areas
 
