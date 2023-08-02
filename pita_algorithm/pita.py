@@ -23,7 +23,7 @@ class PITA:
         config_path: Union[str, None] = None,
         xml_dir: Union[str, None] = None,
         export_path: Union[str, None] = None,
-        plot: Union[bool, None] = None
+        plot: Union[bool, None] = None,
     ):
         """Run pita_algorithm to create xml-file containing objects specified in config file.
         Objects are given as xml by the user.
@@ -51,9 +51,7 @@ class PITA:
             )
         if plot is None:
             plot = False
-            warnings.warn(
-                "plot output not specified; running with default 'False'"
-            )
+            warnings.warn("plot output not specified; running with default 'False'")
 
         # Read config file and assemble environment and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
