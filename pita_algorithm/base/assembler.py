@@ -213,6 +213,21 @@ class Assembler:
             for dict_ in object_settings:
                 object_config_dict.update(dict_)
 
+            (
+                z_rotation_range,
+                color_groups,
+                size_groups,
+                size_value_range,
+            ) = self._get_randomization_parameters(
+                config_dict=object_config_dict,
+                keys=[
+                    "z_rotation_range",
+                    "color_groups",
+                    "size_groups",
+                    "size_value_range",
+                ],
+            )
+
             # Checks for coordinates and if they are present, place the object using the fixed placer
             for objects in object_settings:
                 if "coordinates" in objects:
@@ -225,6 +240,10 @@ class Assembler:
                         validators=global_validators,
                         amount=object_config_dict["amount"],
                         coordinates=objects["coordinates"],
+                        z_rotation_range=z_rotation_range,
+                        color_groups=color_groups,
+                        size_groups=size_groups,
+                        size_value_range=size_value_range,
                     )
 
         # Fixed Coordinate Mujoco Object Placement - Area level
@@ -236,6 +255,21 @@ class Assembler:
                     object_config_dict = {}
                     for dict_ in object_settings:
                         object_config_dict.update(dict_)
+
+                    (
+                        z_rotation_range,
+                        color_groups,
+                        size_groups,
+                        size_value_range,
+                    ) = self._get_randomization_parameters(
+                        config_dict=object_config_dict,
+                        keys=[
+                            "z_rotation_range",
+                            "color_groups",
+                            "size_groups",
+                            "size_value_range",
+                        ],
+                    )
 
                     # Checks for coordinates and if they are present, place the object using the fixed placer
                     for objects in object_settings:
@@ -254,6 +288,10 @@ class Assembler:
                                 + global_validators,
                                 amount=object_config_dict["amount"],
                                 coordinates=objects["coordinates"],
+                                z_rotation_range=z_rotation_range,
+                                color_groups=color_groups,
+                                size_groups=size_groups,
+                                size_value_range=size_value_range,
                             )
 
         # Random Mujoco Object Placement - Environment level
