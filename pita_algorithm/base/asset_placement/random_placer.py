@@ -1,3 +1,4 @@
+import random
 import numpy as np
 from typing import Callable, Union, Any
 from pita_algorithm.base.asset_placement.validator import Validator
@@ -6,6 +7,9 @@ from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
 from pita_algorithm.utils.object_property_randomization import (
     ObjectPropertyRandomization,
+)
+from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
+    AbstractPlacerDistribution,
 )
 
 
@@ -83,11 +87,11 @@ class RandomPlacer(AbstractPlacer):
     # Instead, after placement has failed for MAX_TRIES times, an error is thrown.
     MAX_TRIES = 10000
 
-    def __init__(self, distribution: PlacerDistribution):
+    def __init__(self, distribution: AbstractPlacerDistribution):
         """Constructor of the RandomPlacer class.
 
         Parameters:
-            distribution (PlacerDistribution): Distribution used for sampling
+            distribution (AbstractPlacerDistribution): Distribution used for sampling
         """
         self.distribution = distribution
 
