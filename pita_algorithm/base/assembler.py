@@ -217,7 +217,12 @@ class Assembler:
                 size_value_range,
             ) = self._get_randomization_parameters(
                 config_dict=object_config_dict,
-                keys = ["z_rotation_range", "color_groups", "size_groups", "size_value_range"]
+                keys=[
+                    "z_rotation_range",
+                    "color_groups",
+                    "size_groups",
+                    "size_value_range",
+                ],
             )
 
             # Checks for coordinates and if they are present, place the object using the fixed placer
@@ -255,7 +260,12 @@ class Assembler:
                         size_value_range,
                     ) = self._get_randomization_parameters(
                         config_dict=object_config_dict,
-                        keys=["z_rotation_range", "color_groups", "size_groups", "size_value_range"]
+                        keys=[
+                            "z_rotation_range",
+                            "color_groups",
+                            "size_groups",
+                            "size_value_range",
+                        ],
                     )
 
                     # Checks for coordinates and if they are present, place the object using the fixed placer
