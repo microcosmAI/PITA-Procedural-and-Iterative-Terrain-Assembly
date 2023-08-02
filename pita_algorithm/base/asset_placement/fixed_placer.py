@@ -1,3 +1,4 @@
+import random
 from typing import Union
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
@@ -27,6 +28,8 @@ class FixedPlacer(AbstractPlacer):
         color_groups: Union[tuple[int, int], None] = None,
         size_groups: Union[tuple[int, int], None] = None,
         size_value_range: Union[tuple[int, int], None] = None,
+        asset_pool: Union[list, None] = None,
+        mujoco_objects_blueprints: Union[dict, None] = None
     ):
         """Adds a mujoco object to a site by calling the sites add method
         after checking placement via the validator.
@@ -37,6 +40,12 @@ class FixedPlacer(AbstractPlacer):
             mujoco_object_rule_blueprint (MujocoObject): To-be-checked mujoco object
             validators (list[Validator]): Validator class instance used to check object placement
             coordinates (list[list[float, float, float]]): List of coordinate lists where each object is placed
+            z_rotation_range (Union[tuple[int, int], None]): Range of degrees for z-axis rotation
+            color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
+            size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
+            size_value_range (Union[tuple[float, float], None]): Range of size values allowed in randomization
+            asset_pool (Union[list, None]): List of xml-names of assets which should be sampled from
+            mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
         # Get colors rgba
         if not color_groups is None:
@@ -60,6 +69,12 @@ class FixedPlacer(AbstractPlacer):
         )
 
         for obj_idx in range(amount):
+            # Sample from asset pool if asset_pool is given by user
+            if asset_pool is not None:
+                asset_name = random.choice(asset_pool).split(".xml")[0]
+                mujoco_object_rule_blueprint = self._copy(mujoco_objects_blueprints[asset_name])
+                mujoco_object_blueprint = self._copy(mujoco_objects_blueprints[asset_name])
+
             # Set the position of the object to the user specified coordinates
             mujoco_object_rule_blueprint.position = coordinates[obj_idx]
 
