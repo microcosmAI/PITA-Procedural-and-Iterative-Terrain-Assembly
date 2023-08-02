@@ -1,0 +1,8 @@
+<mujoco model="boxagent">
+    <worldbody>       
+        <body pos="0.0 0.0 0.5" name="boxagent">
+            <joint type="free" name="boxagent_freeJoint" />
+            <geom type="box" size="0.5 0.5 0.5" euler="0 0 0" rgba=".949 .7451 .1333 1" name="boxagent_geom" />
+        </body>
+    </worldbody>
+</mujoco>

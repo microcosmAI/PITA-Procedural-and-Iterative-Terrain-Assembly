@@ -44,9 +44,10 @@ class MujocoLoader:
         for name, params in self.config_file["Environment"]["Objects"].items():
             obj_dict[name] = params
 
-        for area, obj_in_area in self.config_file["Areas"].items():
-            for name, params in self.config_file["Areas"][area]["Objects"].items():
-                obj_dict[name] = params
+        if self.config_file.get("Areas") is not None:
+            for area, obj_in_area in self.config_file["Areas"].items():
+                for name, params in self.config_file["Areas"][area]["Objects"].items():
+                    obj_dict[name] = params
 
         return obj_dict
 
@@ -62,16 +63,32 @@ class MujocoLoader:
         mujoco_dict = {}
 
         for obj, params in obj_dict.items():
-            obj_xml_path = os.path.join(self.xml_dir, obj + ".xml")
-            mjcf = Parser.get_mjcf(xml_path=obj_xml_path)
-            obj_type, attachable, tags = self._read_params(params)
+            # reads xml_name keyword in yml
+            xml_name = None
+            for entry in params:
+                if entry.get("xml_name") is not None:
+                    xml_name = entry["xml_name"]
 
+            # loads asset
+            obj_xml_path = os.path.join(self.xml_dir, xml_name)
+            mjcf = Parser.get_mjcf(xml_path=obj_xml_path)
+
+            # adjust asset name in xml
+            asset_name = xml_name.split(".xml")[0]
+            mjcf.find(
+                "body", asset_name.lower()
+            ).name = obj.lower()  # overwrites inner body name in xml
+            mjcf.root.model = obj.lower()  # overwrites outer body name in xml (root)
+
+            # read params from yml and create mujoco object
+            obj_type, tags, rotation = self._read_params(params)
             mujoco_obj = MujocoObject(
                 name=obj,
                 xml_id="",
                 mjcf_obj=mjcf,
+                obj_class=asset_name,
                 obj_type=obj_type,
-                attachable=attachable,
+                rotation=rotation,
                 color=None,
                 size=None,
                 tags=tags,
@@ -90,20 +107,19 @@ class MujocoLoader:
 
         Returns:
             obj_type (str): Type of object
-            attachable (bool): True if object can be attached to a container-type object
             tags (list): List of user specified tags for the object
+            rotation (tuple[float, float, float]): Rotation of object
         """
         obj_type = None
-        attachable = None
         tags = None
-
+        rotation = None
         if not params == None:
             for dict_ in params:
                 if "type" in dict_.keys():
                     obj_type = dict_["type"]
-                if "attachable" in dict_.keys():
-                    attachable = dict_["attachable"]
                 if "tags" in dict_.keys():
                     tags = dict_["tags"]
+                if "rotation" in dict_.keys():
+                    rotation = dict_["rotation"]
 
-        return obj_type, attachable, tags
+        return obj_type, tags, rotation

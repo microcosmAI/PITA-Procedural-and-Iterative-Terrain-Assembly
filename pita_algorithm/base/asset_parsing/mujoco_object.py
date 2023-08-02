@@ -10,9 +10,12 @@ class MujocoObject:
         name: str,
         xml_id: str,
         mjcf_obj: mjcf.RootElement,
+        obj_class: str,
         obj_type: str,
-        attachable: bool,
-        coordinates: Union[tuple[float, float, float], None] = None,
+        coordinates: Union[
+            tuple[float, float, float], None
+        ] = None,  # ToDo: implement getter and setter
+        rotation: Union[tuple[float, float, float], None] = None,
         color: Union[tuple[float, float, float, float], None] = None,
         size: Union[float, None] = None,
         tags: Union[list[str], None] = None,
@@ -23,21 +26,22 @@ class MujocoObject:
             name (str): Specific name of object
             mjcf_obj (mjcf): Objects xml parsed into mjcf-style model of mujoco
             obj_type (str): Type of object (e.g. "tree" or "stone")
-            attachable (bool): decides if object is attachable
             coordinates (tuple): Coordinates of the object
-            color (tuple[float, float, float, float]): color rgba
-            size (float): size of ball (radius)
-            tags (list(str)): user specified tags
+            rotation (tuple[float, float, float]): Rotation of object
+            color (tuple[float, float, float, float]): Color rgba
+            size (float): Size of ball (radius)
+            tags (list(str)): User specified tags
         """
         self._name = name
         self._xml_id = xml_id
         self._mjcf_obj = mjcf_obj
+        self._obj_class: str = obj_class
         self._obj_type = obj_type
-        self._attachable = attachable
         self._coordinates = coordinates
+        self._tags = tags
         self._color = color
         self._size = size
-        self._tags = tags
+        self._rotation = rotation
 
     @property
     def name(self) -> str:
@@ -94,6 +98,24 @@ class MujocoObject:
         self._mjcf_obj = mjcf_obj
 
     @property
+    def obj_class(self) -> str:
+        """Get object class.
+
+        Returns:
+            obj_class (str): Object class
+        """
+        return self._obj_class
+
+    @obj_class.setter
+    def obj_class(self, obj_class: str):
+        """Set object class.
+
+        Parameters:
+            obj_class (str): Object class
+        """
+        self._obj_class = obj_class
+
+    @property
     def obj_type(self) -> str:
         """Get object type.
 
@@ -112,24 +134,6 @@ class MujocoObject:
         self._obj_type = obj_type
 
     @property
-    def attachable(self) -> bool:
-        """Get attachable.
-
-        Returns:
-            attachable (bool): True if object is attachable, False otherwise
-        """
-        return self._attachable
-
-    @attachable.setter
-    def attachable(self, attachable: bool):
-        """Set attachable.
-
-        Parameters:
-            attachable (bool): True if object is attachable, False otherwise
-        """
-        self._attachable = attachable
-
-    @property
     def position(self) -> tuple[float, float, float]:
         """Get position.
 
@@ -146,6 +150,24 @@ class MujocoObject:
             position (tuple[float, float, float]): Position of the object
         """
         self._mjcf_obj.find("body", self._name.lower()).pos = position
+
+    @property
+    def rotation(self) -> tuple[float, float, float]:
+        """Get rotation of object.
+
+        Returns:
+            rotation (tuple[float, float, float]): Rotation of object
+        """
+        return self._mjcf_obj.find("body", self._name.lower()).euler
+
+    @rotation.setter
+    def rotation(self, rotation: tuple[float, float, float]):
+        """Set rotation of object
+
+        Parameters:
+            rotation (tuple[float, float, float]): Rotation of object
+        """
+        self._mjcf_obj.find("body", self._name.lower()).euler = rotation
 
     @property
     def color(self) -> tuple[float, float, float, float]:

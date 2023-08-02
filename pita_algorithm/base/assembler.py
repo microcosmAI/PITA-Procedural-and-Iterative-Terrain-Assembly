@@ -12,15 +12,16 @@ from pita_algorithm.base.asset_placement.fixed_placer import FixedPlacer
 from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
 )
+from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import MultivariateUniformDistribution
 from pita_algorithm.base.asset_placement.random_placer import (
     RandomPlacer,
-    Placer2DDistribution,
 )
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
-from pita_algorithm.utils.multivariate_uniform_distribution import MultivariateUniform
+
+from pita_algorithm.utils.general_utils import Utils
 
 
 class BlueprintManager:
@@ -97,9 +98,11 @@ class ObjectPlacer:
         self._place_border(environment, validators[0])
         # Global placer
         self._place_objects_in_sites([environment, ], validators, is_fixed=True)
-        self._place_objects_in_sites(areas, validators, is_fixed=True)
+        if self.config.get("Areas") is not None:
+            self._place_objects_in_sites(areas, validators, is_fixed=True)
         self._place_objects_in_sites([environment, ], validators, is_fixed=False)
-        self._place_objects_in_sites(areas, validators, is_fixed=False)
+        if self.config.get("Areas") is not None:
+            self._place_objects_in_sites(areas, validators, is_fixed=False)
 
     def _place_border(self, environment: Environment, validator: Validator) -> None:
         """Places borders in the environment.
@@ -113,9 +116,8 @@ class ObjectPlacer:
         BorderPlacer().add(environment=environment, mujoco_object_blueprint=self.blueprints["Border"], amount=4, has_border=has_border)
 
         if has_border:
-            size = self.config["Environment"]["size"]
             validator.map_2D[self.blueprints["Border"].name] = [geometry.LineString(
-                [[-size[0], -size[1]], [-size[0], size[1]], [size[0], size[1]], [size[0], -size[1]], [-size[0], -size[1]]])]
+                [[-environment.size[0], -environment.size[1]], [-environment.size[0], environment.size[1]], [environment.size[0], environment.size[1]], [environment.size[0], -environment.size[1]], [-environment.size[0], -environment.size[1]]])]
 
     def _place_objects_in_sites(self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool) -> None:
         """Places fixed or random objects in the environment.
@@ -199,10 +201,12 @@ class ObjectPlacer:
         Parameters:
             site (AbstractSite): AbstractSite object
         """
-        distribution = Placer2DDistribution(
-            MultivariateUniform(),
-            np.array([[-site.size[0], site.size[0]], [-site.size[1], site.size[1]]])
-        )
+        distribution =  MultivariateUniformDistribution(
+                            parameters={
+                                "low": [-site.size[0], -site.size[1]],
+                                "high": [site.size[0], site.size[1]],
+                            }
+                        )
         return RandomPlacer(distribution=distribution)
 
     @staticmethod
@@ -216,8 +220,7 @@ class ObjectPlacer:
         has_coordinates = "coordinates" in [list(setting.keys())[0] for setting in object_settings]
         return has_coordinates if is_fixed else not has_coordinates
 
-    @staticmethod
-    def _get_placer_params(config_dict: dict, is_fixed: bool) -> dict:
+    def _get_placer_params(self, config_dict: dict, is_fixed: bool) -> dict:
         """Returns the specific parameters needed for the placer, based on the given settings.
         
         Parameters:
@@ -227,9 +230,18 @@ class ObjectPlacer:
         if is_fixed:
             return {"coordinates": config_dict["coordinates"] if "coordinates" in config_dict else None}
         else:
-            colors_range = config_dict.get("colors", None)
-            sizes_range = config_dict.get("sizes", None)
-            return {"colors_range": colors_range, "sizes_range": sizes_range}
+            keys = [
+                    "z_rotation_range",
+                    "color_groups",
+                    "size_groups",
+                    "size_value_range",
+                ]
+
+            values = Utils._get_randomization_parameters(config_dict=config_dict, keys=keys)
+            combined_dict = {k: v for k, v in zip(keys, values)}
+            return combined_dict
+
+
 
 
 class Assembler:
@@ -264,11 +276,24 @@ class Assembler:
 
     def _create_environment_and_areas(self) -> tuple[Environment, list[Area]]:
         """Creates and returns the environment and areas."""
-        size = self.config["Environment"]["size"]
+        size_range = Utils._get_randomization_parameters(
+            config_dict=self.config["Environment"], keys=["size_range"]
+        )
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
-        environment = Environment(name="Environment1", size=(size[0], size[1], 0.1), pretty_mode=pretty_mode)
-        areas = [Area(name="Area1", size=(size[0], size[1], 0.1), environment=environment)]
+        environment = Environment(name="Environment1",  size=size_range, pretty_mode=pretty_mode)
+
+        areas = []
+        if self.config.get("Areas") is not None:
+            for area_index, area_config in enumerate(self.config["Areas"].items()):
+                areas.append(
+                    Area(
+                        name=f"Area{area_index+1}",
+                        size=(environment.size[0], environment.size[1], 0.1), # TODO Get Size from Area Config or Layoutmanager ?!?!
+                        environment=environment,
+                        boundary=None,
+                    )
+                )
         return environment, areas
 
     @staticmethod
@@ -290,12 +315,11 @@ class Assembler:
         Parameters:
             environment (Environment): Environment object
         """
-        size = self.config["Environment"]["size"]
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
         plane_options = {
             "name": "base_plane",
             "type": "plane",
-            "size": (size[0], size[1], 0.1),
+            "size": (environment.size[0], environment.size[1], 0.1),
             "material": "grid" if pretty_mode else None,
         }
         environment.mjcf_model.worldbody.add("geom", **{k: v for k, v in plane_options.items() if v is not None})
