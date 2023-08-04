@@ -151,7 +151,7 @@ class Environment(AbstractSite):
             size (tuple[float, float, float]): Tuple defining the size of the entire environment
         """
 
-        if size_range is None:
+        if size_range[0] is None:
             raise ValueError("No size range provided.")
 
         if isinstance(size_range[0][0], (float, int)):
