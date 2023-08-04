@@ -86,7 +86,7 @@ class ObjectPlacer:
         self.rule_blueprints = rule_blueprints
 
     def place_objects(
-            self, environment: Environment, areas: list[Area], validators: list[Validator]
+        self, environment: Environment, areas: list[Area], validators: list[Validator]
     ) -> None:
         """Places all types of objects (border, fixed, random) in the environment.
 
@@ -151,7 +151,7 @@ class ObjectPlacer:
             ]
 
     def _place_objects_in_sites(
-            self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool
+        self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool
     ) -> None:
         """Places fixed or random objects in the environment.
 
@@ -180,7 +180,7 @@ class ObjectPlacer:
                     )
 
     def _place_objects_in_environment(
-            self, environment: Environment, validators: list[Validator], is_fixed: bool
+        self, environment: Environment, validators: list[Validator], is_fixed: bool
     ) -> None:
         """Places fixed or random objects in the environment.
         TODO: DEPRECATED
@@ -209,7 +209,7 @@ class ObjectPlacer:
                 )
 
     def _place_objects_in_areas(
-            self, areas: list[Area], validators: list[Validator], is_fixed: bool
+        self, areas: list[Area], validators: list[Validator], is_fixed: bool
     ) -> None:
         """Places fixed or random objects in the areas.
         TODO: DEPRECATED
@@ -372,7 +372,7 @@ class Assembler:
 
     @staticmethod
     def _create_validators(
-            size: tuple[float, float, float], areas: list[Area]
+        size: tuple[float, float, float], areas: list[Area]
     ) -> list[Validator]:
         """Creates and returns the validators for the environment and areas.
 
