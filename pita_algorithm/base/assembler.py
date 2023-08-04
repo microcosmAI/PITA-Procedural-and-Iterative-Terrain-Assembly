@@ -13,7 +13,6 @@ from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import
 )
 from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import (
     MultivariateUniformDistribution,
-
 )
 from pita_algorithm.base.asset_placement.random_placer import (
     RandomPlacer,
@@ -24,7 +23,6 @@ from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.utils.general_utils import Utils
-
 
 
 class BlueprintManager:
@@ -153,7 +151,6 @@ class ObjectPlacer:
                     ]
                 )
             ]
-
 
     def _place_objects_in_sites(
         self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool
