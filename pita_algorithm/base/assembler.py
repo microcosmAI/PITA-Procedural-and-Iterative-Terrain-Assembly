@@ -1,28 +1,42 @@
 import copy
-
 from shapely import geometry
 
+
+from pita_algorithm.utils.general_utils import Utils
+from pita_algorithm.base.world_sites.area import Area
+from pita_algorithm.base.world_sites.environment import Environment
+from pita_algorithm.base.asset_placement.validator import Validator
+from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-from pita_algorithm.base.asset_placement.border_placer import BorderPlacer
-from pita_algorithm.base.asset_placement.boundary_rule import BoundaryRule
-
 from pita_algorithm.base.asset_placement.fixed_placer import FixedPlacer
-from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
-    MinDistanceMujocoPhysicsRule,
+from pita_algorithm.base.asset_placement.border_placer import BorderPlacer
+
+# Random Placer and distributions imports
+from pita_algorithm.base.asset_placement.random_placer import (
+    RandomPlacer,
+)
+from pita_algorithm.base.asset_placement.random_walk_distribution import (
+    RandomWalkDistribution,
+)
+from pita_algorithm.base.asset_placement.circular_uniform_distribution import (
+    CircularUniformDistribution,
+)
+from pita_algorithm.base.asset_placement.multivariate_normal_distribution import (
+    MultivariateNormalDistribution,
 )
 from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import (
     MultivariateUniformDistribution,
 )
-from pita_algorithm.base.asset_placement.random_placer import (
-    RandomPlacer,
-)
 
-from pita_algorithm.base.asset_placement.validator import Validator
-from pita_algorithm.base.world_sites.abstract_site import AbstractSite
-from pita_algorithm.base.world_sites.area import Area
-from pita_algorithm.base.world_sites.environment import Environment
-from pita_algorithm.utils.general_utils import Utils
+# Rule Imports
+from pita_algorithm.base.asset_placement.boundary_rule import BoundaryRule
+from pita_algorithm.base.asset_placement.min_distance_rule import (
+    MinDistanceRule,
+)
+from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
+    MinDistanceMujocoPhysicsRule,
+)
 
 
 class BlueprintManager:
