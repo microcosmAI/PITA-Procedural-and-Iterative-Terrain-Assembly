@@ -6,7 +6,6 @@ from matplotlib import patches
 
 
 class LayoutManager:
-
     def __init__(self, length: float, height: float, number: float):
         self.length: float = length
         self.height: float = height
@@ -45,29 +44,36 @@ class LayoutManager:
         # First half assumes that the tiling is fitted with longer and shorter rows
         if rows_trunc == min_max_div:
             tiling = self._solve(length, height, number, square_area, n_rows_trunc)
-            tiling['mode'] = 'rows'
+            tiling["mode"] = "rows"
         elif rows_ceil == min_max_div:
             tiling = self._solve(length, height, number, square_area, n_rows_ceil)
-            tiling['mode'] = 'rows'
+            tiling["mode"] = "rows"
         # The second half assumes that the tiling is fitted with longer and shorter collumns.
         # To reuse the self._solve function we swap length and height arguments in the call and swap
         # the resulting tiling back using the _swap function.
         elif cols_trunc == min_max_div:
             tiling = self._solve(height, length, number, square_area, n_cols_trunc)
-            tiling['mode'] = 'cols'
+            tiling["mode"] = "cols"
             tiling = self._swap(tiling)
         elif cols_ceil == min_max_div:
             tiling = self._solve(height, length, number, square_area, n_cols_ceil)
-            tiling['mode'] = 'cols'
+            tiling["mode"] = "cols"
             tiling = self._swap(tiling)
         else:
             raise ArithmeticError
         return tiling
 
-    def _max_div(self, length: float, height: float, number: float, square_area: float, n_rows: int) -> float:
+    def _max_div(
+        self,
+        length: float,
+        height: float,
+        number: float,
+        square_area: float,
+        n_rows: int,
+    ) -> float:
         # What is the maximal divergence from a square given the area dimensions, the number of tiles and the number of rows to be constructed.
         if n_rows < 1 or n_rows > number:
-            return float('inf')
+            return float("inf")
 
         # How many cols are to be placed in the longer and shorter rows?
         n_cols_long = ceil(number / n_rows)
@@ -88,7 +94,14 @@ class LayoutManager:
         # What is the maximum difference between the heights and lengths?
         return max(abs(delta_long), abs(delta_short))
 
-    def _solve(self, length: float, height: float, number: float, square_area: float, n_rows: int) -> dict:
+    def _solve(
+        self,
+        length: float,
+        height: float,
+        number: float,
+        square_area: float,
+        n_rows: int,
+    ) -> dict:
         # What are the number of cols in the short and long rows?
         n_cols_long = ceil(number / n_rows)
         n_cols_short = trunc(number / n_rows)
@@ -105,18 +118,18 @@ class LayoutManager:
 
         # Collect all the parameters for the tiling in one dictionary
         tiling = {
-            'short': {
-                'n_rows': n_rows_short,
-                'n_cols': n_cols_short,
-                'tile_length': short_length,
-                'tile_height': short_height
+            "short": {
+                "n_rows": n_rows_short,
+                "n_cols": n_cols_short,
+                "tile_length": short_length,
+                "tile_height": short_height,
             },
-            'long': {
-                'n_rows': n_rows_long,
-                'n_cols': n_cols_long,
-                'tile_length': long_length,
-                'tile_height': long_height
-            }
+            "long": {
+                "n_rows": n_rows_long,
+                "n_cols": n_cols_long,
+                "tile_length": long_length,
+                "tile_height": long_height,
+            },
         }
         # Sanity check
         assert number == n_cols_long * n_rows_long + n_cols_short * n_rows_short
@@ -124,25 +137,27 @@ class LayoutManager:
 
     def _swap(self, tiling: dict) -> dict:
         # swap rows and cols length and height
-        tiling_short = tiling['short']
-        tiling_long = tiling['long']
+        tiling_short = tiling["short"]
+        tiling_long = tiling["long"]
 
         # should be pretty self explainatory
-        tiling['short'] = {
-            'n_rows': tiling_short['n_cols'],
-            'n_cols': tiling_short['n_rows'],
-            'tile_length': tiling_short['tile_height'],
-            'tile_height': tiling_short['tile_length']
+        tiling["short"] = {
+            "n_rows": tiling_short["n_cols"],
+            "n_cols": tiling_short["n_rows"],
+            "tile_length": tiling_short["tile_height"],
+            "tile_height": tiling_short["tile_length"],
         }
-        tiling['long'] = {
-            'n_rows': tiling_long['n_cols'],
-            'n_cols': tiling_long['n_rows'],
-            'tile_length': tiling_long['tile_height'],
-            'tile_height': tiling_long['tile_length']
+        tiling["long"] = {
+            "n_rows": tiling_long["n_cols"],
+            "n_cols": tiling_long["n_rows"],
+            "tile_length": tiling_long["tile_height"],
+            "tile_height": tiling_long["tile_length"],
         }
         return tiling
 
-    def generate_layout_boundaries(self) -> list[tuple[tuple[int | Any, int | Any], tuple[int | Any, int | Any]]]:
+    def generate_layout_boundaries(
+        self,
+    ) -> list[tuple[tuple[int | Any, int | Any], tuple[int | Any, int | Any]]]:
         # Get the tiling
         tilingVar_result = self.tiling(self.length, self.height, self.number)
 
@@ -151,23 +166,35 @@ class LayoutManager:
 
         # Initialize the shift
         shift = 0
-        for tiling_key in ['short', 'long']:
+        for tiling_key in ["short", "long"]:
             tilingVar = tilingVar_result[tiling_key]
-            for row in range(tilingVar['n_rows']):
-                for col in range(tilingVar['n_cols']):
-                    if tilingVar_result['mode'] == 'rows':
-                        top_left = (col * tilingVar['tile_length'], row * tilingVar['tile_height'] + shift)
-                        bottom_right = ((col + 1) * tilingVar['tile_length'], (row + 1) * tilingVar['tile_height'] + shift)
+            for row in range(tilingVar["n_rows"]):
+                for col in range(tilingVar["n_cols"]):
+                    if tilingVar_result["mode"] == "rows":
+                        top_left = (
+                            col * tilingVar["tile_length"],
+                            row * tilingVar["tile_height"] + shift,
+                        )
+                        bottom_right = (
+                            (col + 1) * tilingVar["tile_length"],
+                            (row + 1) * tilingVar["tile_height"] + shift,
+                        )
                     else:
-                        top_left = (col * tilingVar['tile_length'] + shift, row * tilingVar['tile_height'])
-                        bottom_right = ((col + 1) * tilingVar['tile_length'] + shift, (row + 1) * tilingVar['tile_height'])
+                        top_left = (
+                            col * tilingVar["tile_length"] + shift,
+                            row * tilingVar["tile_height"],
+                        )
+                        bottom_right = (
+                            (col + 1) * tilingVar["tile_length"] + shift,
+                            (row + 1) * tilingVar["tile_height"],
+                        )
                     boundaries.append((top_left, bottom_right))
 
             # Update the shift for the next tiling key
-            if tilingVar_result['mode'] == 'rows':
-                shift += tilingVar['n_rows'] * tilingVar['tile_height']
+            if tilingVar_result["mode"] == "rows":
+                shift += tilingVar["n_rows"] * tilingVar["tile_height"]
             else:
-                shift += tilingVar['n_cols'] * tilingVar['tile_length']
+                shift += tilingVar["n_cols"] * tilingVar["tile_length"]
 
         return boundaries
 
@@ -197,65 +224,75 @@ class LayoutManager:
             top_left, bottom_right = boundary
             width = bottom_right[0] - top_left[0]
             height = bottom_right[1] - top_left[1]
-            rect = patches.Rectangle(top_left, width, height, linewidth=1, edgecolor='r', facecolor='none')
+            rect = patches.Rectangle(
+                top_left, width, height, linewidth=1, edgecolor="r", facecolor="none"
+            )
             ax.add_patch(rect)
         plt.xlim(0, max([b[1][0] for b in boundaries]))
         plt.ylim(0, max([b[1][1] for b in boundaries]))
-        plt.gca().set_aspect('equal', adjustable='box')
+        plt.gca().set_aspect("equal", adjustable="box")
         plt.show()
 
     def plot_tiling(self, length: float, height: float, number: int) -> None:
         tiles = self.tiling(length, height, number)
         plt.figure(figsize=(length, height))
-        if tiles['mode'] == 'rows':
+        if tiles["mode"] == "rows":
             row_height = 0
             # short rows
-            tile_height = tiles['short']['tile_height']
-            tile_length = tiles['short']['tile_length']
-            for i in range(tiles['short']['n_rows']):
+            tile_height = tiles["short"]["tile_height"]
+            tile_length = tiles["short"]["tile_length"]
+            for i in range(tiles["short"]["n_rows"]):
                 # horizontal line
                 plt.plot((0, length), (row_height, row_height))
-                for j in range(tiles['short']['n_cols'] + 1):
+                for j in range(tiles["short"]["n_cols"] + 1):
                     # vertical lines
-                    plt.plot((j * tile_length, j * tile_length),
-                             (row_height, row_height + tile_height))
+                    plt.plot(
+                        (j * tile_length, j * tile_length),
+                        (row_height, row_height + tile_height),
+                    )
                 row_height += tile_height
             # long rows
-            tile_height = tiles['long']['tile_height']
-            tile_length = tiles['long']['tile_length']
-            for i in range(tiles['long']['n_rows']):
+            tile_height = tiles["long"]["tile_height"]
+            tile_length = tiles["long"]["tile_length"]
+            for i in range(tiles["long"]["n_rows"]):
                 # horizontal line
                 plt.plot((0, length), (row_height, row_height))
-                for j in range(tiles['long']['n_cols'] + 1):
+                for j in range(tiles["long"]["n_cols"] + 1):
                     # vertical lines
-                    plt.plot((j * tile_length, j * tile_length),
-                             (row_height, row_height + tile_height))
+                    plt.plot(
+                        (j * tile_length, j * tile_length),
+                        (row_height, row_height + tile_height),
+                    )
                 row_height += tile_height
             # final horizontal line
             plt.plot((0, length), (row_height, row_height))
-        elif tiles['mode'] == 'cols':
+        elif tiles["mode"] == "cols":
             col_length = 0
             # short cols
-            tile_height = tiles['short']['tile_height']
-            tile_length = tiles['short']['tile_length']
-            for i in range(tiles['short']['n_cols']):
+            tile_height = tiles["short"]["tile_height"]
+            tile_length = tiles["short"]["tile_length"]
+            for i in range(tiles["short"]["n_cols"]):
                 # horizontal line
                 plt.plot((col_length, col_length), (0, height))
-                for j in range(tiles['short']['n_rows'] + 1):
+                for j in range(tiles["short"]["n_rows"] + 1):
                     # vertical lines
-                    plt.plot((col_length, col_length + tile_length),
-                             (j * tile_height, j * tile_height))
+                    plt.plot(
+                        (col_length, col_length + tile_length),
+                        (j * tile_height, j * tile_height),
+                    )
                 col_length += tile_length
             # long cols
-            tile_height = tiles['long']['tile_height']
-            tile_length = tiles['long']['tile_length']
-            for i in range(tiles['long']['n_cols']):
+            tile_height = tiles["long"]["tile_height"]
+            tile_length = tiles["long"]["tile_length"]
+            for i in range(tiles["long"]["n_cols"]):
                 # horizontal line
                 plt.plot((col_length, col_length), (0, height))
-                for j in range(tiles['long']['n_rows'] + 1):
+                for j in range(tiles["long"]["n_rows"] + 1):
                     # vertical lines
-                    plt.plot((col_length, col_length + tile_length),
-                             (j * tile_height, j * tile_height))
+                    plt.plot(
+                        (col_length, col_length + tile_length),
+                        (j * tile_height, j * tile_height),
+                    )
                 col_length += tile_length
             # final vertical line
             plt.plot((col_length, col_length), (0, height))

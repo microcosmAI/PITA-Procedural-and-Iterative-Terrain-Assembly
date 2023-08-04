@@ -24,7 +24,11 @@ class Utils:
         return tuple(default_values)
 
     @staticmethod
-    def offset_coordinates_to_boundaries(position: tuple[float, float, float], boundary: tuple[tuple[float, float], tuple[float, float]], reference_boundaries: tuple[tuple[float, float], tuple[float, float]]) -> tuple[float, float, float]:
+    def offset_coordinates_to_boundaries(
+        position: tuple[float, float, float],
+        boundary: tuple[tuple[float, float], tuple[float, float]],
+        reference_boundaries: tuple[tuple[float, float], tuple[float, float]],
+    ) -> tuple[float, float, float]:
         """
         Converts the coordinates of a MujocoObject to match the boundaries of the Area.
 

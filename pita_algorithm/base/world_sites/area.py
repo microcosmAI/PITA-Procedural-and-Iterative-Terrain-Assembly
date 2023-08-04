@@ -135,4 +135,3 @@ class Area(AbstractSite):
             boundary (tuple): Tuple with the area boundary
         """
         self.boundary = boundary
-

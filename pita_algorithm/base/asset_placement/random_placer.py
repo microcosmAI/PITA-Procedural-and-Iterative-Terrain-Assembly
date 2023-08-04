@@ -113,12 +113,12 @@ class RandomPlacer(AbstractPlacer):
             # Ask every validator for approval until all approve or MAX_TRIES is reached,
             # then throw error
             while not all(
-                    [
-                        validator.validate(
-                            mujoco_object=mujoco_object_rule_blueprint, site=site
-                        )
-                        for validator in validators
-                    ]
+                [
+                    validator.validate(
+                        mujoco_object=mujoco_object_rule_blueprint, site=site
+                    )
+                    for validator in validators
+                ]
             ):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
@@ -160,13 +160,19 @@ class RandomPlacer(AbstractPlacer):
 
             # If Site is area type, offset the coordinates to the boundaries
             if isinstance(site, Area):
-                reference_boundaries = ((-site.environment.size[0], -site.environment.size[0]) , (site.environment.size[1], site.environment.size[1])) # TODO Not sure if this is correct and maybe we need to to /2 after a ticket
-                mujoco_object.position = Utils.offset_coordinates_to_boundaries(mujoco_object.position, site.boundary, reference_boundaries=reference_boundaries)
+                reference_boundaries = (
+                    (-site.environment.size[0], -site.environment.size[0]),
+                    (site.environment.size[1], site.environment.size[1]),
+                )  # TODO Not sure if this is correct and maybe we need to to /2 after a ticket
+                mujoco_object.position = Utils.offset_coordinates_to_boundaries(
+                    mujoco_object.position,
+                    site.boundary,
+                    reference_boundaries=reference_boundaries,
+                )
 
             # Keep track of the placement in the validators
             for validator in validators:
                 validator.add(mujoco_object)
-
 
             # Add the object to the site
             site.add(mujoco_object=mujoco_object)

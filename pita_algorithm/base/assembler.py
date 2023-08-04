@@ -361,7 +361,9 @@ class Assembler:
         if self.config.get("Areas") is not None:
             # Create boundaries with Layoutmanager
             areas_count = len(self.config["Areas"].items())
-            layoutmanager = LayoutManager(environment.size[0] * 2, environment.size[1] * 2, areas_count) # TODO change to environment.size[0], environment.size[1] as soon as we start to work with the real environment size
+            layoutmanager = LayoutManager(
+                environment.size[0] * 2, environment.size[1] * 2, areas_count
+            )  # TODO change to environment.size[0], environment.size[1] as soon as we start to work with the real environment size
             boundaries = layoutmanager.generate_layout_boundaries()
             layoutmanager.plot_boundaries(boundaries)
 
@@ -372,8 +374,14 @@ class Assembler:
 
             # Iterate through the original boundaries and perform modifications
             for boundary in boundaries:
-                new_boundary_start = (boundary[0][0] - environment.size[0], boundary[0][1] - environment.size[1])
-                new_boundary_end = (boundary[1][0] - environment.size[0], boundary[1][1] - environment.size[1])
+                new_boundary_start = (
+                    boundary[0][0] - environment.size[0],
+                    boundary[0][1] - environment.size[1],
+                )
+                new_boundary_end = (
+                    boundary[1][0] - environment.size[0],
+                    boundary[1][1] - environment.size[1],
+                )
                 modified_boundary = (new_boundary_start, new_boundary_end)
                 modified_boundaries.append(modified_boundary)
             boundaries = modified_boundaries
@@ -383,7 +391,19 @@ class Assembler:
                 areas.append(
                     Area(
                         name=f"Area{area_index+1}",
-                        size=((boundaries[area_index][1][0] - boundaries[area_index][0][0])/2, (boundaries[area_index][1][1] - boundaries[area_index][0][1])/2, 0.1),
+                        size=(
+                            (
+                                boundaries[area_index][1][0]
+                                - boundaries[area_index][0][0]
+                            )
+                            / 2,
+                            (
+                                boundaries[area_index][1][1]
+                                - boundaries[area_index][0][1]
+                            )
+                            / 2,
+                            0.1,
+                        ),
                         environment=environment,
                         boundary=boundaries[area_index],
                     )
