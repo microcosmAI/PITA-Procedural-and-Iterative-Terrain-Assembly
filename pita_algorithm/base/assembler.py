@@ -1,7 +1,5 @@
 import copy
-from typing import Sequence
 
-import numpy as np
 from shapely import geometry
 
 from pita_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
@@ -22,7 +20,6 @@ from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
-
 from pita_algorithm.utils.general_utils import Utils
 
 
@@ -89,7 +86,7 @@ class ObjectPlacer:
         self.rule_blueprints = rule_blueprints
 
     def place_objects(
-        self, environment: Environment, areas: list[Area], validators: list[Validator]
+            self, environment: Environment, areas: list[Area], validators: list[Validator]
     ) -> None:
         """Places all types of objects (border, fixed, random) in the environment.
 
@@ -154,7 +151,7 @@ class ObjectPlacer:
             ]
 
     def _place_objects_in_sites(
-        self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool
+            self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool
     ) -> None:
         """Places fixed or random objects in the environment.
 
@@ -183,7 +180,7 @@ class ObjectPlacer:
                     )
 
     def _place_objects_in_environment(
-        self, environment: Environment, validators: list[Validator], is_fixed: bool
+            self, environment: Environment, validators: list[Validator], is_fixed: bool
     ) -> None:
         """Places fixed or random objects in the environment.
         TODO: DEPRECATED
@@ -212,7 +209,7 @@ class ObjectPlacer:
                 )
 
     def _place_objects_in_areas(
-        self, areas: list[Area], validators: list[Validator], is_fixed: bool
+            self, areas: list[Area], validators: list[Validator], is_fixed: bool
     ) -> None:
         """Places fixed or random objects in the areas.
         TODO: DEPRECATED
@@ -361,7 +358,7 @@ class Assembler:
             for area_index, area_config in enumerate(self.config["Areas"].items()):
                 areas.append(
                     Area(
-                        name=f"Area{area_index+1}",
+                        name=f"Area{area_index + 1}",
                         size=(
                             environment.size[0],
                             environment.size[1],
@@ -375,7 +372,7 @@ class Assembler:
 
     @staticmethod
     def _create_validators(
-        size: tuple[float, float, float], areas: list[Area]
+            size: tuple[float, float, float], areas: list[Area]
     ) -> list[Validator]:
         """Creates and returns the validators for the environment and areas.
 
