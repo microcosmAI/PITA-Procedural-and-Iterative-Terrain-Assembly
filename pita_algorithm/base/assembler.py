@@ -86,7 +86,7 @@ class BlueprintManager:
 
 
 class ObjectPlacer:
-    """Places objects in the environment."""
+    """Places objects in the world (environment and areas)."""
 
     def __init__(self, config: dict, blueprints: dict, rule_blueprints: dict) -> None:
         """Constructor of the ObjectPlacer class.
@@ -104,7 +104,7 @@ class ObjectPlacer:
     def place_objects(
         self, environment: Environment, areas: list[Area], validators: list[Validator]
     ) -> None:
-        """Places all types of objects (border, fixed, random) in the environment.
+        """Places all types of objects (border, fixed, random) in the world.
 
         Parameters:
             environment (Environment): Environment object
@@ -169,7 +169,7 @@ class ObjectPlacer:
     def _place_objects_in_sites(
         self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool
     ) -> None:
-        """Places fixed or random objects in the environment.
+        """Places fixed or random objects in the world sites.
 
         Parameters:
             sites (list[AbstractSite]): List of Site objects
@@ -195,68 +195,8 @@ class ObjectPlacer:
                         **self._get_placer_params(object_config_dict, is_fixed),
                     )
 
-    def _place_objects_in_environment(
-        self, environment: Environment, validators: list[Validator], is_fixed: bool
-    ) -> None:
-        """Places fixed or random objects in the environment.
-        TODO: DEPRECATED
-        Parameters:
-            environment (Environment): Environment object
-            validators (list[Validator]): List of Validator objects
-            is_fixed (bool): True if the objects should be placed with fixed coordinates, False otherwise
-        """
-        placer: FixedPlacer | RandomPlacer = (
-            FixedPlacer() if is_fixed else self._get_random_placer(environment)
-        )
-
-        for object_name, object_settings in self.config["Environment"][
-            "Objects"
-        ].items():
-            if self._should_place_object(is_fixed, object_settings):
-                object_config_dict = {
-                    k: v for dict_ in object_settings for k, v in dict_.items()
-                }
-                placer.add(
-                    site=environment,
-                    mujoco_object_blueprint=self.blueprints[object_name],
-                    mujoco_object_rule_blueprint=self.rule_blueprints[object_name],
-                    validators=[validators[0]],
-                    amount=object_config_dict["amount"],
-                    **self._get_placer_params(object_config_dict, is_fixed),
-                )
-
-    def _place_objects_in_areas(
-        self, areas: list[Area], validators: list[Validator], is_fixed: bool
-    ) -> None:
-        """Places fixed or random objects in the areas.
-        TODO: DEPRECATED
-        Parameters:
-            areas (list[Area]): List of Area objects
-            validators (list[Validator]): List of Validator objects
-            is_fixed (bool): True if the objects should be placed with fixed coordinates, False otherwise
-        """
-        for area_index, area in enumerate(areas):
-            for object_name, object_settings in self.config["Areas"][area.name][
-                "Objects"
-            ].items():
-                if self._should_place_object(is_fixed, object_settings):
-                    object_config_dict = {
-                        k: v for dict_ in object_settings for k, v in dict_.items()
-                    }
-                    placer: FixedPlacer | RandomPlacer = (
-                        FixedPlacer() if is_fixed else self._get_random_placer(area)
-                    )
-                    placer.add(
-                        site=area,
-                        mujoco_object_blueprint=self.blueprints[object_name],
-                        mujoco_object_rule_blueprint=self.rule_blueprints[object_name],
-                        validators=[validators[0], validators[area_index]],
-                        amount=object_config_dict["amount"],
-                        **self._get_placer_params(object_config_dict, is_fixed),
-                    )
-
     def _get_site_configs(self, sites: list[AbstractSite]) -> list[dict]:
-        """Returns the object configurations for all sites.
+        """Returns the object configurations for all world sites.
 
         Parameters:
             sites (list[AbstractSite]): List of Site objects
@@ -326,7 +266,7 @@ class ObjectPlacer:
 
 
 class Assembler:
-    """Assembles the environment."""
+    """Assembles the world."""
 
     def __init__(self, config_file: dict, xml_dir: str) -> None:
         """Constructor of the Assembler class.
