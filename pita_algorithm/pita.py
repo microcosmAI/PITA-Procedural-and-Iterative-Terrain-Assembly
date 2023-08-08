@@ -98,6 +98,9 @@ def main(
     export_path: str = typer.Option(
         default="export/test", help="Specify path to output directory."
     ),
+    plot: bool = typer.Option(
+        default=False, help="Set to True to enable plots."
+    )
 ):
     print(
         f"Running PITA with following parameters: \n",
@@ -106,6 +109,7 @@ def main(
         f"config_path: '{config_path}' \n"
         f"xml_dir: '{xml_dir}' \n"
         f"export_path: '{export_path}' \n",
+        f"plot: '{plot}' \n",
         "-" * 50,
     )
     if config_path is None:
@@ -123,11 +127,17 @@ def main(
         warnings.warn(
             "export path not specified; running with default directory in export and filename 'test'"
         )
+    if plot is None:
+        plot = False
+        warnings.warn(
+            "Plot not specified; running with default 'False'"
+        )
     PITA().run(
         random_seed=random_seed,
         config_path=config_path,
         xml_dir=xml_dir,
         export_path=export_path,
+        plot=plot
     )
 
 
