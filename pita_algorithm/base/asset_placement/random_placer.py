@@ -14,6 +14,7 @@ from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.utils.general_utils import Utils
+from pita_algorithm.utils.object_property_randomization import ObjectPropertyRandomization
 
 
 class PlacerDistribution:
@@ -127,7 +128,7 @@ class RandomPlacer(AbstractPlacer):
 
         # Sample from amount range
 
-        amount: int = self._sample_from_amount(amount=amount)
+        amount: int = ObjectPropertyRandomization.sample_from_amount(amount=amount)
 
         # Get colors rgba
         if not color_groups is None:

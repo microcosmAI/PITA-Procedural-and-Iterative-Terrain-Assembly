@@ -10,6 +10,8 @@ from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.fixed_placer import FixedPlacer
+from pita_algorithm.base.asset_placement.random_placer import RandomPlacer
+from pita_algorithm.base.asset_placement.border_placer import BorderPlacer
 
 from pita_algorithm.base.asset_placement.layout_manager import LayoutManager
 from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
