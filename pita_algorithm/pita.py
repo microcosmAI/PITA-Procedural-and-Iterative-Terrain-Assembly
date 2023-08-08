@@ -98,9 +98,7 @@ def main(
     export_path: str = typer.Option(
         default="export/test", help="Specify path to output directory."
     ),
-    plot: bool = typer.Option(
-        default=False, help="Set to True to enable plots."
-    )
+    plot: bool = typer.Option(default=False, help="Set to True to enable plots."),
 ):
     print(
         f"Running PITA with following parameters: \n",
@@ -129,15 +127,13 @@ def main(
         )
     if plot is None:
         plot = False
-        warnings.warn(
-            "Plot not specified; running with default 'False'"
-        )
+        warnings.warn("Plot not specified; running with default 'False'")
     PITA().run(
         random_seed=random_seed,
         config_path=config_path,
         xml_dir=xml_dir,
         export_path=export_path,
-        plot=plot
+        plot=plot,
     )
 
 
