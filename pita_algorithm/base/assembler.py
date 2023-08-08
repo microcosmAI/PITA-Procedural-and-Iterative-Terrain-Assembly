@@ -268,7 +268,7 @@ class Assembler:
         Parameters:
             config_file (dict): Dictionary containing the configuration
             xml_dir (str): Path to the directory containing the xml files
-
+            plot (bool): Set to True for plotting
         """
         self.config = config_file
         self.xml_dir = xml_dir
