@@ -14,7 +14,6 @@ from pita_algorithm.base.asset_placement.fixed_placer import FixedPlacer
 from pita_algorithm.base.asset_placement.layout_manager import LayoutManager
 from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
-
 )
 from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import (
     MultivariateUniformDistribution,
