@@ -268,7 +268,7 @@ class ObjectPlacer:
 class Assembler:
     """Assembles the world."""
 
-    def __init__(self, config_file: dict, xml_dir: str) -> None:
+    def __init__(self, config_file: dict, xml_dir: str, plot: bool = False) -> None:
         """Constructor of the Assembler class.
 
         Parameters:
@@ -278,6 +278,7 @@ class Assembler:
         """
         self.config = config_file
         self.xml_dir = xml_dir
+        self.plot = plot
 
     def assemble_world(self) -> tuple[Environment, list[Area]]:
         """Assembles the world according to the users configuration and returns the environment and areas."""
@@ -295,7 +296,8 @@ class Assembler:
         object_placer.place_objects(environment, areas, validators)
 
         self._add_base_plane(environment)
-        validators[0].plot(env_size=environment.size)
+        if self.plot:
+            validators[0].plot(env_size=environment.size)
 
         return environment, areas
 
