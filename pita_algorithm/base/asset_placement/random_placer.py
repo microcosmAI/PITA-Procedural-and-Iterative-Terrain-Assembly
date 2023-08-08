@@ -14,7 +14,9 @@ from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.utils.general_utils import Utils
-from pita_algorithm.utils.object_property_randomization import ObjectPropertyRandomization
+from pita_algorithm.utils.object_property_randomization import (
+    ObjectPropertyRandomization,
+)
 
 
 class PlacerDistribution:
