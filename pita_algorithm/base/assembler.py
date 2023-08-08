@@ -249,7 +249,7 @@ class ObjectPlacer:
                 "color_groups",
                 "size_groups",
                 "size_value_range",
-                "asset_pool"
+                "asset_pool",
             ]
 
             values = Utils._get_randomization_parameters(
