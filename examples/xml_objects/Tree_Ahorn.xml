@@ -1,0 +1,7 @@
+<mujoco model="tree_ahorn">
+    <worldbody>
+        <body name="tree_ahorn" pos="0 0 0">
+            <geom name="tree_ahorn_geom" type="box" size="0.1 0.1 2" rgba="1. 0 0 1"/>
+        </body>
+    </worldbody>
+</mujoco>

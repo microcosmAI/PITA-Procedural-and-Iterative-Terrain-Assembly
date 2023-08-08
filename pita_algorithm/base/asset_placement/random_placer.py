@@ -11,6 +11,12 @@ from pita_algorithm.utils.object_property_randomization import (
 from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
     AbstractPlacerDistribution,
 )
+from pita_algorithm.base.world_sites.area import Area
+from pita_algorithm.base.world_sites.environment import Environment
+from pita_algorithm.utils.general_utils import Utils
+from pita_algorithm.utils.object_property_randomization import (
+    ObjectPropertyRandomization,
+)
 
 
 class PlacerDistribution:
@@ -106,6 +112,8 @@ class RandomPlacer(AbstractPlacer):
         color_groups: Union[tuple[int, int], None] = None,
         size_groups: Union[tuple[int, int], None] = None,
         size_value_range: Union[tuple[int, int], None] = None,
+        asset_pool: Union[list, None] = None,
+        mujoco_objects_blueprints: Union[dict, None] = None,
     ):
         """Adds a mujoco object to a site by calling the sites add method
         after checking placement via the validator.
@@ -120,10 +128,12 @@ class RandomPlacer(AbstractPlacer):
             color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
             size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
             size_value_range (Union[tuple[float, float], None]): Range of size values allowed in randomization
+            asset_pool (Union[list, None]): List of xml-names of assets which should be sampled from
+            mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
-
         # Sample from amount range
-        amount = ObjectPropertyRandomization.sample_from_amount(amount=amount)
+
+        amount: int = ObjectPropertyRandomization.sample_from_amount(amount=amount)
 
         # Get colors rgba
         if not color_groups is None:
@@ -147,6 +157,16 @@ class RandomPlacer(AbstractPlacer):
         )
 
         for i in range(amount):
+            # Sample from asset pool if asset_pool is given by user
+            if asset_pool is not None:
+                asset_name = random.choice(asset_pool).split(".xml")[0]
+                mujoco_object_rule_blueprint = self._copy(
+                    mujoco_objects_blueprints[asset_name]
+                )
+                mujoco_object_blueprint = self._copy(
+                    mujoco_objects_blueprints[asset_name]
+                )
+
             if not colors_for_placement is None:
                 # Apply colors to objects
                 mujoco_object_rule_blueprint.color = colors_for_placement[i]
@@ -221,6 +241,18 @@ class RandomPlacer(AbstractPlacer):
                 mujoco_object_rule_blueprint.rotation = old_rotation
 
             mujoco_object.position = mujoco_object_rule_blueprint.position
+
+            # If Site is area type, offset the coordinates to the boundaries
+            if isinstance(site, Area):
+                reference_boundaries = (
+                    (-site.environment.size[0], -site.environment.size[0]),
+                    (site.environment.size[1], site.environment.size[1]),
+                )  # TODO Not sure if this is correct and maybe we need to to /2 after a ticket
+                mujoco_object.position = Utils.offset_coordinates_to_boundaries(
+                    mujoco_object.position,
+                    site.boundary,
+                    reference_boundaries=reference_boundaries,
+                )
 
             # Keep track of the placement in the validators
             for validator in validators:

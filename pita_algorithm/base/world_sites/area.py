@@ -1,8 +1,10 @@
+import numpy as np
 from dm_control import mjcf
 
 from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from pita_algorithm.utils.general_utils import Utils
 
 
 class Area(AbstractSite):
@@ -31,6 +33,7 @@ class Area(AbstractSite):
         self._mjcf_model = environment.mjcf_model
         self._mujoco_objects = {}
         self._boundary = boundary
+        self.environment = environment
 
     def add(self, mujoco_object: MujocoObject):
         """Add object to the area _mjcf_model and its mujoco-object dictionary.
@@ -39,6 +42,9 @@ class Area(AbstractSite):
         Parameters:
             mujoco_object (MujocoObject): Mujoco object to add
         """
+        # Offset the coordinates to the boundaries of the area
+        # mujoco_object.position = Utils.offset_coordinates_to_boundaries(mujoco_object.position) # TODO check if it mighrt be better to do this in the mujoco_object class
+
         # The attach() method returns the attachement frame
         # i.e., a body with the attached mujoco object
         attachement_frame = self._mjcf_model.attach(mujoco_object.mjcf_obj)
