@@ -295,7 +295,9 @@ class Assembler:
 
         return environment, areas
 
-    def _create_environment_and_areas(self, plot: bool) -> tuple[Environment, list[Area]]:
+    def _create_environment_and_areas(
+        self, plot: bool
+    ) -> tuple[Environment, list[Area]]:
         """Creates and returns the environment and areas."""
         size_range = Utils._get_randomization_parameters(
             config_dict=self.config["Environment"], keys=["size_range"]
