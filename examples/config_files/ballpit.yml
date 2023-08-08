@@ -21,7 +21,6 @@ Environment:
 
 Areas:
   Area1:
-    size: large
     Objects:
       Ball:
         - xml_name: "Ball.xml"
@@ -31,3 +30,27 @@ Areas:
         - size_value_range: [ 1, 2 ]
         - size_groups: [ 2, 3 ]
         - tags: [ "Ball" ]
+
+  Area2:
+    Objects:
+      Ball:
+        - xml_name: "Ball.xml"
+        - amount: [ 1, 1 ]
+
+  Area3:
+    Objects:
+      Ball:
+        - xml_name: "Ball.xml"
+        - amount: [ 1, 3 ]
+
+  Area4:
+    Objects:
+      Ball:
+        - xml_name: "Ball.xml"
+        - amount: [ 1, 1 ]
+
+  Area5:
+    Objects:
+      Ball:
+        - xml_name: "Ball.xml"
+        - amount: [ 1, 1 ]

@@ -10,20 +10,12 @@ from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.fixed_placer import FixedPlacer
+from pita_algorithm.base.asset_placement.random_placer import RandomPlacer
 from pita_algorithm.base.asset_placement.border_placer import BorderPlacer
 
-# Random Placer and distributions imports
-from pita_algorithm.base.asset_placement.random_placer import (
-    RandomPlacer,
-)
-from pita_algorithm.base.asset_placement.random_walk_distribution import (
-    RandomWalkDistribution,
-)
-from pita_algorithm.base.asset_placement.circular_uniform_distribution import (
-    CircularUniformDistribution,
-)
-from pita_algorithm.base.asset_placement.multivariate_normal_distribution import (
-    MultivariateNormalDistribution,
+from pita_algorithm.base.asset_placement.layout_manager import LayoutManager
+from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
+    MinDistanceMujocoPhysicsRule,
 )
 from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import (
     MultivariateUniformDistribution,
@@ -314,17 +306,53 @@ class Assembler:
 
         areas = []
         if self.config.get("Areas") is not None:
+            # Create boundaries with Layoutmanager
+            areas_count = len(self.config["Areas"].items())
+            layoutmanager = LayoutManager(
+                environment.size[0] * 2, environment.size[1] * 2, areas_count
+            )  # TODO change to environment.size[0], environment.size[1] as soon as we start to work with the real environment size
+            boundaries = layoutmanager.generate_layout_boundaries()
+            layoutmanager.plot_boundaries(boundaries)
+
+            # Convert from zero based coordinates to mujoco coordinates
+            # So the 0,0 point is in the middle of the environment
+            # Create a new list to store the modified boundaries
+            modified_boundaries = []
+
+            # Iterate through the original boundaries and perform modifications
+            for boundary in boundaries:
+                new_boundary_start = (
+                    boundary[0][0] - environment.size[0],
+                    boundary[0][1] - environment.size[1],
+                )
+                new_boundary_end = (
+                    boundary[1][0] - environment.size[0],
+                    boundary[1][1] - environment.size[1],
+                )
+                modified_boundary = (new_boundary_start, new_boundary_end)
+                modified_boundaries.append(modified_boundary)
+            boundaries = modified_boundaries
+
+            # Create Areas
             for area_index, area_config in enumerate(self.config["Areas"].items()):
                 areas.append(
                     Area(
                         name=f"Area{area_index + 1}",
                         size=(
-                            environment.size[0],
-                            environment.size[1],
+                            (
+                                boundaries[area_index][1][0]
+                                - boundaries[area_index][0][0]
+                            )
+                            / 2,
+                            (
+                                boundaries[area_index][1][1]
+                                - boundaries[area_index][0][1]
+                            )
+                            / 2,
                             0.1,
-                        ),  # TODO Get Size from Area Config or Layoutmanager ?!?!
+                        ),
                         environment=environment,
-                        boundary=None,
+                        boundary=boundaries[area_index],
                     )
                 )
         return environment, areas

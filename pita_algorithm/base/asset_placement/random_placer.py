@@ -11,6 +11,12 @@ from pita_algorithm.utils.object_property_randomization import (
 from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
     AbstractPlacerDistribution,
 )
+from pita_algorithm.base.world_sites.area import Area
+from pita_algorithm.base.world_sites.environment import Environment
+from pita_algorithm.utils.general_utils import Utils
+from pita_algorithm.utils.object_property_randomization import (
+    ObjectPropertyRandomization,
+)
 
 
 class PlacerDistribution:
@@ -123,7 +129,8 @@ class RandomPlacer(AbstractPlacer):
         """
 
         # Sample from amount range
-        amount = ObjectPropertyRandomization.sample_from_amount(amount=amount)
+
+        amount: int = ObjectPropertyRandomization.sample_from_amount(amount=amount)
 
         # Get colors rgba
         if not color_groups is None:
@@ -221,6 +228,18 @@ class RandomPlacer(AbstractPlacer):
                 mujoco_object_rule_blueprint.rotation = old_rotation
 
             mujoco_object.position = mujoco_object_rule_blueprint.position
+
+            # If Site is area type, offset the coordinates to the boundaries
+            if isinstance(site, Area):
+                reference_boundaries = (
+                    (-site.environment.size[0], -site.environment.size[0]),
+                    (site.environment.size[1], site.environment.size[1]),
+                )  # TODO Not sure if this is correct and maybe we need to to /2 after a ticket
+                mujoco_object.position = Utils.offset_coordinates_to_boundaries(
+                    mujoco_object.position,
+                    site.boundary,
+                    reference_boundaries=reference_boundaries,
+                )
 
             # Keep track of the placement in the validators
             for validator in validators:
