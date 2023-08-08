@@ -1,0 +1,12 @@
+<mujoco model="tree01">
+    <asset>
+        <mesh file="3D_Assets/tree1.obj" scale="0.25 0.25 0.25"/>
+        <texture file="3D_Assets/tree1.png" type="2d" name="tree1" />
+        <material name="tree1" reflectance="0.7" texrepeat="15 15" texture="tree1" texuniform="true"/>
+    </asset>
+    <worldbody>
+        <body name="tree01" pos="0 0 0">
+            <geom name="tree_geom" type="mesh" mesh="tree1" size="1.0 1.0 0.0" rgba=".5 .5 .5 1." material="tree1"/>
+        </body>
+    </worldbody>
+</mujoco>
