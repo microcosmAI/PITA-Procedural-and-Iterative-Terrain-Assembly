@@ -1,7 +1,9 @@
+import numpy as np
 from dm_control import mjcf
 
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
+from pita_algorithm.utils.general_utils import Utils
 
 
 class Environment(AbstractSite):
@@ -20,7 +22,7 @@ class Environment(AbstractSite):
             name (str): Name of the environment
             pretty_style (bool): If true, the environment will be created with a pretty style
         """
-        self._size = size
+        self._size = self.calculate_size(size)
         self._name = name
         self._mjcf_model = mjcf.RootElement()
 
@@ -55,7 +57,7 @@ class Environment(AbstractSite):
                 reflectance=".2",
             )
 
-        self._mujoco_objects = {}
+        self._mujoco_objects: dict[str, MujocoObject] = {}
 
     @property
     def name(self) -> str:
@@ -137,3 +139,58 @@ class Environment(AbstractSite):
         """
         mujoco_object.mjcf_obj.detach()
         del self._mujoco_objects[mujoco_object.xml_id]
+
+    def calculate_size(self, size_range: tuple) -> tuple[float, float, float]:
+        """Calculates the size of the environment with a given size_range (can be many different types).
+
+
+        Parameters:
+            size_range (tuple): Tuple defining the size range of the environment (length, width, height)
+
+        Returns:
+            size (tuple[float, float, float]): Tuple defining the size of the entire environment
+        """
+
+        if size_range[0] is None:
+            raise ValueError("No size range provided.")
+
+        if isinstance(size_range[0][0], (float, int)):
+            size = (
+                list(
+                    np.random.uniform(
+                        low=size_range[0][0], high=size_range[0][1], size=1
+                    )
+                )
+                * 2
+            )
+
+        else:
+            # Drop outer tuple and list and merge dictionaries
+            size_range_dict = {
+                key: value
+                for dictionary in size_range[0]
+                for key, value in dictionary.items()
+            }
+
+            if not {"length_range", "width_range"}.issubset(
+                set(size_range_dict.keys())
+            ):
+                raise ValueError("Both length_range and width_range must be specified.")
+
+            else:
+                size = []
+                size.extend(
+                    np.random.uniform(
+                        low=size_range_dict["length_range"][0],
+                        high=size_range_dict["length_range"][1],
+                        size=1,
+                    )
+                )
+                size.extend(
+                    np.random.uniform(
+                        low=size_range_dict["width_range"][0],
+                        high=size_range_dict["width_range"][1],
+                        size=1,
+                    )
+                )
+        return size
