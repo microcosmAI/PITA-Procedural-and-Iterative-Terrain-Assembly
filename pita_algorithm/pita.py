@@ -86,21 +86,27 @@ class PITA:
             f.write(xml_string)
 
 
-def main(random_seed: int = typer.Option(default=None, help="Pass seed."),
-         config_path: str = typer.Option(default="examples/config_files/ballpit.yml",
-                                         help="Specify path to config yml."),
-         xml_dir: str = typer.Option(default="examples/xml_objects",
-                                     help="Specify path to xml files."),
-         export_path: str = typer.Option(default="export/test",
-                                         help="Specify path to output directory.")):
-
-    print(f"Running PITA with following parameters: \n",
-          "-" * 50 + "\n",
-          f"random_seed: '{random_seed}' \n"
-          f"config_path: '{config_path}' \n"
-          f"xml_dir: '{xml_dir}' \n"
-          f"export_path: '{export_path}' \n",
-          "-" * 50)
+def main(
+    random_seed: int = typer.Option(default=None, help="Pass seed."),
+    config_path: str = typer.Option(
+        default="examples/config_files/ballpit.yml", help="Specify path to config yml."
+    ),
+    xml_dir: str = typer.Option(
+        default="examples/xml_objects", help="Specify path to xml files."
+    ),
+    export_path: str = typer.Option(
+        default="export/test", help="Specify path to output directory."
+    ),
+):
+    print(
+        f"Running PITA with following parameters: \n",
+        "-" * 50 + "\n",
+        f"random_seed: '{random_seed}' \n"
+        f"config_path: '{config_path}' \n"
+        f"xml_dir: '{xml_dir}' \n"
+        f"export_path: '{export_path}' \n",
+        "-" * 50,
+    )
     if config_path is None:
         config_path = "examples/config_files/ballpit.yml"
         warnings.warn(
@@ -116,7 +122,13 @@ def main(random_seed: int = typer.Option(default=None, help="Pass seed."),
         warnings.warn(
             "export path not specified; running with default directory in export and filename 'test'"
         )
-    PITA().run(random_seed=random_seed, config_path=config_path, xml_dir=xml_dir, export_path=export_path)
+    PITA().run(
+        random_seed=random_seed,
+        config_path=config_path,
+        xml_dir=xml_dir,
+        export_path=export_path,
+    )
+
 
 if __name__ == "__main__":
     typer.run(main)
