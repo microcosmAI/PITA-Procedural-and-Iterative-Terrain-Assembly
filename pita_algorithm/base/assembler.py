@@ -192,6 +192,7 @@ class ObjectPlacer:
                         mujoco_object_rule_blueprint=self.rule_blueprints[object_name],
                         validators=[validators[0], validators[site_index]],
                         amount=object_config_dict["amount"],
+                        mujoco_objects_blueprints=self.blueprints,
                         **self._get_placer_params(object_config_dict, is_fixed),
                     )
 
@@ -256,6 +257,7 @@ class ObjectPlacer:
                 "color_groups",
                 "size_groups",
                 "size_value_range",
+                "asset_pool"
             ]
 
             values = Utils._get_randomization_parameters(
