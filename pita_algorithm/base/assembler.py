@@ -279,7 +279,7 @@ class Assembler:
         blueprint_manager = BlueprintManager(self.config, self.xml_dir)
         blueprint_manager.get_object_blueprints()
 
-        environment, areas = self._create_environment_and_areas()
+        environment, areas = self._create_environment_and_areas(plot=self.plot)
         validators = self._create_validators(environment.size, areas)
 
         object_placer = ObjectPlacer(
@@ -295,7 +295,7 @@ class Assembler:
 
         return environment, areas
 
-    def _create_environment_and_areas(self) -> tuple[Environment, list[Area]]:
+    def _create_environment_and_areas(self, plot: bool) -> tuple[Environment, list[Area]]:
         """Creates and returns the environment and areas."""
         size_range = Utils._get_randomization_parameters(
             config_dict=self.config["Environment"], keys=["size_range"]
@@ -311,7 +311,7 @@ class Assembler:
             # Create boundaries with Layoutmanager
             areas_count = len(self.config["Areas"].items())
             layoutmanager = LayoutManager(
-                environment.size[0] * 2, environment.size[1] * 2, areas_count
+                environment.size[0] * 2, environment.size[1] * 2, areas_count, plot=plot
             )  # TODO change to environment.size[0], environment.size[1] as soon as we start to work with the real environment size
             boundaries = layoutmanager.generate_layout_boundaries()
             layoutmanager.plot_boundaries(boundaries)
