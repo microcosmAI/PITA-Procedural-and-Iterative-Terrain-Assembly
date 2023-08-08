@@ -7,27 +7,49 @@ Environment:
     - place: True
     - tags: [ "Border" ]
   Objects:
-    Agent:
-      - xml_name: "Agent.xml"
-      - amount: 2
-      - coordinates: [ [ -50., -50., 1. ], [ 50., 50., 1. ] ]
-      - tags: [ "Agent" ]
+    Ball:
+     - xml_name: "Ball.xml"
+     - amount: [ 6, 6 ]
+     #- coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
+     - z_rotation_range: [0, 90]
+     - color_groups: [2, 3]
+     - size_groups: [2, 3]
+     - size_value_range: [1, 2]
+     - tags: [ "Agent" ]
 
     Agent_two:
       - xml_name: "Agent.xml"
       - amount: [ 2, 2 ]
-      - rotation: [0, 0, 180]
+      - z_rotation_range: [ -180 , 180 ]
       - tags: [ "Agent" ]
 
 Areas:
   Area1:
     size: large
     Objects:
-      Ball:
-        - xml_name: "Ball.xml"
-        - amount: [ 10, 10 ]
+      Tree:
+        - xml_name: "Tree.xml"
+        - amount: [ 6, 6]
+        #- coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
         - z_rotation_range: [ 0, 180 ]
         - color_groups: [ 2, 3 ]
         - size_value_range: [ 1, 2 ]
         - size_groups: [ 2, 3 ]
-        - tags: [ "Ball" ]
+        - asset_pool: ["Tree.xml", "Tree_Ahorn.xml", "Tree_Birch.xml"]
+        - tags: [ "Tree" ]
+
+  Area2:
+    Objects:
+      Tree:
+        - xml_name: "Tree.xml"
+        - amount: [ 6, 6 ]
+        #- coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
+        - z_rotation_range: [ 0, 180 ]
+        - color_groups: [ 2, 3 ]
+        - size_value_range: [ 1, 2 ]
+        - size_groups: [ 2, 3 ]
+        - asset_pool: [ "Tree.xml", "Tree_Ahorn.xml", "Tree_Birch.xml" ]
+        - tags: [ "Tree" ]
+
+
+

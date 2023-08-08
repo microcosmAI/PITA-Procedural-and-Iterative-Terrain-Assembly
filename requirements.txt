@@ -6,3 +6,4 @@ sphinx  # for documentation
 karma-sphinx-theme  # for documentation (theme)
 webcolors
 pillow
+typer

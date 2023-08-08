@@ -1,7 +1,7 @@
 import os
 import sys
 import random
-import argparse
+import typer
 import warnings
 import numpy as np
 from typing import Union
@@ -24,6 +24,7 @@ class PITA:
         config_path: Union[str, None] = None,
         xml_dir: Union[str, None] = None,
         export_path: Union[str, None] = None,
+        plot: Union[bool, None] = None,
     ):
         """Run pita_algorithm to create xml-file containing objects specified in config file.
         Objects are given as xml by the user.
@@ -79,7 +80,7 @@ class PITA:
             random.seed(random_seed)
 
         environment, areas = Assembler(
-            config_file=config, xml_dir=xml_dir
+            config_file=config, xml_dir=xml_dir, plot=plot
         ).assemble_world()
         XMLExporter.to_xml(
             xml_string=environment.mjcf_model.to_xml_string(),
@@ -93,5 +94,55 @@ class PITA:
         )
 
 
+def main(
+    random_seed: int = typer.Option(default=None, help="Pass seed."),
+    config_path: str = typer.Option(
+        default="examples/config_files/ballpit.yml", help="Specify path to config yml."
+    ),
+    xml_dir: str = typer.Option(
+        default="examples/xml_objects", help="Specify path to xml files."
+    ),
+    export_path: str = typer.Option(
+        default="export/test", help="Specify path to output directory."
+    ),
+    plot: bool = typer.Option(default=False, help="Set to True to enable plots."),
+):
+    print(
+        f"Running PITA with following parameters: \n",
+        "-" * 50 + "\n",
+        f"random_seed: '{random_seed}' \n"
+        f"config_path: '{config_path}' \n"
+        f"xml_dir: '{xml_dir}' \n"
+        f"export_path: '{export_path}' \n",
+        f"plot: '{plot}' \n",
+        "-" * 50,
+    )
+    if config_path is None:
+        config_path = "examples/config_files/ballpit.yml"
+        warnings.warn(
+            "config path not specified; running with default directory in examples"
+        )
+    if xml_dir is None:
+        xml_dir = "examples/xml_objects"
+        warnings.warn(
+            "xml directory not specified; running with default directory in examples"
+        )
+    if export_path is None:
+        export_path = "export/test"
+        warnings.warn(
+            "export path not specified; running with default directory in export and filename 'test'"
+        )
+    if plot is None:
+        plot = False
+        warnings.warn("Plot not specified; running with default 'False'")
+    PITA().run(
+        random_seed=random_seed,
+        config_path=config_path,
+        xml_dir=xml_dir,
+        export_path=export_path,
+        plot=plot,
+    )
+
+
 if __name__ == "__main__":
-    PITA().run()
+    typer.run(main)
