@@ -7,15 +7,15 @@ Environment:
     - place: True
     - tags: [ "Border" ]
   Objects:
-    #Ball:
-    #  - xml_name: "Ball.xml"
-    #  - amount: 6
-    #  - coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
-    #  - z_rotation_range: [0, 90]
-    #  - color_groups: [2, 3]
-    #  - size_groups: [2, 3]
-    #  - size_value_range: [1, 2]
-    #  - tags: [ "Agent" ]
+    Ball:
+     - xml_name: "Ball.xml"
+     - amount: 6
+     - coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
+     - z_rotation_range: [0, 90]
+     - color_groups: [2, 3]
+     - size_groups: [2, 3]
+     - size_value_range: [1, 2]
+     - tags: [ "Agent" ]
 
     Agent_two:
       - xml_name: "Agent.xml"
@@ -30,7 +30,7 @@ Areas:
       Tree:
         - xml_name: "Tree.xml"
         - amount: [6, 6]
-        #- coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
+        - coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
         - z_rotation_range: [ 0, 180 ]
         - color_groups: [ 2, 3 ]
         - size_value_range: [ 1, 2 ]
