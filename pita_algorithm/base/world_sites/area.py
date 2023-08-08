@@ -15,7 +15,7 @@ class Area(AbstractSite):
         name: str,
         size: tuple[float, float, float],
         environment: Environment,
-        boundary: tuple,
+        boundary: tuple = None,
     ):
         """Initializes area.
 
