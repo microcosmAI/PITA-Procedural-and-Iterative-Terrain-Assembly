@@ -1,4 +1,5 @@
 import re
+import xml
 import xml.etree.ElementTree as ET
 
 
@@ -24,12 +25,37 @@ class XMLExporter:
         textures = root.find("asset").findall("texture")
         meshes = root.find("asset").findall("mesh")
 
-        mat_names = set()
-        tex_names = set()
+        material_names = set()
+        texture_names = set()
         mesh_names = set()
 
+        # Get clean names, remove ducplicate assets, fix file paths
+        material_names, mesh_names, root = XMLExporter.remove_duplicate_assets_fix_paths(material_names, materials, mesh_names, meshes, root, texture_names, textures)
+
+        # Apply clean names to geoms
+        XMLExporter.apply_new_names_to_geoms(material_names, mesh_names, root)
+
+        # Serialize XML
+        with open(export_path + ".xml", "w") as f:
+            f.write(ET.tostring(root, encoding="unicode"))
+
+    @staticmethod
+    def remove_duplicate_assets_fix_paths(material_names: set, materials: list, mesh_names: set, meshes: list, root: xml.etree.ElementTree.Element, texture_names: set, textures: list) -> tuple[set, set, xml.etree.ElementTree.Element]:
         """
-        get clean names, remove ducplicate assets, fix file paths
+        Get clean names, remove duplicate assets, fix file paths.
+
+        Parameters:
+            material_names (set): Set of material names
+            materials (list): List of materials
+            mesh_names (set): Set of mesh names
+            meshes (list): List of meshes
+            root (xml.etree.ElementTree.Element): Root element of the xml tree
+            texture_names (set): Set of texture names
+            textures (list): List of textures
+
+        Returns:
+            tuple: Tuple containing the material names, mesh names and the root element of the xml tree
+
         """
         for texture in textures:
             name = texture.attrib["name"]
@@ -42,14 +68,13 @@ class XMLExporter:
                 category_name = match.group(1)
                 texture.attrib["name"] = category_name
 
-                if category_name in tex_names:
+                if category_name in texture_names:
                     root.find("asset").remove(texture)  # remove duplicate textures
                 else:
-                    tex_names.add(category_name)  # unique texture
+                    texture_names.add(category_name)  # unique texture
                     texture.attrib["file"] = (
-                        "../examples/xml_objects/3D_Assets/" + category_name + ".png"
+                            "../examples/xml_objects/3D_Assets/" + category_name + ".png"
                     )
-
         for material in materials:
             name = material.attrib["name"]
             match = re.match(r"\w+/(\w*)", name)
@@ -58,15 +83,14 @@ class XMLExporter:
                 category_name = match.group(1)
                 material.attrib["name"] = category_name
 
-                if category_name in mat_names:
+                if category_name in material_names:
                     root.find("asset").remove(material)
                 else:
-                    mat_names.add(category_name)
+                    material_names.add(category_name)
 
-                    for tex_name in tex_names:
+                    for tex_name in texture_names:
                         if tex_name in material.attrib["texture"]:
                             material.attrib["texture"] = tex_name
-
         for mesh in meshes:
             name = mesh.attrib["name"]
 
@@ -80,28 +104,35 @@ class XMLExporter:
                 else:
                     mesh_names.add(category_name)
                     mesh.attrib["file"] = (
-                        "../examples/xml_objects/3D_Assets/" + category_name + ".obj"
+                            "../examples/xml_objects/3D_Assets/" + category_name + ".obj"
                     )
+                    
+        return material_names, mesh_names, root
 
+    @staticmethod
+    def apply_new_names_to_geoms(material_names: set, mesh_names: set, root: xml.etree.ElementTree.Element) -> xml.etree.ElementTree.Element:
         """
-        apply clean names to geoms
+        Apply clean names to geoms.
+
+        Parameters:
+            material_names (set): Set of material names
+            mesh_names (set): Set of mesh names
+            root (xml.etree.ElementTree.Element): Root element of the xml tree
+
+        Returns:
+            xml.etree.ElementTree.Element: Root element of the xml tree with applied clean names to geoms
+
         """
         bodies = root.find("worldbody").findall("body")
-
         for body in bodies:
             geom = body.find("body").find("geom")
 
             if geom.attrib["type"] == "mesh":
-                for material in mat_names:
+                for material in material_names:
                     if material in geom.attrib["material"]:
                         geom.attrib["material"] = material
 
                 for mesh in mesh_names:
                     if mesh in geom.attrib["mesh"]:
                         geom.attrib["mesh"] = mesh
-
-        """
-        serialize xml
-        """
-        with open(export_path + ".xml", "w") as f:
-            f.write(ET.tostring(root, encoding="unicode"))
+        return root
