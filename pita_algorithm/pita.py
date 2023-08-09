@@ -11,6 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pita_algorithm.base.assembler import Assembler
 from pita_algorithm.utils.json_exporter import JSONExporter
+from pita_algorithm.utils.xml_exporter import XMLExporter
 from pita_algorithm.utils.config_reader import ConfigReader
 
 
@@ -34,6 +35,22 @@ class PITA:
             xml_dir (Union[str, None]): Folder where all xml files are located
             export_path (Union[str, None]): Path (including file name but excluding extension) to export to
         """
+        if config_path is None:
+            config_path = "examples/config_files/simple-config.yml"
+            warnings.warn(
+                "config path not specified; running with default directory in examples"
+            )
+        if xml_dir is None:
+            xml_dir = "examples/xml_objects"
+            warnings.warn(
+                "xml directory not specified; running with default directory in examples"
+            )
+        if export_path is None:
+            export_path = "export/test"
+            warnings.warn(
+                "export path not specified; running with default directory in export and filename 'test'"
+            )
+
         # Read config file and assemble environment and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
 
@@ -65,7 +82,7 @@ class PITA:
         environment, areas = Assembler(
             config_file=config, xml_dir=xml_dir, plot=plot
         ).assemble_world()
-        self._to_xml(
+        XMLExporter.to_xml(
             xml_string=environment.mjcf_model.to_xml_string(),
             export_path=export_path,
         )
@@ -75,16 +92,6 @@ class PITA:
             environment=environment,
             areas=areas,
         )
-
-    def _to_xml(self, xml_string, export_path):
-        """Exports a given string to an .xml file.
-
-        Parameters:
-            xml_string (str): String representation of the environment mjcf model
-            export_path (str): Path of the file to be exported
-        """
-        with open(export_path + ".xml", "w") as f:
-            f.write(xml_string)
 
 
 def main(
