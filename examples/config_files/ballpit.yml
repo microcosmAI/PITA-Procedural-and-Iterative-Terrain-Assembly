@@ -9,8 +9,8 @@ Environment:
   Objects:
     Ball:
      - xml_name: "Ball.xml"
-     - amount: [ 6, 6 ]
-     #- coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
+     - amount: 6
+     - coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
      - z_rotation_range: [0, 90]
      - color_groups: [2, 3]
      - size_groups: [2, 3]
@@ -27,15 +27,11 @@ Areas:
   Area1:
     size: large
     Objects:
-      Tree:
-        - xml_name: "Tree.xml"
-        - amount: [ 6, 6]
-        #- coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
+      Ball:
+        - xml_name: "Ball.xml"
+        - amount: 1
+        - coordinates: [ [-75, 75, 75] ]
         - z_rotation_range: [ 0, 180 ]
-        - color_groups: [ 2, 3 ]
-        - size_value_range: [ 1, 2 ]
-        - size_groups: [ 2, 3 ]
-        - asset_pool: ["Tree.xml", "Tree_Ahorn.xml", "Tree_Birch.xml"]
         - tags: [ "Tree" ]
 
   Area2:
@@ -43,7 +39,6 @@ Areas:
       Tree:
         - xml_name: "Tree.xml"
         - amount: [ 6, 6 ]
-        #- coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
         - z_rotation_range: [ 0, 180 ]
         - color_groups: [ 2, 3 ]
         - size_value_range: [ 1, 2 ]

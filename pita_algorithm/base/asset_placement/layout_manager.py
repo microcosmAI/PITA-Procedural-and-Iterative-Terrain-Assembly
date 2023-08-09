@@ -6,10 +6,11 @@ from matplotlib import patches
 
 
 class LayoutManager:
-    def __init__(self, length: float, height: float, number: float):
+    def __init__(self, length: float, height: float, number: float, plot: bool):
         self.length: float = length
         self.height: float = height
         self.number: float = number
+        self.plot: bool = plot
 
     def tiling(self, length: float, height: float, number: float) -> dict:
         area = length * height
@@ -231,7 +232,8 @@ class LayoutManager:
         plt.xlim(0, max([b[1][0] for b in boundaries]))
         plt.ylim(0, max([b[1][1] for b in boundaries]))
         plt.gca().set_aspect("equal", adjustable="box")
-        plt.show()
+        if self.plot:
+            plt.show()
 
     def plot_tiling(self, length: float, height: float, number: int) -> None:
         tiles = self.tiling(length, height, number)
@@ -295,5 +297,6 @@ class LayoutManager:
                     )
                 col_length += tile_length
             # final vertical line
-            plt.plot((col_length, col_length), (0, height))
-        plt.show()
+            if self.plot:
+                plt.plot((col_length, col_length), (0, height))
+                plt.show()
