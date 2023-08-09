@@ -30,7 +30,13 @@ class XMLExporter:
         mesh_names = set()
 
         # Get clean names, remove ducplicate assets, fix file paths
-        material_names, mesh_names, root = XMLExporter.remove_duplicate_assets_fix_paths(material_names, materials, mesh_names, meshes, root, texture_names, textures)
+        (
+            material_names,
+            mesh_names,
+            root,
+        ) = XMLExporter.remove_duplicate_assets_fix_paths(
+            material_names, materials, mesh_names, meshes, root, texture_names, textures
+        )
 
         # Apply clean names to geoms
         XMLExporter.apply_new_names_to_geoms(material_names, mesh_names, root)
@@ -40,7 +46,15 @@ class XMLExporter:
             f.write(ET.tostring(root, encoding="unicode"))
 
     @staticmethod
-    def remove_duplicate_assets_fix_paths(material_names: set, materials: list, mesh_names: set, meshes: list, root: xml.etree.ElementTree.Element, texture_names: set, textures: list) -> tuple[set, set, xml.etree.ElementTree.Element]:
+    def remove_duplicate_assets_fix_paths(
+        material_names: set,
+        materials: list,
+        mesh_names: set,
+        meshes: list,
+        root: xml.etree.ElementTree.Element,
+        texture_names: set,
+        textures: list,
+    ) -> tuple[set, set, xml.etree.ElementTree.Element]:
         """
         Get clean names, remove duplicate assets, fix file paths.
 
@@ -73,7 +87,7 @@ class XMLExporter:
                 else:
                     texture_names.add(category_name)  # unique texture
                     texture.attrib["file"] = (
-                            "../examples/xml_objects/3D_Assets/" + category_name + ".png"
+                        "../examples/xml_objects/3D_Assets/" + category_name + ".png"
                     )
         for material in materials:
             name = material.attrib["name"]
@@ -104,13 +118,15 @@ class XMLExporter:
                 else:
                     mesh_names.add(category_name)
                     mesh.attrib["file"] = (
-                            "../examples/xml_objects/3D_Assets/" + category_name + ".obj"
+                        "../examples/xml_objects/3D_Assets/" + category_name + ".obj"
                     )
-                    
+
         return material_names, mesh_names, root
 
     @staticmethod
-    def apply_new_names_to_geoms(material_names: set, mesh_names: set, root: xml.etree.ElementTree.Element) -> xml.etree.ElementTree.Element:
+    def apply_new_names_to_geoms(
+        material_names: set, mesh_names: set, root: xml.etree.ElementTree.Element
+    ) -> xml.etree.ElementTree.Element:
         """
         Apply clean names to geoms.
 
