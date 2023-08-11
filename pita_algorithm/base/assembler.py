@@ -176,7 +176,9 @@ class ObjectPlacer:
         for site_index, site in enumerate(sites):
             logging.info(f"Entering site '{sites[site_index].name}'..")
             for object_name, object_settings in sites_configs[site_index].items():
-                logging.info(f"Trying to place object(s) '{object_name}' in '{sites[site_index].name}'")
+                logging.info(
+                    f"Trying to place object(s) '{object_name}' in '{sites[site_index].name}'"
+                )
                 placer: FixedPlacer | RandomPlacer = (
                     FixedPlacer() if is_fixed else self._get_random_placer(site)
                 )
