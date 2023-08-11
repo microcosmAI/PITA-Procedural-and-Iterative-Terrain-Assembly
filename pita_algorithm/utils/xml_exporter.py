@@ -21,25 +21,29 @@ class XMLExporter:
         """
         root = ET.fromstring(xml_string)
 
-        materials = root.find("asset").findall("material")
-        textures = root.find("asset").findall("texture")
-        meshes = root.find("asset").findall("mesh")
+        asset = root.find("asset")
 
-        material_names = set()
-        texture_names = set()
-        mesh_names = set()
+        if asset is not None:
 
-        # Get clean names, remove ducplicate assets, fix file paths
-        (
-            material_names,
-            mesh_names,
-            root,
-        ) = XMLExporter.remove_duplicate_assets_fix_paths(
-            material_names, materials, mesh_names, meshes, root, texture_names, textures
-        )
+            materials = asset.findall("material")
+            textures = asset.findall("texture")
+            meshes = asset.findall("mesh")
 
-        # Apply clean names to geoms
-        XMLExporter.apply_new_names_to_geoms(material_names, mesh_names, root)
+            material_names = set()
+            texture_names = set()
+            mesh_names = set()
+
+            # Get clean names, remove ducplicate assets, fix file paths
+            (
+                material_names,
+                mesh_names,
+                root,
+            ) = XMLExporter.remove_duplicate_assets_fix_paths(
+                material_names, materials, mesh_names, meshes, root, texture_names, textures
+            )
+
+            # Apply clean names to geoms
+            XMLExporter.apply_new_names_to_geoms(material_names, mesh_names, root)
 
         # Serialize XML
         with open(export_path + ".xml", "w") as f:
