@@ -23,7 +23,7 @@ class ConfigReader:
         if not os.path.isfile(config_path):
             logger.info(f"Config path: {config_path}")
             logger.error("Could not find config file in path provided.")
-            raise ValueError("Could not find config file in path provided.")
+            raise ValueError(f"Could not find config file in path '{config_path}'.")
 
         stream = open(config_path, "r")
         config = yaml.load(stream, Loader=yaml.SafeLoader)

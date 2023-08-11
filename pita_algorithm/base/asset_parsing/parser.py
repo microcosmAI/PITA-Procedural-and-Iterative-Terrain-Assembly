@@ -21,8 +21,8 @@ class Parser:
             logger.error("No xml file provided.")
             raise ValueError("No xml file provided.")
         if not os.path.isfile(xml_path):
-            logger.error("Could not find xml path provided.")
-            raise ValueError("Could not find xml path provided.")
+            logger.error(f"Could not find xml path '{xml_path}'.")
+            raise ValueError(f"Could not find xml path '{xml_path}'.")
 
         mjcf_obj = mjcf.from_path(xml_path)
 
