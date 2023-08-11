@@ -54,8 +54,12 @@ class FixedPlacer(AbstractPlacer):
         # Get colors rgba
         if not color_groups is None:
             if max(color_groups) > amount:
-                logger.error(f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}.")
-                raise ValueError(f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}.")
+                logger.error(
+                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
+                )
+                raise ValueError(
+                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
+                )
         colors_for_placement = ObjectPropertyRandomization.get_random_colors(
             amount=amount, color_groups=color_groups
         )
@@ -63,8 +67,12 @@ class FixedPlacer(AbstractPlacer):
         # Get object size
         if not size_groups is None:
             if len(size_groups) > amount:
-                logger.error(f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}.")
-                raise ValueError(f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}.")
+                logger.error(
+                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
+                )
+                raise ValueError(
+                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
+                )
         sizes_for_placement = ObjectPropertyRandomization.get_random_sizes(
             amount=amount, size_groups=size_groups, size_value_range=size_value_range
         )
@@ -111,7 +119,8 @@ class FixedPlacer(AbstractPlacer):
                     for val in validators
                 ]
             ):
-                logger.error("User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                logger.error(
+                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
                         mujoco_object_rule_blueprint.name,
                         mujoco_object_rule_blueprint.position,
                         site.name,
