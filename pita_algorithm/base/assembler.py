@@ -254,14 +254,14 @@ class ObjectPlacer:
             "asset_pool",
         ]
 
-        values = Utils._get_randomization_parameters(
-            config_dict=config_dict, keys=keys
-        )
+        values = Utils._get_randomization_parameters(config_dict=config_dict, keys=keys)
         combined_dict = {k: v for k, v in zip(keys, values)}
 
         if is_fixed:
-            combined_dict["coordinates"] = config_dict["coordinates"] if "coordinates" in config_dict else None
-            
+            combined_dict["coordinates"] = (
+                config_dict["coordinates"] if "coordinates" in config_dict else None
+            )
+
         return combined_dict
 
 

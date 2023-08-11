@@ -161,7 +161,12 @@ class LayoutManager:
 
     def generate_layout_boundaries(
         self,
-    ) -> list[tuple[tuple[Union[int, Any], Union[int, Any]], tuple[Union[int, Any], Union[int, Any]]]]:
+    ) -> list[
+        tuple[
+            tuple[Union[int, Any], Union[int, Any]],
+            tuple[Union[int, Any], Union[int, Any]],
+        ]
+    ]:
         # Get the tiling
         tilingVar_result = self.tiling(self.length, self.height, self.number)
 
