@@ -197,5 +197,5 @@ class Environment(AbstractSite):
                         size=1,
                     )
                 )
-        size = [(x / 2) for x in size]
+        size = [(x / 2) for x in size]  # because mujoco transforms size to ([-size_x, size_x], [-size_y, size_y])
         return size
