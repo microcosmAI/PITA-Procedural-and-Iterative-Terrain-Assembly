@@ -324,7 +324,7 @@ class Assembler:
             # Create boundaries with Layoutmanager
             areas_count = len(self.config["Areas"].items())
             layoutmanager = LayoutManager(
-                environment.size[0], environment.size[1], areas_count, plot=plot
+                environment.size[0] * 2, environment.size[1] * 2, areas_count, plot=plot
             )  # TODO change to environment.size[0], environment.size[1] as soon as we start to work with the real environment size
             boundaries = layoutmanager.generate_layout_boundaries()
             layoutmanager.plot_boundaries(boundaries)
@@ -357,11 +357,11 @@ class Assembler:
                             (
                                 boundaries[area_index][1][0]
                                 - boundaries[area_index][0][0]
-                            ),
+                            ) / 2,
                             (
                                 boundaries[area_index][1][1]
                                 - boundaries[area_index][0][1]
-                            ),
+                            ) / 2,
                             0.1,
                         ),
                         environment=environment,
