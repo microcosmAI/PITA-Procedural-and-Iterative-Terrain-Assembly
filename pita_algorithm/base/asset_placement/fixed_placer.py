@@ -111,7 +111,8 @@ class FixedPlacer(AbstractPlacer):
                     for val in validators
                 ]
             ):
-                logger.error("User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                logger.error(
+                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
                         mujoco_object_rule_blueprint.name,
                         mujoco_object_rule_blueprint.position,
                         site.name,

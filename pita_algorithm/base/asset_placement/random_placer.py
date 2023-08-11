@@ -211,7 +211,8 @@ class RandomPlacer(AbstractPlacer):
             ):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
-                    logger.error("Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
+                    logger.error(
+                        "Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
                             mujoco_object_blueprint.name,
                             site.name,
                             RandomPlacer.MAX_TRIES,
