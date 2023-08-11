@@ -136,5 +136,8 @@ dmypy.json
 # General useless files
 .DS_Store
 
+# Logs
+/logs
+
 
 .idea/
