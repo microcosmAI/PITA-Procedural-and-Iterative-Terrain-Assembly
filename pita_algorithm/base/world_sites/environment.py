@@ -181,12 +181,14 @@ class Environment(AbstractSite):
                 set(size_range_dict.keys())
             ):
                 logger.error(
+
                     "Both length_range and width_range must be specified for environment if environment size "
                     "should be randomized in given ranges."
                 )
                 raise ValueError(
                     "Both length_range and width_range must be specified for environment if environment "
                     "size should be randomized in given ranges."
+
                 )
 
             else:
