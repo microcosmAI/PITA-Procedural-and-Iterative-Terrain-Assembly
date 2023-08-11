@@ -140,9 +140,8 @@ class Environment(AbstractSite):
         mujoco_object.mjcf_obj.detach()
         del self._mujoco_objects[mujoco_object.xml_id]
 
-    def calculate_size(self, size_range: tuple) -> tuple[float, float, float]:
+    def calculate_size(self, size_range: tuple) -> list:
         """Calculates the size of the environment with a given size_range (can be many different types).
-
 
         Parameters:
             size_range (tuple): Tuple defining the size range of the environment (length, width, height)
@@ -153,8 +152,8 @@ class Environment(AbstractSite):
         logger = logging.getLogger()
 
         if size_range[0] is None:
-            logger.error("No size range provided.")
-            raise ValueError("No size range provided.")
+            logger.error("No size range provided for environment. Use keyword 'size_range' in config file.")
+            raise ValueError("No size range provided for environment. Use keyword 'size_range' in config file.")
 
         if isinstance(size_range[0][0], (float, int)):
             size = (
@@ -177,8 +176,10 @@ class Environment(AbstractSite):
             if not {"length_range", "width_range"}.issubset(
                 set(size_range_dict.keys())
             ):
-                logger.error("Both length_range and width_range must be specified.")
-                raise ValueError("Both length_range and width_range must be specified.")
+                logger.error("Both length_range and width_range must be specified for environment if environment size"
+                             "should be randomized in given ranges.")
+                raise ValueError("Both length_range and width_range must be specified for environment if environment"
+                                 " size should be randomized in given ranges.")
 
             else:
                 size = []
