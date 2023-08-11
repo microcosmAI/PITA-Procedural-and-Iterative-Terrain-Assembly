@@ -152,8 +152,12 @@ class Environment(AbstractSite):
         logger = logging.getLogger()
 
         if size_range[0] is None:
-            logger.error("No size range provided for environment. Use keyword 'size_range' in config file.")
-            raise ValueError("No size range provided for environment. Use keyword 'size_range' in config file.")
+            logger.error(
+                "No size range provided for environment. Use keyword 'size_range' in config file."
+            )
+            raise ValueError(
+                "No size range provided for environment. Use keyword 'size_range' in config file."
+            )
 
         if isinstance(size_range[0][0], (float, int)):
             size = (
@@ -176,10 +180,14 @@ class Environment(AbstractSite):
             if not {"length_range", "width_range"}.issubset(
                 set(size_range_dict.keys())
             ):
-                logger.error("Both length_range and width_range must be specified for environment if environment size "
-                             "should be randomized in given ranges.")
-                raise ValueError("Both length_range and width_range must be specified for environment if environment "
-                                 "size should be randomized in given ranges.")
+                logger.error(
+                    "Both length_range and width_range must be specified for environment if environment size "
+                    "should be randomized in given ranges."
+                )
+                raise ValueError(
+                    "Both length_range and width_range must be specified for environment if environment "
+                    "size should be randomized in given ranges."
+                )
 
             else:
                 size = []
@@ -197,5 +205,7 @@ class Environment(AbstractSite):
                         size=1,
                     )
                 )
-        size = [(x / 2) for x in size]  # because mujoco transforms size to ([-size_x, size_x], [-size_y, size_y])
+        size = [
+            (x / 2) for x in size
+        ]  # because mujoco transforms size to ([-size_x, size_x], [-size_y, size_y])
         return size

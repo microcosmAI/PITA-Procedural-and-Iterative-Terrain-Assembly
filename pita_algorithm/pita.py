@@ -108,21 +108,19 @@ def main(
     export_path: str = typer.Option(
         default="export/test", help="Specify path to output directory."
     ),
-    plot: bool = typer.Option(default=False, help="Set to True to enable plots.")):
-
+    plot: bool = typer.Option(default=False, help="Set to True to enable plots."),
+):
     # Initalize logging
     Logger.initialize_logger()
     logger = logging.getLogger()
 
     logger.info(
-        f"Running PITA with following parameters: \n"
-        + "-" * 50 + "\n"
+        f"Running PITA with following parameters: \n" + "-" * 50 + "\n"
         f"random_seed: '{random_seed}' \n"
         f"config_path: '{config_path}' \n"
         f"xml_dir: '{xml_dir}' \n"
         f"export_path: '{export_path}' \n"
-        f"plot: '{plot}' \n"
-        + "-" * 50,
+        f"plot: '{plot}' \n" + "-" * 50,
     )
     PITA().run(
         random_seed=random_seed,

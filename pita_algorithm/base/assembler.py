@@ -176,7 +176,9 @@ class ObjectPlacer:
         for site_index, site in enumerate(sites):
             logging.info(f"Entering site '{sites[site_index].name}'..")
             for object_name, object_settings in sites_configs[site_index].items():
-                logging.info(f"Trying to place object(s) '{object_name}' in '{sites[site_index].name}'")
+                logging.info(
+                    f"Trying to place object(s) '{object_name}' in '{sites[site_index].name}'"
+                )
                 placer: FixedPlacer | RandomPlacer = (
                     FixedPlacer() if is_fixed else self._get_random_placer(site)
                 )
@@ -357,11 +359,13 @@ class Assembler:
                             (
                                 boundaries[area_index][1][0]
                                 - boundaries[area_index][0][0]
-                            ) / 2,
+                            )
+                            / 2,
                             (
                                 boundaries[area_index][1][1]
                                 - boundaries[area_index][0][1]
-                            ) / 2,
+                            )
+                            / 2,
                             0.1,
                         ),
                         environment=environment,
@@ -371,9 +375,7 @@ class Assembler:
         return environment, areas
 
     @staticmethod
-    def _create_validators(
-        size: list, areas: list[Area]
-    ) -> list[Validator]:
+    def _create_validators(size: list, areas: list[Area]) -> list[Validator]:
         """Creates and returns the validators for the environment and areas.
 
         Parameters:

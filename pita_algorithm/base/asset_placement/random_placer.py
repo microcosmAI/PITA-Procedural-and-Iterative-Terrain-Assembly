@@ -141,8 +141,12 @@ class RandomPlacer(AbstractPlacer):
         # Get colors rgba
         if not color_groups is None:
             if max(color_groups) > amount:
-                logger.error(f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}.")
-                raise ValueError(f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}.")
+                logger.error(
+                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
+                )
+                raise ValueError(
+                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
+                )
         colors_for_placement = ObjectPropertyRandomization.get_random_colors(
             amount=amount, color_groups=color_groups
         )
@@ -150,8 +154,12 @@ class RandomPlacer(AbstractPlacer):
         # Get object size
         if not size_groups is None:
             if len(size_groups) > amount:
-                logger.error(f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}.")
-                raise ValueError(f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}.")
+                logger.error(
+                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
+                )
+                raise ValueError(
+                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
+                )
         sizes_for_placement = ObjectPropertyRandomization.get_random_sizes(
             amount=amount, size_groups=size_groups, size_value_range=size_value_range
         )
@@ -211,7 +219,8 @@ class RandomPlacer(AbstractPlacer):
             ):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
-                    logger.error("Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
+                    logger.error(
+                        "Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
                             mujoco_object_blueprint.name,
                             site.name,
                             RandomPlacer.MAX_TRIES,
