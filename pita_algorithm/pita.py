@@ -108,7 +108,7 @@ def main(
     export_path: str = typer.Option(
         default="export/test", help="Specify path to output directory."
     ),
-    plot: bool = typer.Option(default=False, help="Set to True to enable plots.")):
+    plot: bool = typer.Option(default=True, help="Set to True to enable plots.")):
 
     # Initalize logging
     Logger.initialize_logger()
