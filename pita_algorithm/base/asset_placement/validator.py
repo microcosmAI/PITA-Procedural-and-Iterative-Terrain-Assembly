@@ -42,7 +42,7 @@ class Validator:
 
         return True
 
-    def plot(self, env_size: tuple[float, float, float]):
+    def plot(self, env_size: list):
         """Plots the current 2d representation to where the current mpl backend points.
 
         Parameters:
