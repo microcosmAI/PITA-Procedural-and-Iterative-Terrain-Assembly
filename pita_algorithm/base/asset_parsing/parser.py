@@ -1,4 +1,5 @@
 import os
+import logging
 from dm_control import mjcf
 
 
@@ -15,10 +16,13 @@ class Parser:
         Returns:
             mjcf_obj (mjcf.RootElement): Mjcf object of given xml-file
         """
+        logger = logging.getLogger()
         if xml_path is None:
-            raise ValueError("No xml file provided")
+            logger.error("No xml file provided.")
+            raise ValueError("No xml file provided.")
         if not os.path.isfile(xml_path):
-            raise ValueError("Could not find xml path provided")
+            logger.error("Could not find xml path provided.")
+            raise ValueError("Could not find xml path provided.")
 
         mjcf_obj = mjcf.from_path(xml_path)
 

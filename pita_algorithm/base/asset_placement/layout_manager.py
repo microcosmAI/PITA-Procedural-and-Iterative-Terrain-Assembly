@@ -1,3 +1,4 @@
+import logging
 from math import sqrt, ceil, trunc
 from typing import List, Tuple, Any, Union
 
@@ -61,6 +62,8 @@ class LayoutManager:
             tiling["mode"] = "cols"
             tiling = self._swap(tiling)
         else:
+            logger = logging.getLogger()
+            logger.error("Arithmetic error while trying to solve layout.")
             raise ArithmeticError
         return tiling
 
@@ -158,7 +161,12 @@ class LayoutManager:
 
     def generate_layout_boundaries(
         self,
-    ) -> list[tuple[tuple[Union[int, Any], Union[int, Any]], tuple[Union[int, Any], Union[int, Any]]]]:
+    ) -> list[
+        tuple[
+            tuple[Union[int, Any], Union[int, Any]],
+            tuple[Union[int, Any], Union[int, Any]],
+        ]
+    ]:
         # Get the tiling
         tilingVar_result = self.tiling(self.length, self.height, self.number)
 

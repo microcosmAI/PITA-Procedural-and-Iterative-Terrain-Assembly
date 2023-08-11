@@ -1,4 +1,6 @@
 import copy
+import logging
+
 from shapely import geometry
 
 
@@ -132,12 +134,14 @@ class ObjectPlacer:
             environment (Environment): Environment object
             validator (Validator): Validator object
         """
+        logger = logging.getLogger()
         border_config_dict = {
             k: v
             for dict_ in self.config["Environment"]["Borders"]
             for k, v in dict_.items()
         }
         has_border = border_config_dict["place"]
+        logger.info("Placing borders..")
         BorderPlacer().add(
             environment=environment,
             mujoco_object_blueprint=self.blueprints["Border"],
@@ -170,7 +174,11 @@ class ObjectPlacer:
         """
         sites_configs = self._get_site_configs(sites)
         for site_index, site in enumerate(sites):
+            logging.info(f"Entering site '{sites[site_index].name}'..")
             for object_name, object_settings in sites_configs[site_index].items():
+                logging.info(
+                    f"Trying to place object(s) '{object_name}' in '{sites[site_index].name}'"
+                )
                 placer: FixedPlacer | RandomPlacer = (
                     FixedPlacer() if is_fixed else self._get_random_placer(site)
                 )
@@ -246,14 +254,14 @@ class ObjectPlacer:
             "asset_pool",
         ]
 
-        values = Utils._get_randomization_parameters(
-            config_dict=config_dict, keys=keys
-        )
+        values = Utils._get_randomization_parameters(config_dict=config_dict, keys=keys)
         combined_dict = {k: v for k, v in zip(keys, values)}
 
         if is_fixed:
-            combined_dict["coordinates"] = config_dict["coordinates"] if "coordinates" in config_dict else None
-            
+            combined_dict["coordinates"] = (
+                config_dict["coordinates"] if "coordinates" in config_dict else None
+            )
+
         return combined_dict
 
 
@@ -274,12 +282,17 @@ class Assembler:
 
     def assemble_world(self) -> tuple[Environment, list[Area]]:
         """Assembles the world according to the users configuration and returns the environment and areas."""
+        logger = logging.getLogger()
+
+        logger.info("Loading assets..")
         blueprint_manager = BlueprintManager(self.config, self.xml_dir)
         blueprint_manager.get_object_blueprints()
 
+        logger.info("Creating environment..")
         environment, areas = self._create_environment_and_areas(plot=self.plot)
         validators = self._create_validators(environment.size, areas)
 
+        logger.info("Placing objects..")
         object_placer = ObjectPlacer(
             self.config,
             blueprint_manager.mujoco_objects_blueprints,

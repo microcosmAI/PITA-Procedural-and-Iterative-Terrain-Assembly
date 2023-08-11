@@ -24,7 +24,6 @@ class XMLExporter:
         asset = root.find("asset")
 
         if asset is not None:
-
             materials = asset.findall("material")
             textures = asset.findall("texture")
             meshes = asset.findall("mesh")
@@ -39,7 +38,13 @@ class XMLExporter:
                 mesh_names,
                 root,
             ) = XMLExporter.remove_duplicate_assets_fix_paths(
-                material_names, materials, mesh_names, meshes, root, texture_names, textures
+                material_names,
+                materials,
+                mesh_names,
+                meshes,
+                root,
+                texture_names,
+                textures,
             )
 
             # Apply clean names to geoms

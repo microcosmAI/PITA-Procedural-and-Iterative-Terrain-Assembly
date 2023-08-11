@@ -1,9 +1,9 @@
+import logging
 import numpy as np
 from dm_control import mjcf
 
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-from pita_algorithm.utils.general_utils import Utils
 
 
 class Environment(AbstractSite):
@@ -150,8 +150,10 @@ class Environment(AbstractSite):
         Returns:
             size (tuple[float, float, float]): Tuple defining the size of the entire environment
         """
+        logger = logging.getLogger()
 
         if size_range[0] is None:
+            logger.error("No size range provided.")
             raise ValueError("No size range provided.")
 
         if isinstance(size_range[0][0], (float, int)):
@@ -175,6 +177,7 @@ class Environment(AbstractSite):
             if not {"length_range", "width_range"}.issubset(
                 set(size_range_dict.keys())
             ):
+                logger.error("Both length_range and width_range must be specified.")
                 raise ValueError("Both length_range and width_range must be specified.")
 
             else:

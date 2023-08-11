@@ -1,4 +1,6 @@
 import random
+import logging
+from tqdm import tqdm
 from typing import Union
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
@@ -39,6 +41,7 @@ class FixedPlacer(AbstractPlacer):
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             mujoco_object_rule_blueprint (MujocoObject): To-be-checked mujoco object
             validators (list[Validator]): Validator class instance used to check object placement
+            amount (int): Amount of object to be placed.
             coordinates (list[list[float, float, float]]): List of coordinate lists where each object is placed
             z_rotation_range (Union[tuple[int, int], None]): Range of degrees for z-axis rotation
             color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
@@ -47,9 +50,11 @@ class FixedPlacer(AbstractPlacer):
             asset_pool (Union[list, None]): List of xml-names of assets which should be sampled from
             mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
+        logger = logging.getLogger()
         # Get colors rgba
         if not color_groups is None:
             if max(color_groups) > amount:
+                logger.error("Not enough objects for specified colors.")
                 raise ValueError("Not enough objects for specified colors.")
         colors_for_placement = ObjectPropertyRandomization.get_random_colors(
             amount=amount, color_groups=color_groups
@@ -58,6 +63,7 @@ class FixedPlacer(AbstractPlacer):
         # Get object size
         if not size_groups is None:
             if len(size_groups) > amount:
+                logger.error("Not enough objects for specified sizes.")
                 raise ValueError("Not enough objects for specified sizes.")
         sizes_for_placement = ObjectPropertyRandomization.get_random_sizes(
             amount=amount, size_groups=size_groups, size_value_range=size_value_range
@@ -68,7 +74,7 @@ class FixedPlacer(AbstractPlacer):
             amount=amount, z_rotation_range=z_rotation_range
         )
 
-        for obj_idx in range(amount):
+        for obj_idx in tqdm(range(amount)):
             # Sample from asset pool if asset_pool is given by user
             if asset_pool is not None:
                 asset_name = random.choice(asset_pool).split(".xml")[0]
@@ -105,6 +111,13 @@ class FixedPlacer(AbstractPlacer):
                     for val in validators
                 ]
             ):
+                logger.error(
+                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                        mujoco_object_rule_blueprint.name,
+                        mujoco_object_rule_blueprint.position,
+                        site.name,
+                    )
+                )
                 raise RuntimeError(
                     "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
                         mujoco_object_rule_blueprint.name,
