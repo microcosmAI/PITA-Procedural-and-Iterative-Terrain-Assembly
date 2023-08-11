@@ -245,26 +245,24 @@ class ObjectPlacer:
             config_dict (dict): Dictionary containing the object settings
             is_fixed (bool): True if the objects should be placed with fixed coordinates, False otherwise
         """
-        if is_fixed:
-            return {
-                "coordinates": config_dict["coordinates"]
-                if "coordinates" in config_dict
-                else None
-            }
-        else:
-            keys = [
-                "z_rotation_range",
-                "color_groups",
-                "size_groups",
-                "size_value_range",
-                "asset_pool",
-            ]
 
-            values = Utils._get_randomization_parameters(
-                config_dict=config_dict, keys=keys
+        keys = [
+            "z_rotation_range",
+            "color_groups",
+            "size_groups",
+            "size_value_range",
+            "asset_pool",
+        ]
+
+        values = Utils._get_randomization_parameters(config_dict=config_dict, keys=keys)
+        combined_dict = {k: v for k, v in zip(keys, values)}
+
+        if is_fixed:
+            combined_dict["coordinates"] = (
+                config_dict["coordinates"] if "coordinates" in config_dict else None
             )
-            combined_dict = {k: v for k, v in zip(keys, values)}
-            return combined_dict
+
+        return combined_dict
 
 
 class Assembler:
