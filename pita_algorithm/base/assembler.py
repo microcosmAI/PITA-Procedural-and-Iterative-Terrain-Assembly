@@ -374,12 +374,12 @@ class Assembler:
 
     @staticmethod
     def _create_validators(
-        size: tuple[float, float, float], areas: list[Area]
+        size: list, areas: list[Area]
     ) -> list[Validator]:
         """Creates and returns the validators for the environment and areas.
 
         Parameters:
-            size (tuple[float, float]): Size of the environment
+            size (list): Size of the environment
             areas (list[Area]): List of Area objects
         """
         rules = [
