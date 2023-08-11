@@ -1,6 +1,6 @@
 import logging
 from math import sqrt, ceil, trunc
-from typing import List, Tuple, Any
+from typing import List, Tuple, Any, Union
 
 import matplotlib.pyplot as plt
 from matplotlib import patches
@@ -161,7 +161,7 @@ class LayoutManager:
 
     def generate_layout_boundaries(
         self,
-    ) -> list[tuple[tuple[int | Any, int | Any], tuple[int | Any, int | Any]]]:
+    ) -> list[tuple[tuple[Union[int, Any], Union[int, Any]], tuple[Union[int, Any], Union[int, Any]]]]:
         # Get the tiling
         tilingVar_result = self.tiling(self.length, self.height, self.number)
 
