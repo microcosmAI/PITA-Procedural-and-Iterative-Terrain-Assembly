@@ -1,5 +1,7 @@
+import logging
 import random
 import numpy as np
+from tqdm import tqdm
 from typing import Callable, Union, Any
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
@@ -131,13 +133,15 @@ class RandomPlacer(AbstractPlacer):
             asset_pool (Union[list, None]): List of xml-names of assets which should be sampled from
             mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
-        # Sample from amount range
+        logger = logging.getLogger()
 
+        # Sample from amount range
         amount: int = ObjectPropertyRandomization.sample_from_amount(amount=amount)
 
         # Get colors rgba
         if not color_groups is None:
             if max(color_groups) > amount:
+                logger.error("Not enough objects for specified colors.")
                 raise ValueError("Not enough objects for specified colors.")
         colors_for_placement = ObjectPropertyRandomization.get_random_colors(
             amount=amount, color_groups=color_groups
@@ -146,6 +150,7 @@ class RandomPlacer(AbstractPlacer):
         # Get object size
         if not size_groups is None:
             if len(size_groups) > amount:
+                logger.error("Not enough objects for specified sizes.")
                 raise ValueError("Not enough objects for specified sizes.")
         sizes_for_placement = ObjectPropertyRandomization.get_random_sizes(
             amount=amount, size_groups=size_groups, size_value_range=size_value_range
@@ -156,7 +161,7 @@ class RandomPlacer(AbstractPlacer):
             amount=amount, z_rotation_range=z_rotation_range
         )
 
-        for i in range(amount):
+        for i in tqdm(range(amount)):
             # Sample from asset pool if asset_pool is given by user
             if asset_pool is not None:
                 asset_name = random.choice(asset_pool).split(".xml")[0]
@@ -206,6 +211,12 @@ class RandomPlacer(AbstractPlacer):
             ):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
+                    logger.error("Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
+                            mujoco_object_blueprint.name,
+                            site.name,
+                            RandomPlacer.MAX_TRIES,
+                        )
+                    )
                     raise RuntimeError(
                         "Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
                             mujoco_object_blueprint.name,

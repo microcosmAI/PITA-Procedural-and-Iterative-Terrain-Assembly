@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import random
@@ -13,6 +14,7 @@ from pita_algorithm.base.assembler import Assembler
 from pita_algorithm.utils.json_exporter import JSONExporter
 from pita_algorithm.utils.xml_exporter import XMLExporter
 from pita_algorithm.utils.config_reader import ConfigReader
+from pita_algorithm.utils.logger import Logger
 
 
 class PITA:
@@ -54,20 +56,21 @@ class PITA:
         # Read config file and assemble environment and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
 
+        logger = logging.getLogger()
+
         # Set random seed
         if (
             random_seed is not None
             and "random_seed" in config["Environment"]
             and config["Environment"]["random_seed"] is not None
         ):
-            print(
+            logger.info(
                 "Two seeds were specified (call argument to PITA.run() and in level config file). Using seed from the call."
             )
-            print(f"Setting random seed to {random_seed}")
+            logger.info(f"Setting random seed to {random_seed}")
             np.random.seed(random_seed)
             random.seed(random_seed)
         elif random_seed is not None:
-            print(f"Setting random seed to {random_seed}")
             np.random.seed(random_seed)
             random.seed(random_seed)
         elif (
@@ -75,7 +78,7 @@ class PITA:
             and config["Environment"]["random_seed"] is not None
         ):
             random_seed = config["Environment"]["random_seed"]
-            print(f"Setting random seed to {random_seed}")
+            logger.info(f"Setting random seed to {random_seed}")
             np.random.seed(random_seed)
             random.seed(random_seed)
 
@@ -105,36 +108,22 @@ def main(
     export_path: str = typer.Option(
         default="export/test", help="Specify path to output directory."
     ),
-    plot: bool = typer.Option(default=True, help="Set to True to enable plots."),
-):
-    print(
-        f"Running PITA with following parameters: \n",
-        "-" * 50 + "\n",
+    plot: bool = typer.Option(default=False, help="Set to True to enable plots.")):
+
+    # Initalize logging
+    Logger.initialize_logger()
+    logger = logging.getLogger()
+
+    logger.info(
+        f"Running PITA with following parameters: \n"
+        + "-" * 50 + "\n"
         f"random_seed: '{random_seed}' \n"
         f"config_path: '{config_path}' \n"
         f"xml_dir: '{xml_dir}' \n"
-        f"export_path: '{export_path}' \n",
-        f"plot: '{plot}' \n",
-        "-" * 50,
+        f"export_path: '{export_path}' \n"
+        f"plot: '{plot}' \n"
+        + "-" * 50,
     )
-    if config_path is None:
-        config_path = "examples/config_files/ballpit.yml"
-        warnings.warn(
-            "config path not specified; running with default directory in examples"
-        )
-    if xml_dir is None:
-        xml_dir = "examples/xml_objects"
-        warnings.warn(
-            "xml directory not specified; running with default directory in examples"
-        )
-    if export_path is None:
-        export_path = "export/test"
-        warnings.warn(
-            "export path not specified; running with default directory in export and filename 'test'"
-        )
-    if plot is None:
-        plot = False
-        warnings.warn("Plot not specified; running with default 'False'")
     PITA().run(
         random_seed=random_seed,
         config_path=config_path,
@@ -142,7 +131,7 @@ def main(
         export_path=export_path,
         plot=plot,
     )
-
+    logger.info("Done.")
 
 if __name__ == "__main__":
     typer.run(main)

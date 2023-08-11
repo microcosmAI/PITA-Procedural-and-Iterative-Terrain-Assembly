@@ -1,3 +1,4 @@
+import logging
 from math import sqrt, ceil, trunc
 from typing import List, Tuple, Any
 
@@ -61,6 +62,8 @@ class LayoutManager:
             tiling["mode"] = "cols"
             tiling = self._swap(tiling)
         else:
+            logger = logging.getLogger()
+            logger.error("Arithmetic error while trying to solve layout.")
             raise ArithmeticError
         return tiling
 

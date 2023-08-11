@@ -1,3 +1,4 @@
+from tqdm import tqdm
 from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
@@ -48,7 +49,7 @@ class BorderPlacer(AbstractPlacer):
 
             borders = [self._copy(mujoco_object_blueprint) for _ in range(amount)]
 
-            for idx, border in enumerate(borders):
+            for idx, border in tqdm(enumerate(borders)):
                 border_body = border.mjcf_obj.worldbody.body[0]
 
                 # Enlarge border on x-axis
