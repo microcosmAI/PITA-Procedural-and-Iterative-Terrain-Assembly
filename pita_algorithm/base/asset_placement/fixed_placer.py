@@ -9,6 +9,8 @@ from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
 from pita_algorithm.utils.object_property_randomization import (
     ObjectPropertyRandomization,
 )
+from pita_algorithm.base.world_sites.area import Area
+from pita_algorithm.base.world_sites.environment import Environment
 
 
 class FixedPlacer(AbstractPlacer):
@@ -85,8 +87,22 @@ class FixedPlacer(AbstractPlacer):
                     mujoco_objects_blueprints[asset_name]
                 )
 
-            # Set the position of the object to the user specified coordinates
-            mujoco_object_rule_blueprint.position = coordinates[obj_idx]
+            # Set the position of the object to the user specified relative coordinates
+            x_min = float
+            y_min = float
+            if isinstance(site, Environment):
+                x_min = -site.size[0]
+                y_min = -site.size[1]
+            elif isinstance(site, Area):
+                x_min = site.boundary[0][0]
+                y_min = site.boundary[0][1]
+            x_length = 2 * site.size[0]
+            y_width = 2 * site.size[1]
+            (relative_x, relative_y, z) = coordinates[obj_idx]
+            (absolute_x, absolute_y) = (relative_x / 100 * x_length, relative_y / 100 * y_width)
+            new_x, new_y = (x_min + absolute_x, y_min + absolute_y)
+            new_coords = [float(new_x), float(new_y), float(z)]
+            mujoco_object_rule_blueprint.position = new_coords
 
             if not colors_for_placement is None:
                 # Apply colors to objects
