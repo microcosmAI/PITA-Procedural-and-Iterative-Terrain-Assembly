@@ -1,3 +1,4 @@
+import os
 import logging
 from logging import handlers
 
@@ -15,8 +16,11 @@ class Logger:
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
 
+        log_path = "./logs/"
+        if not os.path.exists(log_path):
+            os.makedirs(log_path)
         file_handler = logging.handlers.RotatingFileHandler(
-            "./logs/logs.log", maxBytes=1024 * 1024, backupCount=3
+            os.path.join(log_path, "logs.log"), maxBytes=1024 * 1024, backupCount=3
         )
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.INFO)
