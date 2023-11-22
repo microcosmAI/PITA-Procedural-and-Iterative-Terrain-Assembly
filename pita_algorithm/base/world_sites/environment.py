@@ -78,11 +78,11 @@ class Environment(AbstractSite):
         self._name = name
 
     @property
-    def size(self) -> tuple[float, float, float]:
+    def size(self) -> list:
         """Get size.
 
         Returns:
-            size (tuple[float, float, float]): Tuple defining the size of the entire environment
+            size (list): Tuple defining the size of the entire environment
         """
         return self._size
 
@@ -111,10 +111,10 @@ class Environment(AbstractSite):
         Parameters:
             mujoco_object (MujocoObject): Mujoco object to add
         """
-        # The attach() method returns the attachement frame
+        # The attach() method returns the attachment frame
         # i.e., a body with the attached mujoco object
         attachement_frame = self._mjcf_model.attach(mujoco_object.mjcf_obj)
-        # By calling all_children() on the attachement frame, we can access their uniqe identifier
+        # By calling all_children() on the attachment frame, we can access their unique identifier
         mujoco_object.xml_id = attachement_frame.all_children()[0].full_identifier
 
         # Check for free joints (<joint type="free"/> or <freejoint/> but always as a direct child)
@@ -147,7 +147,7 @@ class Environment(AbstractSite):
             size_range (tuple): Tuple defining the size range of the environment (length, width, height)
 
         Returns:
-            size (tuple[float, float, float]): Tuple defining the size of the entire environment
+            size (list): Tuple defining the size of the entire environment
         """
         logger = logging.getLogger()
 
@@ -181,12 +181,12 @@ class Environment(AbstractSite):
                 set(size_range_dict.keys())
             ):
                 logger.error(
-                    "Both length_range and width_range must be specified for environment if environment size"
+                    "Both length_range and width_range must be specified for environment if environment size "
                     "should be randomized in given ranges."
                 )
                 raise ValueError(
-                    "Both length_range and width_range must be specified for environment if environment"
-                    " size should be randomized in given ranges."
+                    "Both length_range and width_range must be specified for environment if environment "
+                    "size should be randomized in given ranges."
                 )
 
             else:
@@ -205,4 +205,5 @@ class Environment(AbstractSite):
                         size=1,
                     )
                 )
+        size = [(x / 2) for x in size]
         return size
