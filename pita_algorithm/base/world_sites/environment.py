@@ -129,6 +129,11 @@ class Environment(AbstractSite):
                 attachement_frame.add("joint", type="free", **joint_attribute_dict)
                 joint_list[0].remove()
 
+                # Fix rotation bug, i.e., move euler value into the parent body (attachement_frame) and reset it in the mujoco_object
+                # For the environment dynamics to work properly (adding the agent's rotation to qvel would otherwise not be possible)
+                attachement_frame.euler = mujoco_object.rotation
+                mujoco_object.rotation = (0.0, 0.0, 0.0)
+
         self._mujoco_objects[mujoco_object.xml_id] = mujoco_object
 
     def remove(self, mujoco_object: MujocoObject):
