@@ -66,7 +66,7 @@ class Area(AbstractSite):
                 # Fix rotation bug, i.e., move euler value into the parent body (attachement_frame) and reset it in the mujoco_object
                 # For the environment dynamics to work properly (adding the agent's rotation to qvel would otherwise not be possible)
                 attachement_frame.euler = mujoco_object.rotation
-                mujoco_object.rotation = (0., 0., 0.)
+                mujoco_object.rotation = (0.0, 0.0, 0.0)
 
         self._mujoco_objects[mujoco_object.xml_id] = mujoco_object
 
