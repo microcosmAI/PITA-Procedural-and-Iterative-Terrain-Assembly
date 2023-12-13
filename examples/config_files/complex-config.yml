@@ -3,6 +3,9 @@ Environment:
     - length_range: [ 20, 30 ]
     - width_range: [ 20, 30 ]
 
+  Style:
+    - pretty_mode: False
+
   random_seed: 42
   rules:
     - MinAllDistance:
@@ -28,7 +31,8 @@ Environment:
 
     Stone:
       - xml_name: "Stone.xml"
-      - coordinate: [ 10, 10 ]
+      - amount: 1
+      - coordinates: [ [10, 10, 10] ]
       - type: collectable
       - tags: [ "Stone" ]
 

@@ -9,8 +9,8 @@ Environment:
   Objects:
     Ball:
      - xml_name: "Ball.xml"
-     - amount: 6
-     - coordinates: [ [ 0, 0, 0 ], [ 5, 5, 5 ], [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [30, 30, 30] ]
+     - amount: 5
+     - coordinates: [ [ 10, 10, 10], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [50, 50, 50] ]
      - z_rotation_range: [0, 90]
      - color_groups: [2, 3]
      - size_groups: [2, 3]
@@ -30,7 +30,7 @@ Areas:
       Ball:
         - xml_name: "Ball.xml"
         - amount: 1
-        - coordinates: [ [-75, 75, 75] ]
+        - coordinates: [ [5, 75, 75] ]
         - z_rotation_range: [ 0, 180 ]
         - tags: [ "Tree" ]
 
