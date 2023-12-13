@@ -315,8 +315,13 @@ class Assembler:
         )
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
+        if "Headlight" in self.config["Environment"].keys():
+            headlight = self.config["Environment"]["Headlight"]
+        else:
+            headlight = None
         environment = Environment(
-            name="Environment1", size=size_range, pretty_mode=pretty_mode
+            name="Environment1", size=size_range, pretty_mode=pretty_mode,
+            headlight=headlight
         )
 
         areas = []

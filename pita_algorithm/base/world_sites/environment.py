@@ -14,6 +14,7 @@ class Environment(AbstractSite):
         size: tuple[float, float, float],
         name: str = "Environment",
         pretty_mode: bool = False,
+        headlight: dict = None,
     ):
         """Initializes the environment class.
 
@@ -25,6 +26,12 @@ class Environment(AbstractSite):
         self._size = self.calculate_size(size)
         self._name = name
         self._mjcf_model = mjcf.RootElement()
+
+        # apply params for visuals
+        if headlight:
+            for param in headlight:
+                for key, value in param.items():
+                    setattr(self._mjcf_model.visual.headlight, key, value)
 
         if pretty_mode:
             self._mjcf_model.asset.add(
@@ -56,7 +63,6 @@ class Environment(AbstractSite):
                 texuniform="true",
                 reflectance=".2",
             )
-
         self._mujoco_objects: dict[str, MujocoObject] = {}
 
     @property
