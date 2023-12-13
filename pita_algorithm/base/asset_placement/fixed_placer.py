@@ -55,10 +55,14 @@ class FixedPlacer(AbstractPlacer):
         logger = logging.getLogger()
         # Check if amount of objects and given coordinates is correct
         if not amount == len(coordinates):
-            logger.error(f"Mismatch between given object amount and coordinates for object"
-                         f" '{mujoco_object_rule_blueprint.name}'.")
-            raise ValueError(f"Mismatch between given object amount and coordinates for object"
-                             f" '{mujoco_object_rule_blueprint.name}'.")
+            logger.error(
+                f"Mismatch between given object amount and coordinates for object"
+                f" '{mujoco_object_rule_blueprint.name}'."
+            )
+            raise ValueError(
+                f"Mismatch between given object amount and coordinates for object"
+                f" '{mujoco_object_rule_blueprint.name}'."
+            )
 
         # Get colors rgba
         if not color_groups is None:
