@@ -139,16 +139,20 @@ class FixedPlacer(AbstractPlacer):
                 ]
             ):
                 logger.error(
-                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                    "User specified placement of object '{}' at '[{}, {}, {}]' in site '{}' could not be satisfied.".format(
                         mujoco_object_rule_blueprint.name,
-                        mujoco_object_rule_blueprint.position,
+                        relative_x,
+                        relative_y,
+                        z,
                         site.name,
                     )
                 )
                 raise RuntimeError(
-                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                    "User specified placement of object '{}' at '[{}, {}, {}]' in site '{}' could not be satisfied.".format(
                         mujoco_object_rule_blueprint.name,
-                        mujoco_object_rule_blueprint.position,
+                        relative_x,
+                        relative_y,
+                        z,
                         site.name,
                     )
                 )
