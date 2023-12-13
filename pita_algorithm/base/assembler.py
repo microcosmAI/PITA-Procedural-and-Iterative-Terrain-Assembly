@@ -320,8 +320,10 @@ class Assembler:
         else:
             headlight = None
         environment = Environment(
-            name="Environment1", size=size_range, pretty_mode=pretty_mode,
-            headlight=headlight
+            name="Environment1",
+            size=size_range,
+            pretty_mode=pretty_mode,
+            headlight=headlight,
         )
 
         areas = []
