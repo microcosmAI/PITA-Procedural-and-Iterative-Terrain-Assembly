@@ -1,7 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
-from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
+from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import (
     AbstractPlacerDistribution,
 )
 

@@ -1,7 +1,7 @@
 import re
 from shapely.geometry.base import BaseGeometry
 
-from pita_algorithm.base.asset_placement.abstract_rule import Rule
+from pita_algorithm.base.asset_placement.rules.abstract_rule import Rule
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
