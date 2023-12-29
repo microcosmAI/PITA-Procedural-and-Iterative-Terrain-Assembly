@@ -15,7 +15,7 @@ class Environment(AbstractSite):
         name: str = "Environment",
         pretty_mode: bool = False,
     ):
-        """Initializes the environment class.
+        """Constructor of the Environment class.
 
         Parameters:
             size (tuple): Tuple defining the size of the entire environment (length, width, height)

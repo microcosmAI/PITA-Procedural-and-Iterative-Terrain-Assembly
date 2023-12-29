@@ -19,7 +19,7 @@ class Area(AbstractSite):
         environment: Environment,
         boundary: tuple = None,
     ):
-        """Initializes area.
+        """Constructor of the Area class.
 
         Parameters:
             name (str): Name of the area
