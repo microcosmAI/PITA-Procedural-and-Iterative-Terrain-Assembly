@@ -3,22 +3,14 @@ import random
 import numpy as np
 from tqdm import tqdm
 from typing import Callable, Union, Any
+from pita_algorithm.utils.general_utils import Utils
+from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
-from pita_algorithm.utils.object_property_randomization import (
-    ObjectPropertyRandomization,
-)
-from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
-    AbstractPlacerDistribution,
-)
-from pita_algorithm.base.world_sites.area import Area
-from pita_algorithm.base.world_sites.environment import Environment
-from pita_algorithm.utils.general_utils import Utils
-from pita_algorithm.utils.object_property_randomization import (
-    ObjectPropertyRandomization,
-)
+from pita_algorithm.utils.object_property_randomization import ObjectPropertyRandomization
+from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import AbstractPlacerDistribution
 
 
 class PlacerDistribution:
@@ -52,13 +44,13 @@ class Placer2DDistribution(PlacerDistribution):
     """Class for two dimensional distributions, otherwise equivalent to its parent class."""
 
     def __call__(self) -> tuple[float, float]:
-        """Draws a sample from the distribution
+        """Draws a sample from the distribution.
 
         Returns:
             (float, float): Sampled x and y coordinates
         """
         x, y = self.distribution(*self.parameters)
-        return (x, y)
+        return x, y
 
 
 class CircularUniformDistribution(PlacerDistribution):
@@ -110,6 +102,7 @@ class RandomPlacer(AbstractPlacer):
         mujoco_object_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
+        coordinates = None,
         z_rotation_range: Union[tuple[int, int], None] = None,
         color_groups: Union[tuple[int, int], None] = None,
         size_groups: Union[tuple[int, int], None] = None,
@@ -126,6 +119,7 @@ class RandomPlacer(AbstractPlacer):
             mujoco_object_rule_blueprint (MujocoObject): Blueprint of the to-be-placed mujoco object
             validators (list[Validator]): List of validators used to check object placement
             amount (tuple[int, int]): Range of possible amount of objects to be placed
+            coordinates (None): Required signature of abstract parent class for fixed_placer
             z_rotation_range (Union[tuple[int, int], None]): Range of degrees for z-axis rotation
             color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
             size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
@@ -267,7 +261,7 @@ class RandomPlacer(AbstractPlacer):
                 reference_boundaries = (
                     (-site.environment.size[0], -site.environment.size[0]),
                     (site.environment.size[1], site.environment.size[1]),
-                )  # TODO Not sure if this is correct and maybe we need to to /2 after a ticket
+                )
                 mujoco_object.position = Utils.offset_coordinates_to_boundaries(
                     mujoco_object.position,
                     site.boundary,
