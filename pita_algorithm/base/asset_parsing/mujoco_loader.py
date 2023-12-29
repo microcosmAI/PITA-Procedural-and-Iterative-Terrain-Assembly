@@ -6,7 +6,7 @@ from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 class MujocoLoader:
     """Loads mujoco objects as dictionary."""
 
-    def __init__(self, *, config_file: dict, xml_dir: str):
+    def __init__(self, config_file: dict, xml_dir: str):
         """Constructor of MujocoLoader class.
 
         Parameters:
@@ -28,21 +28,24 @@ class MujocoLoader:
         return mujoco_dict
 
     def _get_object_infos(self) -> dict:
-        """Reads config file and returns dictionary of all objects
+        """Reads config file and returns dictionary of all objects.
 
         Returns:
             obj_dict (dict): Contains information about all objects
         """
         obj_dict = {}
 
+        # handles borders
         for name, params in self.config_file["Environment"].items():
             if name == "Borders":
                 name = "Border"
                 obj_dict[name] = params
 
+        # handles objects in environment
         for name, params in self.config_file["Environment"]["Objects"].items():
             obj_dict[name] = params
 
+        # handles objects in area
         if self.config_file.get("Areas") is not None:
             for area, obj_in_area in self.config_file["Areas"].items():
                 for name, params in self.config_file["Areas"][area]["Objects"].items():
