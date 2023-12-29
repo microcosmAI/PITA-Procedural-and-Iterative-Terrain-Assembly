@@ -2,15 +2,14 @@ import random
 import logging
 from tqdm import tqdm
 from typing import Union
+from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.asset_placement.validator import Validator
+from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
-from pita_algorithm.utils.object_property_randomization import (
-    ObjectPropertyRandomization,
-)
-from pita_algorithm.base.world_sites.area import Area
-from pita_algorithm.base.world_sites.environment import Environment
+from pita_algorithm.utils.object_property_randomization import ObjectPropertyRandomization
+
 
 
 class FixedPlacer(AbstractPlacer):
@@ -53,6 +52,7 @@ class FixedPlacer(AbstractPlacer):
             mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
         logger = logging.getLogger()
+
         # Get colors rgba
         if not color_groups is None:
             if max(color_groups) > amount:
@@ -184,7 +184,6 @@ class FixedPlacer(AbstractPlacer):
 
     def remove(self, site: AbstractSite, mujoco_object: MujocoObject):
         """Removes a mujoco object from a site by calling the sites remove method.
-        Possibly checks placement via the validator.
 
         Parameters:
             site (Site): Site class instance where the object is removed from
