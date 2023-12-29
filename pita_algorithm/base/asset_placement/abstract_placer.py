@@ -1,7 +1,6 @@
 import copy
 from typing import Union
 from abc import ABC, abstractmethod
-
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
@@ -50,7 +49,7 @@ class AbstractPlacer(ABC):
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             mujoco_object_rule_blueprint (MujocoObject): To-be-checked mujoco object
             validators (list[Validator]): Validator class instance used to check object placement
-            amount (int, tuple): Amount of object to be placed.
+            amount (int, tuple): Amount of object to be placed
             coordinates (list[list[float, float, float]]): List of coordinate lists where each object is placed
             z_rotation_range (Union[tuple[int, int], None]): Range of degrees for z-axis rotation
             color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
@@ -65,7 +64,6 @@ class AbstractPlacer(ABC):
     @abstractmethod
     def remove(self, site: AbstractSite, mujoco_object: MujocoObject):
         """Removes a mujoco object from a site by calling the sites remove method.
-        Possibly checks placement via the validator.
 
         Parameters:
             site (AbstractSite): Site class instance where the object is removed from
