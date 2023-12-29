@@ -14,7 +14,7 @@ class Parser:
             xml_path (str): Path to xml-file
 
         Returns:
-            mjcf_obj (mjcf.RootElement): Mjcf object of given xml-file
+            mjcf_obj (mjcf.RootElement): MJCF-object of given xml-file
         """
         logger = logging.getLogger()
         if xml_path is None:
