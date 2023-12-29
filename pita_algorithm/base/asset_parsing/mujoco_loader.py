@@ -102,8 +102,6 @@ class MujocoLoader:
         rotation = None
         if not params == None:
             for dict_ in params:
-                if "type" in dict_.keys():
-                    obj_type = dict_["type"]
                 if "tags" in dict_.keys():
                     tags = dict_["tags"]
                 if "rotation" in dict_.keys():
@@ -141,10 +139,8 @@ class MujocoLoader:
         obj_type, tags, rotation = self._read_params(params)
         mujoco_obj = MujocoObject(
             name=obj,
-            xml_id="",
             mjcf_obj=mjcf,
             obj_class=asset_name,
-            obj_type=obj_type,
             rotation=rotation,
             color=None,
             size=None,
