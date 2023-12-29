@@ -1,13 +1,23 @@
 import logging
-from math import sqrt, ceil, trunc
-from typing import List, Tuple, Any, Union
-
 import matplotlib.pyplot as plt
+from typing import Any, Union
 from matplotlib import patches
+from math import sqrt, ceil, trunc
 
 
+# ToDo: docstrings
 class LayoutManager:
+    """Sets a layout for Area-sites if multiple areas are present."""
+
     def __init__(self, length: float, height: float, number: float, plot: bool):
+        """Constructor of the LayoutManager class.
+
+        Parameters:
+            length (float): Length of the environment
+            height (float): Height of the environment
+            number (float): Number of areas to split the environment into
+            plot (bool): Whether or not to plot the created layout as bird view 2D map
+        """
         self.length: float = length
         self.height: float = height
         self.number: float = number
