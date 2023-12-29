@@ -67,7 +67,3 @@ class BorderPlacer:
                     border_body.pos[2] = blueprint_z
 
                 environment.add(mujoco_object=border)
-
-    def remove(self, site: AbstractSite, mujoco_object: MujocoObject):
-        """Remove function, currently not implemented/needed."""
-        pass
