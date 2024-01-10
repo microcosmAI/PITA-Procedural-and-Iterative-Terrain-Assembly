@@ -1,8 +1,7 @@
 import logging
 import random
-import numpy as np
 from tqdm import tqdm
-from typing import Callable, Union, Any
+from typing import Union
 from pita_algorithm.utils.general_utils import Utils
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.asset_placement.validator import Validator
@@ -11,73 +10,6 @@ from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
 from pita_algorithm.utils.object_property_randomization import ObjectPropertyRandomization
 from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import AbstractPlacerDistribution
-
-
-class PlacerDistribution:
-    """Abstract class for Placers Distributions."""
-
-    def __init__(self, distribution: Callable, *args: Any):
-        """Constructor for distributions used in the RandomPlacer. The distribution
-        object will be called with *args as parameters.
-        Write for instance:
-        `PlacerDistribution(np.random.default_rng().normal, 2, 1)` if you intend
-        to sample from a normal distribution with loc=2 and scale = 1
-        The samples will be drawn independently, which results in square like shapes.
-
-        Parameters:
-            distribution (Callable): Distribution(*args) will be used for sampling values
-            *args (Any): Parameters for the random distribution
-        """
-        self.distribution = distribution
-        self.parameters = args
-
-    def __call__(self) -> tuple[float, float]:
-        """Draws a sample from the distribution.
-
-        Returns:
-            (tuple[float, float]): Sampled x and y coordinates
-        """
-        return self.distribution(*self.parameters), self.distribution(*self.parameters)
-
-
-class Placer2DDistribution(PlacerDistribution):
-    """Class for two dimensional distributions, otherwise equivalent to its parent class."""
-
-    def __call__(self) -> tuple[float, float]:
-        """Draws a sample from the distribution.
-
-        Returns:
-            (float, float): Sampled x and y coordinates
-        """
-        x, y = self.distribution(*self.parameters)
-        return x, y
-
-
-class CircularUniformDistribution(PlacerDistribution):
-    """Class for holing Distribution with specific parameterizations."""
-
-    def __init__(self, loc: float = 0, scale: float = 10.0):
-        """Distribution for uniformly drawing samples from a circle.
-
-        Parameters:
-            loc (float): Minimal euclidean distance from the center
-            scale (float): Maximal euclidean distance from the center
-        """
-        self.loc = loc
-        self.scale = scale
-
-    def __call__(self):
-        """Draws a sample from the distribution.
-
-        Returns:
-            (float, float): Sampled x and y coordinates
-        """
-        length = np.sqrt(np.random.uniform(self.loc, self.scale**2))
-        angle = np.pi * np.random.uniform(0, 2)
-
-        x = length * np.cos(angle)
-        y = length * np.sin(angle)
-        return x, y
 
 
 class RandomPlacer(AbstractPlacer):
@@ -102,7 +34,7 @@ class RandomPlacer(AbstractPlacer):
         mujoco_object_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
-        coordinates = None,
+        coordinates: None = None,
         z_rotation_range: Union[tuple[int, int], None] = None,
         color_groups: Union[tuple[int, int], None] = None,
         size_groups: Union[tuple[int, int], None] = None,
