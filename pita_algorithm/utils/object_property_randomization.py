@@ -1,9 +1,9 @@
-import numpy as np
-import webcolors
 import random
-from PIL import ImageColor
-from random import sample
+import webcolors
+import numpy as np
 from typing import Union
+from random import sample
+from PIL import ImageColor
 
 
 class ObjectPropertyRandomization:
