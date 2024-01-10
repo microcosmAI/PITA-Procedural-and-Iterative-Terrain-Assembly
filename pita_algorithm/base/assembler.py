@@ -16,7 +16,9 @@ from pita_algorithm.base.asset_placement.rules.boundary_rule import BoundaryRule
 from pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
 )
-from pita_algorithm.base.asset_placement.distributions.multivariate_uniform_distribution import MultivariateUniformDistribution
+from pita_algorithm.base.asset_placement.distributions.multivariate_uniform_distribution import (
+    MultivariateUniformDistribution,
+)
 
 
 class BlueprintManager:
@@ -81,7 +83,9 @@ class ObjectPlacer:
         self.blueprints = blueprints
         self.rule_blueprints = rule_blueprints
 
-    def place_objects(self, environment: Environment, areas: list[Area], validators: list[Validator]):
+    def place_objects(
+        self, environment: Environment, areas: list[Area], validators: list[Validator]
+    ):
         """Places all types of objects (border, fixed, random) in the world.
 
         Parameters:
@@ -145,7 +149,9 @@ class ObjectPlacer:
                 )
             ]
 
-    def _place_objects_in_sites(self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool):
+    def _place_objects_in_sites(
+        self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool
+    ):
         """Places fixed or random objects in the world sites.
 
         Parameters:
