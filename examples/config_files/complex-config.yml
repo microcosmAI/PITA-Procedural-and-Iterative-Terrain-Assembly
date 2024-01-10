@@ -12,6 +12,7 @@ Environment:
     - xml_name: "Border.xml"
     - place: True
     - object: Hedge
+
   Objects:
     Tree:
       - xml_name: "Tree.xml"
