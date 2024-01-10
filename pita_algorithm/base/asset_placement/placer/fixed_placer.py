@@ -1,35 +1,24 @@
-import logging
 import random
+import logging
 from tqdm import tqdm
 from typing import Union
-from pita_algorithm.utils.general_utils import Utils
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.asset_placement.validator import Validator
+from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
+from pita_algorithm.base.asset_placement.placer.abstract_placer import AbstractPlacer
 from pita_algorithm.utils.object_property_randomization import (
     ObjectPropertyRandomization,
 )
-from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import (
-    AbstractPlacerDistribution,
-)
 
 
-class RandomPlacer(AbstractPlacer):
-    """Places objects in a random manner."""
+class FixedPlacer(AbstractPlacer):
+    """Places objects in a fixed manner."""
 
-    # The validator does not check, if the addition of an item is possible.
-    # Instead, after placement has failed for MAX_TRIES times, an error is thrown.
-    MAX_TRIES = 10000
-
-    def __init__(self, distribution: AbstractPlacerDistribution):
-        """Constructor of the RandomPlacer class.
-
-        Parameters:
-            distribution (AbstractPlacerDistribution): Distribution used for sampling
-        """
-        self.distribution = distribution
+    def __init__(self):
+        """Constructor of the FixedPlacer class."""
+        pass
 
     def add(
         self,
@@ -37,8 +26,8 @@ class RandomPlacer(AbstractPlacer):
         mujoco_object_blueprint: MujocoObject,
         mujoco_object_rule_blueprint: MujocoObject,
         validators: list[Validator],
-        amount: tuple[int, int] = (1, 1),
-        coordinates: None = None,
+        amount: int,
+        coordinates: list[list[float, float, float]],
         z_rotation_range: Union[tuple[int, int], None] = None,
         color_groups: Union[tuple[int, int], None] = None,
         size_groups: Union[tuple[int, int], None] = None,
@@ -50,12 +39,12 @@ class RandomPlacer(AbstractPlacer):
         after checking placement via the validator.
 
         Parameters:
-            site (AbstractSite): Site class instance where the object is added to
-            mujoco_object_blueprint (MujocoObject): To-be-placed mujoco object
-            mujoco_object_rule_blueprint (MujocoObject): Blueprint of the to-be-placed mujoco object
-            validators (list[Validator]): List of validators used to check object placement
-            amount (tuple[int, int]): Range of possible amount of objects to be placed
-            coordinates (None): Required signature of abstract parent class for fixed_placer
+            site (AbstractSite): AbstractSite class instance where the object is added to
+            mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
+            mujoco_object_rule_blueprint (MujocoObject): To-be-checked mujoco object
+            validators (list[Validator]): Validator class instance used to check object placement
+            amount (int): Amount of object to be placed.
+            coordinates (list[list[float, float, float]]): List of coordinate lists where each object is placed
             z_rotation_range (Union[tuple[int, int], None]): Range of degrees for z-axis rotation
             color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
             size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
@@ -64,9 +53,6 @@ class RandomPlacer(AbstractPlacer):
             mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
         logger = logging.getLogger()
-
-        # Sample from amount range
-        amount: int = ObjectPropertyRandomization.sample_from_amount(amount=amount)
 
         # Get colors rgba
         if not color_groups is None:
@@ -99,7 +85,7 @@ class RandomPlacer(AbstractPlacer):
             amount=amount, z_rotation_range=z_rotation_range
         )
 
-        for i in tqdm(range(amount)):
+        for obj_idx in tqdm(range(amount)):
             # Sample from asset pool if asset_pool is given by user
             if asset_pool is not None:
                 asset_name = random.choice(asset_pool).split(".xml")[0]
@@ -110,67 +96,67 @@ class RandomPlacer(AbstractPlacer):
                     mujoco_objects_blueprints[asset_name]
                 )
 
+            # Set the position of the object to the user specified relative coordinates
+            x_min = float
+            y_min = float
+            if isinstance(site, Environment):
+                x_min = -site.size[0]
+                y_min = -site.size[1]
+            elif isinstance(site, Area):
+                x_min = site.boundary[0][0]
+                y_min = site.boundary[0][1]
+            x_length = 2 * site.size[0]
+            y_width = 2 * site.size[1]
+            (relative_x, relative_y, z) = coordinates[obj_idx]
+            (absolute_x, absolute_y) = (
+                relative_x / 100 * x_length,
+                relative_y / 100 * y_width,
+            )
+            new_x, new_y = (x_min + absolute_x, y_min + absolute_y)
+            new_coords = [float(new_x), float(new_y), float(z)]
+            mujoco_object_rule_blueprint.position = new_coords
+
             if not colors_for_placement is None:
                 # Apply colors to objects
-                mujoco_object_rule_blueprint.color = colors_for_placement[i]
+                mujoco_object_rule_blueprint.color = colors_for_placement[obj_idx]
 
             if not sizes_for_placement is None:
                 # Apply sizes to objects
-                mujoco_object_rule_blueprint.size = sizes_for_placement[i]
+                mujoco_object_rule_blueprint.size = sizes_for_placement[obj_idx]
 
             if not z_rotation_for_placement is None:
                 # Apply rotation to z-axis of object
                 rotation = mujoco_object_rule_blueprint.rotation
                 if rotation is None:
-                    rotation = [0, 0, z_rotation_for_placement[i]]
+                    rotation = [0, 0, z_rotation_for_placement[obj_idx]]
                 else:
-                    rotation[2] = z_rotation_for_placement[i]
+                    rotation[2] = z_rotation_for_placement[obj_idx]
                 mujoco_object_rule_blueprint.rotation = rotation
 
-            # Save size of object for setting the z coordinate
-            new_z_position = mujoco_object_rule_blueprint.size[0]
-
-            # Sample a new position
-            mujoco_object_rule_blueprint.position = (
-                *self.distribution(),
-                new_z_position,
-            )
-
-            count = 0
-            # Ask every validator for approval until all approve or MAX_TRIES is reached,
-            # then throw error
-            while not all(
+            if not all(
                 [
-                    validator.validate(
-                        mujoco_object=mujoco_object_rule_blueprint, site=site
-                    )
-                    for validator in validators
+                    val.validate(mujoco_object=mujoco_object_rule_blueprint, site=site)
+                    for val in validators
                 ]
             ):
-                count += 1
-                if count >= RandomPlacer.MAX_TRIES:
-                    logger.error(
-                        "Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
-                            mujoco_object_blueprint.name,
-                            site.name,
-                            RandomPlacer.MAX_TRIES,
-                        )
+                logger.error(
+                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                        mujoco_object_rule_blueprint.name,
+                        mujoco_object_rule_blueprint.position,
+                        site.name,
                     )
-                    raise RuntimeError(
-                        "Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
-                            mujoco_object_blueprint.name,
-                            site.name,
-                            RandomPlacer.MAX_TRIES,
-                        )
+                )
+                raise RuntimeError(
+                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                        mujoco_object_rule_blueprint.name,
+                        mujoco_object_rule_blueprint.position,
+                        site.name,
                     )
-                # If placement is not possible, sample a new position
-                mujoco_object_rule_blueprint.position = (
-                    *self.distribution(),
-                    new_z_position,
                 )
 
             # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
+            mujoco_object.position = mujoco_object_rule_blueprint.position
 
             if colors_for_placement is not None:
                 # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
@@ -190,20 +176,6 @@ class RandomPlacer(AbstractPlacer):
                 mujoco_object.rotation = mujoco_object_rule_blueprint.rotation
                 mujoco_object_rule_blueprint.rotation = old_rotation
 
-            mujoco_object.position = mujoco_object_rule_blueprint.position
-
-            # If Site is area type, offset the coordinates to the boundaries
-            if isinstance(site, Area):
-                reference_boundaries = (
-                    (-site.environment.size[0], -site.environment.size[0]),
-                    (site.environment.size[1], site.environment.size[1]),
-                )
-                mujoco_object.position = Utils.offset_coordinates_to_boundaries(
-                    mujoco_object.position,
-                    site.boundary,
-                    reference_boundaries=reference_boundaries,
-                )
-
             # Keep track of the placement in the validators
             for validator in validators:
                 validator.add(mujoco_object)
@@ -215,7 +187,7 @@ class RandomPlacer(AbstractPlacer):
         """Removes a mujoco object from a site by calling the sites remove method.
 
         Parameters:
-            site (AbstractSite): Site class instance where the object is removed from
+            site (Site): Site class instance where the object is removed from
             mujoco_object (MujocoObject): To-be-removed mujoco object
         """
         site.remove(mujoco_object=mujoco_object)
