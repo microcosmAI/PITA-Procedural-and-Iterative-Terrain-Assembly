@@ -1,9 +1,6 @@
 import copy
 import logging
-
 from shapely import geometry
-
-
 from pita_algorithm.utils.general_utils import Utils
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
@@ -14,27 +11,16 @@ from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.fixed_placer import FixedPlacer
 from pita_algorithm.base.asset_placement.random_placer import RandomPlacer
 from pita_algorithm.base.asset_placement.border_placer import BorderPlacer
-
 from pita_algorithm.base.asset_placement.layout_manager import LayoutManager
-from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
+from pita_algorithm.base.asset_placement.rules.boundary_rule import BoundaryRule
+from pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
 )
-from pita_algorithm.base.asset_placement.multivariate_uniform_distribution import (
-    MultivariateUniformDistribution,
-)
-
-# Rule Imports
-from pita_algorithm.base.asset_placement.boundary_rule import BoundaryRule
-from pita_algorithm.base.asset_placement.min_distance_rule import (
-    MinDistanceRule,
-)
-from pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule import (
-    MinDistanceMujocoPhysicsRule,
-)
+from pita_algorithm.base.asset_placement.distributions.multivariate_uniform_distribution import MultivariateUniformDistribution
 
 
 class BlueprintManager:
-    """Creates and manages the Mujoco objects blueprints"""
+    """Creates and manages the Mujoco objects blueprints."""
 
     def __init__(self, config: dict, xml_dir: str) -> None:
         """Constructor of the BlueprintManager class.
@@ -48,7 +34,7 @@ class BlueprintManager:
         self.mujoco_objects_blueprints: dict[str, MujocoObject] = {}
         self.mujoco_objects_rule_blueprints: dict[str, MujocoObject] = {}
 
-    def get_object_blueprints(self) -> None:
+    def get_object_blueprints(self):
         """Creates and manipulates the mujoco objects blueprints."""
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         self.mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
@@ -82,7 +68,7 @@ class BlueprintManager:
 class ObjectPlacer:
     """Places objects in the world (environment and areas)."""
 
-    def __init__(self, config: dict, blueprints: dict, rule_blueprints: dict) -> None:
+    def __init__(self, config: dict, blueprints: dict, rule_blueprints: dict):
         """Constructor of the ObjectPlacer class.
 
         Parameters:
@@ -95,16 +81,13 @@ class ObjectPlacer:
         self.blueprints = blueprints
         self.rule_blueprints = rule_blueprints
 
-    def place_objects(
-        self, environment: Environment, areas: list[Area], validators: list[Validator]
-    ) -> None:
+    def place_objects(self, environment: Environment, areas: list[Area], validators: list[Validator]):
         """Places all types of objects (border, fixed, random) in the world.
 
         Parameters:
             environment (Environment): Environment object
             areas (list[Area]): List of Area objects
             validators (list[Validator]): List of Validator objects
-
         """
         self._place_border(environment, validators[0])
         # Global placer
@@ -127,7 +110,7 @@ class ObjectPlacer:
         if self.config.get("Areas") is not None:
             self._place_objects_in_sites(areas, validators, is_fixed=False)
 
-    def _place_border(self, environment: Environment, validator: Validator) -> None:
+    def _place_border(self, environment: Environment, validator: Validator):
         """Places borders in the environment.
 
         Parameters:
@@ -162,9 +145,7 @@ class ObjectPlacer:
                 )
             ]
 
-    def _place_objects_in_sites(
-        self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool
-    ) -> None:
+    def _place_objects_in_sites(self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool):
         """Places fixed or random objects in the world sites.
 
         Parameters:
@@ -202,6 +183,8 @@ class ObjectPlacer:
         Parameters:
             sites (list[AbstractSite]): List of Site objects
 
+        Returns:
+            list (dict): List of configuration dictionaries depending on site type
         """
         return [
             self.config["Environment"]["Objects"]
