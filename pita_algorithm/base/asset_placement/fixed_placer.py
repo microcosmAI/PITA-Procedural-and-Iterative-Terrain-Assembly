@@ -8,8 +8,9 @@ from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
-from pita_algorithm.utils.object_property_randomization import ObjectPropertyRandomization
-
+from pita_algorithm.utils.object_property_randomization import (
+    ObjectPropertyRandomization,
+)
 
 class FixedPlacer(AbstractPlacer):
     """Places objects in a fixed manner."""
