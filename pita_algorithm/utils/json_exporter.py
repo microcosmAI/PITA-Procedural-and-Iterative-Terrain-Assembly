@@ -34,7 +34,6 @@ class JSONExporter:
 
         # Loop over Environment and its objects
         for mujoco_object in environment._mujoco_objects.values():
-
             values = {}
             values["name"] = mujoco_object.xml_id
             values["class"] = mujoco_object.obj_class
@@ -71,7 +70,6 @@ class JSONExporter:
             all_objects["areas"][area.name]["configuration"] = values
 
             for mujoco_object in area._mujoco_objects.values():
-
                 values = {}
                 values["name"] = mujoco_object.xml_id
                 values["class"] = mujoco_object.obj_class
