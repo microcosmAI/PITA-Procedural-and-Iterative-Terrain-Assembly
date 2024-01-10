@@ -38,7 +38,7 @@ class PITA:
             export_path (Union[str, None]): Path (including file name but excluding extension) to export to
         """
         if config_path is None:
-            config_path = "examples/config_files/simple-config.yml"
+            config_path = "examples/config_files/ballpit.yml"
             warnings.warn(
                 "config path not specified; running with default directory in examples"
             )
