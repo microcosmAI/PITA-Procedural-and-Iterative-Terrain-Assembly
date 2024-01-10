@@ -1,6 +1,3 @@
-from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-
-
 class Utils:
     @staticmethod
     def _get_randomization_parameters(config_dict: dict, keys: list) -> tuple:
