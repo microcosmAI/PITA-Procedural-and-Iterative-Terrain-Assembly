@@ -11,7 +11,6 @@ from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
 from pita_algorithm.utils.object_property_randomization import ObjectPropertyRandomization
 
 
-
 class FixedPlacer(AbstractPlacer):
     """Places objects in a fixed manner."""
 
