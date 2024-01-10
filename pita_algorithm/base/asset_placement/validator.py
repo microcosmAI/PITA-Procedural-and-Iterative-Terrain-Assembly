@@ -1,7 +1,6 @@
 from shapely import geometry
 import matplotlib.pyplot as plt
-
-from pita_algorithm.base.asset_placement.abstract_rule import Rule
+from pita_algorithm.base.asset_placement.rules.abstract_rule import Rule
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
@@ -9,7 +8,7 @@ from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 class Validator:
     """Validates new objects against a set of rules and stores a 2d representation of the world."""
 
-    def __init__(self, rules: list[Rule] = []):
+    def __init__(self, rules: list[Rule] = list):
         """Constructor of the Validator class.
 
         Parameters:
