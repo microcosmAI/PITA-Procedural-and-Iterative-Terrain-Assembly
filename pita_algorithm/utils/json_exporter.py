@@ -34,17 +34,26 @@ class JSONExporter:
 
         # Loop over Environment and its objects
         for mujoco_object in environment._mujoco_objects.values():
-            values = {}
 
+            values = {}
             values["name"] = mujoco_object.xml_id
-            values[
-                "type"
-            ] = mujoco_object.obj_type  # TODO: Check if this is still needed
             values["class"] = mujoco_object.obj_class
-            values["position"] = mujoco_object.position.tolist()
-            values["color"] = mujoco_object.color.tolist()
-            values["size"] = mujoco_object.size.tolist()
             values["tags"] = mujoco_object.tags
+
+            if mujoco_object.position is None:
+                values["position"] = None
+            else:
+                values["position"] = mujoco_object.position.tolist()
+
+            if mujoco_object.color is None:
+                values["color"] = None
+            else:
+                values["color"] = mujoco_object.color.tolist()
+
+            if mujoco_object.size is None:
+                values["size"] = None
+            else:
+                values["size"] = mujoco_object.size.tolist()
 
             all_objects["environment"]["objects"][mujoco_object.xml_id] = values
 
@@ -62,17 +71,26 @@ class JSONExporter:
             all_objects["areas"][area.name]["configuration"] = values
 
             for mujoco_object in area._mujoco_objects.values():
-                values = {}
 
+                values = {}
                 values["name"] = mujoco_object.xml_id
-                values[
-                    "type"
-                ] = mujoco_object.obj_type  # TODO: Check if this is still needed
                 values["class"] = mujoco_object.obj_class
-                values["position"] = mujoco_object.position.tolist()
-                values["color"] = mujoco_object.color.tolist()
-                values["size"] = mujoco_object.size.tolist()
                 values["tags"] = mujoco_object.tags
+
+                if mujoco_object.position is None:
+                    values["position"] = None
+                else:
+                    values["position"] = mujoco_object.position.tolist()
+
+                if mujoco_object.color is None:
+                    values["color"] = None
+                else:
+                    values["color"] = mujoco_object.color.tolist()
+
+                if mujoco_object.size is None:
+                    values["size"] = None
+                else:
+                    values["size"] = mujoco_object.size.tolist()
 
                 all_objects["areas"][area.name]["objects"][
                     mujoco_object.xml_id
