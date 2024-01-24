@@ -34,9 +34,6 @@ class GroundRule(Rule):
         Returns:
             (bool): True if the object is above ground, False otherwise
         """
-        # print(map_2D)
-        # print(mujoco_object.name)
-        # print(mujoco_object.size)
         if self.ground_level <= mujoco_object.position[2]:
             return True
         else:
