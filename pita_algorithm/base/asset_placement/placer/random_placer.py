@@ -69,7 +69,9 @@ class RandomPlacer(AbstractPlacer):
         amount: int = ObjectPropertyRandomization.sample_from_amount(amount=amount)
 
         # Check for mismatch of objects and color-/size-groups in configuration
-        Utils.check_user_input(color_groups=color_groups, size_groups=size_groups, amount=amount)
+        Utils.check_user_input(
+            color_groups=color_groups, size_groups=size_groups, amount=amount
+        )
 
         # Get colors rgba
         colors_for_placement = ObjectPropertyRandomization.get_random_colors(

@@ -67,9 +67,11 @@ class Utils:
         return final_x, final_y, position[2]
 
     @staticmethod
-    def check_user_input(color_groups: Union[tuple[int, int], None],
-                         size_groups: Union[tuple[int, int], None],
-                         amount: int):
+    def check_user_input(
+        color_groups: Union[tuple[int, int], None],
+        size_groups: Union[tuple[int, int], None],
+        amount: int,
+    ):
         """Checks if color_groups and size_groups is compatible with amount.
 
         Parameters:

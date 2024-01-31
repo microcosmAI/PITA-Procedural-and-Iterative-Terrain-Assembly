@@ -177,9 +177,7 @@ class ObjectPropertyRandomization:
             return None
 
     @staticmethod
-    def get_size_array(
-        size_value_range: tuple[float, float]
-    ) -> list[float]:
+    def get_size_array(size_value_range: tuple[float, float]) -> list[float]:
         """Generates 3D random size in given range.
 
         Parameters:
@@ -188,15 +186,15 @@ class ObjectPropertyRandomization:
         Returns:
             random_size (list[float]): Randomized size values in given range for 3D
         """
-        x_rand_size_float = float(np.random.uniform(
-            size_value_range[0], size_value_range[1]
-        ))  # Higher is excluding
-        y_rand_size_float = float(np.random.uniform(
-            size_value_range[0], size_value_range[1]
-        ))  # Higher is excluding
-        z_rand_size_float = float(np.random.uniform(
-            size_value_range[0], size_value_range[1]
-        ))  # Higher is excluding
+        x_rand_size_float = float(
+            np.random.uniform(size_value_range[0], size_value_range[1])
+        )  # Higher is excluding
+        y_rand_size_float = float(
+            np.random.uniform(size_value_range[0], size_value_range[1])
+        )  # Higher is excluding
+        z_rand_size_float = float(
+            np.random.uniform(size_value_range[0], size_value_range[1])
+        )  # Higher is excluding
         random_size = [x_rand_size_float, y_rand_size_float, z_rand_size_float]
         return random_size
 

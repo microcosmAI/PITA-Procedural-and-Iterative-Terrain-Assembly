@@ -54,7 +54,9 @@ class FixedPlacer(AbstractPlacer):
             mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
         # Check for mismatch of objects and color-/size-groups in configuration
-        Utils.check_user_input(color_groups=color_groups, size_groups=size_groups, amount=amount)
+        Utils.check_user_input(
+            color_groups=color_groups, size_groups=size_groups, amount=amount
+        )
 
         # Get colors rgba
         colors_for_placement = ObjectPropertyRandomization.get_random_colors(
@@ -84,8 +86,11 @@ class FixedPlacer(AbstractPlacer):
 
             # Set relative coordinates
             mujoco_object_rule_blueprint = self._set_relative_position(
-                                                site=site, coordinates=coordinates, obj_idx=obj_idx,
-                                                mujoco_object_rule_blueprint=mujoco_object_rule_blueprint)
+                site=site,
+                coordinates=coordinates,
+                obj_idx=obj_idx,
+                mujoco_object_rule_blueprint=mujoco_object_rule_blueprint,
+            )
 
             if not colors_for_placement is None:
                 # Apply colors to objects
@@ -105,8 +110,11 @@ class FixedPlacer(AbstractPlacer):
                 mujoco_object_rule_blueprint.rotation = rotation
 
             # Validates placement is not colliding with something that already exists
-            self._validate_object_placement(site=site, mujoco_object_rule_blueprint=mujoco_object_rule_blueprint,
-                                            validators=validators)
+            self._validate_object_placement(
+                site=site,
+                mujoco_object_rule_blueprint=mujoco_object_rule_blueprint,
+                validators=validators,
+            )
 
             # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
@@ -147,8 +155,12 @@ class FixedPlacer(AbstractPlacer):
         site.remove(mujoco_object=mujoco_object)
 
     @staticmethod
-    def _set_relative_position(site: AbstractSite, coordinates: list[list[float, float, float]],
-                               obj_idx: int, mujoco_object_rule_blueprint: MujocoObject) -> MujocoObject:
+    def _set_relative_position(
+        site: AbstractSite,
+        coordinates: list[list[float, float, float]],
+        obj_idx: int,
+        mujoco_object_rule_blueprint: MujocoObject,
+    ) -> MujocoObject:
         """Transforms the coordinates given by the user to relative coordinates depending on environment/area size.
            Sets MujocoObjects new position according to new relative coordinates.
 
@@ -179,8 +191,11 @@ class FixedPlacer(AbstractPlacer):
         return mujoco_object_rule_blueprint
 
     @staticmethod
-    def _validate_object_placement(site: AbstractSite, mujoco_object_rule_blueprint: MujocoObject,
-                                   validators: list[Validator]):
+    def _validate_object_placement(
+        site: AbstractSite,
+        mujoco_object_rule_blueprint: MujocoObject,
+        validators: list[Validator],
+    ):
         """Checks if objects placement is validated by all Validators.
 
         Parameters:
@@ -191,10 +206,10 @@ class FixedPlacer(AbstractPlacer):
         logger = logging.getLogger()
 
         if not all(
-                [
-                    val.validate(mujoco_object=mujoco_object_rule_blueprint, site=site)
-                    for val in validators
-                ]
+            [
+                val.validate(mujoco_object=mujoco_object_rule_blueprint, site=site)
+                for val in validators
+            ]
         ):
             logger.error(
                 "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
