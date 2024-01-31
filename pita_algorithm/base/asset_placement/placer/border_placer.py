@@ -1,7 +1,6 @@
 import copy
 from tqdm import tqdm
 from pita_algorithm.base.world_sites.environment import Environment
-from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 

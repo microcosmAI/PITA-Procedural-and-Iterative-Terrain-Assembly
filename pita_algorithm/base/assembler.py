@@ -57,7 +57,7 @@ class Assembler:
         self, plot: bool
     ) -> tuple[Environment, list[Area]]:
         """Creates and returns the environment and areas."""
-        size_range = Utils._get_randomization_parameters(
+        size_range = Utils.get_randomization_parameters(
             config_dict=self.config["Environment"], keys=["size_range"]
         )
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
@@ -72,7 +72,7 @@ class Assembler:
             areas_count = len(self.config["Areas"].items())
             layoutmanager = LayoutManager(
                 environment.size[0] * 2, environment.size[1] * 2, areas_count, plot=plot
-            )  # TODO change to environment.size[0], environment.size[1] as soon as we start to work with the real environment size
+            )
             boundaries = layoutmanager.generate_layout_boundaries()
             layoutmanager.plot_boundaries(boundaries)
 

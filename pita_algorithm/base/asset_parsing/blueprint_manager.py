@@ -46,4 +46,5 @@ class BlueprintManager:
                 )
         else:
             mujoco_object_copy.mjcf_obj.worldbody.body[0].add("joint")
+
         return mujoco_object_copy

@@ -23,7 +23,6 @@ class Parser:
         if not os.path.isfile(xml_path):
             logger.error(f"Could not find xml path '{xml_path}'.")
             raise ValueError(f"Could not find xml path '{xml_path}'.")
-
         mjcf_obj = mjcf.from_path(xml_path)
 
         return mjcf_obj

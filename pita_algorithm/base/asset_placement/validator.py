@@ -1,5 +1,5 @@
-from shapely import geometry
 import matplotlib.pyplot as plt
+from shapely import geometry
 from pita_algorithm.base.asset_placement.rules.abstract_rule import Rule
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject

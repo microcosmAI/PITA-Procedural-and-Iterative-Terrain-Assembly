@@ -83,6 +83,7 @@ class MujocoLoader:
             mujoco_dict = self._add_object_to_dict(
                 xml_name=xml_name, obj=obj, params=params, mujoco_dict=mujoco_dict
             )
+
         return mujoco_dict
 
     @staticmethod
@@ -146,6 +147,6 @@ class MujocoLoader:
             size=None,
             tags=tags,
         )
-
         mujoco_dict[obj] = mujoco_obj
+
         return mujoco_dict

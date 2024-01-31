@@ -189,7 +189,7 @@ class ObjectPlacer:
             "asset_pool",
         ]
 
-        values = Utils._get_randomization_parameters(config_dict=config_dict, keys=keys)
+        values = Utils.get_randomization_parameters(config_dict=config_dict, keys=keys)
         combined_dict = {k: v for k, v in zip(keys, values)}
 
         if is_fixed:
