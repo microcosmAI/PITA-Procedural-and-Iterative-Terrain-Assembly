@@ -1,5 +1,4 @@
 import numpy as np
-
 from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import (
     AbstractPlacerDistribution,
 )
@@ -14,6 +13,7 @@ class CircularUniformDistribution(AbstractPlacerDistribution):
         Parameters:
             parameters (dict): Parameters for the circular uniform distribution
         """
+        super().__init__(parameters=parameters)
         self.loc = parameters["loc"]
         self.scale = parameters["scale"]
 
@@ -25,7 +25,6 @@ class CircularUniformDistribution(AbstractPlacerDistribution):
         """
         length = np.sqrt(np.random.uniform(self.loc, self.scale**2))
         angle = np.pi * np.random.uniform(0, 2)
-
         x = length * np.cos(angle)
         y = length * np.sin(angle)
 

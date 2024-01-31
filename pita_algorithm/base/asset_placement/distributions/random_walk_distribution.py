@@ -1,5 +1,4 @@
 import numpy as np
-
 from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import (
     AbstractPlacerDistribution,
 )
@@ -16,6 +15,7 @@ class RandomWalkDistribution(AbstractPlacerDistribution):
                 parameters["step_size_range"]: (min_step_size, max_step_size) - Range of step sizes
                 parameters["bounds"]: (min_x, max_x, min_y, max_y) - Bounds of the 2D plane
         """
+        super().__init__(parameters=parameters)
         self.step_size_range = parameters["step_size_range"]
         self.bounds = parameters["bounds"]
         self.current_x, self.current_y = 0.0, 0.0
