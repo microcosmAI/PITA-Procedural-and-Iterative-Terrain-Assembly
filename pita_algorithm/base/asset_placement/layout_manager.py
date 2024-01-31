@@ -5,7 +5,6 @@ from matplotlib import patches
 from math import sqrt, ceil, trunc
 
 
-# ToDo: docstrings
 class LayoutManager:
     """Sets a layout for Area-sites if multiple areas are present."""
 
@@ -16,7 +15,7 @@ class LayoutManager:
             length (float): Length of the environment
             height (float): Height of the environment
             number (float): Number of areas to split the environment into
-            plot (bool): Whether or not to plot the created layout as bird view 2D map
+            plot (bool): Whether to plot the created layout as bird view 2D map
         """
         self.length: float = length
         self.height: float = height
@@ -24,13 +23,23 @@ class LayoutManager:
         self.plot: bool = plot
 
     def tiling(self, length: float, height: float, number: float) -> dict:
+        """Calculate the tiling layout based on environment dimensions and number of areas.
+
+        Parameters:
+            length (float): Length of the environment
+            height (float): Height of the environment
+            number (float): Number of areas to split the environment into
+
+        Returns:
+            (dict): A dictionary containing information about the tiling layout
+        """
         area = length * height
 
         # How many tiles would fit along both dimensions if they were perfectly square?
         real_num_tiles_length = sqrt(number * length / height)
         real_num_tiles_height = sqrt(number * height / length)
 
-        # Whats the area of the area of each tile?
+        # What's the area of the area of each tile?
         square_area = area / number
 
         # What are the upper and lower bound of the number of columns and rows?
@@ -85,6 +94,18 @@ class LayoutManager:
         square_area: float,
         n_rows: int,
     ) -> float:
+        """Calculate the maximal divergence from a square tiling.
+
+        Parameters:
+            length (float): Length of the environment
+            height (float): Height of the environment
+            number (float): Number of areas to split the environment into
+            square_area (float): Area of each tile in a perfectly square tiling
+            n_rows (int): Number of rows to be constructed in the tiling
+
+        Returns:
+            (float): The maximal divergence from a square tiling
+        """
         # What is the maximal divergence from a square given the area dimensions, the number of tiles and the number of rows to be constructed.
         if n_rows < 1 or n_rows > number:
             return float("inf")
@@ -116,6 +137,18 @@ class LayoutManager:
         square_area: float,
         n_rows: int,
     ) -> dict:
+        """Solve the tiling layout based on given parameters.
+
+        Parameters:
+            length (float): Length of the environment
+            height (float): Height of the environment
+            number (float): Number of areas to split the environment into
+            square_area (float): Area of each tile in a perfectly square tiling
+            n_rows (int): Number of rows to be constructed in the tiling
+
+        Returns:
+            (dict): A dictionary containing information about the solved tiling layout
+        """
         # What are the number of cols in the short and long rows?
         n_cols_long = ceil(number / n_rows)
         n_cols_short = trunc(number / n_rows)
@@ -149,7 +182,16 @@ class LayoutManager:
         assert number == n_cols_long * n_rows_long + n_cols_short * n_rows_short
         return tiling
 
-    def _swap(self, tiling: dict) -> dict:
+    @staticmethod
+    def _swap(tiling: dict) -> dict:
+        """Swap the rows and columns of the tiling layout.
+
+        Parameters:
+            tiling (dict): A dictionary containing information about the tiling layout.
+
+        Returns:
+            (dict): A dictionary with swapped rows and columns
+        """
         # swap rows and cols length and height
         tiling_short = tiling["short"]
         tiling_long = tiling["long"]
@@ -177,6 +219,11 @@ class LayoutManager:
             tuple[Union[int, Any], Union[int, Any]],
         ]
     ]:
+        """Generate boundaries for the layout based on the tiling.
+
+        Returns:
+            list: A list of tuples containing boundaries for the layout tiles.
+        """
         # Get the tiling
         tilingVar_result = self.tiling(self.length, self.height, self.number)
 
@@ -218,26 +265,16 @@ class LayoutManager:
         return boundaries
 
     def plot_tiling_boundaries(self) -> None:
+        """Plot the boundaries of the layout tiles."""
         boundaries = self.generate_layout_boundaries()
-
         self.plot_boundaries(boundaries)
 
-        """plt.figure(figsize=(self.length, self.height))
-
-        for boundary in boundaries:
-            # Extract the corners
-            (left, top), (right, bottom) = boundary
-
-            # Draw the rectangle
-            plt.plot((left, right, right, left, left), (top, top, bottom, bottom, top))
-
-        plt.xlim(0, self.length)
-        plt.ylim(0, self.height)
-        plt.axis('off')
-
-        plt.show()"""
-
     def plot_boundaries(self, boundaries: list) -> None:
+        """Plot the boundaries of the layout tiles.
+
+        Parameters:
+            boundaries (list): List of tuples containing boundaries for the layout tiles.
+        """
         fig, ax = plt.subplots()
         for boundary in boundaries:
             top_left, bottom_right = boundary
@@ -254,6 +291,13 @@ class LayoutManager:
             plt.show()
 
     def plot_tiling(self, length: float, height: float, number: int) -> None:
+        """Plot the tiling layout.
+
+        Parameters:
+            length (float): Length of the environment
+            height (float): Height of the environment
+            number (int): Number of areas to split the environment into
+        """
         tiles = self.tiling(length, height, number)
         plt.figure(figsize=(length, height))
         if tiles["mode"] == "rows":
