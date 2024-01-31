@@ -1,5 +1,4 @@
 import json
-
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
 
@@ -35,7 +34,7 @@ class JSONExporter:
         # Loop over Environment and its objects
         for mujoco_object in environment._mujoco_objects.values():
             values = {}
-            values["name"] = mujoco_object.xml_id
+            values["name"] = mujoco_object.name
             values["class"] = mujoco_object.obj_class
             values["tags"] = mujoco_object.tags
 
@@ -54,7 +53,7 @@ class JSONExporter:
             else:
                 values["size"] = mujoco_object.size.tolist()
 
-            all_objects["environment"]["objects"][mujoco_object.xml_id] = values
+            all_objects["environment"]["objects"][mujoco_object.name] = values
 
         # Loop over all Areas and their objects
         for area in areas:
