@@ -2,6 +2,7 @@ import random
 import logging
 from tqdm import tqdm
 from typing import Union
+from pita_algorithm.utils.general_utils import Utils
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.environment import Environment
@@ -52,30 +53,15 @@ class FixedPlacer(AbstractPlacer):
             asset_pool (Union[list, None]): List of xml-names of assets which should be sampled from
             mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
-        logger = logging.getLogger()
+        # Check for mismatch of objects and color-/size-groups in configuration
+        Utils.check_user_input(color_groups=color_groups, size_groups=size_groups, amount=amount)
 
         # Get colors rgba
-        if not color_groups is None:
-            if max(color_groups) > amount:
-                logger.error(
-                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
-                )
-                raise ValueError(
-                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
-                )
         colors_for_placement = ObjectPropertyRandomization.get_random_colors(
             amount=amount, color_groups=color_groups
         )
 
         # Get object size
-        if not size_groups is None:
-            if len(size_groups) > amount:
-                logger.error(
-                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
-                )
-                raise ValueError(
-                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
-                )
         sizes_for_placement = ObjectPropertyRandomization.get_random_sizes(
             amount=amount, size_groups=size_groups, size_value_range=size_value_range
         )
@@ -96,25 +82,10 @@ class FixedPlacer(AbstractPlacer):
                     mujoco_objects_blueprints[asset_name]
                 )
 
-            # Set the position of the object to the user specified relative coordinates
-            x_min = float
-            y_min = float
-            if isinstance(site, Environment):
-                x_min = -site.size[0]
-                y_min = -site.size[1]
-            elif isinstance(site, Area):
-                x_min = site.boundary[0][0]
-                y_min = site.boundary[0][1]
-            x_length = 2 * site.size[0]
-            y_width = 2 * site.size[1]
-            (relative_x, relative_y, z) = coordinates[obj_idx]
-            (absolute_x, absolute_y) = (
-                relative_x / 100 * x_length,
-                relative_y / 100 * y_width,
-            )
-            new_x, new_y = (x_min + absolute_x, y_min + absolute_y)
-            new_coords = [float(new_x), float(new_y), float(z)]
-            mujoco_object_rule_blueprint.position = new_coords
+            # Set relative coordinates
+            mujoco_object_rule_blueprint = self._set_relative_position(
+                                                site=site, coordinates=coordinates, obj_idx=obj_idx,
+                                                mujoco_object_rule_blueprint=mujoco_object_rule_blueprint)
 
             if not colors_for_placement is None:
                 # Apply colors to objects
@@ -133,26 +104,9 @@ class FixedPlacer(AbstractPlacer):
                     rotation[2] = z_rotation_for_placement[obj_idx]
                 mujoco_object_rule_blueprint.rotation = rotation
 
-            if not all(
-                [
-                    val.validate(mujoco_object=mujoco_object_rule_blueprint, site=site)
-                    for val in validators
-                ]
-            ):
-                logger.error(
-                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
-                        mujoco_object_rule_blueprint.name,
-                        mujoco_object_rule_blueprint.position,
-                        site.name,
-                    )
-                )
-                raise RuntimeError(
-                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
-                        mujoco_object_rule_blueprint.name,
-                        mujoco_object_rule_blueprint.position,
-                        site.name,
-                    )
-                )
+            # Validates placement is not colliding with something that already exists
+            self._validate_object_placement(site=site, mujoco_object_rule_blueprint=mujoco_object_rule_blueprint,
+                                            validators=validators)
 
             # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
@@ -191,3 +145,68 @@ class FixedPlacer(AbstractPlacer):
             mujoco_object (MujocoObject): To-be-removed mujoco object
         """
         site.remove(mujoco_object=mujoco_object)
+
+    @staticmethod
+    def _set_relative_position(site: AbstractSite, coordinates: list[list[float, float, float]],
+                               obj_idx: int, mujoco_object_rule_blueprint: MujocoObject) -> MujocoObject:
+        """Transforms the coordinates given by the user to relative coordinates depending on environment/area size.
+           Sets MujocoObjects new position according to new relative coordinates.
+
+        Parameters:
+            site (AbstractSite): AbstractSite class instance where the object is added to
+            coordinates (list[list[float, float, float]]): List of coordinate lists where each object is placed
+            obj_idx (int): Index of for-loop of "amount"; given by amount of fixed objects to be placed
+            mujoco_object_rule_blueprint (MujocoObject): To-be-checked mujoco object
+        """
+        x_min = float
+        y_min = float
+        if isinstance(site, Environment):
+            x_min = -site.size[0]
+            y_min = -site.size[1]
+        elif isinstance(site, Area):
+            x_min = site.boundary[0][0]
+            y_min = site.boundary[0][1]
+        x_length = 2 * site.size[0]
+        y_width = 2 * site.size[1]
+        (relative_x, relative_y, z) = coordinates[obj_idx]
+        (absolute_x, absolute_y) = (
+            relative_x / 100 * x_length,
+            relative_y / 100 * y_width,
+        )
+        new_x, new_y = (x_min + absolute_x, y_min + absolute_y)
+        new_coords = [float(new_x), float(new_y), float(z)]
+        mujoco_object_rule_blueprint.position = new_coords
+        return mujoco_object_rule_blueprint
+
+    @staticmethod
+    def _validate_object_placement(site: AbstractSite, mujoco_object_rule_blueprint: MujocoObject,
+                                   validators: list[Validator]):
+        """Checks if objects placement is validated by all Validators.
+
+        Parameters:
+            site (AbstractSite): AbstractSite class instance where the object is added to
+            mujoco_object_rule_blueprint (MujocoObject): To-be-checked mujoco object
+            validators (list[Validator]): Validator class instance used to check object placement
+        """
+        logger = logging.getLogger()
+
+        if not all(
+                [
+                    val.validate(mujoco_object=mujoco_object_rule_blueprint, site=site)
+                    for val in validators
+                ]
+        ):
+            logger.error(
+                "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                    mujoco_object_rule_blueprint.name,
+                    mujoco_object_rule_blueprint.position,
+                    site.name,
+                )
+            )
+            raise RuntimeError(
+                "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                    mujoco_object_rule_blueprint.name,
+                    mujoco_object_rule_blueprint.position,
+                    site.name,
+                )
+            )
