@@ -16,7 +16,7 @@ from pita_algorithm.base.asset_placement.distributions.multivariate_uniform_dist
 class ObjectPlacer:
     """Places objects in the world (environment and areas)."""
 
-    def __init__(self, config: dict, blueprints: dict, rule_blueprints: dict):
+    def __init__(self, config: dict, blueprints: dict):
         """Constructor of the ObjectPlacer class.
 
         Parameters:
@@ -27,11 +27,10 @@ class ObjectPlacer:
         """
         self.config = config
         self.blueprints = blueprints
-        self.rule_blueprints = rule_blueprints
 
     def place_objects(
         self, environment: Environment, areas: list[Area], validators: list[Validator]
-    ):
+    ) -> None:
         """Places all types of objects (border, fixed, random) in the world.
 
         Parameters:
@@ -60,7 +59,7 @@ class ObjectPlacer:
         if self.config.get("Areas") is not None:
             self._place_objects_in_sites(areas, validators, is_fixed=False)
 
-    def _place_border(self, environment: Environment, validator: Validator):
+    def _place_border(self, environment: Environment, validator: Validator) -> None:
         """Places borders in the environment.
 
         Parameters:
@@ -97,7 +96,7 @@ class ObjectPlacer:
 
     def _place_objects_in_sites(
         self, sites: list[AbstractSite], validators: list[Validator], is_fixed: bool
-    ):
+    ) -> None:
         """Places fixed or random objects in the world sites.
 
         Parameters:
@@ -122,7 +121,6 @@ class ObjectPlacer:
                     placer.add(
                         site=site,
                         mujoco_object_blueprint=self.blueprints[object_name],
-                        mujoco_object_rule_blueprint=self.rule_blueprints[object_name],
                         validators=[validators[0], validators[site_index]],
                         amount=object_config_dict["amount"],
                         mujoco_objects_blueprints=self.blueprints,
