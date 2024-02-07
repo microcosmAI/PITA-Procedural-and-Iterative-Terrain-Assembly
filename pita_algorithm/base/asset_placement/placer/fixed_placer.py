@@ -2,7 +2,6 @@ import random
 import logging
 from tqdm import tqdm
 from typing import Union
-from pita_algorithm.utils.general_utils import Utils
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.environment import Environment
@@ -19,13 +18,12 @@ class FixedPlacer(AbstractPlacer):
 
     def __init__(self):
         """Constructor of the FixedPlacer class."""
-        pass
+        super().__init__()
 
     def add(
         self,
         site: AbstractSite,
         mujoco_object_blueprint: MujocoObject,
-        mujoco_object_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: int,
         coordinates: list[list[float, float, float]],
@@ -35,14 +33,13 @@ class FixedPlacer(AbstractPlacer):
         size_value_range: Union[tuple[int, int], None] = None,
         asset_pool: Union[list, None] = None,
         mujoco_objects_blueprints: Union[dict, None] = None,
-    ):
+    ) -> None:
         """Adds a mujoco object to a site by calling the sites add method
         after checking placement via the validator.
 
         Parameters:
             site (AbstractSite): AbstractSite class instance where the object is added to
-            mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
-            mujoco_object_rule_blueprint (MujocoObject): To-be-checked mujoco object
+            mujoco_object_blueprint (MujocoObject): Clean OG-Blueprint of to-be-placed mujoco object
             validators (list[Validator]): Validator class instance used to check object placement
             amount (int): Amount of object to be placed.
             coordinates (list[list[float, float, float]]): List of coordinate lists where each object is placed
@@ -54,7 +51,7 @@ class FixedPlacer(AbstractPlacer):
             mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
         # Check for mismatch of objects and color-/size-groups in configuration
-        Utils.check_user_input(color_groups=color_groups, size_groups=size_groups, amount=amount)
+        self._check_user_input(color_groups=color_groups, size_groups=size_groups, amount=amount)
 
         # Get colors rgba
         colors_for_placement = ObjectPropertyRandomization.get_random_colors(
@@ -72,72 +69,50 @@ class FixedPlacer(AbstractPlacer):
         )
 
         for obj_idx in tqdm(range(amount)):
+            # Get new clean blueprint
+            mutable_mujoco_object_blueprint = self._copy(mujoco_object_blueprint)
+
             # Sample from asset pool if asset_pool is given by user
             if asset_pool is not None:
                 asset_name = random.choice(asset_pool).split(".xml")[0]
-                mujoco_object_rule_blueprint = self._copy(
-                    mujoco_objects_blueprints[asset_name]
-                )
-                mujoco_object_blueprint = self._copy(
+                mutable_mujoco_object_blueprint = self._copy(
                     mujoco_objects_blueprints[asset_name]
                 )
 
             # Set relative coordinates
-            mujoco_object_rule_blueprint = self._set_relative_position(
-                                                site=site, coordinates=coordinates, obj_idx=obj_idx,
-                                                mujoco_object_rule_blueprint=mujoco_object_rule_blueprint)
+            mutable_mujoco_object_blueprint = self._set_relative_position(
+                                                  site=site, coordinates=coordinates, obj_idx=obj_idx,
+                                                  mujoco_object_rule_blueprint=mutable_mujoco_object_blueprint)
 
-            if not colors_for_placement is None:
+            if colors_for_placement is not None:
                 # Apply colors to objects
-                mujoco_object_rule_blueprint.color = colors_for_placement[obj_idx]
+                mutable_mujoco_object_blueprint.color = colors_for_placement[obj_idx]
 
-            if not sizes_for_placement is None:
+            if sizes_for_placement is not None:
                 # Apply sizes to objects
-                mujoco_object_rule_blueprint.size = sizes_for_placement[obj_idx]
+                mutable_mujoco_object_blueprint.size = sizes_for_placement[obj_idx]
 
-            if not z_rotation_for_placement is None:
+            if z_rotation_for_placement is not None:
                 # Apply rotation to z-axis of object
-                rotation = mujoco_object_rule_blueprint.rotation
+                rotation = mutable_mujoco_object_blueprint.rotation
                 if rotation is None:
                     rotation = [0, 0, z_rotation_for_placement[obj_idx]]
                 else:
                     rotation[2] = z_rotation_for_placement[obj_idx]
-                mujoco_object_rule_blueprint.rotation = rotation
+                mutable_mujoco_object_blueprint.rotation = rotation
 
             # Validates placement is not colliding with something that already exists
-            self._validate_object_placement(site=site, mujoco_object_rule_blueprint=mujoco_object_rule_blueprint,
+            self._validate_object_placement(site=site, mujoco_object_rule_blueprint=mutable_mujoco_object_blueprint,
                                             validators=validators)
-
-            # Copy the blueprint to avoid changing the original
-            mujoco_object = self._copy(mujoco_object_blueprint)
-            mujoco_object.position = mujoco_object_rule_blueprint.position
-
-            if colors_for_placement is not None:
-                # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
-                old_color = mujoco_object.color
-                mujoco_object.color = mujoco_object_rule_blueprint.color
-                mujoco_object_rule_blueprint.color = old_color
-
-            if sizes_for_placement is not None:
-                # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
-                old_size = mujoco_object.size
-                mujoco_object.size = mujoco_object_rule_blueprint.size
-                mujoco_object_rule_blueprint.size = old_size
-
-            if z_rotation_for_placement is not None:
-                # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
-                old_rotation = mujoco_object.rotation
-                mujoco_object.rotation = mujoco_object_rule_blueprint.rotation
-                mujoco_object_rule_blueprint.rotation = old_rotation
 
             # Keep track of the placement in the validators
             for validator in validators:
-                validator.add(mujoco_object)
+                validator.add(mutable_mujoco_object_blueprint)
 
             # Add the object to the site
-            site.add(mujoco_object=mujoco_object)
+            site.add(mujoco_object=mutable_mujoco_object_blueprint)
 
-    def remove(self, site: AbstractSite, mujoco_object: MujocoObject):
+    def remove(self, site: AbstractSite, mujoco_object: MujocoObject) -> None:
         """Removes a mujoco object from a site by calling the sites remove method.
 
         Parameters:
@@ -180,7 +155,7 @@ class FixedPlacer(AbstractPlacer):
 
     @staticmethod
     def _validate_object_placement(site: AbstractSite, mujoco_object_rule_blueprint: MujocoObject,
-                                   validators: list[Validator]):
+                                   validators: list[Validator]) -> None:
         """Checks if objects placement is validated by all Validators.
 
         Parameters:
