@@ -9,7 +9,7 @@ class JSONExporter:
     @staticmethod
     def export(
         export_path: str, config: dict, environment: Environment, areas: list[Area]
-    ):
+    ) -> None:
         """Export all object information from the given Environment and Area instances
         to a JSON file.
 

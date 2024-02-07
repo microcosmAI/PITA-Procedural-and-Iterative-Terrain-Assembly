@@ -44,7 +44,7 @@ class MujocoObject:
         return self._name
 
     @name.setter
-    def name(self, name: str):
+    def name(self, name: str) -> None:
         """Set name.
 
         Parameters:
@@ -62,7 +62,7 @@ class MujocoObject:
         return self._mjcf_obj
 
     @mjcf_obj.setter
-    def mjcf_obj(self, mjcf_obj: mjcf.RootElement):
+    def mjcf_obj(self, mjcf_obj: mjcf.RootElement) -> None:
         """Set mjcf object.
 
         Parameters:
@@ -80,7 +80,7 @@ class MujocoObject:
         return self._obj_class
 
     @obj_class.setter
-    def obj_class(self, obj_class: str):
+    def obj_class(self, obj_class: str) -> None:
         """Set object class.
 
         Parameters:
@@ -98,7 +98,7 @@ class MujocoObject:
         return self._mjcf_obj.find("body", self._name.lower()).pos
 
     @position.setter
-    def position(self, position: tuple[float, float, float]):
+    def position(self, position: tuple[float, float, float]) -> None:
         """Set position.
 
         Parameters:
@@ -116,7 +116,7 @@ class MujocoObject:
         return self._mjcf_obj.find("body", self._name.lower()).euler
 
     @rotation.setter
-    def rotation(self, rotation: tuple[float, float, float]):
+    def rotation(self, rotation: tuple[float, float, float]) -> None:
         """Set rotation of object
 
         Parameters:
@@ -134,7 +134,7 @@ class MujocoObject:
         return self._mjcf_obj.find("body", self._name.lower()).geom[0].rgba
 
     @color.setter
-    def color(self, color: tuple[float, float, float, float]):
+    def color(self, color: tuple[float, float, float, float]) -> None:
         """Set color as rgba.
 
         Parameters:
@@ -152,7 +152,7 @@ class MujocoObject:
         return self._mjcf_obj.find("body", self._name.lower()).geom[0].size
 
     @size.setter
-    def size(self, size: list[float]):
+    def size(self, size: list[float]) -> None:
         """Set size of object.
 
         Parameters:
@@ -170,7 +170,7 @@ class MujocoObject:
         return self._tags
 
     @tags.setter
-    def tags(self, tags: list[str]):
+    def tags(self, tags: list[str]) -> None:
         """Set tags.
 
         Parameters:

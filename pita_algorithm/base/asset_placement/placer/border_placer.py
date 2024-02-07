@@ -17,7 +17,7 @@ class BorderPlacer:
         mujoco_object_blueprint: MujocoObject,
         amount: int = 4,
         has_border: bool = False,
-    ):
+    ) -> None:
         """Adds the borders around the environment.
 
         Parameters:

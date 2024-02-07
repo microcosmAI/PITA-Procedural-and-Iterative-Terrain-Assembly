@@ -41,7 +41,7 @@ class Validator:
 
         return True
 
-    def plot(self, env_size: list):
+    def plot(self, env_size: list) -> None:
         """Plots the current 2d representation to where the current mpl backend points.
 
         Parameters:
@@ -72,7 +72,7 @@ class Validator:
 
         plt.show()
 
-    def add(self, mujoco_object: MujocoObject):
+    def add(self, mujoco_object: MujocoObject) -> None:
         """Adds object to 2d representation.
 
         Parameters:
