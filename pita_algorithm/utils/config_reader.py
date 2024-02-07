@@ -1,5 +1,6 @@
 import os
 import yaml
+import logging
 
 
 class ConfigReader:
@@ -15,11 +16,14 @@ class ConfigReader:
         Returns:
             config (dict): Dictionary of user defined configurations
         """
+        logger = logging.getLogger()
         if config_path is None:
-            raise ValueError("No config file provided")
+            logger.error("No config file provided.")
+            raise ValueError("No config file provided.")
         if not os.path.isfile(config_path):
-            print(config_path)
-            raise ValueError("Could not find config file in path provided")
+            logger.info(f"Config path: {config_path}")
+            logger.error("Could not find config file in path provided.")
+            raise ValueError(f"Could not find config file in path '{config_path}'.")
 
         stream = open(config_path, "r")
         config = yaml.load(stream, Loader=yaml.SafeLoader)

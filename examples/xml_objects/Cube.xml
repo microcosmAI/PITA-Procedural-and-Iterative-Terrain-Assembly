@@ -1,0 +1,7 @@
+<mujoco>
+    <worldbody>
+        <body name="cube_body" pos="0 0 1">
+            <geom type="box" size="0.1 0.1 0.1" rgba="0 0 1 1"/>
+        </body>
+    </worldbody>
+</mujoco>

@@ -1,11 +1,24 @@
+import logging
 import random
 import numpy as np
+from tqdm import tqdm
 from typing import Callable, Union, Any
-
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
+from pita_algorithm.utils.object_property_randomization import (
+    ObjectPropertyRandomization,
+)
+from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
+    AbstractPlacerDistribution,
+)
+from pita_algorithm.base.world_sites.area import Area
+from pita_algorithm.base.world_sites.environment import Environment
+from pita_algorithm.utils.general_utils import Utils
+from pita_algorithm.utils.object_property_randomization import (
+    ObjectPropertyRandomization,
+)
 
 
 class PlacerDistribution:
@@ -82,11 +95,11 @@ class RandomPlacer(AbstractPlacer):
     # Instead, after placement has failed for MAX_TRIES times, an error is thrown.
     MAX_TRIES = 10000
 
-    def __init__(self, distribution: PlacerDistribution):
+    def __init__(self, distribution: AbstractPlacerDistribution):
         """Constructor of the RandomPlacer class.
 
         Parameters:
-            distribution (PlacerDistribution): Distribution used for sampling
+            distribution (AbstractPlacerDistribution): Distribution used for sampling
         """
         self.distribution = distribution
 
@@ -97,8 +110,12 @@ class RandomPlacer(AbstractPlacer):
         mujoco_object_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
-        colors_range: Union[tuple[int, int], None] = None,
-        sizes_range: Union[tuple[int, int], None] = None,
+        z_rotation_range: Union[tuple[int, int], None] = None,
+        color_groups: Union[tuple[int, int], None] = None,
+        size_groups: Union[tuple[int, int], None] = None,
+        size_value_range: Union[tuple[int, int], None] = None,
+        asset_pool: Union[list, None] = None,
+        mujoco_objects_blueprints: Union[dict, None] = None,
     ):
         """Adds a mujoco object to a site by calling the sites add method
         after checking placement via the validator.
@@ -109,45 +126,76 @@ class RandomPlacer(AbstractPlacer):
             mujoco_object_rule_blueprint (MujocoObject): Blueprint of the to-be-placed mujoco object
             validators (list[Validator]): List of validators used to check object placement
             amount (tuple[int, int]): Range of possible amount of objects to be placed
-            colors_range (Union[tuple[int, int], None]): Range of possible different colors for object
-            sizes_range (Union[tuple[int, int], None]): Range of possible different sizes for object
+            z_rotation_range (Union[tuple[int, int], None]): Range of degrees for z-axis rotation
+            color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
+            size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
+            size_value_range (Union[tuple[float, float], None]): Range of size values allowed in randomization
+            asset_pool (Union[list, None]): List of xml-names of assets which should be sampled from
+            mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
+        logger = logging.getLogger()
 
-        # Sample the amount of objects to be placed if amount is a tuple and differ
-        amount = (
-            amount[0]
-            if (amount[0] == amount[1])
-            else np.random.randint(int(amount[0]), int(amount[1]))
+        # Sample from amount range
+        amount: int = ObjectPropertyRandomization.sample_from_amount(amount=amount)
+
+        # Get colors rgba
+        if not color_groups is None:
+            if max(color_groups) > amount:
+                logger.error(
+                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
+                )
+                raise ValueError(
+                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
+                )
+        colors_for_placement = ObjectPropertyRandomization.get_random_colors(
+            amount=amount, color_groups=color_groups
         )
 
-        # get colors rgba
-        colors_rgba = self._get_random_colors(colors_range=colors_range)
-        if not colors_rgba is None:
-            if len(colors_rgba) > amount:
-                raise ValueError("Not enough objects for specified colors.")
+        # Get object size
+        if not size_groups is None:
+            if len(size_groups) > amount:
+                logger.error(
+                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
+                )
+                raise ValueError(
+                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
+                )
+        sizes_for_placement = ObjectPropertyRandomization.get_random_sizes(
+            amount=amount, size_groups=size_groups, size_value_range=size_value_range
+        )
 
-        # get object size
-        sizes = self._get_random_sizes(sizes_range=sizes_range)
-        if not sizes is None:
-            if len(sizes) > amount:
-                raise ValueError("Not enough objects for specified sizes.")
+        # Get object z-axis rotation
+        z_rotation_for_placement = ObjectPropertyRandomization.get_random_rotation(
+            amount=amount, z_rotation_range=z_rotation_range
+        )
 
-        for i in range(amount):
-            if not colors_rgba is None:
-                # apply colors to objects
-                if i > (len(colors_rgba) - 1):
-                    randint = random.randrange(len(colors_rgba))
-                    mujoco_object_rule_blueprint.color = colors_rgba[randint]
+        for i in tqdm(range(amount)):
+            # Sample from asset pool if asset_pool is given by user
+            if asset_pool is not None:
+                asset_name = random.choice(asset_pool).split(".xml")[0]
+                mujoco_object_rule_blueprint = self._copy(
+                    mujoco_objects_blueprints[asset_name]
+                )
+                mujoco_object_blueprint = self._copy(
+                    mujoco_objects_blueprints[asset_name]
+                )
+
+            if not colors_for_placement is None:
+                # Apply colors to objects
+                mujoco_object_rule_blueprint.color = colors_for_placement[i]
+
+            if not sizes_for_placement is None:
+                # Apply sizes to objects
+                mujoco_object_rule_blueprint.size = sizes_for_placement[i]
+
+            if not z_rotation_for_placement is None:
+                # Apply rotation to z-axis of object
+                rotation = mujoco_object_rule_blueprint.rotation
+                if rotation is None:
+                    rotation = [0, 0, z_rotation_for_placement[i]]
                 else:
-                    mujoco_object_rule_blueprint.color = colors_rgba[i]
-
-            if not sizes is None:
-                # apply sizes to objects
-                if i > (len(sizes) - 1):
-                    randint = random.randrange(len(sizes))
-                    mujoco_object_rule_blueprint.size = sizes[randint]
-                else:
-                    mujoco_object_rule_blueprint.size = sizes[i]
+                    rotation[2] = z_rotation_for_placement[i]
+                mujoco_object_rule_blueprint.rotation = rotation
 
             # Save size of object for setting the z coordinate
             new_z_position = mujoco_object_rule_blueprint.size[0]
@@ -171,6 +219,13 @@ class RandomPlacer(AbstractPlacer):
             ):
                 count += 1
                 if count >= RandomPlacer.MAX_TRIES:
+                    logger.error(
+                        "Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
+                            mujoco_object_blueprint.name,
+                            site.name,
+                            RandomPlacer.MAX_TRIES,
+                        )
+                    )
                     raise RuntimeError(
                         "Placement of object '{}' in site '{}' has failed '{}' times, please check your config.yaml".format(
                             mujoco_object_blueprint.name,
@@ -187,19 +242,37 @@ class RandomPlacer(AbstractPlacer):
             # Copy the blueprint to avoid changing the original
             mujoco_object = self._copy(mujoco_object_blueprint)
 
-            if colors_rgba is not None:
+            if colors_for_placement is not None:
                 # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
                 old_color = mujoco_object.color
                 mujoco_object.color = mujoco_object_rule_blueprint.color
                 mujoco_object_rule_blueprint.color = old_color
 
-            if sizes is not None:
+            if sizes_for_placement is not None:
                 # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
                 old_size = mujoco_object.size
                 mujoco_object.size = mujoco_object_rule_blueprint.size
                 mujoco_object_rule_blueprint.size = old_size
 
+            if z_rotation_for_placement is not None:
+                # Exchange parameters i.e. Reset rule blueprint and modify the mujoco_object copy
+                old_rotation = mujoco_object.rotation
+                mujoco_object.rotation = mujoco_object_rule_blueprint.rotation
+                mujoco_object_rule_blueprint.rotation = old_rotation
+
             mujoco_object.position = mujoco_object_rule_blueprint.position
+
+            # If Site is area type, offset the coordinates to the boundaries
+            if isinstance(site, Area):
+                reference_boundaries = (
+                    (-site.environment.size[0], -site.environment.size[0]),
+                    (site.environment.size[1], site.environment.size[1]),
+                )  # TODO Not sure if this is correct and maybe we need to to /2 after a ticket
+                mujoco_object.position = Utils.offset_coordinates_to_boundaries(
+                    mujoco_object.position,
+                    site.boundary,
+                    reference_boundaries=reference_boundaries,
+                )
 
             # Keep track of the placement in the validators
             for validator in validators:
@@ -216,75 +289,3 @@ class RandomPlacer(AbstractPlacer):
             mujoco_object (MujocoObject): To-be-removed mujoco object
         """
         site.remove(mujoco_object=mujoco_object)
-
-    @staticmethod
-    def _get_random_colors(
-        colors_range: Union[tuple[int, int], None]
-    ) -> Union[list[tuple[float, float, float, float]], None]:
-        """Returns a list of random rgba colors (with alpha=1).
-           Every color is added twice to the list.
-
-        Parameters:
-            colors_range (Union[tuple[float, float], None]): Range of different colors
-
-        Returns:
-            colors_rgba (Union[list[tuple[float, float, float, float]], None]): List of randomized rgba colors
-        """
-        if colors_range is None:
-            return None
-
-        # get random int in range of colors
-        colors_randint = (
-            colors_range[0]
-            if (colors_range[0] == colors_range[1])
-            else np.random.randint(int(colors_range[0]), int(colors_range[1]))
-        )
-
-        # get random rgba for every color existing
-        colors_rgba = list()
-        for _ in range(colors_randint):
-            random_rgba = (
-                round(np.random.random(), 2),
-                round(np.random.random(), 2),
-                round(np.random.random(), 2),
-                1.0,
-            )  # transparency set to 1
-            colors_rgba.append(random_rgba)
-            colors_rgba.append(
-                random_rgba
-            )  # append twice to have pairs of colors for ball pit scenario
-
-        return colors_rgba
-
-    @staticmethod
-    def _get_random_sizes(
-        sizes_range: Union[tuple[float, float], None]
-    ) -> Union[list[list[float]], None]:
-        """Returns a list of random sizes. Every size is added twice to the list.
-
-        Parameters:
-            sizes_range (Union[tuple[float, float], None]): Range of different sizes
-
-        Returns:
-            sizes (list(float)): List of randomized sizes between 0 and 2
-        """
-        if sizes_range is None:
-            return None
-
-        # get random int in range of colors
-        sizes_randint = (
-            sizes_range[0]
-            if (sizes_range[0] == sizes_range[1])
-            else np.random.randint(int(sizes_range[0]), int(sizes_range[1]))
-        )
-
-        # get random size for every size that exist
-        sizes = list()
-        for _ in range(sizes_randint):
-            random_size = round(
-                np.random.random() * 2, 2
-            )  # sets a size between 0 and 2
-            sizes.append([random_size])
-            sizes.append([random_size])
-
-        return sizes

@@ -9,13 +9,13 @@ class JSONExporter:
 
     @staticmethod
     def export(
-        filename: str, config: dict, environment: Environment, areas: list[Area]
+        export_path: str, config: dict, environment: Environment, areas: list[Area]
     ):
         """Export all object information from the given Environment and Area instances
         to a JSON file.
 
         Parameters:
-            filename (str): Name of the file to be exported
+            export_path (str): Path of the file to be exported
             config (dict): Config file containing user defined parameters
             environment (Environment): Environment class instance
             areas (list): List of Area class instances
@@ -36,9 +36,11 @@ class JSONExporter:
         for mujoco_object in environment._mujoco_objects.values():
             values = {}
 
-            values["name"] = mujoco_object.name
-            values["type"] = mujoco_object.obj_type
-            values["attachable"] = mujoco_object.attachable
+            values["name"] = mujoco_object.xml_id
+            values[
+                "type"
+            ] = mujoco_object.obj_type  # TODO: Check if this is still needed
+            values["class"] = mujoco_object.obj_class
             values["position"] = mujoco_object.position.tolist()
             values["color"] = mujoco_object.color.tolist()
             values["size"] = mujoco_object.size.tolist()
@@ -62,9 +64,11 @@ class JSONExporter:
             for mujoco_object in area._mujoco_objects.values():
                 values = {}
 
-                values["name"] = mujoco_object.name
-                values["type"] = mujoco_object.obj_type
-                values["attachable"] = mujoco_object.attachable
+                values["name"] = mujoco_object.xml_id
+                values[
+                    "type"
+                ] = mujoco_object.obj_type  # TODO: Check if this is still needed
+                values["class"] = mujoco_object.obj_class
                 values["position"] = mujoco_object.position.tolist()
                 values["color"] = mujoco_object.color.tolist()
                 values["size"] = mujoco_object.size.tolist()
@@ -75,5 +79,5 @@ class JSONExporter:
                 ] = values
 
         # Export to JSON file
-        with open("export/" + filename + ".json", "w") as file:
+        with open(export_path + ".json", "w") as file:
             json.dump(all_objects, file, indent=4)
