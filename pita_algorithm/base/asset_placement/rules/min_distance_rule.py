@@ -15,6 +15,7 @@ class MinDistanceRule(Rule):
             dist (float): Minimal distance from the new object to all existing of specified type
             types (list): By default all objects in the environment will be considered.
         """
+        super().__init__()
         self.dist = dist
         self.types = types
 

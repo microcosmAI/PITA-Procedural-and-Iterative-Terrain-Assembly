@@ -13,6 +13,7 @@ class BoundaryRule(Rule):
         Parameters:
             boundary (tuple): A tuple of boundary values in the format (x, y)
         """
+        super().__init__()
         self.boundary = Polygon(
             [
                 (-boundary[0], -boundary[1]),

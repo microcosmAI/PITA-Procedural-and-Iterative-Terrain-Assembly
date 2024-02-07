@@ -15,6 +15,7 @@ class MinDistanceMujocoPhysicsRule(Rule):
         Parameters:
             distance (float): Minimal distance from the new object to all existing of specified type
         """
+        super().__init__()
         self.distance = distance
 
     def __call__(
