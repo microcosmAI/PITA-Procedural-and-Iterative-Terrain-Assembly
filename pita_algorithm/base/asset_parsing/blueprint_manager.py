@@ -18,14 +18,18 @@ class BlueprintManager:
         self.mujoco_objects_blueprints: dict[str, MujocoObject] = {}
         self.mujoco_objects_rule_blueprints: dict[str, MujocoObject] = {}
 
-    def get_object_blueprints(self):
-        """Creates and manipulates the mujoco objects blueprints."""
-        mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
-        self.mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
+    def get_object_blueprints(self) -> (dict, dict):
+        """Creates and manipulates the mujoco objects blueprints.
 
-        for name, mujoco_object in self.mujoco_objects_blueprints.items():
-            mujoco_object_copy = self._create_rule_blueprint(mujoco_object)
-            self.mujoco_objects_rule_blueprints[name] = mujoco_object_copy
+        Returns:
+            (dict, dict): Dictionaries of mujoco objects blueprints and mujoco objects rule blueprints
+        """
+        mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
+        mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
+        for name, mujoco_object in mujoco_objects_blueprints.items():
+            self.mujoco_objects_blueprints[name] = self._create_rule_blueprint(mujoco_object)
+
+        return self.mujoco_objects_blueprints
 
     @staticmethod
     def _create_rule_blueprint(mujoco_object: MujocoObject) -> MujocoObject:
