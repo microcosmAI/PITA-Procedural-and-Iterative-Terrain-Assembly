@@ -7,6 +7,12 @@ Environment:
     - place: True
     - tags: [ "Border" ]
   Objects:
+    Agent_one:
+      - xml_name: "Agent.xml"
+      - amount: 1
+      - coordinates: [ [ 35, 35, 35 ] ]
+      - tags: [ "Agent" ]
+
     Ball:
      - xml_name: "Ball.xml"
      - amount: 6
@@ -15,7 +21,7 @@ Environment:
      - color_groups: [2, 3]
      - size_groups: [2, 3]
      - size_value_range: [1, 2]
-     - tags: [ "Agent" ]
+     - tags: [ "Ball" ]
 
     Agent_two:
       - xml_name: "Agent.xml"
