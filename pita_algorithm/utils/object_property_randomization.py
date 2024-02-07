@@ -7,7 +7,7 @@ from PIL import ImageColor
 
 
 class ObjectPropertyRandomization:
-    """Generates random colors, sizes and z-rotation depending on user input"""
+    """Generates random colors, sizes and z-rotation depending on user input."""
 
     @staticmethod
     def sample_from_amount(amount: tuple[int, int]) -> int:
@@ -173,8 +173,7 @@ class ObjectPropertyRandomization:
             rgba = ImageColor.getcolor(hex_code, "RGBA")
             return rgba
         except ValueError:
-            # Handle invalid color names
-            return None
+            raise ValueError(f"Invalid color name {color_name}.")
 
     @staticmethod
     def get_size_array(
