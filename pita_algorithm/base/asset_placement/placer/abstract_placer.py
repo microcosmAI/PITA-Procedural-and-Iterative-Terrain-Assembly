@@ -1,4 +1,5 @@
 import copy
+import logging
 from typing import Union
 from abc import ABC, abstractmethod
 from pita_algorithm.base.asset_placement.validator import Validator
@@ -14,7 +15,8 @@ class AbstractPlacer(ABC):
         """Constructor of the AbstractPlacer class."""
         pass
 
-    def _copy(self, mujoco_object_blueprint: MujocoObject) -> MujocoObject:
+    @staticmethod
+    def _copy(mujoco_object_blueprint: MujocoObject) -> MujocoObject:
         """Creates a copy of a mujoco object blueprint.
 
         Parameters:
@@ -27,12 +29,42 @@ class AbstractPlacer(ABC):
 
         return mujoco_object
 
+    @staticmethod
+    def _check_user_input(color_groups: Union[tuple[int, int], None],
+                          size_groups: Union[tuple[int, int], None],
+                          amount: int) -> None:
+        """Checks if color_groups and size_groups is compatible with amount.
+
+        Parameters:
+            color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
+            size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
+            amount (int): Amount of object to be placed.
+        """
+        logger = logging.getLogger()
+
+        if color_groups is not None:
+            if max(color_groups) > amount:
+                logger.error(
+                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
+                )
+                raise ValueError(
+                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
+                )
+
+        if size_groups is not None:
+            if len(size_groups) > amount:
+                logger.error(
+                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
+                )
+                raise ValueError(
+                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
+                )
+
     @abstractmethod
     def add(
         self,
         site: AbstractSite,
         mujoco_object_blueprint: MujocoObject,
-        mujoco_object_rule_blueprint: MujocoObject,
         validators: list[Validator],
         amount: Union[int, tuple],
         coordinates: list[list[float, float, float]],
@@ -42,12 +74,11 @@ class AbstractPlacer(ABC):
         size_value_range: Union[tuple[int, int], None] = None,
         asset_pool: Union[list, None] = None,
         mujoco_objects_blueprints: Union[dict, None] = None,
-    ):
+    ) -> None:
         """
         Parameters:
             site (AbstractSite): AbstractSite class instance where the object is added to
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
-            mujoco_object_rule_blueprint (MujocoObject): To-be-checked mujoco object
             validators (list[Validator]): Validator class instance used to check object placement
             amount (int, tuple): Amount of object to be placed
             coordinates (list[list[float, float, float]]): List of coordinate lists where each object is placed
@@ -62,7 +93,7 @@ class AbstractPlacer(ABC):
         site.add(mujoco_object=mujoco_object)
 
     @abstractmethod
-    def remove(self, site: AbstractSite, mujoco_object: MujocoObject):
+    def remove(self, site: AbstractSite, mujoco_object: MujocoObject) -> None:
         """Removes a mujoco object from a site by calling the sites remove method.
 
         Parameters:
