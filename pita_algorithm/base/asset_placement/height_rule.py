@@ -5,7 +5,7 @@ from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 
-class GroundRule(Rule):
+class HeightRule(Rule):
     """A rule that checks if an object is above ground."""
 
     def __init__(self, ground_level: float):
