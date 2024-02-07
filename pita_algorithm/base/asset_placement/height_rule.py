@@ -9,11 +9,12 @@ class HeightRule(Rule):
     """A rule that checks if an object is above ground."""
 
     def __init__(self, ground_level: float):
-        """Constructor of the Boundary Rule.
+        """Constructor of the Height Rule.
 
         Parameters:
-            boundary (tuple): A tuple of boundary values in the format (x, y)
+            ground_level (float): Float level determining the minimum height.
         """
+        super().__init__()
         self.ground_level = ground_level
 
     def __call__(
@@ -23,7 +24,7 @@ class HeightRule(Rule):
         mujoco_object: MujocoObject,
         site: AbstractSite,
     ) -> bool:
-        """Check if a given object is above ground. Only utilizes the shape polygon.
+        """Check if a given object is above ground.
 
         Parameters:
             map_2D (dict): Dict mapping object classes to a list of their shapely representations
