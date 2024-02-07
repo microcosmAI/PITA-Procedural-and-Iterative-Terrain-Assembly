@@ -60,7 +60,8 @@ class LayoutManager:
         # What is the minimum divergence possible?
         min_max_div = min(rows_trunc, rows_ceil, cols_trunc, cols_ceil)
 
-        # What are the resulting tilings for the mode (rows or cols) and the number of tiles that resulted in the lowest divergence from square tiles?
+        # What are the resulting tilings for the mode (rows or cols) and the number of tiles that
+        # resulted in the lowest divergence from square tiles?
 
         # First half assumes that the tiling is fitted with longer and shorter rows
         if rows_trunc == min_max_div:
@@ -106,7 +107,8 @@ class LayoutManager:
         Returns:
             (float): The maximal divergence from a square tiling
         """
-        # What is the maximal divergence from a square given the area dimensions, the number of tiles and the number of rows to be constructed.
+        # What is the maximal divergence from a square given the area dimensions, the number of tiles
+        # and the number of rows to be constructed.
         if n_rows < 1 or n_rows > number:
             return float("inf")
 
