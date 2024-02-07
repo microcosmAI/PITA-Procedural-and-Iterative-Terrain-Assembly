@@ -33,18 +33,14 @@ class Assembler:
 
         logger.info("Loading assets..")
         blueprint_manager = BlueprintManager(self.config, self.xml_dir)
-        blueprint_manager.get_object_blueprints()
+        mujoco_objects_blueprints = blueprint_manager.get_object_blueprints()
 
         logger.info("Creating environment..")
         environment, areas = self._create_environment_and_areas(plot=self.plot)
         validators = self._create_validators(environment.size, areas)
 
         logger.info("Placing objects..")
-        object_placer = ObjectPlacer(
-            self.config,
-            blueprint_manager.mujoco_objects_blueprints,
-            blueprint_manager.mujoco_objects_rule_blueprints,
-        )
+        object_placer = ObjectPlacer(self.config, mujoco_objects_blueprints)
         object_placer.place_objects(environment, areas, validators)
 
         self._add_base_plane(environment)
