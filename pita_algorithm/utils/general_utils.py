@@ -1,8 +1,6 @@
-import logging
-from typing import Union
-
-
 class Utils:
+    """Collection of utility functions."""
+
     @staticmethod
     def get_randomization_parameters(config_dict: dict, keys: list) -> tuple:
         """Reads the randomization parameters in config_dict for the given keys.
@@ -36,7 +34,8 @@ class Utils:
         Parameters:
             position (tuple[float, float, float]): The coordinates of the MujocoObject.
             boundary (tuple[tuple[float, float], tuple[float, float]]): The boundaries of the Area.
-            reference_boundaries (tuple[tuple[float, float], tuple[float, float]]): The boundaries of the reference Area -> Environment Size.
+            reference_boundaries (tuple[tuple[float, float], tuple[float, float]]): The boundaries of the reference
+                                                                                    Area -> Environment Size.
 
         Returns:
             tuple[float, float, float]: The converted coordinates.
@@ -65,34 +64,3 @@ class Utils:
         final_y = small_y1 + scaled_y
 
         return final_x, final_y, position[2]
-
-    @staticmethod
-    def check_user_input(color_groups: Union[tuple[int, int], None],
-                         size_groups: Union[tuple[int, int], None],
-                         amount: int):
-        """Checks if color_groups and size_groups is compatible with amount.
-
-        Parameters:
-            color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
-            size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
-            amount (int): Amount of object to be placed.
-        """
-        logger = logging.getLogger()
-
-        if color_groups is not None:
-            if max(color_groups) > amount:
-                logger.error(
-                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
-                )
-                raise ValueError(
-                    f"Not enough objects for specified colors. Objects: {amount}, Colors: {color_groups}."
-                )
-
-        if size_groups is not None:
-            if len(size_groups) > amount:
-                logger.error(
-                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
-                )
-                raise ValueError(
-                    f"Not enough objects for specified sizes. Objects: {amount}, Sizes: {size_groups}."
-                )
