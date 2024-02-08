@@ -68,7 +68,9 @@ class RandomPlacer(AbstractPlacer):
         amount: int = ObjectPropertyRandomization.sample_from_amount(amount=amount)
 
         # Check for mismatch of objects and color-/size-groups in configuration
-        self._check_user_input(color_groups=color_groups, size_groups=size_groups, amount=amount)
+        self._check_user_input(
+            color_groups=color_groups, size_groups=size_groups, amount=amount
+        )
 
         # Get colors rgba
         colors_for_placement = ObjectPropertyRandomization.get_random_colors(
@@ -161,10 +163,12 @@ class RandomPlacer(AbstractPlacer):
                     (-site.environment.size[0], -site.environment.size[0]),
                     (site.environment.size[1], site.environment.size[1]),
                 )
-                mutable_mujoco_object_blueprint.position = Utils.offset_coordinates_to_boundaries(
-                    mutable_mujoco_object_blueprint.position,
-                    site.boundary,
-                    reference_boundaries=reference_boundaries,
+                mutable_mujoco_object_blueprint.position = (
+                    Utils.offset_coordinates_to_boundaries(
+                        mutable_mujoco_object_blueprint.position,
+                        site.boundary,
+                        reference_boundaries=reference_boundaries,
+                    )
                 )
 
             # Keep track of the placement in the validators

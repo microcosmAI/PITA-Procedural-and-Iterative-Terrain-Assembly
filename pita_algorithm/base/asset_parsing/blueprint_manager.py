@@ -27,7 +27,9 @@ class BlueprintManager:
         mujoco_loader = MujocoLoader(config_file=self.config, xml_dir=self.xml_dir)
         mujoco_objects_blueprints = mujoco_loader.get_mujoco_objects()
         for name, mujoco_object in mujoco_objects_blueprints.items():
-            self.mujoco_objects_blueprints[name] = self._create_rule_blueprint(mujoco_object)
+            self.mujoco_objects_blueprints[name] = self._create_rule_blueprint(
+                mujoco_object
+            )
 
         return self.mujoco_objects_blueprints
 

@@ -30,9 +30,11 @@ class AbstractPlacer(ABC):
         return mujoco_object
 
     @staticmethod
-    def _check_user_input(color_groups: Union[tuple[int, int], None],
-                          size_groups: Union[tuple[int, int], None],
-                          amount: int) -> None:
+    def _check_user_input(
+        color_groups: Union[tuple[int, int], None],
+        size_groups: Union[tuple[int, int], None],
+        amount: int,
+    ) -> None:
         """Checks if color_groups and size_groups is compatible with amount.
 
         Parameters:
