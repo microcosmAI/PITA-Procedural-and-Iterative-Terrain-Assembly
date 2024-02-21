@@ -12,8 +12,12 @@ from pita_algorithm.utils.object_property_randomization import (
     ObjectPropertyRandomization,
 )
 from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import (
-    AbstractPlacerDistribution,
+    AbstractPlacerDistribution
 )
+from pita_algorithm.base.asset_placement.distributions.random_walk_distribution import RandomWalkDistribution
+from pita_algorithm.base.asset_placement.distributions.circular_uniform_distribution import CircularUniformDistribution
+from pita_algorithm.base.asset_placement.distributions.multivariate_normal_distribution import MultivariateNormalDistribution
+from pita_algorithm.base.asset_placement.distributions.multivariate_uniform_distribution import MultivariateUniformDistribution
 
 
 class RandomPlacer(AbstractPlacer):
@@ -23,14 +27,9 @@ class RandomPlacer(AbstractPlacer):
     # Instead, after placement has failed for MAX_TRIES times, an error is thrown.
     MAX_TRIES = 10000
 
-    def __init__(self, distribution: AbstractPlacerDistribution):
-        """Constructor of the RandomPlacer class.
-
-        Parameters:
-            distribution (AbstractPlacerDistribution): Distribution used for sampling
-        """
+    def __init__(self):
+        """Constructor of the RandomPlacer class."""
         super().__init__()
-        self.distribution = distribution
 
     def add(
         self,
@@ -39,6 +38,7 @@ class RandomPlacer(AbstractPlacer):
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
         coordinates: None = None,
+        distribution: AbstractPlacerDistribution = None,
         z_rotation_range: Union[tuple[int, int], None] = None,
         color_groups: Union[tuple[int, int], None] = None,
         size_groups: Union[tuple[int, int], None] = None,
@@ -55,6 +55,7 @@ class RandomPlacer(AbstractPlacer):
             validators (list[Validator]): List of validators used to check object placement
             amount (tuple[int, int]): Range of possible amount of objects to be placed
             coordinates (None): Required signature of abstract parent class for fixed_placer
+            distribution (Distribution): Distribution for object to sample from for random placement
             z_rotation_range (Union[tuple[int, int], None]): Range of degrees for z-axis rotation
             color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
             size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
@@ -63,6 +64,26 @@ class RandomPlacer(AbstractPlacer):
             mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
         logger = logging.getLogger()
+
+        # Distribution mapping
+        mapping_distribution_pyclass = {
+            "RandomWalkDistribution": RandomWalkDistribution(parameters={
+                "step_size_range": [2, 4],
+                "bounds": [-site.size[0], site.size[0], -site.size[1], site.size[1]]
+            }),
+            "CircularUniformDistribution": CircularUniformDistribution(parameters={
+                "loc": 0.0,
+                "scale": min(site.size[0], site.size[1])
+            }),
+            "MultivariateNormalDistribution": MultivariateNormalDistribution(parameters={
+                "mean": [0, 0],
+                "cov": [[site.size[0], 0], [0, site.size[1]]]
+            }),
+            "MultivariateUniformDistribution": MultivariateUniformDistribution(parameters={
+                "low": [-site.size[0], -site.size[1]],
+                "high": [site.size[0], site.size[1]],
+            })
+        }
 
         # Sample from amount range
         amount: int = ObjectPropertyRandomization.sample_from_amount(amount=amount)
@@ -120,7 +141,7 @@ class RandomPlacer(AbstractPlacer):
 
             # Sample a new position
             mutable_mujoco_object_blueprint.position = (
-                *self.distribution(),
+                *mapping_distribution_pyclass[distribution](),
                 new_z_position,
             )
 
@@ -153,7 +174,7 @@ class RandomPlacer(AbstractPlacer):
                     )
                 # If placement is not possible, sample a new position
                 mutable_mujoco_object_blueprint.position = (
-                    *self.distribution(),
+                    *mapping_distribution_pyclass[distribution](),
                     new_z_position,
                 )
 
