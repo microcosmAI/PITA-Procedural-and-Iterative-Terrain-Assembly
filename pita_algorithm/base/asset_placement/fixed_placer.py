@@ -53,6 +53,17 @@ class FixedPlacer(AbstractPlacer):
             mujoco_objects_blueprints (Union[dict, None]): Dictionary of all objects as mujoco-objects
         """
         logger = logging.getLogger()
+        # Check if amount of objects and given coordinates is correct
+        if not amount == len(coordinates):
+            logger.error(
+                f"Mismatch between given object amount and coordinates for object"
+                f" '{mujoco_object_rule_blueprint.name}'."
+            )
+            raise ValueError(
+                f"Mismatch between given object amount and coordinates for object"
+                f" '{mujoco_object_rule_blueprint.name}'."
+            )
+
         # Get colors rgba
         if not color_groups is None:
             if max(color_groups) > amount:
@@ -139,16 +150,20 @@ class FixedPlacer(AbstractPlacer):
                 ]
             ):
                 logger.error(
-                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                    "User specified placement of object '{}' at '[{}, {}, {}]' in site '{}' could not be satisfied.".format(
                         mujoco_object_rule_blueprint.name,
-                        mujoco_object_rule_blueprint.position,
+                        relative_x,
+                        relative_y,
+                        z,
                         site.name,
                     )
                 )
                 raise RuntimeError(
-                    "User specified placement of object '{}' at '{}' in site '{}' could not be satisfied.".format(
+                    "User specified placement of object '{}' at '[{}, {}, {}]' in site '{}' could not be satisfied.".format(
                         mujoco_object_rule_blueprint.name,
-                        mujoco_object_rule_blueprint.position,
+                        relative_x,
+                        relative_y,
+                        z,
                         site.name,
                     )
                 )
