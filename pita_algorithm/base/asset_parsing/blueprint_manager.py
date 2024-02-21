@@ -16,7 +16,6 @@ class BlueprintManager:
         self.config: dict = config
         self.xml_dir: str = xml_dir
         self.mujoco_objects_blueprints: dict[str, MujocoObject] = {}
-        self.mujoco_objects_rule_blueprints: dict[str, MujocoObject] = {}
 
     def get_object_blueprints(self) -> (dict, dict):
         """Creates and manipulates the mujoco objects blueprints.
