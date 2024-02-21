@@ -194,11 +194,11 @@ class LayoutManager:
         Returns:
             (dict): A dictionary with swapped rows and columns
         """
-        # swap rows and cols length and height
+        # Swap rows and cols length and height
         tiling_short = tiling["short"]
         tiling_long = tiling["long"]
 
-        # should be pretty self explainatory
+        # Should be pretty self explainatory
         tiling["short"] = {
             "n_rows": tiling_short["n_cols"],
             "n_cols": tiling_short["n_rows"],
@@ -304,63 +304,63 @@ class LayoutManager:
         plt.figure(figsize=(length, height))
         if tiles["mode"] == "rows":
             row_height = 0
-            # short rows
+            # Short rows
             tile_height = tiles["short"]["tile_height"]
             tile_length = tiles["short"]["tile_length"]
             for i in range(tiles["short"]["n_rows"]):
-                # horizontal line
+                # Horizontal line
                 plt.plot((0, length), (row_height, row_height))
                 for j in range(tiles["short"]["n_cols"] + 1):
-                    # vertical lines
+                    # Vertical lines
                     plt.plot(
                         (j * tile_length, j * tile_length),
                         (row_height, row_height + tile_height),
                     )
                 row_height += tile_height
-            # long rows
+            # Long rows
             tile_height = tiles["long"]["tile_height"]
             tile_length = tiles["long"]["tile_length"]
             for i in range(tiles["long"]["n_rows"]):
-                # horizontal line
+                # Horizontal line
                 plt.plot((0, length), (row_height, row_height))
                 for j in range(tiles["long"]["n_cols"] + 1):
-                    # vertical lines
+                    # Vertical lines
                     plt.plot(
                         (j * tile_length, j * tile_length),
                         (row_height, row_height + tile_height),
                     )
                 row_height += tile_height
-            # final horizontal line
+            # Final horizontal line
             plt.plot((0, length), (row_height, row_height))
         elif tiles["mode"] == "cols":
             col_length = 0
-            # short cols
+            # Short cols
             tile_height = tiles["short"]["tile_height"]
             tile_length = tiles["short"]["tile_length"]
             for i in range(tiles["short"]["n_cols"]):
-                # horizontal line
+                # Horizontal line
                 plt.plot((col_length, col_length), (0, height))
                 for j in range(tiles["short"]["n_rows"] + 1):
-                    # vertical lines
+                    # Vertical lines
                     plt.plot(
                         (col_length, col_length + tile_length),
                         (j * tile_height, j * tile_height),
                     )
                 col_length += tile_length
-            # long cols
+            # Long cols
             tile_height = tiles["long"]["tile_height"]
             tile_length = tiles["long"]["tile_length"]
             for i in range(tiles["long"]["n_cols"]):
-                # horizontal line
+                # Horizontal line
                 plt.plot((col_length, col_length), (0, height))
                 for j in range(tiles["long"]["n_rows"] + 1):
-                    # vertical lines
+                    # Vertical lines
                     plt.plot(
                         (col_length, col_length + tile_length),
                         (j * tile_height, j * tile_height),
                     )
                 col_length += tile_length
-            # final vertical line
+            # Final vertical line
             if self.plot:
                 plt.plot((col_length, col_length), (0, height))
                 plt.show()
