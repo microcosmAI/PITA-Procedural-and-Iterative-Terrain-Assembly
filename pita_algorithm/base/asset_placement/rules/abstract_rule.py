@@ -6,6 +6,7 @@ from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
 
 class Rule(ABC):
     """Abstract class for rules."""
+
     @abstractmethod
     def __init__(self):
         pass
