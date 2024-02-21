@@ -4,6 +4,7 @@ from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.asset_placement.layout_manager import LayoutManager
+from pita_algorithm.base.asset_placement.rules.height_rule import HeightRule
 from pita_algorithm.base.asset_placement.rules.boundary_rule import BoundaryRule
 from pita_algorithm.base.asset_parsing.blueprint_manager import BlueprintManager
 from pita_algorithm.base.asset_placement.placer.object_placer import ObjectPlacer
