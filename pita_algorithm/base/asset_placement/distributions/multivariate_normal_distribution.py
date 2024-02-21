@@ -1,6 +1,5 @@
 import numpy as np
-
-from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
+from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import (
     AbstractPlacerDistribution,
 )
 
@@ -35,6 +34,7 @@ class MultivariateNormalDistribution(AbstractPlacerDistribution):
         Parameters:
             parameters (dict): Parameters for the multivariate normal distribution
         """
+        super().__init__(parameters=parameters)
         self.mean = np.array(parameters["mean"])
         self.cov = np.array(parameters["cov"])
 
@@ -45,7 +45,6 @@ class MultivariateNormalDistribution(AbstractPlacerDistribution):
             sample (np.ndarray): Sampled coordinates
         """
         sample = np.random.multivariate_normal(self.mean, self.cov)
-
         x, y = sample
 
         return x, y

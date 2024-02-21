@@ -36,9 +36,10 @@ class PITA:
             config_path (Union[str, None]): Path to where the yaml file is located
             xml_dir (Union[str, None]): Folder where all xml files are located
             export_path (Union[str, None]): Path (including file name but excluding extension) to export to
+            plot (Union[bool, None]): True for plotting, False if not
         """
         if config_path is None:
-            config_path = "examples/config_files/simple-config.yml"
+            config_path = "examples/config_files/ballpit.yml"
             warnings.warn(
                 "config path not specified; running with default directory in examples"
             )
@@ -53,9 +54,7 @@ class PITA:
                 "export path not specified; running with default directory in export and filename 'test'"
             )
 
-        # Read config file and assemble environment and export to xml and json
         config = ConfigReader.execute(config_path=config_path)
-
         logger = logging.getLogger()
 
         # Set random seed
@@ -82,9 +81,12 @@ class PITA:
             np.random.seed(random_seed)
             random.seed(random_seed)
 
+        # Assemble world
         environment, areas = Assembler(
             config_file=config, xml_dir=xml_dir, plot=plot
         ).assemble_world()
+
+        # Export to xml and json
         XMLExporter.to_xml(
             xml_string=environment.mjcf_model.to_xml_string(),
             export_path=export_path,
@@ -110,10 +112,8 @@ def main(
     ),
     plot: bool = typer.Option(default=False, help="Set to True to enable plots."),
 ):
-    # Initalize logging
     Logger.initialize_logger()
     logger = logging.getLogger()
-
     logger.info(
         f"Running PITA with following parameters: \n" + "-" * 50 + "\n"
         f"random_seed: '{random_seed}' \n"

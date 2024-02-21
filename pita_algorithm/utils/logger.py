@@ -7,7 +7,7 @@ class Logger:
     """Initializes logger."""
 
     @staticmethod
-    def initialize_logger():
+    def initialize_logger() -> None:
         """Initializes INFO logger with handler for output in logs file."""
         logging.basicConfig(level=logging.INFO)
         formatter = logging.Formatter(

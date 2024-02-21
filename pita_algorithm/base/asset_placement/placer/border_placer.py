@@ -1,16 +1,15 @@
+import copy
 from tqdm import tqdm
 from pita_algorithm.base.world_sites.environment import Environment
-from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-from pita_algorithm.base.asset_placement.abstract_placer import AbstractPlacer
 
 
-class BorderPlacer(AbstractPlacer):
+class BorderPlacer:
     """Places borders into the given environment."""
 
     def __init__(self):
         """Constructor of the BorderPlacer class."""
-        super(BorderPlacer, self).__init__()
+        pass
 
     def add(
         self,
@@ -18,7 +17,7 @@ class BorderPlacer(AbstractPlacer):
         mujoco_object_blueprint: MujocoObject,
         amount: int = 4,
         has_border: bool = False,
-    ):
+    ) -> None:
         """Adds the borders around the environment.
 
         Parameters:
@@ -26,9 +25,6 @@ class BorderPlacer(AbstractPlacer):
             mujoco_object_blueprint (MujocoObject): Blueprint of to-be-placed mujoco object
             amount (int): Number of to-be-placed borders
             has_border (bool): True if border is added to environment, else False
-
-        Returns:
-            mjcf_model (mjcf): An empty environment with borders around it
         """
         if has_border:
             size = environment.size
@@ -47,7 +43,8 @@ class BorderPlacer(AbstractPlacer):
             # Coordinates are given in halfs already
             coords = (top_middle, bottom_middle, right_middle, left_middle)
 
-            borders = [self._copy(mujoco_object_blueprint) for _ in range(amount)]
+            # Load borders
+            borders = [copy.deepcopy(mujoco_object_blueprint) for _ in range(amount)]
 
             for idx, border in tqdm(enumerate(borders)):
                 border_body = border.mjcf_obj.worldbody.body[0]
@@ -69,7 +66,3 @@ class BorderPlacer(AbstractPlacer):
                     border_body.pos[2] = blueprint_z
 
                 environment.add(mujoco_object=border)
-
-    def remove(self, site: AbstractSite, mujoco_object: MujocoObject):
-        """Remove function, currently not implemented/needed."""
-        pass
