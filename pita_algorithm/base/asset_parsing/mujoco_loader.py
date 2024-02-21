@@ -35,17 +35,17 @@ class MujocoLoader:
         """
         obj_dict = {}
 
-        # handles borders
+        # Handles borders
         for name, params in self.config_file["Environment"].items():
             if name == "Borders":
                 name = "Border"
                 obj_dict[name] = params
 
-        # handles objects in environment
+        # Handles objects in environment
         for name, params in self.config_file["Environment"]["Objects"].items():
             obj_dict[name] = params
 
-        # handles objects in area
+        # Handles objects in area
         if self.config_file.get("Areas") is not None:
             for area, obj_in_area in self.config_file["Areas"].items():
                 for name, params in self.config_file["Areas"][area]["Objects"].items():
@@ -65,7 +65,7 @@ class MujocoLoader:
         mujoco_dict = {}
 
         for obj, params in obj_dict.items():
-            # reads xml_name keyword in yml
+            # Reads xml_name keyword in yml
             xml_name = None
             for entry in params:
                 if entry.get("xml_name") is not None:
@@ -124,19 +124,19 @@ class MujocoLoader:
         Returns:
             mujoco_dict (dict): Dictionary of all objects as mujoco-objects
         """
-        # loads asset
+        # Loads asset
         obj_xml_path = os.path.join(self.xml_dir, xml_name)
         mjcf = Parser.get_mjcf(xml_path=obj_xml_path)
 
-        # adjust asset name in xml
+        # Adjust asset name in xml
         asset_name = xml_name.split(".xml")[0]
 
         mjcf.find(
             "body", asset_name.lower()
-        ).name = obj.lower()  # overwrites inner body name in xml
-        mjcf.root.model = obj.lower()  # overwrites outer body name in xml (root)
+        ).name = obj.lower()  # Overwrites inner body name in xml
+        mjcf.root.model = obj.lower()  # Overwrites outer body name in xml (root)
 
-        # read params from yml and create mujoco object
+        # Read params from yml and create mujoco object
         obj_type, tags, rotation = self._read_params(params)
         mujoco_obj = MujocoObject(
             name=obj,
