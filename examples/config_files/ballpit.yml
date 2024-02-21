@@ -16,7 +16,7 @@ Environment:
     Ball:
      - xml_name: "Ball.xml"
      - amount: 5
-     - coordinates: [ [ 10, 10, 10], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [50, 50, 50] ]
+     - coordinates: [ [ 10, 10, 10 ], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [50, 50, 50] ]
      - z_rotation_range: [0, 90]
      - color_groups: [2, 4]
      - size_groups: [2, 3]
