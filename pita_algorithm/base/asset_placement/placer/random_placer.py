@@ -12,12 +12,20 @@ from pita_algorithm.utils.object_property_randomization import (
     ObjectPropertyRandomization,
 )
 from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import (
-    AbstractPlacerDistribution
+    AbstractPlacerDistribution,
 )
-from pita_algorithm.base.asset_placement.distributions.random_walk_distribution import RandomWalkDistribution
-from pita_algorithm.base.asset_placement.distributions.circular_uniform_distribution import CircularUniformDistribution
-from pita_algorithm.base.asset_placement.distributions.multivariate_normal_distribution import MultivariateNormalDistribution
-from pita_algorithm.base.asset_placement.distributions.multivariate_uniform_distribution import MultivariateUniformDistribution
+from pita_algorithm.base.asset_placement.distributions.random_walk_distribution import (
+    RandomWalkDistribution,
+)
+from pita_algorithm.base.asset_placement.distributions.circular_uniform_distribution import (
+    CircularUniformDistribution,
+)
+from pita_algorithm.base.asset_placement.distributions.multivariate_normal_distribution import (
+    MultivariateNormalDistribution,
+)
+from pita_algorithm.base.asset_placement.distributions.multivariate_uniform_distribution import (
+    MultivariateUniformDistribution,
+)
 
 
 class RandomPlacer(AbstractPlacer):
@@ -67,22 +75,32 @@ class RandomPlacer(AbstractPlacer):
 
         # Distribution mapping
         mapping_distribution_pyclass = {
-            "RandomWalkDistribution": RandomWalkDistribution(parameters={
-                "step_size_range": [2, 4],
-                "bounds": [-site.size[0], site.size[0], -site.size[1], site.size[1]]
-            }),
-            "CircularUniformDistribution": CircularUniformDistribution(parameters={
-                "loc": 0.0,
-                "scale": min(site.size[0], site.size[1])
-            }),
-            "MultivariateNormalDistribution": MultivariateNormalDistribution(parameters={
-                "mean": [0, 0],
-                "cov": [[site.size[0], 0], [0, site.size[1]]]
-            }),
-            "MultivariateUniformDistribution": MultivariateUniformDistribution(parameters={
-                "low": [-site.size[0], -site.size[1]],
-                "high": [site.size[0], site.size[1]],
-            })
+            "RandomWalkDistribution": RandomWalkDistribution(
+                parameters={
+                    "step_size_range": [2, 4],
+                    "bounds": [
+                        -site.size[0],
+                        site.size[0],
+                        -site.size[1],
+                        site.size[1],
+                    ],
+                }
+            ),
+            "CircularUniformDistribution": CircularUniformDistribution(
+                parameters={"loc": 0.0, "scale": min(site.size[0], site.size[1])}
+            ),
+            "MultivariateNormalDistribution": MultivariateNormalDistribution(
+                parameters={
+                    "mean": [0, 0],
+                    "cov": [[site.size[0], 0], [0, site.size[1]]],
+                }
+            ),
+            "MultivariateUniformDistribution": MultivariateUniformDistribution(
+                parameters={
+                    "low": [-site.size[0], -site.size[1]],
+                    "high": [site.size[0], site.size[1]],
+                }
+            ),
         }
 
         # Sample from amount range
