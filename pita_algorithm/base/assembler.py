@@ -25,6 +25,8 @@ from pita_algorithm.base.asset_placement.multivariate_uniform_distribution impor
 
 # Rule Imports
 from pita_algorithm.base.asset_placement.boundary_rule import BoundaryRule
+from pita_algorithm.base.asset_placement.height_rule import HeightRule
+
 from pita_algorithm.base.asset_placement.min_distance_rule import (
     MinDistanceRule,
 )
@@ -315,8 +317,15 @@ class Assembler:
         )
         pretty_mode = self.config["Environment"]["Style"][0]["pretty_mode"]
 
+        if "Headlight" in self.config["Environment"].keys():
+            headlight = self.config["Environment"]["Headlight"]
+        else:
+            headlight = None
         environment = Environment(
-            name="Environment1", size=size_range, pretty_mode=pretty_mode
+            name="Environment1",
+            size=size_range,
+            pretty_mode=pretty_mode,
+            headlight=headlight,
         )
 
         areas = []
@@ -383,6 +392,7 @@ class Assembler:
         rules = [
             MinDistanceMujocoPhysicsRule(distance=1.0),
             BoundaryRule(boundary=(size[0], size[1])),
+            HeightRule(ground_level=0.0),
         ]
         environment_validator = Validator(rules)
         area_validators = [Validator(rules) for area in areas]

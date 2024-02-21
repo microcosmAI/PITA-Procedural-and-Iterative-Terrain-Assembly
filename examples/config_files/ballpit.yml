@@ -1,7 +1,13 @@
 Environment:
-  size_range: [ 100, 100 ]
+  size_range: [ 200, 200 ]
   Style:
-    - pretty_mode: False
+    - pretty_mode: True
+
+  Headlight:
+    - active: 0
+    - diffuse: [0.4, 0.4, 0.4]
+    - ambient: [0.1, 0.1, 0.1]
+
   Borders:
     - xml_name: "Border.xml"
     - place: True
@@ -12,10 +18,10 @@ Environment:
      - amount: 5
      - coordinates: [ [ 10, 10, 10], [ 15, 15, 15 ], [ 20, 20, 20 ], [ 25, 25, 25 ], [50, 50, 50] ]
      - z_rotation_range: [0, 90]
-     - color_groups: [2, 3]
+     - color_groups: [2, 4]
      - size_groups: [2, 3]
      - size_value_range: [1, 2]
-     - tags: [ "Agent" ]
+     - tags: [ "Ball" ]
 
     Agent_two:
       - xml_name: "Agent.xml"
@@ -23,28 +29,25 @@ Environment:
       - z_rotation_range: [ -180 , 180 ]
       - tags: [ "Agent" ]
 
+
 Areas:
   Area1:
-    size: large
     Objects:
-      Ball:
+      Ball2:
         - xml_name: "Ball.xml"
         - amount: 1
         - coordinates: [ [5, 75, 75] ]
         - z_rotation_range: [ 0, 180 ]
-        - tags: [ "Tree" ]
+        - tags: [ "Ball" ]
 
   Area2:
     Objects:
-      Tree:
-        - xml_name: "Tree.xml"
-        - amount: [ 6, 6 ]
+      Ball3:
+        - xml_name: "Ball.xml"
+        - amount: 1
+        - coordinates: [ [ 10, 10, 10 ] ]
         - z_rotation_range: [ 0, 180 ]
-        - color_groups: [ 2, 3 ]
-        - size_value_range: [ 1, 2 ]
-        - size_groups: [ 2, 3 ]
-        - asset_pool: [ "Tree.xml", "Tree_Ahorn.xml", "Tree_Birch.xml" ]
-        - tags: [ "Tree" ]
+        - tags: [ "Ball" ]
 
 
 
