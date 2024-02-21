@@ -1,5 +1,8 @@
 Environment:
-  size_range: [ 200, 200 ]
+  size_range:
+    - length_range: [ 100, 100 ]
+    - width_range: [ 100, 100 ]
+
   Style:
     - pretty_mode: True
 
@@ -25,7 +28,8 @@ Environment:
 
     Agent_two:
       - xml_name: "Agent.xml"
-      - amount: [ 2, 2 ]
+      - amount: [ 10, 10 ]
+      - distribution: "MultivariateNormalDistribution"
       - z_rotation_range: [ -180 , 180 ]
       - tags: [ "Agent" ]
 
