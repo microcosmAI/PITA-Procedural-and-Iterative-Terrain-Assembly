@@ -8,13 +8,8 @@ class MujocoObject:
     def __init__(
         self,
         name: str,
-        xml_id: str,
         mjcf_obj: mjcf.RootElement,
         obj_class: str,
-        obj_type: str,
-        coordinates: Union[
-            tuple[float, float, float], None
-        ] = None,  # ToDo: implement getter and setter
         rotation: Union[tuple[float, float, float], None] = None,
         color: Union[tuple[float, float, float, float], None] = None,
         size: Union[float, None] = None,
@@ -25,23 +20,19 @@ class MujocoObject:
         Parameters:
             name (str): Specific name of object
             mjcf_obj (mjcf): Objects xml parsed into mjcf-style model of mujoco
-            obj_type (str): Type of object (e.g. "tree" or "stone")
-            coordinates (tuple): Coordinates of the object
+            obj_class (str): Type of object (e.g. "Tree" or "Stone")
             rotation (tuple[float, float, float]): Rotation of object
             color (tuple[float, float, float, float]): Color rgba
             size (float): Size of ball (radius)
             tags (list(str)): User specified tags
         """
         self._name = name
-        self._xml_id = xml_id
         self._mjcf_obj = mjcf_obj
         self._obj_class: str = obj_class
-        self._obj_type = obj_type
-        self._coordinates = coordinates
-        self._tags = tags
+        self._rotation = rotation
         self._color = color
         self._size = size
-        self._rotation = rotation
+        self._tags = tags
 
     @property
     def name(self) -> str:
@@ -53,31 +44,13 @@ class MujocoObject:
         return self._name
 
     @name.setter
-    def name(self, name: str):
+    def name(self, name: str) -> None:
         """Set name.
 
         Parameters:
             name (str): Name of the object
         """
         self._name = name
-
-    @property
-    def xml_id(self) -> str:
-        """Get xml id.
-
-        Returns:
-            xml_id (str): Id of object in xml
-        """
-        return self._xml_id
-
-    @xml_id.setter
-    def xml_id(self, xml_id: str):
-        """Set xml id.
-
-        Parameters:
-            xml_id (str): Id of object in xml
-        """
-        self._xml_id = xml_id
 
     @property
     def mjcf_obj(self) -> mjcf.RootElement:
@@ -89,7 +62,7 @@ class MujocoObject:
         return self._mjcf_obj
 
     @mjcf_obj.setter
-    def mjcf_obj(self, mjcf_obj: mjcf.RootElement):
+    def mjcf_obj(self, mjcf_obj: mjcf.RootElement) -> None:
         """Set mjcf object.
 
         Parameters:
@@ -107,31 +80,13 @@ class MujocoObject:
         return self._obj_class
 
     @obj_class.setter
-    def obj_class(self, obj_class: str):
+    def obj_class(self, obj_class: str) -> None:
         """Set object class.
 
         Parameters:
             obj_class (str): Object class
         """
         self._obj_class = obj_class
-
-    @property
-    def obj_type(self) -> str:
-        """Get object type.
-
-        Returns:
-            obj_type (str): Type of the object
-        """
-        return self._obj_type
-
-    @obj_type.setter
-    def obj_type(self, obj_type: str):
-        """Set object type.
-
-        Parameters:
-            obj_type (str): Type of the object
-        """
-        self._obj_type = obj_type
 
     @property
     def position(self) -> tuple[float, float, float]:
@@ -143,7 +98,7 @@ class MujocoObject:
         return self._mjcf_obj.find("body", self._name.lower()).pos
 
     @position.setter
-    def position(self, position: tuple[float, float, float]):
+    def position(self, position: tuple[float, float, float]) -> None:
         """Set position.
 
         Parameters:
@@ -161,7 +116,7 @@ class MujocoObject:
         return self._mjcf_obj.find("body", self._name.lower()).euler
 
     @rotation.setter
-    def rotation(self, rotation: tuple[float, float, float]):
+    def rotation(self, rotation: tuple[float, float, float]) -> None:
         """Set rotation of object
 
         Parameters:
@@ -179,7 +134,7 @@ class MujocoObject:
         return self._mjcf_obj.find("body", self._name.lower()).geom[0].rgba
 
     @color.setter
-    def color(self, color: tuple[float, float, float, float]):
+    def color(self, color: tuple[float, float, float, float]) -> None:
         """Set color as rgba.
 
         Parameters:
@@ -197,7 +152,7 @@ class MujocoObject:
         return self._mjcf_obj.find("body", self._name.lower()).geom[0].size
 
     @size.setter
-    def size(self, size: list[float]):
+    def size(self, size: list[float]) -> None:
         """Set size of object.
 
         Parameters:
@@ -215,7 +170,7 @@ class MujocoObject:
         return self._tags
 
     @tags.setter
-    def tags(self, tags: list[str]):
+    def tags(self, tags: list[str]) -> None:
         """Set tags.
 
         Parameters:

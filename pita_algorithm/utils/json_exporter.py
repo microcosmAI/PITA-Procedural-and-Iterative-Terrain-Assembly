@@ -1,5 +1,4 @@
 import json
-
 from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
 
@@ -10,7 +9,7 @@ class JSONExporter:
     @staticmethod
     def export(
         export_path: str, config: dict, environment: Environment, areas: list[Area]
-    ):
+    ) -> None:
         """Export all object information from the given Environment and Area instances
         to a JSON file.
 
@@ -35,18 +34,26 @@ class JSONExporter:
         # Loop over Environment and its objects
         for mujoco_object in environment._mujoco_objects.values():
             values = {}
-
-            values["name"] = mujoco_object.xml_id
-            values[
-                "type"
-            ] = mujoco_object.obj_type  # TODO: Check if this is still needed
+            values["name"] = mujoco_object.name
             values["class"] = mujoco_object.obj_class
-            values["position"] = mujoco_object.position.tolist()
-            values["color"] = mujoco_object.color.tolist()
-            values["size"] = mujoco_object.size.tolist()
             values["tags"] = mujoco_object.tags
 
-            all_objects["environment"]["objects"][mujoco_object.xml_id] = values
+            if mujoco_object.position is None:
+                values["position"] = None
+            else:
+                values["position"] = mujoco_object.position.tolist()
+
+            if mujoco_object.color is None:
+                values["color"] = None
+            else:
+                values["color"] = mujoco_object.color.tolist()
+
+            if mujoco_object.size is None:
+                values["size"] = None
+            else:
+                values["size"] = mujoco_object.size.tolist()
+
+            all_objects["environment"]["objects"][mujoco_object.name] = values
 
         # Loop over all Areas and their objects
         for area in areas:
@@ -63,16 +70,24 @@ class JSONExporter:
 
             for mujoco_object in area._mujoco_objects.values():
                 values = {}
-
                 values["name"] = mujoco_object.xml_id
-                values[
-                    "type"
-                ] = mujoco_object.obj_type  # TODO: Check if this is still needed
                 values["class"] = mujoco_object.obj_class
-                values["position"] = mujoco_object.position.tolist()
-                values["color"] = mujoco_object.color.tolist()
-                values["size"] = mujoco_object.size.tolist()
                 values["tags"] = mujoco_object.tags
+
+                if mujoco_object.position is None:
+                    values["position"] = None
+                else:
+                    values["position"] = mujoco_object.position.tolist()
+
+                if mujoco_object.color is None:
+                    values["color"] = None
+                else:
+                    values["color"] = mujoco_object.color.tolist()
+
+                if mujoco_object.size is None:
+                    values["size"] = None
+                else:
+                    values["size"] = mujoco_object.size.tolist()
 
                 all_objects["areas"][area.name]["objects"][
                     mujoco_object.xml_id

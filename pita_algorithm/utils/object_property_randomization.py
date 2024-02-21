@@ -1,13 +1,13 @@
-import numpy as np
-import webcolors
 import random
-from PIL import ImageColor
-from random import sample
+import webcolors
+import numpy as np
 from typing import Union
+from random import sample
+from PIL import ImageColor
 
 
 class ObjectPropertyRandomization:
-    """Generates random colors, sizes and z-rotation depending on user input"""
+    """Generates random colors, sizes and z-rotation depending on user input."""
 
     @staticmethod
     def sample_from_amount(amount: tuple[int, int]) -> int:
@@ -173,29 +173,26 @@ class ObjectPropertyRandomization:
             rgba = ImageColor.getcolor(hex_code, "RGBA")
             return rgba
         except ValueError:
-            # Handle invalid color names
-            return None
+            raise ValueError(f"Invalid color name {color_name}.")
 
     @staticmethod
-    def get_size_array(
-        size_value_range: tuple[float, float]
-    ) -> list[float, float, float]:
+    def get_size_array(size_value_range: tuple[float, float]) -> list[float]:
         """Generates 3D random size in given range.
 
         Parameters:
             size_value_range (tuple[float, float]): Range of possible size values
 
         Returns:
-            random_size (list[float, float, float]): Randomized size values in given range for 3D
+            random_size (list[float]): Randomized size values in given range for 3D
         """
-        x_rand_size_float = np.random.uniform(
-            size_value_range[0], size_value_range[1]
+        x_rand_size_float = float(
+            np.random.uniform(size_value_range[0], size_value_range[1])
         )  # Higher is excluding
-        y_rand_size_float = np.random.uniform(
-            size_value_range[0], size_value_range[1]
+        y_rand_size_float = float(
+            np.random.uniform(size_value_range[0], size_value_range[1])
         )  # Higher is excluding
-        z_rand_size_float = np.random.uniform(
-            size_value_range[0], size_value_range[1]
+        z_rand_size_float = float(
+            np.random.uniform(size_value_range[0], size_value_range[1])
         )  # Higher is excluding
         random_size = [x_rand_size_float, y_rand_size_float, z_rand_size_float]
         return random_size

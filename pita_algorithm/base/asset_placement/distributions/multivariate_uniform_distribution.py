@@ -1,6 +1,5 @@
 import numpy as np
-
-from pita_algorithm.base.asset_placement.abstract_placer_distribution import (
+from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import (
     AbstractPlacerDistribution,
 )
 
@@ -14,6 +13,7 @@ class MultivariateUniformDistribution(AbstractPlacerDistribution):
         Parameters:
             parameters (dict): Parameters for the multivariate uniform distribution
         """
+        super().__init__(parameters=parameters)
         self.low = parameters["low"]
         self.high = parameters["high"]
 
@@ -28,7 +28,6 @@ class MultivariateUniformDistribution(AbstractPlacerDistribution):
             np.round(np.random.uniform(low=low, high=high, size=1)[0], 4)
             for low, high in zip(self.low, self.high)
         ]
-
         x, y = samples
 
         return x, y

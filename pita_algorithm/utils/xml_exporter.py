@@ -7,9 +7,8 @@ class XMLExporter:
     """Exports all object information to a JSON file."""
 
     @staticmethod
-    def to_xml(xml_string, export_path):
-        """
-        Clean mjcf changes on a given xml string and export it to an .xml file.
+    def to_xml(xml_string: str, export_path: str) -> None:
+        """Clean mjcf changes on a given xml string and export it to an .xml file.
         The mjcf library creates a new asset for each object of type mesh that
         is attached and assigns an internal filename. This function bundles these
         assets to categories and removes duplicates. The names for meshes and
@@ -20,7 +19,6 @@ class XMLExporter:
             export_path (str): Path of the file to be exported
         """
         root = ET.fromstring(xml_string)
-
         asset = root.find("asset")
 
         if asset is not None:
@@ -64,8 +62,7 @@ class XMLExporter:
         texture_names: set,
         textures: list,
     ) -> tuple[set, set, xml.etree.ElementTree.Element]:
-        """
-        Get clean names, remove duplicate assets, fix file paths.
+        """Get clean names, remove duplicate assets, fix file paths.
 
         Parameters:
             material_names (set): Set of material names
@@ -78,7 +75,6 @@ class XMLExporter:
 
         Returns:
             tuple: Tuple containing the material names, mesh names and the root element of the xml tree
-
         """
         for texture in textures:
             name = texture.attrib["name"]
@@ -136,8 +132,7 @@ class XMLExporter:
     def apply_new_names_to_geoms(
         material_names: set, mesh_names: set, root: xml.etree.ElementTree.Element
     ) -> xml.etree.ElementTree.Element:
-        """
-        Apply clean names to geoms.
+        """Apply clean names to geoms.
 
         Parameters:
             material_names (set): Set of material names
@@ -146,7 +141,6 @@ class XMLExporter:
 
         Returns:
             xml.etree.ElementTree.Element: Root element of the xml tree with applied clean names to geoms
-
         """
         bodies = root.find("worldbody").findall("body")
         for body in bodies:

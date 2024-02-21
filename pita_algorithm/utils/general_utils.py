@@ -1,9 +1,8 @@
-from pita_algorithm.base.asset_parsing.mujoco_object import MujocoObject
-
-
 class Utils:
+    """Collection of utility functions."""
+
     @staticmethod
-    def _get_randomization_parameters(config_dict: dict, keys: list) -> tuple:
+    def get_randomization_parameters(config_dict: dict, keys: list) -> tuple:
         """Reads the randomization parameters in config_dict for the given keys.
 
         Parameters:
@@ -35,7 +34,8 @@ class Utils:
         Parameters:
             position (tuple[float, float, float]): The coordinates of the MujocoObject.
             boundary (tuple[tuple[float, float], tuple[float, float]]): The boundaries of the Area.
-            reference_boundaries (tuple[tuple[float, float], tuple[float, float]]): The boundaries of the reference Area -> Environment Size.
+            reference_boundaries (tuple[tuple[float, float], tuple[float, float]]): The boundaries of the reference
+                                                                                    Area -> Environment Size.
 
         Returns:
             tuple[float, float, float]: The converted coordinates.
