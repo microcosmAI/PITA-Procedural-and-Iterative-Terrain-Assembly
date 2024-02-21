@@ -43,7 +43,7 @@ class BorderPlacer:
             # Coordinates are given in halfs already
             coords = (top_middle, bottom_middle, right_middle, left_middle)
 
-            # load borders
+            # Load borders
             borders = [copy.deepcopy(mujoco_object_blueprint) for _ in range(amount)]
 
             for idx, border in tqdm(enumerate(borders)):
