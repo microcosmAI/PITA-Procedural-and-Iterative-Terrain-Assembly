@@ -22,6 +22,7 @@ class Environment(AbstractSite):
             size (tuple): Tuple defining the size of the entire environment (length, width, height)
             name (str): Name of the environment
             pretty_style (bool): If true, the environment will be created with a pretty style
+            headlight (dict): Dictionary containing parameters for the mujoco headlight
         """
         self._size = self.calculate_size(size)
         self._name = name
