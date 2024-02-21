@@ -7,8 +7,8 @@ from pita_algorithm.base.asset_placement.layout_manager import LayoutManager
 from pita_algorithm.base.asset_placement.rules.height_rule import HeightRule
 from pita_algorithm.base.asset_placement.rules.boundary_rule import BoundaryRule
 from pita_algorithm.base.asset_parsing.blueprint_manager import BlueprintManager
-from pita_algorithm.base.asset_placement.user_config_rule import UserRules
-from pita_algorithm.base.asset_placement.rule_assembler import RuleAssembler
+from pita_algorithm.base.asset_placement.rules.user_config_rule import UserRules
+from pita_algorithm.base.asset_placement.rules.rule_assembler import RuleAssembler
 from pita_algorithm.base.asset_placement.placer.object_placer import ObjectPlacer
 from pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
