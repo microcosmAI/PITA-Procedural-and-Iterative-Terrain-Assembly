@@ -182,7 +182,7 @@ class RuleAssembler:
         Args:
             object (any): The object to which the rules are to be applied.
         """
-        # The loic of this will be dependent on what we need to do in later.
+        # The logic of this will be dependent on what we need to do in later.
         pass
 
     def export_rules(self, filename):
