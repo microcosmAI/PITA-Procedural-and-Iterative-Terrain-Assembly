@@ -199,6 +199,7 @@ class ObjectPlacer:
                         mujoco_objects_blueprints=self.blueprints,
                         **self._get_placer_params(object_config_dict, is_fixed),
                     )
+
     def _get_site_configs(self, sites: list[AbstractSite]) -> list[dict]:
         """Returns the object configurations for all world sites.
 
