@@ -1,7 +1,7 @@
 Environment:
   size_range:
-    - length_range: [ 100, 100 ]
-    - width_range: [ 100, 100 ]
+    - length_range: [ 200, 200 ]
+    - width_range: [ 200, 200 ]
 
   Style:
     - pretty_mode: True
@@ -29,7 +29,9 @@ Environment:
     Agent_two:
       - xml_name: "Agent.xml"
       - amount: [ 10, 10 ]
-      - distribution: "MultivariateNormalDistribution"
+      - distribution:
+        - name: "RandomWalkDistribution"
+        - step_size_range: [10, 20]
       - z_rotation_range: [ -180 , 180 ]
       - tags: [ "Agent" ]
 
