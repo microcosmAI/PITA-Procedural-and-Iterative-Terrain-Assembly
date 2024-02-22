@@ -102,8 +102,7 @@ class PITA:
 def main(
     random_seed: int = typer.Option(default=None, help="Pass seed."),
     config_path: str = typer.Option(
-        default="examples/config_files/complex-config.yml",
-        help="Specify path to config yml.",
+        default="examples/config_files/ballpit.yml", help="Specify path to config yml."
     ),
     xml_dir: str = typer.Option(
         default="examples/xml_objects", help="Specify path to xml files."
