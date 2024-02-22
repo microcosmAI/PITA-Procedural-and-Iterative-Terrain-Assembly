@@ -1,11 +1,12 @@
 import logging
+from typing import Union
 
 
 class UserRules:
     """Class to extract rules from a configuration dictionary."""
 
-    def __init__(self, config):
-        """Initializes the UserRules class.
+    def __init__(self, config: dict) -> None:
+        """Constructor of the UserRules class.
 
         Parameters:
             config (dict): The configuration dictionary
@@ -17,7 +18,7 @@ class UserRules:
             "Height": {"ground_level": 0.0},
         }
 
-    def extract_rules(self, data, site_name):
+    def extract_rules(self, data: dict, site_name: str) -> Union[dict, None]:
         """Extracts the rules from data.
 
         Parameters:
@@ -25,7 +26,7 @@ class UserRules:
             site_name (str): The name of the site
 
         Returns:
-            dict or None: The extracted or default rules, None if data is not a dictionary
+            (dict, None): The extracted or default rules, None if data is not a dictionary
         """
         logger = logging.getLogger()
         if isinstance(data, dict):
@@ -54,11 +55,11 @@ class UserRules:
                 return self.default_rules
         return None
 
-    def get_rules(self):
+    def get_rules(self) -> Union[dict, None]:
         """Extracts all the rules from the configuration dictionary.
 
         Returns:
-            dict: The extracted rules
+            (dict, None): The extracted rules
         """
         if not self.config:
             print("Failed to load configuration.")
