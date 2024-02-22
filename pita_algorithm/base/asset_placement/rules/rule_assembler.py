@@ -1,3 +1,4 @@
+from typing import Union
 from pita_algorithm.base.asset_placement.rules.height_rule import HeightRule
 from pita_algorithm.base.asset_placement.rules.boundary_rule import BoundaryRule
 from pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule import (
@@ -10,15 +11,15 @@ class RuleAssembler:
     and assembles site rule pairings based on user rules.
     """
 
-    def __init__(self, userrules):
-        """Initializes an instance of RuleAssembler.
+    def __init__(self, userrules) -> None:
+        """Constructor of the RuleAssembler class.
 
         Parameters:
             userrules (dict): Dictionary containing user rules
         """
         self.user_rules = userrules
 
-    def _get_rule_object(self, rule_name, userrule, environment_size):
+    def _get_rule_object(self, rule_name: str, userrule: dict: list, environment_size) -> Union[HeightRule, BoundaryRule, MinDistanceMujocoPhysicsRule]:
         """Returns the appropriate rule object based on the rule name.
 
         Parameters:
@@ -42,14 +43,14 @@ class RuleAssembler:
         else:
             raise ValueError(f"Unknown rule name: {rule_name}")
 
-    def assemble_site_rules_pairs(self, environment_size):
+    def assemble_site_rules_pairs(self, environment_size: list) -> dict:
         """Assembles Site and Rule pairs based on user rules.
 
         Parameters:
             environment_size (list): Size of the environment
 
         Returns:
-            dict: Dictionary containing site and rule pairs
+            site_rule_pairs (dict): Dictionary containing site and rule pairs
         """
         site_rule_pairs = {}
         for site, site_rules in self.user_rules.items():
