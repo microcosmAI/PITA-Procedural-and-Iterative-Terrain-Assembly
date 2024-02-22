@@ -11,10 +11,11 @@ class UserRules:
             config (dict): The configuration dictionary
         """
         self.config = config
-        self.default_rules = {'MinAllDistance': {'distance': 1.0}, 
-                              'Boundary': None, 
-                              'Height': {'ground_level': 0.0}
-                              }
+        self.default_rules = {
+            "MinAllDistance": {"distance": 1.0},
+            "Boundary": None,
+            "Height": {"ground_level": 0.0},
+        }
 
     def extract_rules(self, data, site_name):
         """Extracts the rules from data.
@@ -44,10 +45,12 @@ class UserRules:
                             result_dict = None
                         rule_dict[rule_name] = result_dict
                 return rule_dict
-            
+
             # If no rules are specified, return the default rules
             except TypeError:
-                logger.info(f"No rules specified for '{site_name}'. Using default rules: '{self.default_rules}'.")
+                logger.info(
+                    f"No rules specified for '{site_name}'. Using default rules: '{self.default_rules}'."
+                )
                 return self.default_rules
         return None
 
@@ -64,7 +67,9 @@ class UserRules:
         rules_dict = {}
 
         # Extract rules for the Environment
-        environment_rules = self.extract_rules(self.config.get("Environment", {}), "Environment")
+        environment_rules = self.extract_rules(
+            self.config.get("Environment", {}), "Environment"
+        )
         if environment_rules:
             rules_dict["Environment"] = environment_rules
 

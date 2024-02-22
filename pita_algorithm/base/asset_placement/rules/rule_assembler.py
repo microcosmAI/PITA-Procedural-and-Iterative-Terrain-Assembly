@@ -55,6 +55,8 @@ class RuleAssembler:
         for site, site_rules in self.user_rules.items():
             site_rule_pairs[site] = []
             for rule_name, rule_parameters in site_rules.items():
-                site_rule_pairs[site].append(self._get_rule_object(rule_name, rule_parameters, environment_size))
+                site_rule_pairs[site].append(
+                    self._get_rule_object(rule_name, rule_parameters, environment_size)
+                )
 
         return site_rule_pairs
