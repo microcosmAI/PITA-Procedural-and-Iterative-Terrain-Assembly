@@ -5,7 +5,7 @@ from typing import Union
 class UserRules:
     """Class to extract rules from a configuration dictionary."""
 
-    def __init__(self, config: dict) -> None:
+    def __init__(self, config: dict):
         """Constructor of the UserRules class.
 
         Parameters:

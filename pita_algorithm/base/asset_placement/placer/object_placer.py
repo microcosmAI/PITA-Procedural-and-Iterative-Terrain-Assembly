@@ -147,6 +147,9 @@ class ObjectPlacer:
         Parameters:
             is_fixed (bool): True if the objects should be placed with fixed coordinates, False otherwise
             object_settings (list[dict]): List of dictionaries containing the object settings
+
+        Returns:
+            bool: True if the object is fixed, False otherwise
         """
         has_coordinates = "coordinates" in [
             list(setting.keys())[0] for setting in object_settings
@@ -160,8 +163,10 @@ class ObjectPlacer:
         Parameters:
             config_dict (dict): Dictionary containing the object settings
             is_fixed (bool): True if the objects should be placed with fixed coordinates, False otherwise
-        """
 
+        Returns:
+            combined_dict (dict): Dictionary containing additional optional parameters
+        """
         keys = [
             "z_rotation_range",
             "color_groups",

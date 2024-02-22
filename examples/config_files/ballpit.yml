@@ -11,6 +11,13 @@ Environment:
     - diffuse: [0.4, 0.4, 0.4]
     - ambient: [0.1, 0.1, 0.1]
 
+  Rules:
+    - MinAllDistance:
+        - distance: 1.0
+    - Boundary:
+    - Height:
+        - ground_level: 0.0
+
   Borders:
     - xml_name: "Border.xml"
     - place: True
@@ -30,8 +37,9 @@ Environment:
       - xml_name: "Agent.xml"
       - amount: [ 10, 10 ]
       - distribution:
-        - name: "RandomWalkDistribution"
-        - step_size_range: [10, 20]
+        - name: "MultivariateNormalDistribution"
+        - mean: [0, 0]
+      - amount: [ 10, 10 ]
       - z_rotation_range: [ -180 , 180 ]
       - tags: [ "Agent" ]
 
