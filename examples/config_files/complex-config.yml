@@ -7,10 +7,13 @@ Environment:
     - pretty_mode: False
 
   random_seed: 42
-  rules:
+  Rules:
     - MinAllDistance:
         - distance: 1.0
-
+    - Boundary:
+    - Height:
+        - ground_level: 0.0
+        
   Borders:
     - xml_name: "Border.xml"
     - place: True
@@ -23,12 +26,6 @@ Environment:
       - distribution: Normal
       - type: container
       - tags: [ "Tree", "Obstacle" ]
-      - rules:
-          - MinObjectDistance:
-              - distance: 1.5
-              - object: Tree
-          - MinAllDistance:
-              - distance: 1.0
 
     Stone:
       - xml_name: "Stone.xml"
@@ -48,9 +45,6 @@ Environment:
 Areas:
   Area1:
     size: small
-    rules:
-      - MinAllDistance:
-          - distance: 1.5
     Objects:
       Tree:
         - xml_name: "Tree.xml"
@@ -71,6 +65,12 @@ Areas:
 
   Area2:
     size: small
+    Rules:
+      - MinAllDistance:
+          - distance: 1.0
+      - Boundary:
+      - Height:
+          - ground_level: 0.0
     Objects:
       Tree:
         - xml_name: "Tree.xml"
