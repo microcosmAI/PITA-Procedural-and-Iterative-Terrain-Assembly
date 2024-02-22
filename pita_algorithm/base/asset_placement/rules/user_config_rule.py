@@ -1,65 +1,61 @@
+import logging
+
+
 class UserRules:
     """Class to extract rules from a configuration dictionary."""
 
     def __init__(self, config):
-        """
-        Initializes the UserRules class.
+        """Initializes the UserRules class.
 
-        Args:
-            config (dict): The configuration dictionary.
+        Parameters:
+            config (dict): The configuration dictionary
         """
         self.config = config
+        self.default_rules = {'MinAllDistance': {'distance': 1.0}, 
+                              'Boundary': None, 
+                              'Height': {'ground_level': 0.0}
+                              }
 
-    def extract_rules(self, data):
-        """
-        Extracts the rules from data.
+    def extract_rules(self, data, site_name):
+        """Extracts the rules from data.
 
         Parameters:
-            data (dict or list): The data from which to extract the rules.
+            data (dict): The data from which to extract the rules
+            site_name (str): The name of the site
 
         Returns:
-            list or None: The extracted rules if found, None otherwise.
+            dict or None: The extracted or default rules, None if data is not a dictionary
         """
+        logger = logging.getLogger()
         if isinstance(data, dict):
-            return data.get("rules")
-        elif isinstance(data, list):
-            for item in data:
-                if isinstance(item, dict) and "rules" in item:
-                    return item.get("rules")
+            # If rules are specified in the configuration, extract them
+            try:
+                rule_dict = {}
+                # Find rules specified via the Rules key in the config
+                for rule in data.get("Rules"):
+                    for rule_name, parameters in rule.items():
+                        result_dict = {}
+                        # If the rule has parameters, add them to the result dictionary
+                        if isinstance(parameters, list):
+                            for parameter in parameters:
+                                result_dict.update(parameter)
+                        # If the rule has no parameters, set the corresponding value to None
+                        else:
+                            result_dict = None
+                        rule_dict[rule_name] = result_dict
+                return rule_dict
+            
+            # If no rules are specified, return the default rules
+            except TypeError:
+                logger.info(f"No rules specified for '{site_name}'. Using default rules: '{self.default_rules}'.")
+                return self.default_rules
         return None
 
-    def extract_object_rules(self, objects, rules_dict, parent_keys=None):
-        """
-        Extracts object-specific rules from the given objects.
-
-        Parameters:
-            objects (dict): The objects dictionary.
-            rules_dict (dict): The dictionary to store rules.
-            parent_keys (list): The list of keys indicating the current hierarchy.
-        """
-        parent_keys = parent_keys or []
-
-        for obj_name, obj_data in objects.items():
-            obj_rules = self.extract_rules(obj_data)
-            current_keys = parent_keys + [obj_name]
-
-            if obj_rules:
-                temp = rules_dict
-                for key in current_keys:
-                    temp = temp.setdefault(key, {})
-                temp["rules"] = obj_rules
-
-            # Check for nested objects
-            if isinstance(obj_data, dict) and "Objects" in obj_data:
-                nested_objects = obj_data["Objects"]
-                self.extract_object_rules(nested_objects, rules_dict, current_keys)
-
     def get_rules(self):
-        """
-        Extracts all the rules from the configuration dictionary.
+        """Extracts all the rules from the configuration dictionary.
 
         Returns:
-            dict: The extracted rules.
+            dict: The extracted rules
         """
         if not self.config:
             print("Failed to load configuration.")
@@ -68,25 +64,14 @@ class UserRules:
         rules_dict = {}
 
         # Extract rules for the Environment
-        environment_rules = self.extract_rules(self.config.get("Environment", {}))
+        environment_rules = self.extract_rules(self.config.get("Environment", {}), "Environment")
         if environment_rules:
-            rules_dict["Environment"] = {"rules": environment_rules}
+            rules_dict["Environment"] = environment_rules
 
-        # Extract rules for the objects in the Environment
-        self.extract_object_rules(
-            self.config.get("Environment", {}).get("Objects", {}),
-            rules_dict,
-            ["Environment"],
-        )
-
-        # Extract rules for each Area and the objects within them
+        # Extract rules for each Area
         for area_name, area_data in self.config.get("Areas", {}).items():
-            area_rules = self.extract_rules(area_data)
+            area_rules = self.extract_rules(area_data, area_name)
             if area_rules:
-                rules_dict.setdefault(area_name, {})["rules"] = area_rules
-
-            self.extract_object_rules(
-                area_data.get("Objects", {}), rules_dict, [area_name]
-            )
+                rules_dict.setdefault(area_name, area_rules)
 
         return rules_dict
