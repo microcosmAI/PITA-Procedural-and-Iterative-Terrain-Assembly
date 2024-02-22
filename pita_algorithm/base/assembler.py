@@ -4,13 +4,10 @@ from pita_algorithm.base.world_sites.area import Area
 from pita_algorithm.base.world_sites.environment import Environment
 from pita_algorithm.base.asset_placement.validator import Validator
 from pita_algorithm.base.asset_placement.layout_manager import LayoutManager
-from pita_algorithm.base.asset_placement.rules.height_rule import HeightRule
-from pita_algorithm.base.asset_placement.rules.boundary_rule import BoundaryRule
 from pita_algorithm.base.asset_parsing.blueprint_manager import BlueprintManager
+from pita_algorithm.base.asset_placement.rules.user_config_rule import UserRules
+from pita_algorithm.base.asset_placement.rules.rule_assembler import RuleAssembler
 from pita_algorithm.base.asset_placement.placer.object_placer import ObjectPlacer
-from pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule import (
-    MinDistanceMujocoPhysicsRule,
-)
 
 
 class Assembler:
@@ -27,6 +24,8 @@ class Assembler:
         self.config = config_file
         self.xml_dir = xml_dir
         self.plot = plot
+        self.user_rules = UserRules(self.config).get_rules()
+        self.rule_assembler = RuleAssembler(self.user_rules)
 
     def assemble_world(self) -> tuple[Environment, list[Area]]:
         """Assembles the world according to the users configuration and returns the environment and areas."""
@@ -38,7 +37,7 @@ class Assembler:
 
         logger.info("Creating environment..")
         environment, areas = self._create_environment_and_areas(plot=self.plot)
-        validators = self._create_validators(environment.size, areas)
+        validators = self._create_validators(environment.size)
 
         logger.info("Placing objects..")
         object_placer = ObjectPlacer(self.config, mujoco_objects_blueprints)
@@ -123,22 +122,17 @@ class Assembler:
                 )
         return environment, areas
 
-    @staticmethod
-    def _create_validators(size: list, areas: list[Area]) -> list[Validator]:
+    def _create_validators(self, size: list) -> list[Validator]:
         """Creates and returns the validators for the environment and areas.
 
         Parameters:
             size (list): Size of the environment
-            areas (list[Area]): List of Area objects
         """
-        rules = [
-            MinDistanceMujocoPhysicsRule(distance=1.0),
-            BoundaryRule(boundary=(size[0], size[1])),
-            HeightRule(ground_level=0.0),
-        ]
-        environment_validator = Validator(rules)
-        area_validators = [Validator(rules) for area in areas]
-        return [environment_validator] + area_validators
+        site_rule_pairs = self.rule_assembler.assemble_site_rules_pairs(size)
+        validators = []
+        for site_name, rules in site_rule_pairs.items():
+            validators.append(Validator(rules))
+        return validators
 
     def _add_base_plane(self, environment: Environment) -> None:
         """Adds a base plane to the environment.
