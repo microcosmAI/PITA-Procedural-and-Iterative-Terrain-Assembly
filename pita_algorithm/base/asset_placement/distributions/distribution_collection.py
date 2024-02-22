@@ -40,10 +40,15 @@ class MultivariateNormalDistribution(AbstractPlacerDistribution):
         """
         super().__init__(parameters=parameters)
         self.mean = np.array(parameters["mean"]) if "mean" in parameters else [0, 0]
-        self.cov = np.array(parameters["cov"]) if "cov" in parameters else [[parameters["site_sizes"][0], 0],
-                                                                            [0, [parameters["site_sizes"][1]]]]
+        self.cov = (
+            np.array(parameters["cov"])
+            if "cov" in parameters
+            else [[parameters["site_sizes"][0], 0], [0, [parameters["site_sizes"][1]]]]
+        )
         logger = logging.getLogger()
-        logger.info(f"Initializing MultivariateNormalDistribution with parameters {parameters}")
+        logger.info(
+            f"Initializing MultivariateNormalDistribution with parameters {parameters}"
+        )
 
     def __call__(self):
         """Draws a sample from a multivariate normal distribution.
@@ -69,12 +74,20 @@ class MultivariateUniformDistribution(AbstractPlacerDistribution):
             parameters (dict): Parameters for the multivariate uniform distribution
         """
         super().__init__(parameters=parameters)
-        self.low = parameters["low"] if "low" in parameters else [-parameters["site_sizes"][0],
-                                                                  -parameters["site_sizes"][1]]
-        self.high = parameters["high"] if "high" in parameters else [[parameters["site_sizes"][0]],
-                                                                     [parameters["site_sizes"][1]]]
+        self.low = (
+            parameters["low"]
+            if "low" in parameters
+            else [-parameters["site_sizes"][0], -parameters["site_sizes"][1]]
+        )
+        self.high = (
+            parameters["high"]
+            if "high" in parameters
+            else [[parameters["site_sizes"][0]], [parameters["site_sizes"][1]]]
+        )
         logger = logging.getLogger()
-        logger.info(f"Initializing MultivariateUniformDistribution with parameters {parameters}")
+        logger.info(
+            f"Initializing MultivariateUniformDistribution with parameters {parameters}"
+        )
 
     def __call__(self):
         """Draws a 2D sample from a multivariate uniform distribution.
@@ -109,11 +122,21 @@ class RandomWalkDistribution(AbstractPlacerDistribution):
                 parameters["bounds"]: (min_x, max_x, min_y, max_y) - Bounds of the 2D plane
         """
         super().__init__(parameters=parameters)
-        self.step_size_range = parameters["step_size_range"] if "step_size_range" in parameters else [5, 10]
-        self.bounds = parameters["bounds"] if "bounds" in parameters else [-parameters["site_sizes"][0],
-                                                                           parameters["site_sizes"][0],
-                                                                           -parameters["site_sizes"][1],
-                                                                           parameters["site_sizes"][1]]
+        self.step_size_range = (
+            parameters["step_size_range"]
+            if "step_size_range" in parameters
+            else [5, 10]
+        )
+        self.bounds = (
+            parameters["bounds"]
+            if "bounds" in parameters
+            else [
+                -parameters["site_sizes"][0],
+                parameters["site_sizes"][0],
+                -parameters["site_sizes"][1],
+                parameters["site_sizes"][1],
+            ]
+        )
         self.current_x = parameters["current_x"] if "current_x" in parameters else 0.0
         self.current_y = parameters["current_y"] if "current_y" in parameters else 0.0
         logger = logging.getLogger()
@@ -156,10 +179,15 @@ class CircularUniformDistribution(AbstractPlacerDistribution):
         """
         super().__init__(parameters=parameters)
         self.loc = parameters["loc"] if "loc" in parameters else 0.0
-        self.scale = parameters["scale"] if "scale" in parameters else min(parameters["site_sizes"][0],
-                                                                           parameters["site_sizes"][1])
+        self.scale = (
+            parameters["scale"]
+            if "scale" in parameters
+            else min(parameters["site_sizes"][0], parameters["site_sizes"][1])
+        )
         logger = logging.getLogger()
-        logger.info(f"Initializing CircularUniformDistribution with parameters {parameters}")
+        logger.info(
+            f"Initializing CircularUniformDistribution with parameters {parameters}"
+        )
 
     def __call__(self):
         """Draws a 2D sample from a circular uniform distribution.

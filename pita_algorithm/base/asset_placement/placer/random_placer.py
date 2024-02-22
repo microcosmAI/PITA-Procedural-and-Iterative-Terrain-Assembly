@@ -83,8 +83,12 @@ class RandomPlacer(AbstractPlacer):
         )
 
         # Get distribution name and parameters - load respective module
-        distr_name, distr_parameters = self._get_distr_params(distribution_config=distribution, site=site)
-        module_path = "pita_algorithm.base.asset_placement.distributions.distribution_collection"
+        distr_name, distr_parameters = self._get_distr_params(
+            distribution_config=distribution, site=site
+        )
+        module_path = (
+            "pita_algorithm.base.asset_placement.distributions.distribution_collection"
+        )
         module = importlib.import_module(module_path)
         distribution_class = getattr(module, distr_name)
 
