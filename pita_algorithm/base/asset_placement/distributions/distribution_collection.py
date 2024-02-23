@@ -43,7 +43,7 @@ class MultivariateNormalDistribution(AbstractPlacerDistribution):
         self.cov = (
             np.array(parameters["cov"])
             if "cov" in parameters
-            else [[parameters["site_sizes"][0], 0], [0, [parameters["site_sizes"][1]]]]
+            else [[parameters["site_sizes"][0], 0], [0, parameters["site_sizes"][1]]]
         )
         logger = logging.getLogger()
         logger.info(
