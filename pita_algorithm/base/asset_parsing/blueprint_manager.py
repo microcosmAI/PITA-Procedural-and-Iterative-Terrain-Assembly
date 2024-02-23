@@ -6,7 +6,7 @@ from pita_algorithm.base.asset_parsing.mujoco_loader import MujocoLoader
 class BlueprintManager:
     """Creates and manages the Mujoco objects blueprints."""
 
-    def __init__(self, config: dict, xml_dir: str) -> None:
+    def __init__(self, config: dict, xml_dir: str):
         """Constructor of the BlueprintManager class.
 
         Parameters:

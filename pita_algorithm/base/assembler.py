@@ -13,7 +13,7 @@ from pita_algorithm.base.asset_placement.placer.object_placer import ObjectPlace
 class Assembler:
     """Assembles the world."""
 
-    def __init__(self, config_file: dict, xml_dir: str, plot: bool = False) -> None:
+    def __init__(self, config_file: dict, xml_dir: str, plot: bool = False):
         """Constructor of the Assembler class.
 
         Parameters:
@@ -28,7 +28,11 @@ class Assembler:
         self.rule_assembler = RuleAssembler(self.user_rules)
 
     def assemble_world(self) -> tuple[Environment, list[Area]]:
-        """Assembles the world according to the users configuration and returns the environment and areas."""
+        """Assembles the world according to the users configuration and returns the environment and areas.
+
+        Returns:
+            tuple[Environment, list[Area]]: Environment and Area instances with objects
+        """
         logger = logging.getLogger()
 
         logger.info("Loading assets..")
@@ -52,7 +56,14 @@ class Assembler:
     def _create_environment_and_areas(
         self, plot: bool
     ) -> tuple[Environment, list[Area]]:
-        """Creates and returns the environment and areas."""
+        """Creates and returns the environment and areas.
+
+        Parameters:
+            plot (bool): Set to True for plotting
+
+        Returns:
+            tuple[Environment, list[Area]]: Initialized environment and areas with borders (if borders are placed)
+        """
         size_range = Utils.get_randomization_parameters(
             config_dict=self.config["Environment"], keys=["size_range"]
         )
@@ -127,6 +138,9 @@ class Assembler:
 
         Parameters:
             size (list): Size of the environment
+
+        Returns:
+            list(Validator): Validator objects
         """
         site_rule_pairs = self.rule_assembler.assemble_site_rules_pairs(size)
         validators = []

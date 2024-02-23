@@ -11,7 +11,7 @@ class RuleAssembler:
     and assembles site rule pairings based on user rules.
     """
 
-    def __init__(self, userrules) -> None:
+    def __init__(self, userrules):
         """Constructor of the RuleAssembler class.
 
         Parameters:
@@ -19,7 +19,9 @@ class RuleAssembler:
         """
         self.user_rules = userrules
 
-    def _get_rule_object(self, rule_name: str, userrule: dict: list, environment_size) -> Union[HeightRule, BoundaryRule, MinDistanceMujocoPhysicsRule]:
+    def _get_rule_object(
+        self, rule_name: str, userrule: dict, environment_size: list
+    ) -> Union[HeightRule, BoundaryRule, MinDistanceMujocoPhysicsRule]:
         """Returns the appropriate rule object based on the rule name.
 
         Parameters:

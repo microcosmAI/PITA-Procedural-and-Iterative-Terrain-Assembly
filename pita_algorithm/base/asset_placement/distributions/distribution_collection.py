@@ -43,14 +43,14 @@ class MultivariateNormalDistribution(AbstractPlacerDistribution):
         self.cov = (
             np.array(parameters["cov"])
             if "cov" in parameters
-            else [[parameters["site_sizes"][0], 0], [0, [parameters["site_sizes"][1]]]]
+            else [[parameters["site_sizes"][0], 0], [0, parameters["site_sizes"][1]]]
         )
         logger = logging.getLogger()
         logger.info(
             f"Initializing MultivariateNormalDistribution with parameters {parameters}"
         )
 
-    def __call__(self):
+    def __call__(self) -> (float, float):
         """Draws a sample from a multivariate normal distribution.
 
         Returns:
@@ -89,7 +89,7 @@ class MultivariateUniformDistribution(AbstractPlacerDistribution):
             f"Initializing MultivariateUniformDistribution with parameters {parameters}"
         )
 
-    def __call__(self):
+    def __call__(self) -> (float, float):
         """Draws a 2D sample from a multivariate uniform distribution.
 
         Returns:
@@ -142,7 +142,7 @@ class RandomWalkDistribution(AbstractPlacerDistribution):
         logger = logging.getLogger()
         logger.info(f"Initializing RandomWalkDistribution with parameters {parameters}")
 
-    def __call__(self) -> tuple[float, float]:
+    def __call__(self) -> (float, float):
         """Generates the next random object placement using a random walk.
 
         Returns:
@@ -189,7 +189,7 @@ class CircularUniformDistribution(AbstractPlacerDistribution):
             f"Initializing CircularUniformDistribution with parameters {parameters}"
         )
 
-    def __call__(self):
+    def __call__(self) -> (float, float):
         """Draws a 2D sample from a circular uniform distribution.
 
         Returns:
