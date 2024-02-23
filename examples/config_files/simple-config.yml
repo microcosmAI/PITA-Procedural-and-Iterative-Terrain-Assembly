@@ -1,5 +1,5 @@
 Environment:
-  size_range: [ 30, 30 ]
+  size_range: [100, 100]
 
   random_seed: 42
 
@@ -9,7 +9,7 @@ Environment:
   Borders:
     - xml_name: "Border.xml"
     - place: True
-    - tags: [ "Border" ]
+    - tags: ["Border"]
 
   Objects:
     Tree01:
@@ -19,15 +19,13 @@ Environment:
     Agent:
       - xml_name: "BoxAgent.xml"
       - amount: 2
-      - coordinates: [ [ 10, 10, 3 ], [ 10, 30, 3 ] ]
+      - coordinates: [ [10, 10, 3], [10, 30, 3] ]
 
 Areas:
   Area1:
-    size: small
     Objects:       
       Tree02:
         - xml_name: "Tree02.xml"
-        - amount: [ 2, 2 ]
-        - type: container
-        - tags: [ "Tree" , "Container" ]
+        - amount: [2, 2]
+        - tags: ["Tree"]
 
