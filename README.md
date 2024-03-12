@@ -1,5 +1,5 @@
-# s.peters_algorithm
-Peters Algorithm acts as automatic modular randomized world generator
+# PITA
+The PITA algorithm acts as an automatic modular randomized world generator
 
 ## Installation Instructions
 
