@@ -124,104 +124,143 @@
                         
                             
   <h1>Source code for pita_algorithm.pita</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">typer</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="c1"># Add parent folder of builder.py to python path</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))))</span>
 
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.assembler</span> <span class="kn">import</span> <span class="n">Assembler</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.utils.json_exporter</span> <span class="kn">import</span> <span class="n">JSONExporter</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.utils.xml_exporter</span> <span class="kn">import</span> <span class="n">XMLExporter</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.utils.config_reader</span> <span class="kn">import</span> <span class="n">ConfigReader</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.utils.logger</span> <span class="kn">import</span> <span class="n">Logger</span>
 
 
 <div class="viewcode-block" id="PITA"><a class="viewcode-back" href="../../pita_algorithm.pita.html#pita_algorithm.pita.PITA">[docs]</a><span class="k">class</span> <span class="nc">PITA</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Main class to run the PITA algorithm.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="PITA.run"><a class="viewcode-back" href="../../pita_algorithm.pita.html#pita_algorithm.pita.PITA.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PITA.run"><a class="viewcode-back" href="../../pita_algorithm.pita.html#pita_algorithm.pita.PITA.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">random_seed</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">config_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">xml_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">export_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">plot</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run pita_algorithm to create xml-file containing objects specified in config file.</span>
 <span class="sd">        Objects are given as xml by the user.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            random_seed (Union[int, None]): Seed for reproducibility</span>
+<span class="sd">            config_path (Union[str, None]): Path to where the yaml file is located</span>
+<span class="sd">            xml_dir (Union[str, None]): Folder where all xml files are located</span>
+<span class="sd">            export_path (Union[str, None]): Path (including file name but excluding extension) to export to</span>
+<span class="sd">            plot (Union[bool, None]): True for plotting, False if not</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Assign user args to params</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_user_args</span><span class="p">()</span>
-        <span class="n">config_path</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">config_path</span>
-        <span class="n">xml_dir</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">xml_dir</span>
+        <span class="k">if</span> <span class="n">config_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;examples/config_files/complex-config.yml&quot;</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;config path not specified; running with default directory in examples&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">xml_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xml_dir</span> <span class="o">=</span> <span class="s2">&quot;examples/xml_objects&quot;</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;xml directory not specified; running with default directory in examples&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">export_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">export_path</span> <span class="o">=</span> <span class="s2">&quot;export/test&quot;</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;export path not specified; running with default directory in export and filename &#39;test&#39;&quot;</span>
+            <span class="p">)</span>
 
-        <span class="c1"># Read config file and assemble environment and export to xml and json</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigReader</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">config_path</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
 
-        <span class="c1"># Set Random Seed</span>
+        <span class="c1"># Set random seed</span>
         <span class="k">if</span> <span class="p">(</span>
+            <span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="s2">&quot;random_seed&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Two seeds were specified (call argument to PITA.run() and in level config file). Using seed from the call.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting random seed to </span><span class="si">{</span><span class="n">random_seed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_seed</span><span class="p">)</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_seed</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">random_seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_seed</span><span class="p">)</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_seed</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span>
             <span class="s2">&quot;random_seed&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">]</span>
             <span class="ow">and</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">):</span>
             <span class="n">random_seed</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span><span class="s2">&quot;random_seed&quot;</span><span class="p">]</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting random seed to </span><span class="si">{</span><span class="n">random_seed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting random seed to </span><span class="si">{</span><span class="n">random_seed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_seed</span><span class="p">)</span>
             <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">random_seed</span><span class="p">)</span>
 
+        <span class="c1"># Assemble world</span>
         <span class="n">environment</span><span class="p">,</span> <span class="n">areas</span> <span class="o">=</span> <span class="n">Assembler</span><span class="p">(</span>
-            <span class="n">config_file</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">xml_dir</span><span class="o">=</span><span class="n">xml_dir</span>
+            <span class="n">config_file</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">xml_dir</span><span class="o">=</span><span class="n">xml_dir</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">plot</span>
         <span class="p">)</span><span class="o">.</span><span class="n">assemble_world</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_to_xml</span><span class="p">(</span>
-            <span class="n">xml_string</span><span class="o">=</span><span class="n">environment</span><span class="o">.</span><span class="n">mjcf_model</span><span class="o">.</span><span class="n">to_xml_string</span><span class="p">(),</span> <span class="n">file_name</span><span class="o">=</span><span class="s2">&quot;test&quot;</span>
+
+        <span class="c1"># Export to xml and json</span>
+        <span class="n">XMLExporter</span><span class="o">.</span><span class="n">to_xml</span><span class="p">(</span>
+            <span class="n">xml_string</span><span class="o">=</span><span class="n">environment</span><span class="o">.</span><span class="n">mjcf_model</span><span class="o">.</span><span class="n">to_xml_string</span><span class="p">(),</span>
+            <span class="n">export_path</span><span class="o">=</span><span class="n">export_path</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">JSONExporter</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
-            <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;environment_configuration&quot;</span><span class="p">,</span>
+            <span class="n">export_path</span><span class="o">=</span><span class="n">export_path</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
             <span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">,</span>
             <span class="n">areas</span><span class="o">=</span><span class="n">areas</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="PITA._get_user_args"><a class="viewcode-back" href="../../pita_algorithm.pita.html#pita_algorithm.pita.PITA._get_user_args">[docs]</a>    <span class="k">def</span> <span class="nf">_get_user_args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read args defined by user. If none are given, args are set to files and</span>
-<span class="sd">        directories in the &#39;examples&#39; folder.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            args (argparse.Namespace): Contains args defined by user</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;--config_path&quot;</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify folder where yaml file is located&quot;</span><span class="p">,</span>
-            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;--xml_dir&quot;</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify folder where all xml files are located&quot;</span><span class="p">,</span>
-            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">xml_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">xml_dir</span> <span class="o">=</span> <span class="s2">&quot;examples/xml_objects&quot;</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;xml directory not specified; running with default directory in examples&quot;</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">config_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;examples/config_files/ballpit.yml&quot;</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;config path not specified; running with default directory in examples&quot;</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="n">args</span></div>
-
-<div class="viewcode-block" id="PITA._to_xml"><a class="viewcode-back" href="../../pita_algorithm.pita.html#pita_algorithm.pita.PITA._to_xml">[docs]</a>    <span class="k">def</span> <span class="nf">_to_xml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml_string</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exports a given string to an .xml file.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            xml_string (str): String representation of the environment mjcf model</span>
-<span class="sd">            file_name (str): Name of the file to be exported</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;export/&quot;</span> <span class="o">+</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_string</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../pita_algorithm.pita.html#pita_algorithm.pita.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
+    <span class="n">random_seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Pass seed.&quot;</span><span class="p">),</span>
+    <span class="n">config_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;examples/config_files/complex-config.yml&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify path to config yml.&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">xml_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;examples/xml_objects&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify path to xml files.&quot;</span>
+    <span class="p">),</span>
+    <span class="n">export_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;export/test&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify path to output directory.&quot;</span>
+    <span class="p">),</span>
+    <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Set to True to enable plots.&quot;</span><span class="p">),</span>
+<span class="p">):</span>
+    <span class="n">Logger</span><span class="o">.</span><span class="n">initialize_logger</span><span class="p">()</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Running PITA with following parameters: </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;random_seed: &#39;</span><span class="si">{</span><span class="n">random_seed</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;config_path: &#39;</span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;xml_dir: &#39;</span><span class="si">{</span><span class="n">xml_dir</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;export_path: &#39;</span><span class="si">{</span><span class="n">export_path</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;plot: &#39;</span><span class="si">{</span><span class="n">plot</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">PITA</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+        <span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">,</span>
+        <span class="n">config_path</span><span class="o">=</span><span class="n">config_path</span><span class="p">,</span>
+        <span class="n">xml_dir</span><span class="o">=</span><span class="n">xml_dir</span><span class="p">,</span>
+        <span class="n">export_path</span><span class="o">=</span><span class="n">export_path</span><span class="p">,</span>
+        <span class="n">plot</span><span class="o">=</span><span class="n">plot</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done.&quot;</span><span class="p">)</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">PITA</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">)</span>
 </pre></div>
 
                         
@@ -246,14 +285,16 @@
         };
     </script>
     <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2023, EBIMAS Study Project.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.
         </div>
     </div>  
 

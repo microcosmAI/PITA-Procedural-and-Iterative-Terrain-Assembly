@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peter Algorithm Configuration &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Peter Algorithm Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/abc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="peter-algorithm-configuration">
+<h1>Peter Algorithm Configuration<a class="headerlink" href="#peter-algorithm-configuration" title="Permalink to this heading"></a></h1>
+<p>This guide delves into the <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file of the Peter Algorithm, a pivotal component that determines the simulation environment, object behaviors, and overall dynamics. Through this file, users can customize numerous aspects of the simulation to align with their specific research goals or experimental setups.</p>
+<section id="environment-setup">
+<h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this heading"></a></h2>
+<p>The environment is the virtual space where simulations occur. Its configuration is crucial for defining the boundaries and conditions under which objects interact.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">size_range</span></code></dt><dd><p>Defines the dimensions of the simulation environment. It accepts a list for the length and width, allowing for flexibility in environment size.</p>
+<ul class="simple">
+<li><p><strong>Format</strong>: <code class="docutils literal notranslate"><span class="pre">[length_range,</span> <span class="pre">width_range]</span></code></p></li>
+<li><p><strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">size_range:</span> <span class="pre">[200,</span> <span class="pre">300]</span></code> specifies a length between 200 and 300 units and a constant width of 300 units.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Style</span></code></dt><dd><p>Adjusts the visual aesthetics of the simulation, enhancing readability or providing a more engaging visual experience.</p>
+<ul class="simple">
+<li><p><strong>Parameters</strong>:
+- <code class="docutils literal notranslate"><span class="pre">pretty_mode</span></code>: When set to True, applies a stylized rendering to the environment.</p></li>
+<li><p><strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">Style:</span> <span class="pre">pretty_mode:</span> <span class="pre">False</span></code> disables stylized rendering, opting for a more basic visual presentation.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">random_seed</span></code></dt><dd><p>Ensures reproducibility of simulations by initializing the random number generator with a fixed seed.</p>
+<ul class="simple">
+<li><p><strong>Usage</strong>: <code class="docutils literal notranslate"><span class="pre">random_seed:</span> <span class="pre">42</span></code> sets the seed to 42, ensuring consistent simulation outcomes for the same configurations.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="lighting-configuration">
+<h2>Lighting Configuration<a class="headerlink" href="#lighting-configuration" title="Permalink to this heading"></a></h2>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">Headlight</span></code></dt><dd><p>Controls the simulation’s lighting, affecting how objects are illuminated and perceived.</p>
+<ul>
+<li><p><strong>Parameters</strong>:
+- <code class="docutils literal notranslate"><span class="pre">active</span></code>: Toggles the headlight on (1) or off (0).
+- <code class="docutils literal notranslate"><span class="pre">diffuse</span></code>: Defines the diffuse light components in RGB format.
+- <code class="docutils literal notranslate"><span class="pre">ambient</span></code>: Specifies the ambient light components, also in RGB.</p></li>
+<li><p><strong>Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Headlight</span><span class="p">:</span>
+  <span class="n">active</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">diffuse</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]</span>
+  <span class="n">ambient</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="global-rules">
+<h2>Global Rules<a class="headerlink" href="#global-rules" title="Permalink to this heading"></a></h2>
+<p>Defines rules that apply universally within the environment, dictating object interactions and constraints.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">Rules</span></code></dt><dd><p>Consists of several sub-rules, each with specific purposes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MinAllDistance</span></code>: Enforces a minimum distance between all objects to avoid overlaps or excessive proximity.
+- <strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">MinAllDistance:</span> <span class="pre">distance:</span> <span class="pre">1.0</span></code> sets the minimum distance to 1 unit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Boundary</span></code>: Ensures objects are placed within predefined environmental boundaries.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Height</span></code>: Specifies a ground level, dictating the minimum height at which objects can be placed.
+- <strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">Height:</span> <span class="pre">ground_level:</span> <span class="pre">0.0</span></code> sets the ground level at 0 units.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="borders-and-objects">
+<h2>Borders and Objects<a class="headerlink" href="#borders-and-objects" title="Permalink to this heading"></a></h2>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">Borders</span></code></dt><dd><p>Defines properties and placement of borders around the simulation environment, enhancing realism or providing constraints.</p>
+<ul>
+<li><p><strong>Parameters</strong> include <code class="docutils literal notranslate"><span class="pre">xml_name</span></code> for asset file specification, <code class="docutils literal notranslate"><span class="pre">place</span></code> to toggle placement, and <code class="docutils literal notranslate"><span class="pre">tags</span></code> for categorization.</p></li>
+<li><p><strong>Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Borders</span><span class="p">:</span>
+  <span class="n">xml_name</span><span class="p">:</span> <span class="s2">&quot;Border.xml&quot;</span>
+  <span class="n">place</span><span class="p">:</span> <span class="kc">True</span>
+  <span class="n">tags</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Border&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Objects</span></code></dt><dd><p>Details configurations for each object type within the environment, including appearance, quantity, and behavior.</p>
+<ul>
+<li><p><strong>Configurations</strong> cover a wide range, from <code class="docutils literal notranslate"><span class="pre">xml_name</span></code> and <code class="docutils literal notranslate"><span class="pre">amount</span></code> to more specific attributes like <code class="docutils literal notranslate"><span class="pre">z_rotation_range</span></code>, <code class="docutils literal notranslate"><span class="pre">color_groups</span></code>, and <code class="docutils literal notranslate"><span class="pre">size_groups</span></code>.</p></li>
+<li><p><strong>Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Objects</span><span class="p">:</span>
+  <span class="n">Agent</span><span class="p">:</span>
+    <span class="n">xml_name</span><span class="p">:</span> <span class="s2">&quot;Agent.xml&quot;</span>
+    <span class="n">amount</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">distribution</span><span class="p">:</span>
+      <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;MultivariateNormalDistribution&quot;</span>
+      <span class="n">mean</span><span class="p">:</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+      <span class="n">cov</span><span class="p">:</span> <span class="p">[[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">]]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="area-configuration">
+<h2>Area Configuration<a class="headerlink" href="#area-configuration" title="Permalink to this heading"></a></h2>
+<p>Allows for dividing the environment into distinct sections, each with tailored settings.</p>
+<ul>
+<li><p>Each <code class="docutils literal notranslate"><span class="pre">Area</span></code> can have its <code class="docutils literal notranslate"><span class="pre">Rules</span></code> and <code class="docutils literal notranslate"><span class="pre">Objects</span></code>, applying localized configurations.</p></li>
+<li><p><strong>Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Areas</span><span class="p">:</span>
+  <span class="n">Area1</span><span class="p">:</span>
+    <span class="n">Rules</span><span class="p">:</span>
+      <span class="n">MinAllDistance</span><span class="p">:</span>
+        <span class="n">distance</span><span class="p">:</span> <span class="mf">1.0</span>
+    <span class="n">Objects</span><span class="p">:</span>
+      <span class="n">Tree</span><span class="p">:</span>
+        <span class="n">xml_name</span><span class="p">:</span> <span class="s2">&quot;Tree.xml&quot;</span>
+        <span class="n">amount</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+        <span class="n">distribution</span><span class="p">:</span>
+          <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;CircularUniformDistribution&quot;</span>
+          <span class="n">loc</span><span class="p">:</span> <span class="mi">28</span>
+          <span class="n">scale</span><span class="p">:</span> <span class="mi">50</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file is a powerful tool for customizing the Peter Algorithm’s simulation environment.</p>
+</section>
+</section>
+<section id="peter-algorithm-configuration-guide">
+<h1>Peter Algorithm Configuration Guide<a class="headerlink" href="#peter-algorithm-configuration-guide" title="Permalink to this heading"></a></h1>
+<p>The Peter Algorithm’s <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file is a central piece allowing users to define and customize the simulation environment, object properties, and behaviors. This guide explains each section of the <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file to offer users a clear understanding of how to tailor the algorithm to their specific needs.</p>
+<section id="environment-configuration">
+<h2>Environment Configuration<a class="headerlink" href="#environment-configuration" title="Permalink to this heading"></a></h2>
+<p>The environment section specifies the global settings for the simulation environment.</p>
+<ul>
+<li><p><strong>size_range</strong>: Defines the dimensions of the simulation environment. The length and width are specified within a range, providing flexibility in environment sizing.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">size_range</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">length_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">200</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">width_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">300</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Style</strong>: Adjusts the visual representation of the environment. <code class="docutils literal notranslate"><span class="pre">pretty_mode</span></code> toggles a stylized rendering.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Style</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pretty_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>random_seed</strong>: Sets a seed for random number generation, ensuring reproducibility.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Headlight</strong>: Configures the simulation’s lighting. <code class="docutils literal notranslate"><span class="pre">active</span></code>, <code class="docutils literal notranslate"><span class="pre">diffuse</span></code>, and <code class="docutils literal notranslate"><span class="pre">ambient</span></code> parameters influence the lighting conditions.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Headlight</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">active</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">diffuse</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.4</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ambient</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Rules</strong>: Global rules applied within the environment, affecting object interactions and constraints. Includes <code class="docutils literal notranslate"><span class="pre">MinAllDistance</span></code>, <code class="docutils literal notranslate"><span class="pre">Boundary</span></code>, and <code class="docutils literal notranslate"><span class="pre">Height</span></code> sub-rules.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Rules</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">MinAllDistance</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Boundary</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Height</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ground_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Borders</strong>: Defines the properties and placement of borders around the simulation environment.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Borders</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Border.xml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">place</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Border&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="objects-configuration">
+<h2>Objects Configuration<a class="headerlink" href="#objects-configuration" title="Permalink to this heading"></a></h2>
+<p>Specifies settings for each type of object within the environment, including their appearance, behavior, and interaction properties.</p>
+<ul>
+<li><p><strong>Agent</strong>, <strong>Ball</strong>, <strong>Tree</strong>, <strong>Stone</strong>, <strong>Apple</strong>: Each entry under <code class="docutils literal notranslate"><span class="pre">Objects</span></code> represents a different object type, with configurations such as <code class="docutils literal notranslate"><span class="pre">xml_name</span></code>, <code class="docutils literal notranslate"><span class="pre">amount</span></code>, <code class="docutils literal notranslate"><span class="pre">distribution</span></code>, <code class="docutils literal notranslate"><span class="pre">z_rotation_range</span></code>, <code class="docutils literal notranslate"><span class="pre">color_groups</span></code>, <code class="docutils literal notranslate"><span class="pre">size_groups</span></code>, <code class="docutils literal notranslate"><span class="pre">size_value_range</span></code>, and <code class="docutils literal notranslate"><span class="pre">tags</span></code>.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Objects</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Agent</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Agent.xml&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="id1">
+<h2>Area Configuration<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<p>Allows defining distinct sections within the environment, each with its own set of rules and objects.</p>
+<ul>
+<li><p><strong>Area1</strong>, <strong>Area2</strong>, etc.: Each <code class="docutils literal notranslate"><span class="pre">Area</span></code> can have its unique <code class="docutils literal notranslate"><span class="pre">Rules</span></code> and <code class="docutils literal notranslate"><span class="pre">Objects</span></code>, enabling localized configurations.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Areas</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Area1</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">Rules</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">MinAllDistance</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Boundary</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Height</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ground_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">    </span><span class="nt">Objects</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">Tree</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Tree.xml&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="id2">
+<h2>Conclusion<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file serves as a powerful tool for customizing the Peter Algorithm’s simulation environment to meet specific research or experimental requirements. Through this guide, users are equipped with the knowledge to effectively configure the simulation environment, object properties, and behaviors.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

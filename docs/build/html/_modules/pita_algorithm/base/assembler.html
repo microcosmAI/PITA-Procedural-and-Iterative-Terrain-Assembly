@@ -124,327 +124,172 @@
                         
                             
   <h1>Source code for pita_algorithm.base.assembler</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">shapely</span> <span class="kn">import</span> <span class="n">geometry</span>
-
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.utils.general_utils</span> <span class="kn">import</span> <span class="n">Utils</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.world_sites.area</span> <span class="kn">import</span> <span class="n">Area</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.validator</span> <span class="kn">import</span> <span class="n">Validator</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.world_sites.environment</span> <span class="kn">import</span> <span class="n">Environment</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_parsing.mujoco_loader</span> <span class="kn">import</span> <span class="n">MujocoLoader</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.fixed_placer</span> <span class="kn">import</span> <span class="n">FixedPlacer</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.random_placer</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">RandomPlacer</span><span class="p">,</span>
-    <span class="n">Placer2DDistribution</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.border_placer</span> <span class="kn">import</span> <span class="n">BorderPlacer</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.boundary_rule</span> <span class="kn">import</span> <span class="n">BoundaryRule</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.min_distance_rule</span> <span class="kn">import</span> <span class="n">MinDistanceRule</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.utils.multivariate_uniform_distribution</span> <span class="kn">import</span> <span class="n">MultivariateUniform</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">MinDistanceMujocoPhysicsRule</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.validator</span> <span class="kn">import</span> <span class="n">Validator</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.layout_manager</span> <span class="kn">import</span> <span class="n">LayoutManager</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_parsing.blueprint_manager</span> <span class="kn">import</span> <span class="n">BlueprintManager</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.rules.user_config_rule</span> <span class="kn">import</span> <span class="n">UserRules</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.rules.rule_assembler</span> <span class="kn">import</span> <span class="n">RuleAssembler</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.placer.object_placer</span> <span class="kn">import</span> <span class="n">ObjectPlacer</span>
 
 
 <div class="viewcode-block" id="Assembler"><a class="viewcode-back" href="../../../pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler">[docs]</a><span class="k">class</span> <span class="nc">Assembler</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assembles the environment.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assembles the world.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">xml_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">xml_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of the Assembler class.</span>
 
 <span class="sd">        Parameters:</span>
-<span class="sd">            config_file (dict): Config file containing user defined parameters</span>
-<span class="sd">            xml_dir (str): String to xml-directory</span>
+<span class="sd">            config_file (dict): Dictionary containing the configuration</span>
+<span class="sd">            xml_dir (str): Path to the directory containing the xml files</span>
+<span class="sd">            plot (bool): Set to True for plotting</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config_file</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xml_dir</span> <span class="o">=</span> <span class="n">xml_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_rules</span> <span class="o">=</span> <span class="n">UserRules</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">get_rules</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rule_assembler</span> <span class="o">=</span> <span class="n">RuleAssembler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_rules</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Assembler.assemble_world"><a class="viewcode-back" href="../../../pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler.assemble_world">[docs]</a>    <span class="k">def</span> <span class="nf">assemble_world</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Environment</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Area</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assembles the world according to the users configuration.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assembles the world according to the users configuration and returns the environment and areas.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            environment (Environment): Environment class instance</span>
-<span class="sd">            areas (list[Area]): List of Area class instances</span>
+<span class="sd">            tuple[Environment, list[Area]]: Environment and Area instances with objects</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Call mujoco loader to get dictionary of mujoco objects</span>
-        <span class="n">mujoco_loader</span> <span class="o">=</span> <span class="n">MujocoLoader</span><span class="p">(</span><span class="n">config_file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">xml_dir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_dir</span><span class="p">)</span>
-        <span class="n">mujoco_objects_blueprints</span> <span class="o">=</span> <span class="n">mujoco_loader</span><span class="o">.</span><span class="n">get_mujoco_objects</span><span class="p">()</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
 
-        <span class="c1"># Duplicate blueprints for rule checking that can be manipulated</span>
-        <span class="c1"># without changing the original</span>
-        <span class="n">mujoco_objects_rule_blueprints</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading assets..&quot;</span><span class="p">)</span>
+        <span class="n">blueprint_manager</span> <span class="o">=</span> <span class="n">BlueprintManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml_dir</span><span class="p">)</span>
+        <span class="n">mujoco_objects_blueprints</span> <span class="o">=</span> <span class="n">blueprint_manager</span><span class="o">.</span><span class="n">get_object_blueprints</span><span class="p">()</span>
 
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">mujoco_object</span> <span class="ow">in</span> <span class="n">mujoco_objects_blueprints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">mujoco_object_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">mujoco_object</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating environment..&quot;</span><span class="p">)</span>
+        <span class="n">environment</span><span class="p">,</span> <span class="n">areas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_environment_and_areas</span><span class="p">(</span><span class="n">plot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">)</span>
+        <span class="n">validators</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_validators</span><span class="p">(</span><span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 
-            <span class="c1"># If a free joint is present, replace it with a normal joint</span>
-            <span class="n">joint_list</span> <span class="o">=</span> <span class="n">mujoco_object_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span>
-                <span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">immediate_children_only</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span>
-            <span class="k">if</span> <span class="n">joint_list</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;freejoint&quot;</span> <span class="ow">or</span> <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;free&quot;</span><span class="p">:</span>
-                    <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-                    <span class="n">mujoco_object_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                        <span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">limited</span><span class="o">=</span><span class="s2">&quot;false&quot;</span>
-                    <span class="p">)</span>
-                <span class="c1"># Else keep joint as it is -&gt; suffices for collision detection</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">pass</span>
-            <span class="c1"># If no joint is present, add a normal joint for collision detection</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">mujoco_object_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">)</span>
-            <span class="n">mujoco_objects_rule_blueprints</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object_copy</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Placing objects..&quot;</span><span class="p">)</span>
+        <span class="n">object_placer</span> <span class="o">=</span> <span class="n">ObjectPlacer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">mujoco_objects_blueprints</span><span class="p">)</span>
+        <span class="n">object_placer</span><span class="o">.</span><span class="n">place_objects</span><span class="p">(</span><span class="n">environment</span><span class="p">,</span> <span class="n">areas</span><span class="p">,</span> <span class="n">validators</span><span class="p">)</span>
 
-        <span class="c1"># Parse size from the config</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span><span class="s2">&quot;size&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_base_plane</span><span class="p">(</span><span class="n">environment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">:</span>
+            <span class="n">validators</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env_size</span><span class="o">=</span><span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">environment</span><span class="p">,</span> <span class="n">areas</span></div>
+
+<div class="viewcode-block" id="Assembler._create_environment_and_areas"><a class="viewcode-back" href="../../../pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler._create_environment_and_areas">[docs]</a>    <span class="k">def</span> <span class="nf">_create_environment_and_areas</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Environment</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Area</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates and returns the environment and areas.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            plot (bool): Set to True for plotting</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple[Environment, list[Area]]: Initialized environment and areas with borders (if borders are placed)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">size_range</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">get_randomization_parameters</span><span class="p">(</span>
+            <span class="n">config_dict</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">],</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;size_range&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
         <span class="n">pretty_mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span><span class="s2">&quot;Style&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;pretty_mode&quot;</span><span class="p">]</span>
 
-        <span class="c1"># Create environment</span>
-        <span class="n">environment</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Environment1&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">pretty_mode</span><span class="o">=</span><span class="n">pretty_mode</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Create areas</span>
-        <span class="c1"># As long as we only have one area we set its size to the one of the environment</span>
-        <span class="c1"># TODO: set size and boundary with layout manager</span>
-        <span class="n">areas</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">Area</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;area1&quot;</span><span class="p">,</span>
-                <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">),</span>
-                <span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">,</span>
-                <span class="n">boundary</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">]</span>
-        <span class="c1"># TODO: Initialize multiple areas</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;for area_name, area_settings in self.config[&quot;Areas&quot;].items():</span>
-<span class="sd">            areas.append(Area(name=area_name, size=(10, 10, 0.1)))&quot;&quot;&quot;</span>
-
-        <span class="c1"># Create Validators</span>
-        <span class="n">environment_validator</span> <span class="o">=</span> <span class="n">Validator</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="n">MinDistanceMujocoPhysicsRule</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
-                <span class="n">BoundaryRule</span><span class="p">(</span><span class="n">boundary</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
-
-        <span class="n">global_validators</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">environment_validator</span><span class="p">,</span>
-        <span class="p">]</span>
-
-        <span class="n">area_validators</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">area_index</span><span class="p">,</span> <span class="p">(</span><span class="n">area_name</span><span class="p">,</span> <span class="n">area_settings</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Areas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-        <span class="p">):</span>
-            <span class="n">area_validators</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">Validator</span><span class="p">(</span>
-                    <span class="p">[</span>
-                        <span class="n">MinDistanceMujocoPhysicsRule</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
-                        <span class="n">BoundaryRule</span><span class="p">(</span><span class="n">boundary</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
-                    <span class="p">]</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
-
-        <span class="c1"># Border Placement</span>
-        <span class="n">border_config_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">dict_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span><span class="s2">&quot;Borders&quot;</span><span class="p">]:</span>
-            <span class="n">border_config_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dict_</span><span class="p">)</span>
-        <span class="n">has_border</span> <span class="o">=</span> <span class="n">border_config_dict</span><span class="p">[</span><span class="s2">&quot;place&quot;</span><span class="p">]</span>
-        <span class="n">BorderPlacer</span><span class="p">()</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">,</span>
-            <span class="n">mujoco_object_blueprint</span><span class="o">=</span><span class="n">mujoco_objects_blueprints</span><span class="p">[</span><span class="s2">&quot;Border&quot;</span><span class="p">],</span>
-            <span class="n">amount</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-            <span class="n">has_border</span><span class="o">=</span><span class="n">has_border</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">has_border</span><span class="p">:</span>
-            <span class="c1"># Add Border to map2D of environment validator</span>
-            <span class="n">global_validators</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">map_2D</span><span class="p">[</span><span class="n">mujoco_objects_blueprints</span><span class="p">[</span><span class="s2">&quot;Border&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">geometry</span><span class="o">.</span><span class="n">LineString</span><span class="p">(</span>
-                    <span class="p">[</span>
-                        <span class="p">[</span><span class="o">-</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                        <span class="p">[</span><span class="o">-</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                        <span class="p">[</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                        <span class="p">[</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                        <span class="p">[</span><span class="o">-</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                    <span class="p">]</span>
-                <span class="p">)</span>
-            <span class="p">]</span>
-
-        <span class="c1"># TODO: Maybe see if its possible to not loop over these item a second time for random placement</span>
-        <span class="c1"># Fixed Coordinate Mujoco Object Placement - Environment level</span>
-        <span class="k">for</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">object_settings</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span>
-            <span class="s2">&quot;Objects&quot;</span>
-        <span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">object_config_dict</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">dict_</span> <span class="ow">in</span> <span class="n">object_settings</span><span class="p">:</span>
-                <span class="n">object_config_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dict_</span><span class="p">)</span>
-
-            <span class="c1"># Checks for coordinates and if they are present, place the object using the fixed placer</span>
-            <span class="k">for</span> <span class="n">objects</span> <span class="ow">in</span> <span class="n">object_settings</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s2">&quot;coordinates&quot;</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
-                    <span class="n">FixedPlacer</span><span class="p">()</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                        <span class="n">site</span><span class="o">=</span><span class="n">environment</span><span class="p">,</span>
-                        <span class="n">mujoco_object_blueprint</span><span class="o">=</span><span class="n">mujoco_objects_blueprints</span><span class="p">[</span><span class="n">object_name</span><span class="p">],</span>
-                        <span class="n">mujoco_object_rule_blueprint</span><span class="o">=</span><span class="n">mujoco_objects_rule_blueprints</span><span class="p">[</span>
-                            <span class="n">object_name</span>
-                        <span class="p">],</span>
-                        <span class="n">validators</span><span class="o">=</span><span class="n">global_validators</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="n">object_config_dict</span><span class="p">[</span><span class="s2">&quot;amount&quot;</span><span class="p">],</span>
-                        <span class="n">coordinates</span><span class="o">=</span><span class="n">objects</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">],</span>
-                    <span class="p">)</span>
-
-        <span class="c1"># Fixed Coordinate Mujoco Object Placement - Area level</span>
-        <span class="k">for</span> <span class="n">area_index</span><span class="p">,</span> <span class="p">(</span><span class="n">area_name</span><span class="p">,</span> <span class="n">area_settings</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Areas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-        <span class="p">):</span>
-            <span class="k">for</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">object_settings</span> <span class="ow">in</span> <span class="n">area_settings</span><span class="p">[</span><span class="s2">&quot;Objects&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">object_config_dict</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="k">for</span> <span class="n">dict_</span> <span class="ow">in</span> <span class="n">object_settings</span><span class="p">:</span>
-                    <span class="n">object_config_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dict_</span><span class="p">)</span>
-
-                <span class="c1"># Checks for coordinates and if they are present, place the object using the fixed placer</span>
-                <span class="k">for</span> <span class="n">objects</span> <span class="ow">in</span> <span class="n">object_settings</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="s2">&quot;coordinates&quot;</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
-                        <span class="n">FixedPlacer</span><span class="p">()</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                            <span class="n">site</span><span class="o">=</span><span class="n">areas</span><span class="p">[</span><span class="n">area_index</span><span class="p">],</span>
-                            <span class="n">mujoco_object_blueprint</span><span class="o">=</span><span class="n">mujoco_objects_blueprints</span><span class="p">[</span>
-                                <span class="n">object_name</span>
-                            <span class="p">],</span>
-                            <span class="n">mujoco_object_rule_blueprint</span><span class="o">=</span><span class="n">mujoco_objects_rule_blueprints</span><span class="p">[</span>
-                                <span class="n">object_name</span>
-                            <span class="p">],</span>
-                            <span class="n">validators</span><span class="o">=</span><span class="p">[</span>
-                                <span class="n">area_validators</span><span class="p">[</span><span class="n">area_index</span><span class="p">],</span>
-                            <span class="p">]</span>
-                            <span class="o">+</span> <span class="n">global_validators</span><span class="p">,</span>
-                            <span class="n">amount</span><span class="o">=</span><span class="n">object_config_dict</span><span class="p">[</span><span class="s2">&quot;amount&quot;</span><span class="p">],</span>
-                            <span class="n">coordinates</span><span class="o">=</span><span class="n">objects</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">],</span>
-                        <span class="p">)</span>
-
-        <span class="c1"># Random Mujoco Object Placement - Environment level</span>
-        <span class="k">for</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">object_settings</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span>
-            <span class="s2">&quot;Objects&quot;</span>
-        <span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="s2">&quot;coordinates&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-                <span class="nb">list</span><span class="p">(</span><span class="n">setting</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">object_settings</span>
-            <span class="p">]:</span>
-                <span class="n">object_config_dict</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="k">for</span> <span class="n">dict_</span> <span class="ow">in</span> <span class="n">object_settings</span><span class="p">:</span>
-                    <span class="n">object_config_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dict_</span><span class="p">)</span>
-
-                <span class="c1"># Checks for colors</span>
-                <span class="k">if</span> <span class="s2">&quot;colors&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-                    <span class="nb">list</span><span class="p">(</span><span class="n">setting</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">object_settings</span>
-                <span class="p">]:</span>
-                    <span class="n">colors_range</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">colors_range</span> <span class="o">=</span> <span class="n">object_config_dict</span><span class="p">[</span><span class="s2">&quot;colors&quot;</span><span class="p">]</span>
-
-                <span class="c1"># Checks for sizes</span>
-                <span class="k">if</span> <span class="s2">&quot;sizes&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-                    <span class="nb">list</span><span class="p">(</span><span class="n">setting</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">object_settings</span>
-                <span class="p">]:</span>
-                    <span class="n">sizes_range</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">sizes_range</span> <span class="o">=</span> <span class="n">object_config_dict</span><span class="p">[</span><span class="s2">&quot;sizes&quot;</span><span class="p">]</span>
-
-                <span class="c1"># Instantiate placer distribution and call random placer</span>
-                <span class="n">environment_random_distribution</span> <span class="o">=</span> <span class="n">Placer2DDistribution</span><span class="p">(</span>
-                    <span class="n">MultivariateUniform</span><span class="p">(),</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-                        <span class="p">[</span>
-                            <span class="p">[</span><span class="o">-</span><span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
-                            <span class="p">[</span><span class="o">-</span><span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                        <span class="p">]</span>
-                    <span class="p">),</span>
-                <span class="p">)</span>
-                <span class="n">RandomPlacer</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="n">environment_random_distribution</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                    <span class="n">site</span><span class="o">=</span><span class="n">environment</span><span class="p">,</span>
-                    <span class="n">mujoco_object_blueprint</span><span class="o">=</span><span class="n">mujoco_objects_blueprints</span><span class="p">[</span><span class="n">object_name</span><span class="p">],</span>
-                    <span class="n">mujoco_object_rule_blueprint</span><span class="o">=</span><span class="n">mujoco_objects_rule_blueprints</span><span class="p">[</span>
-                        <span class="n">object_name</span>
-                    <span class="p">],</span>
-                    <span class="n">validators</span><span class="o">=</span><span class="n">global_validators</span><span class="p">,</span>
-                    <span class="n">amount</span><span class="o">=</span><span class="n">object_config_dict</span><span class="p">[</span><span class="s2">&quot;amount&quot;</span><span class="p">],</span>
-                    <span class="n">colors_range</span><span class="o">=</span><span class="n">colors_range</span><span class="p">,</span>
-                    <span class="n">sizes_range</span><span class="o">=</span><span class="n">sizes_range</span><span class="p">,</span>
-                <span class="p">)</span>
-
-        <span class="c1"># Random Mujoco Object Placement - Area level</span>
-        <span class="k">for</span> <span class="n">area_index</span><span class="p">,</span> <span class="p">(</span><span class="n">area_name</span><span class="p">,</span> <span class="n">area_settings</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Areas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-        <span class="p">):</span>
-            <span class="k">for</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">object_settings</span> <span class="ow">in</span> <span class="n">area_settings</span><span class="p">[</span><span class="s2">&quot;Objects&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="c1"># Get all keys from the 2d list of dictionaries</span>
-                <span class="k">if</span> <span class="s2">&quot;coordinates&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-                    <span class="nb">list</span><span class="p">(</span><span class="n">setting</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">object_settings</span>
-                <span class="p">]:</span>
-                    <span class="n">object_config_dict</span> <span class="o">=</span> <span class="p">{}</span>
-                    <span class="k">for</span> <span class="n">dict_</span> <span class="ow">in</span> <span class="n">object_settings</span><span class="p">:</span>
-                        <span class="n">object_config_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dict_</span><span class="p">)</span>
-
-                    <span class="c1"># Checks for colors</span>
-                    <span class="k">if</span> <span class="s2">&quot;colors&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-                        <span class="nb">list</span><span class="p">(</span><span class="n">setting</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">object_settings</span>
-                    <span class="p">]:</span>
-                        <span class="n">colors_range</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">colors_range</span> <span class="o">=</span> <span class="n">object_config_dict</span><span class="p">[</span><span class="s2">&quot;colors&quot;</span><span class="p">]</span>
-
-                    <span class="c1"># Checks for sizes</span>
-                    <span class="k">if</span> <span class="s2">&quot;sizes&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-                        <span class="nb">list</span><span class="p">(</span><span class="n">setting</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">object_settings</span>
-                    <span class="p">]:</span>
-                        <span class="n">sizes_range</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">sizes_range</span> <span class="o">=</span> <span class="n">object_config_dict</span><span class="p">[</span><span class="s2">&quot;sizes&quot;</span><span class="p">]</span>
-
-                    <span class="c1"># Instantiate placer distribution and call random placer</span>
-                    <span class="n">area_random_distribution</span> <span class="o">=</span> <span class="n">Placer2DDistribution</span><span class="p">(</span>
-                        <span class="n">MultivariateUniform</span><span class="p">(),</span>
-                        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-                            <span class="p">[</span>
-                                <span class="p">[</span><span class="o">-</span><span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
-                                <span class="p">[</span><span class="o">-</span><span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
-                            <span class="p">]</span>
-                        <span class="p">),</span>
-                    <span class="p">)</span>
-                    <span class="n">RandomPlacer</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="n">area_random_distribution</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                        <span class="n">site</span><span class="o">=</span><span class="n">areas</span><span class="p">[</span><span class="n">area_index</span><span class="p">],</span>
-                        <span class="n">mujoco_object_blueprint</span><span class="o">=</span><span class="n">mujoco_objects_blueprints</span><span class="p">[</span><span class="n">object_name</span><span class="p">],</span>
-                        <span class="n">mujoco_object_rule_blueprint</span><span class="o">=</span><span class="n">mujoco_objects_rule_blueprints</span><span class="p">[</span>
-                            <span class="n">object_name</span>
-                        <span class="p">],</span>
-                        <span class="n">validators</span><span class="o">=</span><span class="p">[</span>
-                            <span class="n">area_validators</span><span class="p">[</span><span class="n">area_index</span><span class="p">],</span>
-                        <span class="p">]</span>
-                        <span class="o">+</span> <span class="n">global_validators</span><span class="p">,</span>
-                        <span class="n">amount</span><span class="o">=</span><span class="n">object_config_dict</span><span class="p">[</span><span class="s2">&quot;amount&quot;</span><span class="p">],</span>
-                        <span class="n">colors_range</span><span class="o">=</span><span class="n">colors_range</span><span class="p">,</span>
-                        <span class="n">sizes_range</span><span class="o">=</span><span class="n">sizes_range</span><span class="p">,</span>
-                    <span class="p">)</span>
-
-        <span class="c1"># Add plane to environment, if pretty mode is enabled also add grid material</span>
-        <span class="k">if</span> <span class="n">pretty_mode</span><span class="p">:</span>
-            <span class="n">environment</span><span class="o">.</span><span class="n">mjcf_model</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="s2">&quot;geom&quot;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;base_plane&quot;</span><span class="p">,</span>
-                <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;plane&quot;</span><span class="p">,</span>
-                <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">),</span>
-                <span class="n">material</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span>
-            <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Headlight&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">headlight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span><span class="s2">&quot;Headlight&quot;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">environment</span><span class="o">.</span><span class="n">mjcf_model</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="s2">&quot;geom&quot;</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;base_plane&quot;</span><span class="p">,</span>
-                <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;plane&quot;</span><span class="p">,</span>
-                <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">),</span>
+            <span class="n">headlight</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">environment</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Environment1&quot;</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">size_range</span><span class="p">,</span>
+            <span class="n">pretty_mode</span><span class="o">=</span><span class="n">pretty_mode</span><span class="p">,</span>
+            <span class="n">headlight</span><span class="o">=</span><span class="n">headlight</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">areas</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Areas&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Create boundaries with Layoutmanager</span>
+            <span class="n">areas_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Areas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="n">layoutmanager</span> <span class="o">=</span> <span class="n">LayoutManager</span><span class="p">(</span>
+                <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">areas_count</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">plot</span>
             <span class="p">)</span>
+            <span class="n">boundaries</span> <span class="o">=</span> <span class="n">layoutmanager</span><span class="o">.</span><span class="n">generate_layout_boundaries</span><span class="p">()</span>
+            <span class="n">layoutmanager</span><span class="o">.</span><span class="n">plot_boundaries</span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span>
 
-        <span class="c1"># Use global validator to plot the map layout</span>
-        <span class="n">global_validators</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">env_size</span><span class="o">=</span><span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="c1"># Convert from zero based coordinates to mujoco coordinates</span>
+            <span class="c1"># So the 0,0 point is in the middle of the environment</span>
+            <span class="c1"># Create a new list to store the modified boundaries</span>
+            <span class="n">modified_boundaries</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">return</span> <span class="n">environment</span><span class="p">,</span> <span class="n">areas</span></div></div>
+            <span class="c1"># Iterate through the original boundaries and perform modifications</span>
+            <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="n">boundaries</span><span class="p">:</span>
+                <span class="n">new_boundary_start</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">boundary</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">boundary</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">)</span>
+                <span class="n">new_boundary_end</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">boundary</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">boundary</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">)</span>
+                <span class="n">modified_boundary</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_boundary_start</span><span class="p">,</span> <span class="n">new_boundary_end</span><span class="p">)</span>
+                <span class="n">modified_boundaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">modified_boundary</span><span class="p">)</span>
+            <span class="n">boundaries</span> <span class="o">=</span> <span class="n">modified_boundaries</span>
+
+            <span class="c1"># Create Areas</span>
+            <span class="k">for</span> <span class="n">area_index</span><span class="p">,</span> <span class="n">area_config</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Areas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="n">areas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">Area</span><span class="p">(</span>
+                        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Area</span><span class="si">{</span><span class="n">area_index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">size</span><span class="o">=</span><span class="p">(</span>
+                            <span class="p">(</span>
+                                <span class="n">boundaries</span><span class="p">[</span><span class="n">area_index</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                <span class="o">-</span> <span class="n">boundaries</span><span class="p">[</span><span class="n">area_index</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="p">)</span>
+                            <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                            <span class="p">(</span>
+                                <span class="n">boundaries</span><span class="p">[</span><span class="n">area_index</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                                <span class="o">-</span> <span class="n">boundaries</span><span class="p">[</span><span class="n">area_index</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="p">)</span>
+                            <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                            <span class="mf">0.1</span><span class="p">,</span>
+                        <span class="p">),</span>
+                        <span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">,</span>
+                        <span class="n">boundary</span><span class="o">=</span><span class="n">boundaries</span><span class="p">[</span><span class="n">area_index</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">environment</span><span class="p">,</span> <span class="n">areas</span></div>
+
+<div class="viewcode-block" id="Assembler._create_validators"><a class="viewcode-back" href="../../../pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler._create_validators">[docs]</a>    <span class="k">def</span> <span class="nf">_create_validators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Validator</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates and returns the validators for the environment and areas.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            size (list): Size of the environment</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list(Validator): Validator objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">site_rule_pairs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule_assembler</span><span class="o">.</span><span class="n">assemble_site_rules_pairs</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">validators</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">site_name</span><span class="p">,</span> <span class="n">rules</span> <span class="ow">in</span> <span class="n">site_rule_pairs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">validators</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Validator</span><span class="p">(</span><span class="n">rules</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">validators</span></div>
+
+<div class="viewcode-block" id="Assembler._add_base_plane"><a class="viewcode-back" href="../../../pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler._add_base_plane">[docs]</a>    <span class="k">def</span> <span class="nf">_add_base_plane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="n">Environment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a base plane to the environment.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            environment (Environment): Environment object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pretty_mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Environment&quot;</span><span class="p">][</span><span class="s2">&quot;Style&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;pretty_mode&quot;</span><span class="p">]</span>
+        <span class="n">plane_options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;base_plane&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;plane&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">environment</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">),</span>
+            <span class="s2">&quot;material&quot;</span><span class="p">:</span> <span class="s2">&quot;grid&quot;</span> <span class="k">if</span> <span class="n">pretty_mode</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">environment</span><span class="o">.</span><span class="n">mjcf_model</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="s2">&quot;geom&quot;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">plane_options</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="p">)</span></div></div>
 </pre></div>
 
                         
@@ -469,14 +314,16 @@
         };
     </script>
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2023, EBIMAS Study Project.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.
         </div>
     </div>  
 

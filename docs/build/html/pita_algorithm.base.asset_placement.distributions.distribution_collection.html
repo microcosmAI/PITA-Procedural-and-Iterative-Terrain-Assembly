@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distribution Collection Module &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pita_algorithm.base.asset_placement.placer package" href="pita_algorithm.base.asset_placement.placer.html" />
+    <link rel="prev" title="Abstract Placer Distribution Module" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pita_algorithm.html">pita_algorithm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pita_algorithm.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pita_algorithm.base.html">pita_algorithm.base package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.html">pita_algorithm.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pita_algorithm</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.html">pita_algorithm package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.html">pita_algorithm.base package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.asset_placement.html">pita_algorithm.base.asset_placement package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.asset_placement.distributions.html">pita_algorithm.base.asset_placement.distributions package</a></li>
+      <li class="breadcrumb-item active">Distribution Collection Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pita_algorithm.base.asset_placement.distributions.distribution_collection.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="distribution-collection-module">
+<h1>Distribution Collection Module<a class="headerlink" href="#distribution-collection-module" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <cite>distributions</cite> package offers a suite of distribution strategies for object placement within the PITA Algorithm framework. These strategies enable the simulation of diverse environmental layouts by dictating how objects are spatially arranged. From multivariate normal distributions to random walks and circular uniform distributions, each class provides unique placement patterns to enhance the complexity and realism of simulation scenarios.</p>
+</section>
+<section id="multivariate-normal-distribution">
+<h2>Multivariate Normal Distribution<a class="headerlink" href="#multivariate-normal-distribution" title="Permalink to this heading"></a></h2>
+<p>Defined by mean values and a covariance matrix, the <cite>MultivariateNormalDistribution</cite> class allows for the placement of objects according to a Gaussian distribution. This strategy is versatile, supporting both correlated and uncorrelated variables, and enables the rotation and scaling of distributions through the covariance matrix.</p>
+</section>
+<section id="multivariate-uniform-distribution">
+<h2>Multivariate Uniform Distribution<a class="headerlink" href="#multivariate-uniform-distribution" title="Permalink to this heading"></a></h2>
+<p>The <cite>MultivariateUniformDistribution</cite> class offers a simple yet effective approach to distributing objects uniformly across a defined 2D space. With customizable lower and upper bounds, this distribution ensures objects are evenly spread, suitable for scenarios requiring uniform object density.</p>
+</section>
+<section id="random-walk-distribution">
+<h2>Random Walk Distribution<a class="headerlink" href="#random-walk-distribution" title="Permalink to this heading"></a></h2>
+<p>Simulating a random walk, the <cite>RandomWalkDistribution</cite> class places objects based on a series of steps in random directions. This strategy is ideal for creating paths or trails of objects within the environment, mimicking natural or random movements over a 2D plane.</p>
+</section>
+<section id="circular-uniform-distribution">
+<h2>Circular Uniform Distribution<a class="headerlink" href="#circular-uniform-distribution" title="Permalink to this heading"></a></h2>
+<p>Focusing on radial symmetry, the <cite>CircularUniformDistribution</cite> class distributes objects uniformly within a circular area. This distribution is particularly useful for scenarios where objects need to be centered around a point or distributed within circular bounds, offering a controlled yet randomized layout.</p>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<p>To employ these distribution strategies within your simulation setup:</p>
+<ol class="arabic simple">
+<li><p>Choose the appropriate distribution class based on your environmental layout and object placement needs.</p></li>
+<li><p>Instantiate the class with relevant parameters, such as mean and covariance for a Gaussian distribution, or step size and bounds for a random walk.</p></li>
+<li><p>Integrate the distribution instance with your object placer logic, applying the distribution strategy during the simulation’s object placement phase.</p></li>
+</ol>
+<p>By leveraging these diverse distribution strategies, developers can create richly detailed simulation environments, suitable for a wide range of research applications and experimental designs.</p>
+<span class="target" id="module-pita_algorithm.base.asset_placement.distributions.distribution_collection"></span><dl class="py class">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.distributions.distribution_collection.CircularUniformDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pita_algorithm.base.asset_placement.distributions.distribution_collection.</span></span><span class="sig-name descname"><span class="pre">CircularUniformDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pita_algorithm/base/asset_placement/distributions/distribution_collection.html#CircularUniformDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_placement.distributions.distribution_collection.CircularUniformDistribution" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution" title="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractPlacerDistribution</span></code></a></p>
+<p>Circular uniform distribution.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.distributions.distribution_collection.CircularUniformDistribution._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#pita_algorithm.base.asset_placement.distributions.distribution_collection.CircularUniformDistribution._abc_impl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateNormalDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pita_algorithm.base.asset_placement.distributions.distribution_collection.</span></span><span class="sig-name descname"><span class="pre">MultivariateNormalDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pita_algorithm/base/asset_placement/distributions/distribution_collection.html#MultivariateNormalDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateNormalDistribution" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution" title="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractPlacerDistribution</span></code></a></p>
+<p>A multivariate normal distribution. The distribution is defined by the mean values
+for each dimension and the covariance matrix. The covariance matrix controls the shape,
+orientation, and spread of the distribution.</p>
+<p>The covariance matrix is a symmetric matrix that describes the relationship between variables
+in a multivariatenormal distribution. It provides information about the variances and covariances
+of the variables.</p>
+<ul class="simple">
+<li><p>Diagonal Covariance Matrix:
+If the covariance matrix is diagonal, it means that the variables are uncorrelated, and each
+variable’s variance is independent of the others.</p></li>
+<li><p>Non-Diagonal Covariance Matrix:
+If the covariance matrix is non-diagonal, it means that the variables are correlated.
+The off-diagonal elements represent the covariance between the variables.
+The distribution can be rotated by introducing non-zero off-diagonal elements.</p></li>
+<li><p>Scaling Covariance Matrix:
+You can scale the covariance matrix to control the spread of the distribution.
+Increasing the values on the diagonal will increase the variances,
+resulting in a wider distribution.</p></li>
+</ul>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateNormalDistribution._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateNormalDistribution._abc_impl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateUniformDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pita_algorithm.base.asset_placement.distributions.distribution_collection.</span></span><span class="sig-name descname"><span class="pre">MultivariateUniformDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pita_algorithm/base/asset_placement/distributions/distribution_collection.html#MultivariateUniformDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateUniformDistribution" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution" title="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractPlacerDistribution</span></code></a></p>
+<p>Multivariate uniform distribution.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateUniformDistribution._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateUniformDistribution._abc_impl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.distributions.distribution_collection.RandomWalkDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pita_algorithm.base.asset_placement.distributions.distribution_collection.</span></span><span class="sig-name descname"><span class="pre">RandomWalkDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pita_algorithm/base/asset_placement/distributions/distribution_collection.html#RandomWalkDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_placement.distributions.distribution_collection.RandomWalkDistribution" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution" title="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractPlacerDistribution</span></code></a></p>
+<p>Random walk distribution for object placement on a 2D plane.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.distributions.distribution_collection.RandomWalkDistribution._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#pita_algorithm.base.asset_placement.distributions.distribution_collection.RandomWalkDistribution._abc_impl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html" class="btn btn-neutral float-left" title="Abstract Placer Distribution Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pita_algorithm.base.asset_placement.placer.html" class="btn btn-neutral float-right" title="pita_algorithm.base.asset_placement.placer package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
