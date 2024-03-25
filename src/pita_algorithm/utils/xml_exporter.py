@@ -97,7 +97,6 @@ class XMLExporter:
                         .joinpath(category_name + ".png")
                         .as_posix()
                     )
-                    print("TEXT ARTTR FUIKLE", texture.attrib["file"])
         for material in materials:
             name = material.attrib["name"]
             match = re.match(r"\w+/(\w*)", name)
