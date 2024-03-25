@@ -1,1 +1,4 @@
-include src/pita_algorithm/examples
+include src/pita_algorithm/examples/config_files/*.yml
+include src/pita_algorithm/examples/xml_objects/*.xml
+include src/pita_algorithm/examples/xml_objects/3D_Assets/*.obj
+include src/pita_algorithm/examples/xml_objects/3D_Assets/*.png
