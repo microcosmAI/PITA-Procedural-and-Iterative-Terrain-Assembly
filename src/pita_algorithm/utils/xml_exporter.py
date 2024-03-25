@@ -93,7 +93,9 @@ class XMLExporter:
                 else:
                     texture_names.add(category_name)  # unique texture
                     texture.attrib["file"] = (
-                        files("pita_algorithm.examples.xml_objects.3D_Assets").joinpath(category_name + ".png").as_posix()
+                        files("pita_algorithm.examples.xml_objects.3D_Assets")
+                        .joinpath(category_name + ".png")
+                        .as_posix()
                     )
                     print("TEXT ARTTR FUIKLE", texture.attrib["file"])
         for material in materials:
@@ -125,7 +127,9 @@ class XMLExporter:
                 else:
                     mesh_names.add(category_name)
                     mesh.attrib["file"] = (
-                        files("pita_algorithm.examples.xml_objects.3D_Assets").joinpath(category_name + ".obj").as_posix()
+                        files("pita_algorithm.examples.xml_objects.3D_Assets")
+                        .joinpath(category_name + ".obj")
+                        .as_posix()
                     )
 
         return material_names, mesh_names, root

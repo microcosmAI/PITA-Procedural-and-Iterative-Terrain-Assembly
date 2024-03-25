@@ -9,7 +9,7 @@ from typing import Union
 from importlib.resources import files
 
 # Add parent folder of builder.py to python path
-#sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pita_algorithm.base.assembler import Assembler
 from pita_algorithm.utils.json_exporter import JSONExporter
@@ -40,7 +40,9 @@ class PITA:
             plot (Union[bool, None]): True for plotting, False if not
         """
         if config_path is None:
-            config_path = files("pita_algorithm.examples.config_files").joinpath("complex-config.yml")
+            config_path = files("pita_algorithm.examples.config_files").joinpath(
+                "complex-config.yml"
+            )
             warnings.warn(
                 "config path not specified; running with default directory in examples"
             )
