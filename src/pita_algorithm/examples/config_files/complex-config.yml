@@ -1,0 +1,125 @@
+Environment:
+  size_range:
+    - length_range: [200, 300]
+    - width_range: [300, 300]
+
+  Style:
+    - pretty_mode: False
+
+  random_seed: 42
+
+  Headlight:
+    - active: 0
+    - diffuse: [0.4, 0.4, 0.4]
+    - ambient: [0.1, 0.1, 0.1]
+
+  Rules:
+    - MinAllDistance:
+        - distance: 1.0
+    - Boundary:
+    - Height:
+        - ground_level: 0.0
+        
+  Borders:
+    - xml_name: "Border.xml"
+    - place: True
+    - tags: ["Border"]
+
+  Objects:
+    Agent:
+      - xml_name: "Agent.xml"
+      - amount: [1, 1]
+      - distribution:
+          - name: "MultivariateNormalDistribution"
+          - mean: [20, 20]
+          - cov: [ [100, 0], [0, 100] ]
+      - z_rotation_range: [-180 , 180]
+      - tags: ["Agent"]
+
+    Ball:
+      - xml_name: "Ball.xml"
+      - amount: 5
+      - coordinates: [ [10, 10, 0], [15, 15, 0], [20, 20, 0], [25, 25, 0], [50, 50, 0] ]
+      - z_rotation_range: [0, 90]
+      - color_groups: [2, 4]
+      - size_groups: [2, 3]
+      - size_value_range: [1, 2]
+      - tags: ["Ball"]
+
+    Tree:
+      - xml_name: "Tree.xml"
+      - amount: [1, 3]
+      - distribution:
+          - name: "MultivariateNormalDistribution"
+          - mean: [0, 0]
+          - cov: [ [100, 0], [0, 100] ]
+      - tags: ["Tree", "Obstacle"]
+
+    Stone:
+      - xml_name: "Stone.xml"
+      - amount: 1
+      - coordinates: [ [17, 17, 0] ]
+      - distribution:
+          - name: "MultivariateUniformDistribution"
+          - low: [-50, -50]
+          - high: [50, 50]
+      - tags: [ "Stone" ]
+
+    Apple:
+      - xml_name: "Apple.xml"
+      - amount: [10, 10]
+      - distribution:
+          - name: "RandomWalkDistribution"
+          - step_size_range: [5, 10]
+          - bounds: [-50, 50, -50, 50]
+      - tags: ["Apple"]
+
+Areas:
+  Area1:
+    Rules:
+      - MinAllDistance:
+          - distance: 1.0
+      - Boundary:
+      - Height:
+          - ground_level: 0.0
+
+    Objects:
+      Tree:
+        - xml_name: "Tree.xml"
+        - amount: [6, 10]
+        - z_rotation_range: [0, 90]
+        - color_groups: [2, 4]
+        - size_groups: [2, 3]
+        - size_value_range: [1, 2]
+        - distribution:
+            - name: "CircularUniformDistribution"
+            - loc: 28
+            - scale: 50
+        - tags: ["Tree"]
+
+      Stone:
+        - xml_name: "Stone.xml"
+        - amount: [1, 2]
+
+      Apple:
+        - xml_name: "Apple.xml"
+        - amount: [1, 1]
+
+  Area2:
+    Objects:
+      Tree:
+        - xml_name: "Tree.xml"
+        - amount: [1, 2]
+
+      Stone:
+        - xml_name: "Stone.xml"
+        - amount: [5, 7]
+        - z_rotation_range: [60, 120]
+        - color_groups: [2, 4]
+        - size_groups: [2, 3]
+        - size_value_range: [1, 2]
+
+      Apple:
+        - xml_name: "Apple.xml"
+        - amount: [1, 2]
+        - tags: ["Apple"]

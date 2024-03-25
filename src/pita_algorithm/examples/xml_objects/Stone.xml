@@ -1,0 +1,7 @@
+<mujoco model="stone">
+    <worldbody>
+        <body name="stone" pos="0 0 0">
+            <geom name="stone_geom" type="box" size="0.1 0.1 2" rgba="1. 0 0 1"/>
+        </body>
+    </worldbody>
+</mujoco>

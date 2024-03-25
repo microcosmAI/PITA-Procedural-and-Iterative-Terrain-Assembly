@@ -1,6 +1,7 @@
 import re
 import xml
 import xml.etree.ElementTree as ET
+from importlib_resources import files
 
 
 class XMLExporter:
@@ -92,8 +93,9 @@ class XMLExporter:
                 else:
                     texture_names.add(category_name)  # unique texture
                     texture.attrib["file"] = (
-                        "../examples/xml_objects/3D_Assets/" + category_name + ".png"
+                        files("pita_algorithm.examples.xml_objects.3D_Assets").joinpath(category_name + ".png").as_posix()
                     )
+                    print("TEXT ARTTR FUIKLE", texture.attrib["file"])
         for material in materials:
             name = material.attrib["name"]
             match = re.match(r"\w+/(\w*)", name)
@@ -123,7 +125,7 @@ class XMLExporter:
                 else:
                     mesh_names.add(category_name)
                     mesh.attrib["file"] = (
-                        "../examples/xml_objects/3D_Assets/" + category_name + ".obj"
+                        files("pita_algorithm.examples.xml_objects.3D_Assets").joinpath(category_name + ".obj").as_posix()
                     )
 
         return material_names, mesh_names, root

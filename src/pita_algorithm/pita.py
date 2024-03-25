@@ -6,9 +6,10 @@ import typer
 import warnings
 import numpy as np
 from typing import Union
+from importlib.resources import files
 
 # Add parent folder of builder.py to python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+#sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pita_algorithm.base.assembler import Assembler
 from pita_algorithm.utils.json_exporter import JSONExporter
@@ -39,12 +40,12 @@ class PITA:
             plot (Union[bool, None]): True for plotting, False if not
         """
         if config_path is None:
-            config_path = "examples/config_files/complex-config.yml"
+            config_path = files("pita_algorithm.examples.config_files").joinpath("complex-config.yml")
             warnings.warn(
                 "config path not specified; running with default directory in examples"
             )
         if xml_dir is None:
-            xml_dir = "examples/xml_objects"
+            xml_dir = files("pita_algorithm.examples").joinpath("xml_objects")
             warnings.warn(
                 "xml directory not specified; running with default directory in examples"
             )
@@ -102,7 +103,7 @@ class PITA:
 def main(
     random_seed: int = typer.Option(default=None, help="Pass seed."),
     config_path: str = typer.Option(
-        default="examples/config_files/complex-config.yml",
+        default="complex-config.yml",
         help="Specify path to config yml.",
     ),
     xml_dir: str = typer.Option(
