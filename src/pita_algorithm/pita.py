@@ -6,7 +6,7 @@ import typer
 import warnings
 import numpy as np
 from typing import Union
-from importlib.resources import files
+from importlib_resources import files
 
 # Add parent folder of builder.py to python path
 # sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -40,6 +40,7 @@ class PITA:
             plot (Union[bool, None]): True for plotting, False if not
         """
         if config_path is None:
+            print("files: ", files("pita_algorithm.examples.config_files"))
             config_path = files("pita_algorithm.examples.config_files").joinpath(
                 "complex-config.yml"
             )
