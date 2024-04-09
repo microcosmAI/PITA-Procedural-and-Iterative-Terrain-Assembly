@@ -11,7 +11,7 @@ __pycache__/
 build/
 !docs/build
 develop-eggs/
-dist/
+# dist/ not ignored during publish testing
 downloads/
 eggs/
 .eggs/
