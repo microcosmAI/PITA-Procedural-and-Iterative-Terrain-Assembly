@@ -50,49 +50,51 @@ Inside the cloned directory, install the required Python packages using pip.
 
 Step 4: Verify Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To verify that PITA is installed correctly, you can run a simple test or a sample project included in the repository, uses complex.config.yml by default. Navgate to the pita_algorithm subfolder and run:
+To verify that PITA is installed correctly, you can run a simple test or a sample project included in the repository, uses complex.config.yml by default. Navigate to the pita_algorithm subfolder and run:
 
 .. code-block:: bash
 
     python pita.py
 
-
-Step 5: Deactivation and Cleanup
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When you're done working with PITA, you can deactivate the virtual environment and, if necessary, delete it.
-
-Deactivate the virtual environment:
-
-.. code-block:: bash
-
-    deactivate
-
-To remove the virtual environment entirely, simply delete the `pita-env` directory.
-
 Configuration and Usage
 -----------------------
-Refer to the `config.yml` file for configuring your environment generation settings. This YAML file allows you to specify parameters such as the environment size, object placements, terrain features, rules for the simulation and other behaviors.
 
-For a more deatailed config, see the PITA config.yml page. But as a samlpe here, 
+The `config.yml` file is central to configuring your environment generation settings with PITA. It enables the specification of various parameters, including the size of the environment, placements of objects, features of the terrain, rules for simulation, among others.
 
-.. _configuration_section:
-
+Below is an example configuration that illustrates the inclusion of an agent within the environment and the definition of an area containing a ball object:
 
 .. code-block:: yaml
 
     Environment:
       size_range:
-        - length_range: [200, 300]
-        - width_range: [300, 400]
+        - length_range: [200, 300]  # Defines the variability in environment length.
+        - width_range: [300, 400]   # Defines the variability in environment width.
       Style:
-        - pretty_mode: True
-      random_seed: 42
+        - pretty_mode: True         # Enables enhanced visual features.
+      random_seed: 42               # Ensures reproducibility of simulation setups.
 
-For each parameter in `config.yml`:
+      Objects:
+        Agent:
+          - xml_name: "Agent.xml"   # Specifies the XML file defining the Agent's characteristics.
+          - amount: 1               # Sets the number of Agents to be placed.
+          - coordinates: [50, 50, 0] # Directly places the Agent at specified coordinates.
 
-- `size_range`: Defines the dimensions of the environment.
-- `pretty_mode`: A boolean that toggles enhanced visual features for the generated environment.
-- `random_seed`: Ensures reproducibility by setting a seed for random number generation.
+    Areas:
+      Area1:
+        Objects:
+          Ball:
+            - xml_name: "Ball.xml"  # Specifies the XML file defining the Ball's characteristics.
+            - amount: [1, 2]        # Allows for 1 to 2 Balls to be placed within Area1.
+
+In this configuration:
+
+- `size_range` sets the dimensions of the overall environment, ensuring a dynamic and variable space for simulation activities.
+- `pretty_mode` when set to True, enhances the visual appeal of the generated environment, making it more suitable for presentations or detailed analysis.
+- `random_seed` is used to guarantee the consistency of the environment generation process across different runs, aiding in reproducibility.
+- The `Objects` section within `Environment` defines individual entities like agents and their properties, including appearance (via `xml_name`), quantity (`amount`), and placement (`coordinates`).
+- The `Areas` section allows for the segmentation of the environment into distinct zones, each with its own set of objects and configurations. In the example, `Area1` contains a variable number of balls as specified.
+
+This detailed approach to configuration offers significant flexibility, allowing users to craft unique and varied simulation environments tailored to their specific research or development needs. For a comprehensive overview of all configuration options and their impact on the environment generation process, refer to the full PITA config.yml documentation page.
 
 Refer to the full PITA config.yml page for detailed explanations of each configuration option and how they influence the environment generation process.
 

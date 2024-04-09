@@ -61,7 +61,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#step-2-create-a-virtual-environment-optional">Step 2: Create a Virtual Environment (Optional)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-3-install-dependencies">Step 3: Install Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-4-verify-installation">Step 4: Verify Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-5-deactivation-and-cleanup">Step 5: Deactivation and Cleanup</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration-and-usage">Configuration and Usage</a></li>
@@ -111,14 +110,13 @@
 <li><p><a class="reference internal" href="#step-2-create-a-virtual-environment-optional" id="id5">Step 2: Create a Virtual Environment (Optional)</a></p></li>
 <li><p><a class="reference internal" href="#step-3-install-dependencies" id="id6">Step 3: Install Dependencies</a></p></li>
 <li><p><a class="reference internal" href="#step-4-verify-installation" id="id7">Step 4: Verify Installation</a></p></li>
-<li><p><a class="reference internal" href="#step-5-deactivation-and-cleanup" id="id8">Step 5: Deactivation and Cleanup</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#configuration-and-usage" id="id9">Configuration and Usage</a></p></li>
-<li><p><a class="reference internal" href="#customization-and-extensions" id="id10">Customization and Extensions</a></p></li>
-<li><p><a class="reference internal" href="#troubleshooting" id="id11">Troubleshooting</a></p></li>
-<li><p><a class="reference internal" href="#support-and-contributions" id="id12">Support and Contributions</a></p></li>
-<li><p><a class="reference internal" href="#conclusion" id="id13">Conclusion</a></p></li>
+<li><p><a class="reference internal" href="#configuration-and-usage" id="id8">Configuration and Usage</a></p></li>
+<li><p><a class="reference internal" href="#customization-and-extensions" id="id9">Customization and Extensions</a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting" id="id10">Troubleshooting</a></p></li>
+<li><p><a class="reference internal" href="#support-and-contributions" id="id11">Support and Contributions</a></p></li>
+<li><p><a class="reference internal" href="#conclusion" id="id12">Conclusion</a></p></li>
 </ul>
 </nav>
 <section id="introduction">
@@ -162,44 +160,51 @@
 </section>
 <section id="step-4-verify-installation">
 <h3><a class="toc-backref" href="#id7" role="doc-backlink">Step 4: Verify Installation</a><a class="headerlink" href="#step-4-verify-installation" title="Permalink to this heading"></a></h3>
-<p>To verify that PITA is installed correctly, you can run a simple test or a sample project included in the repository, uses complex.config.yml by default. Navgate to the pita_algorithm subfolder and run:</p>
+<p>To verify that PITA is installed correctly, you can run a simple test or a sample project included in the repository, uses complex.config.yml by default. Navigate to the pita_algorithm subfolder and run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>pita.py
 </pre></div>
 </div>
 </section>
-<section id="step-5-deactivation-and-cleanup">
-<h3><a class="toc-backref" href="#id8" role="doc-backlink">Step 5: Deactivation and Cleanup</a><a class="headerlink" href="#step-5-deactivation-and-cleanup" title="Permalink to this heading"></a></h3>
-<p>When you’re done working with PITA, you can deactivate the virtual environment and, if necessary, delete it.</p>
-<p>Deactivate the virtual environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deactivate
-</pre></div>
-</div>
-<p>To remove the virtual environment entirely, simply delete the <cite>pita-env</cite> directory.</p>
-</section>
 </section>
 <section id="configuration-and-usage">
-<h2><a class="toc-backref" href="#id9" role="doc-backlink">Configuration and Usage</a><a class="headerlink" href="#configuration-and-usage" title="Permalink to this heading"></a></h2>
-<p>Refer to the <cite>config.yml</cite> file for configuring your environment generation settings. This YAML file allows you to specify parameters such as the environment size, object placements, terrain features, rules for the simulation and other behaviors.</p>
-<p>For a more deatailed config, see the PITA config.yml page. But as a samlpe here,</p>
-<div class="highlight-yaml notranslate" id="configuration-section"><div class="highlight"><pre><span></span><span class="nt">Environment</span><span class="p">:</span>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Configuration and Usage</a><a class="headerlink" href="#configuration-and-usage" title="Permalink to this heading"></a></h2>
+<p>The <cite>config.yml</cite> file is central to configuring your environment generation settings with PITA. It enables the specification of various parameters, including the size of the environment, placements of objects, features of the terrain, rules for simulation, among others.</p>
+<p>Below is an example configuration that illustrates the inclusion of an agent within the environment and the definition of an area containing a ball object:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Environment</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">size_range</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">length_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">200</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">width_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">300</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">400</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">length_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">200</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Defines the variability in environment length.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">width_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">300</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">400</span><span class="p p-Indicator">]</span><span class="w">   </span><span class="c1"># Defines the variability in environment width.</span>
 <span class="w">  </span><span class="nt">Style</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pretty_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pretty_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">         </span><span class="c1"># Enables enhanced visual features.</span>
+<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span><span class="w">               </span><span class="c1"># Ensures reproducibility of simulation setups.</span>
+
+<span class="w">  </span><span class="nt">Objects</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">Agent</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Agent.xml&quot;</span><span class="w">   </span><span class="c1"># Specifies the XML file defining the Agent&#39;s characteristics.</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">               </span><span class="c1"># Sets the number of Agents to be placed.</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">coordinates</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">50</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">50</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Directly places the Agent at specified coordinates.</span>
+
+<span class="nt">Areas</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Area1</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">Objects</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">Ball</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ball.xml&quot;</span><span class="w">  </span><span class="c1"># Specifies the XML file defining the Ball&#39;s characteristics.</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">]</span><span class="w">        </span><span class="c1"># Allows for 1 to 2 Balls to be placed within Area1.</span>
 </pre></div>
 </div>
-<p>For each parameter in <cite>config.yml</cite>:</p>
+<p>In this configuration:</p>
 <ul class="simple">
-<li><p><cite>size_range</cite>: Defines the dimensions of the environment.</p></li>
-<li><p><cite>pretty_mode</cite>: A boolean that toggles enhanced visual features for the generated environment.</p></li>
-<li><p><cite>random_seed</cite>: Ensures reproducibility by setting a seed for random number generation.</p></li>
+<li><p><cite>size_range</cite> sets the dimensions of the overall environment, ensuring a dynamic and variable space for simulation activities.</p></li>
+<li><p><cite>pretty_mode</cite> when set to True, enhances the visual appeal of the generated environment, making it more suitable for presentations or detailed analysis.</p></li>
+<li><p><cite>random_seed</cite> is used to guarantee the consistency of the environment generation process across different runs, aiding in reproducibility.</p></li>
+<li><p>The <cite>Objects</cite> section within <cite>Environment</cite> defines individual entities like agents and their properties, including appearance (via <cite>xml_name</cite>), quantity (<cite>amount</cite>), and placement (<cite>coordinates</cite>).</p></li>
+<li><p>The <cite>Areas</cite> section allows for the segmentation of the environment into distinct zones, each with its own set of objects and configurations. In the example, <cite>Area1</cite> contains a variable number of balls as specified.</p></li>
 </ul>
+<p>This detailed approach to configuration offers significant flexibility, allowing users to craft unique and varied simulation environments tailored to their specific research or development needs. For a comprehensive overview of all configuration options and their impact on the environment generation process, refer to the full PITA config.yml documentation page.</p>
 <p>Refer to the full PITA config.yml page for detailed explanations of each configuration option and how they influence the environment generation process.</p>
 </section>
 <section id="customization-and-extensions">
-<h2><a class="toc-backref" href="#id10" role="doc-backlink">Customization and Extensions</a><a class="headerlink" href="#customization-and-extensions" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Customization and Extensions</a><a class="headerlink" href="#customization-and-extensions" title="Permalink to this heading"></a></h2>
 <p>PITA is designed with customization in mind. Here’s how you can adapt it to fit your needs better:</p>
 <ul class="simple">
 <li><p><strong>Modifying Configuration Files:</strong> Adjust parameters in the <cite>config.yml</cite> file to fine-tune the algorithm’s behavior.</p></li>
@@ -207,7 +212,7 @@
 </ul>
 </section>
 <section id="troubleshooting">
-<h2><a class="toc-backref" href="#id11" role="doc-backlink">Troubleshooting</a><a class="headerlink" href="#troubleshooting" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Troubleshooting</a><a class="headerlink" href="#troubleshooting" title="Permalink to this heading"></a></h2>
 <p>If you encounter issues while using the PITA Algorithm, consider the following troubleshooting steps:</p>
 <ul class="simple">
 <li><p>Ensure all dependencies are correctly installed and up-to-date.</p></li>
@@ -216,12 +221,12 @@
 </ul>
 </section>
 <section id="support-and-contributions">
-<h2><a class="toc-backref" href="#id12" role="doc-backlink">Support and Contributions</a><a class="headerlink" href="#support-and-contributions" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Support and Contributions</a><a class="headerlink" href="#support-and-contributions" title="Permalink to this heading"></a></h2>
 <p>For further support, or to contribute to the PITA Algorithm project, please do those via the project github.</p>
 <p>This guide aims to provide a foundational understanding of how to set up, configure, and utilize the Peter Algorithm effectively. By following these instructions, users can harness the full potential of the algorithm for their specific applications or research.</p>
 </section>
 <section id="conclusion">
-<h2><a class="toc-backref" href="#id13" role="doc-backlink">Conclusion</a><a class="headerlink" href="#conclusion" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Conclusion</a><a class="headerlink" href="#conclusion" title="Permalink to this heading"></a></h2>
 <p>With the PITA algorithm installed and configured, you’re now ready to generate complex and iterative environments. Experiment with different settings in the <cite>config.yml</cite> file to explore the full range of capabilities offered by PITA.</p>
 </section>
 </section>

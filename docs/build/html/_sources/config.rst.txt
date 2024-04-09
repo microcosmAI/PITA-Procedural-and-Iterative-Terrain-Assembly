@@ -87,12 +87,32 @@ Each object configuration can include:
 - ``xml_name``: Reference to the XML file defining the object's appearance and physics properties.
 - ``amount``: The quantity of objects to place, either as a fixed number or a range.
 - ``distribution``: Spatial distribution parameters, influencing how objects are scattered or positioned within the environment.
-- ``z_rotation_range
-
-    ``: Range of allowed rotation around the Z-axis, adding randomness to object orientation.
+- ``z_rotation_range``: Range of allowed rotation around the Z-axis, adding randomness to object orientation.
 - ``color_groups`` and ``size_groups``: Define how objects are grouped by color and size, allowing for variation and categorization within the simulation.
 - ``size_value_range``: Specifies the range of sizes for object scaling, enhancing the diversity of object appearances.
 - ``tags``: A list of identifiers for object categorization, useful for applying specific behaviors or rules.
+
+**Color Groups and Size Groups**
+
+The ``color_groups`` and ``size_groups`` parameters, combined with ``size_value_range``, offer a nuanced approach to diversifying the visual characteristics of objects within your environments.
+
+- **color_groups**: Defines how objects are grouped based on color, promoting visual diversity. Objects are randomly assigned colors from a predefined pool, with the specified group size determining how many objects share the same color.
+
+- **size_groups**: Functions similarly to color groups but focuses on the scale of objects. Within the defined ``size_value_range``, objects are scaled to introduce size variability. The group size indicates the number of objects sharing the same size.
+
+**Example**
+
+.. code-block:: yaml
+
+    Ball:
+      - xml_name: "Ball.xml"
+      - amount: 5
+      - color_groups: [2, 3]
+      - size_groups: [2, 3]
+      - size_value_range: [0.5, 1.5]
+
+In the example above, 5 balls are introduced with 2 to 3 members in each color and size group. Each group of balls shares the same color and size, with sizes randomly chosen between 0.5 to 1.5 times their original scale.
+
 
 Areas Configuration
 -------------------
@@ -132,6 +152,61 @@ Defines sub-sections within the environment, each with its own set of rules and 
 The configuration for each area includes:
 - ``Rules``: Similar to the environment rules but applied locally within an area.
 - ``Objects``: Detailed configurations for each object type specific to the area, including distribution types and parameters tailored to create desired spatial arrangements.
+
+
+Other Features in ``config.yml``
+-----------------------------------
+
+**Fixed and Random Amount with Coordinates**
+
+- **Fixed Amount**: Specifying a fixed quantity necessitates defining the exact placement of each object through the ``coordinates`` parameter.
+
+- **Relative Coordinates**: Using relative coordinates, such as ``[0.5, 0.5, 0]``, positions an object relative to its environment or area, based on percentages. Here, ``[0.5, 0.5, 0]`` centers the object.
+
+**Example**
+
+.. code-block:: yaml
+
+    Stone:
+      - xml_name: "Stone.xml"
+      - amount: 1
+      - coordinates: [0.5, 0.5, 0]  # Centers the stone within the environment.
+
+**Listing of Available Rules and Distributions**
+
+This section outlines the rules and distributions available for use, along with their parameters:
+
+**Rules**:
+
+- ``MinAllDistance``: Maintains a minimum distance among all objects.
+  - ``distance``: Specifies the minimum distance.
+- ``Boundary``: Ensures object confinement within predetermined bounds.
+- ``Height``: Establishes a minimum height for object placement.
+  - ``ground_level``: Dictates the ground level height.
+
+**Distributions**:
+
+- ``MultivariateNormalDistribution``: Arranges objects according to a normal distribution.
+  - ``mean``, ``cov``: Defines the mean and covariance matrix of the distribution.
+- ``CircularUniformDistribution``: Evenly distributes objects within a circular area.
+  - ``loc``, ``scale``: Central point and radius of the circle.
+- ``RandomWalkDistribution``: Spreads objects following a random path from a starting location.
+  - ``step_size_range``, ``bounds``: Determines the step size range and movement boundaries.
+
+**Asset Pool**
+
+- **asset_pool**: Facilitates random selection from a set of assets for each object instance, enhancing environment variety.
+
+**Example**
+
+.. code-block:: yaml
+
+    Tree:
+      - xml_name: "Tree.xml"
+      - amount: [1, 2]
+      - asset_pool: ["Tree.xml", "Tree_Birch.xml", "Tree_Ahorn.xml"]
+
+By introducing an asset pool, each tree (within the specified amount range) randomly selects its model from the provided asset options, potentially rendering each instance unique.
 
 Conclusion
 ----------

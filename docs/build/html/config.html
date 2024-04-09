@@ -58,6 +58,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#environment-configuration">Environment Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#objects-configuration">Objects Configuration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#areas-configuration">Areas Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-features-in-config-yml">Other Features in <code class="docutils literal notranslate"><span class="pre">config.yml</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a></li>
 </ul>
 </li>
@@ -165,15 +166,26 @@
 - <code class="docutils literal notranslate"><span class="pre">xml_name</span></code>: Reference to the XML file defining the object’s appearance and physics properties.
 - <code class="docutils literal notranslate"><span class="pre">amount</span></code>: The quantity of objects to place, either as a fixed number or a range.
 - <code class="docutils literal notranslate"><span class="pre">distribution</span></code>: Spatial distribution parameters, influencing how objects are scattered or positioned within the environment.
-- <a href="#id1"><span class="problematic" id="id2">``</span></a>z_rotation_range</p>
-<blockquote>
-<div><p><a href="#id3"><span class="problematic" id="id4">``</span></a>: Range of allowed rotation around the Z-axis, adding randomness to object orientation.</p>
-</div></blockquote>
+- <code class="docutils literal notranslate"><span class="pre">z_rotation_range</span></code>: Range of allowed rotation around the Z-axis, adding randomness to object orientation.
+- <code class="docutils literal notranslate"><span class="pre">color_groups</span></code> and <code class="docutils literal notranslate"><span class="pre">size_groups</span></code>: Define how objects are grouped by color and size, allowing for variation and categorization within the simulation.
+- <code class="docutils literal notranslate"><span class="pre">size_value_range</span></code>: Specifies the range of sizes for object scaling, enhancing the diversity of object appearances.
+- <code class="docutils literal notranslate"><span class="pre">tags</span></code>: A list of identifiers for object categorization, useful for applying specific behaviors or rules.</p>
+<p><strong>Color Groups and Size Groups</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">color_groups</span></code> and <code class="docutils literal notranslate"><span class="pre">size_groups</span></code> parameters, combined with <code class="docutils literal notranslate"><span class="pre">size_value_range</span></code>, offer a nuanced approach to diversifying the visual characteristics of objects within your environments.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">color_groups</span></code> and <code class="docutils literal notranslate"><span class="pre">size_groups</span></code>: Define how objects are grouped by color and size, allowing for variation and categorization within the simulation.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">size_value_range</span></code>: Specifies the range of sizes for object scaling, enhancing the diversity of object appearances.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">tags</span></code>: A list of identifiers for object categorization, useful for applying specific behaviors or rules.</p></li>
+<li><p><strong>color_groups</strong>: Defines how objects are grouped based on color, promoting visual diversity. Objects are randomly assigned colors from a predefined pool, with the specified group size determining how many objects share the same color.</p></li>
+<li><p><strong>size_groups</strong>: Functions similarly to color groups but focuses on the scale of objects. Within the defined <code class="docutils literal notranslate"><span class="pre">size_value_range</span></code>, objects are scaled to introduce size variability. The group size indicates the number of objects sharing the same size.</p></li>
 </ul>
+<p><strong>Example</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Ball</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ball.xml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">color_groups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">size_groups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">size_value_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.5</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>In the example above, 5 balls are introduced with 2 to 3 members in each color and size group. Each group of balls shares the same color and size, with sizes randomly chosen between 0.5 to 1.5 times their original scale.</p>
 </section>
 <section id="areas-configuration">
 <h2>Areas Configuration<a class="headerlink" href="#areas-configuration" title="Permalink to this heading"></a></h2>
@@ -212,6 +224,52 @@
 <p>The configuration for each area includes:
 - <code class="docutils literal notranslate"><span class="pre">Rules</span></code>: Similar to the environment rules but applied locally within an area.
 - <code class="docutils literal notranslate"><span class="pre">Objects</span></code>: Detailed configurations for each object type specific to the area, including distribution types and parameters tailored to create desired spatial arrangements.</p>
+</section>
+<section id="other-features-in-config-yml">
+<h2>Other Features in <code class="docutils literal notranslate"><span class="pre">config.yml</span></code><a class="headerlink" href="#other-features-in-config-yml" title="Permalink to this heading"></a></h2>
+<p><strong>Fixed and Random Amount with Coordinates</strong></p>
+<ul class="simple">
+<li><p><strong>Fixed Amount</strong>: Specifying a fixed quantity necessitates defining the exact placement of each object through the <code class="docutils literal notranslate"><span class="pre">coordinates</span></code> parameter.</p></li>
+<li><p><strong>Relative Coordinates</strong>: Using relative coordinates, such as <code class="docutils literal notranslate"><span class="pre">[0.5,</span> <span class="pre">0.5,</span> <span class="pre">0]</span></code>, positions an object relative to its environment or area, based on percentages. Here, <code class="docutils literal notranslate"><span class="pre">[0.5,</span> <span class="pre">0.5,</span> <span class="pre">0]</span></code> centers the object.</p></li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Stone</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Stone.xml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">coordinates</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Centers the stone within the environment.</span>
+</pre></div>
+</div>
+<p><strong>Listing of Available Rules and Distributions</strong></p>
+<p>This section outlines the rules and distributions available for use, along with their parameters:</p>
+<p><strong>Rules</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MinAllDistance</span></code>: Maintains a minimum distance among all objects.
+- <code class="docutils literal notranslate"><span class="pre">distance</span></code>: Specifies the minimum distance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Boundary</span></code>: Ensures object confinement within predetermined bounds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Height</span></code>: Establishes a minimum height for object placement.
+- <code class="docutils literal notranslate"><span class="pre">ground_level</span></code>: Dictates the ground level height.</p></li>
+</ul>
+<p><strong>Distributions</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MultivariateNormalDistribution</span></code>: Arranges objects according to a normal distribution.
+- <code class="docutils literal notranslate"><span class="pre">mean</span></code>, <code class="docutils literal notranslate"><span class="pre">cov</span></code>: Defines the mean and covariance matrix of the distribution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CircularUniformDistribution</span></code>: Evenly distributes objects within a circular area.
+- <code class="docutils literal notranslate"><span class="pre">loc</span></code>, <code class="docutils literal notranslate"><span class="pre">scale</span></code>: Central point and radius of the circle.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RandomWalkDistribution</span></code>: Spreads objects following a random path from a starting location.
+- <code class="docutils literal notranslate"><span class="pre">step_size_range</span></code>, <code class="docutils literal notranslate"><span class="pre">bounds</span></code>: Determines the step size range and movement boundaries.</p></li>
+</ul>
+<p><strong>Asset Pool</strong></p>
+<ul class="simple">
+<li><p><strong>asset_pool</strong>: Facilitates random selection from a set of assets for each object instance, enhancing environment variety.</p></li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Tree</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Tree.xml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">asset_pool</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Tree.xml&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Tree_Birch.xml&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Tree_Ahorn.xml&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>By introducing an asset pool, each tree (within the specified amount range) randomly selects its model from the provided asset options, potentially rendering each instance unique.</p>
 </section>
 <section id="conclusion">
 <h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading"></a></h2>
