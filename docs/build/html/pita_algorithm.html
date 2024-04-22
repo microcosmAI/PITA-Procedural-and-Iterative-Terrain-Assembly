@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pita_algorithm package &mdash; PITA 1.0 documentation</title>
@@ -13,11 +13,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -150,7 +150,10 @@
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.assembler.html">Assembler Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.assembler.html#overview">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.assembler.html#key-features">Key Features</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.assembler.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.assembler.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler"><code class="docutils literal notranslate"><span class="pre">Assembler</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -160,27 +163,50 @@
 <li class="toctree-l1"><a class="reference internal" href="pita_algorithm.utils.html">PITA Algorithm Utils Package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pita_algorithm.utils.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.utils.config_reader.html">ConfigReader Module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.config_reader.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.config_reader.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.utils.config_reader.html#pita_algorithm.utils.config_reader.ConfigReader"><code class="docutils literal notranslate"><span class="pre">ConfigReader</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.utils.general_utils.html">Utils Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.general_utils.html#usage">Usage</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.general_utils.html#key-functionalities">Key Functionalities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.general_utils.html#key-functionalities">Key Functionalities</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.utils.general_utils.html#pita_algorithm.utils.general_utils.Utils"><code class="docutils literal notranslate"><span class="pre">Utils</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.utils.json_exporter.html">JSONExporter Module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.json_exporter.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.json_exporter.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.utils.json_exporter.html#pita_algorithm.utils.json_exporter.JSONExporter"><code class="docutils literal notranslate"><span class="pre">JSONExporter</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.utils.logger.html">Logger Module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.logger.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.logger.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.utils.logger.html#pita_algorithm.utils.logger.Logger"><code class="docutils literal notranslate"><span class="pre">Logger</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.utils.object_property_randomization.html">Object Property Randomization Module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.object_property_randomization.html#key-functionalities">Key Functionalities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.object_property_randomization.html#key-functionalities">Key Functionalities</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.utils.object_property_randomization.html#pita_algorithm.utils.object_property_randomization.ObjectPropertyRandomization"><code class="docutils literal notranslate"><span class="pre">ObjectPropertyRandomization</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.utils.xml_exporter.html">pita_algorithm.utils.xml_exporter module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.utils.xml_exporter.html">pita_algorithm.utils.xml_exporter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.xml_exporter.html#pita_algorithm.utils.xml_exporter.XMLExporter"><code class="docutils literal notranslate"><span class="pre">XMLExporter</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.utils.xml_exporter.html#pita_algorithm.utils.xml_exporter.XMLExporter.apply_new_names_to_geoms"><code class="docutils literal notranslate"><span class="pre">XMLExporter.apply_new_names_to_geoms()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.utils.xml_exporter.html#pita_algorithm.utils.xml_exporter.XMLExporter.remove_duplicate_assets_fix_paths"><code class="docutils literal notranslate"><span class="pre">XMLExporter.remove_duplicate_assets_fix_paths()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.utils.xml_exporter.html#pita_algorithm.utils.xml_exporter.XMLExporter.to_xml"><code class="docutils literal notranslate"><span class="pre">XMLExporter.to_xml()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -193,9 +219,18 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pita_algorithm.pita.html">PITA.py and Execution Script</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.pita.html#pita-class">PITA Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.pita.html#pita-class">PITA Class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.pita.html#pita_algorithm.pita.PITA"><code class="docutils literal notranslate"><span class="pre">PITA</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.pita.html#pita_algorithm.pita.PITA.run"><code class="docutils literal notranslate"><span class="pre">PITA.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pita_algorithm.pita.html#usage">Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.pita.html#main-function">Main Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.pita.html#main-function">Main Function</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.pita.html#pita_algorithm.pita.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pita_algorithm.pita.html#command-line-execution">Command-Line Execution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pita_algorithm.pita.html#best-practices">Best Practices</a></li>
 </ul>

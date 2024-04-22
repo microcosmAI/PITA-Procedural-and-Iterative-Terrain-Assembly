@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PITA Algorithm Base Package &mdash; PITA 1.0 documentation</title>
@@ -13,11 +13,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -113,25 +113,37 @@
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_parsing.blueprint_manager.html">Blueprint Manager Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.blueprint_manager.html#overview">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.blueprint_manager.html#key-features">Key Features</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.blueprint_manager.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.blueprint_manager.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_parsing.blueprint_manager.html#pita_algorithm.base.asset_parsing.blueprint_manager.BlueprintManager"><code class="docutils literal notranslate"><span class="pre">BlueprintManager</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_loader.html">MuJoCo Loader Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_loader.html#overview">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_loader.html#key-features">Key Features</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_loader.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_loader.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_loader.html#pita_algorithm.base.asset_parsing.mujoco_loader.MujocoLoader"><code class="docutils literal notranslate"><span class="pre">MujocoLoader</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html">MuJoCo Object Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#overview">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#key-features">Key Features</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><code class="docutils literal notranslate"><span class="pre">MujocoObject</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_parsing.parser.html">Parser Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.parser.html#overview">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.parser.html#key-features">Key Features</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.parser.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_parsing.parser.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_parsing.parser.html#pita_algorithm.base.asset_parsing.parser.Parser"><code class="docutils literal notranslate"><span class="pre">Parser</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -189,13 +201,19 @@
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#overview">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#yaml-configuration-and-flexibility">YAML Configuration and Flexibility</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#key-features">Key Features</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager"><code class="docutils literal notranslate"><span class="pre">LayoutManager</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html">Validator Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#overview">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#key-features">Key Features</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator"><code class="docutils literal notranslate"><span class="pre">Validator</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -206,18 +224,27 @@
 <li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.world_sites.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.world_sites.abstract_site.html">AbstractSite Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.abstract_site.html#overview">Overview</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.abstract_site.html#key-features">Key Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.abstract_site.html#key-features">Key Features</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.world_sites.abstract_site.html#pita_algorithm.base.world_sites.abstract_site.AbstractSite"><code class="docutils literal notranslate"><span class="pre">AbstractSite</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.world_sites.area.html">Area Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.area.html#overview">Overview</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.area.html#key-features">Key Features</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.area.html#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.area.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.world_sites.area.html#pita_algorithm.base.world_sites.area.Area"><code class="docutils literal notranslate"><span class="pre">Area</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.world_sites.environment.html">Environment Module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.environment.html#overview">Overview</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.environment.html#key-features">Key Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.world_sites.environment.html#key-features">Key Features</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.world_sites.environment.html#pita_algorithm.base.world_sites.environment.Environment"><code class="docutils literal notranslate"><span class="pre">Environment</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -234,7 +261,16 @@
 <li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.assembler.html">Assembler Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.assembler.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.assembler.html#key-features">Key Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.assembler.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.assembler.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler"><code class="docutils literal notranslate"><span class="pre">Assembler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler._add_base_plane"><code class="docutils literal notranslate"><span class="pre">Assembler._add_base_plane()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler._create_environment_and_areas"><code class="docutils literal notranslate"><span class="pre">Assembler._create_environment_and_areas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler._create_validators"><code class="docutils literal notranslate"><span class="pre">Assembler._create_validators()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.assembler.html#pita_algorithm.base.assembler.Assembler.assemble_world"><code class="docutils literal notranslate"><span class="pre">Assembler.assemble_world()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

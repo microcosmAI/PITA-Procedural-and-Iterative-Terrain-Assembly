@@ -17,39 +17,44 @@ Welcome to the documentation for PITA (Procedural and Iterative Terrain Assembly
 Introduction
 ------------
 
-AI systems require exposure to a variety of environments to develop robust and adaptable behaviors. Static, unchanging environments can lead to overfitting, where AI agents perform well in familiar scenarios but struggle with any variation. PITA addresses this challenge by enabling the generation of diverse environments within the MuJoCo physics engine, catering specifically to reinforcement learning applications.
+AI systems require exposure to a variety of environments to develop robust and adaptable behaviors. Static, unchanging environments can lead to overfitting, where AI agents perform well in familiar scenarios but struggle with any variation. PITA addresses this challenge by generating multiple variations of the same environment, in which the properties and positions of objects can be altered. This is achieved through randomization, over which the user has control, allowing for a more dynamic and adaptable testing scenario.
 
-PITA Vision
------------
-
-PITA aims to enhance the training of AI agents by providing a rich set of environments that are not merely static backgrounds but are capable of offering varied and complex scenarios. By facilitating the creation of these dynamic training grounds, PITA contributes to the development of more generalized and resilient AI behaviors, particularly within the domain of RL.
-
-Core Principles
+Core Features
 ---------------
 
-- **Iterative Configuration**: PITA supports the iterative generation of environments, allowing users to create multiple variations of a world for comprehensive training.
-- **Modular and Customizable**: Built on a modular design, PITA offers randomization options for the assembly of environments, giving users control over the placement and properties of objects based on the assets provided.
-- **Specific to MuJoCo and RL**: PITA is tailored for creating simulation environments within the MuJoCo physics engine, with a particular focus on reinforcement learning applications.
+- **XML Input**: The system uses XML files as inputs, enabling users to supply custom assets by passing the directory of the xmls to PITA.
 
-Design Choices
----------------
+- **Fine-Grained Configuration Control**: Offers detailed control over the placement and properties of assets, with the additional capability to randomize these aspects as required.
 
-- **Integration with MuJoCo**: By integrating with the MuJoCo physics engine, PITA ensures high-fidelity simulations that are crucial for tasks requiring precise physical interactions, such as robotics and physics-based puzzles.
-- **YAML-Based Configuration**: The use of YAML for environment configuration democratizes the process of environment generation, making complex customizations possible through simple configuration files.
-- **Extensive Object and Terrain Customization**: Users can define and randomize every conceivable aspect of the environment, from object placement and properties to terrain generation parameters, fostering environments that are both varied and controlled.
-- **Strategic Environment Division**: PITA supports dividing environments into distinct areas or zones, each with its unique characteristics and challenges, facilitating targeted training and experimentation.
+- **Property Randomization**: Offers the ability to randomize various properties of every asset, including position, number, colors, sizes, and z-axis rotation.
+
+- **Adjustable Environment Sizes**: Supports variable environment dimensions while also including the option to randomize length and height.
+
+- **Segmented Environmental Areas**: Allows the division of the overall environment into multiple equal-sized areas. Object behavior, such as position randomization, is then based on the area they are positioned in.
+
+- **Distribution-Based Randomization**: Implements position randomization through statistical distributions, providing users with the option to select specific distribution models for each asset to achieve desired randomness effects.
+
+- **Runtime Validation of Asset Positioning**: Ensures that all assets are correctly positioned without overlaps through validation at run-time.
+
+- **Placement Rules**: Allows setting specific rules for asset placement, such as maintaining a minimum distance between objects.
+
+- **Diverse Asset Pool**: Enables the definition of an asset pool, allowing selection from various assets of a similar style (e.g., "Tree.xml", "Tree_Birch.xml", "Tree_Ahorn.xml").
+
+- **YAML Configuration**: Simplifies the environment setup process through YAML configuration files, eliminating the need for direct coding and making the system accessible to users with minimal programming experience.
+
+- **JSON Output**: Generates a JSON file detailing information about the objects within the environment, providing a structured output that can be used for the environment dynamics.
+
 
 Why PITA?
 ---------
 
-PITA offers several advantages for the development and training of AI systems:
+PITA offers several advantages for the development and training of RL systems:
 
-- **Mitigates Overfitting**: By generating varied environments, PITA helps prevent AI agents from overfitting to specific scenarios, promoting adaptability.
-- **Facilitates Rapid Prototyping**: The easy-to-use configuration system accelerates the process of environment generation, enabling quick iterations and testing.
-- **Tailored for RL and MuJoCo**: PITA's design is specifically aimed at reinforcement learning applications within MuJoCo, ensuring relevance and effectiveness in this domain.
+- **Aimed for RL and MuJoCo**: PITA is specifically designed for reinforcement learning scenarios using the MuJoCo framework, known for its complex interactions. PITA simplifies the use of MuJoCo by allowing users to integrate custom assets and define settings through a straightforward configuration file, effectively streamlining the complexity of the environment setup.
+- **Mitigates Overfitting**: By generating varied environments of the same setup, the agent has to develop a deeper understanding of the environment and the task at hand.
+- **Rapid Prototyping**: The easy-to-use configuration system speeds up the process of environment generation.
 
-By providing a framework for the procedural and iterative assembly of training environments, PITA represents a targeted solution for enhancing reinforcement learning outcomes. It equips researchers and developers with the means to create diverse and challenging scenarios, fostering the development of AI agents capable of generalized performance across a variety of tasks.
-
+PITA provides a framework for the procedural and iterative assembly of training environments, designed to support reinforcement learning research. It offers researchers and developers the tools needed to construct diverse and challenging scenarios, aiding in the development of AI agents that can perform well across different tasks.
 
 
 .. toctree::
@@ -62,7 +67,7 @@ By providing a framework for the procedural and iterative assembly of training e
    Our GitHub <https://github.com/microcosmAI/s.peters_algorithm>
    PITA Paper <paper>
 
-  
+
 .. toctree::
    :maxdepth: 1
    :hidden:
