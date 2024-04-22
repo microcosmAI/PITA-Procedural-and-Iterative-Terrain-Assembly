@@ -80,3 +80,36 @@ sh run_[YOUR_OS].sh
 
 This script uses the configuration from `examples/config_files` to generate environments in `.json` and `.xml` formats, stored in the `export` directory.
 
+## Example configuration file
+```
+Environment:
+  size_range: [100, 100]
+
+  random_seed: 42
+
+  Style:
+    - pretty_mode: False
+
+  Borders:
+    - xml_name: "Border.xml"
+    - place: True
+    - tags: ["Border"]
+
+  Objects:
+    Tree01:
+      - xml_name: "Tree01.xml"
+      - amount: [2, 2]
+
+    Agent:
+      - xml_name: "BoxAgent.xml"
+      - amount: 2
+      - coordinates: [ [10, 10, 3], [10, 30, 3] ]
+
+Areas:
+  Area1:
+    Objects:
+      Tree02:
+        - xml_name: "Tree02.xml"
+        - amount: [2, 2]
+        - tags: ["Tree"]
+```
