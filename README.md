@@ -1,4 +1,5 @@
 # PITA (Procedural and Iterative Terrain Assembly)
+![pixlr_banner](./static/banner.png)
 
 Welcome to the documentation for PITA (Procedural and Iterative Terrain Assembly), a framework designed to generate dynamic and customizable environments for reinforcement learning (RL) in MuJoCo. PITA serves as a valuable tool for creating varied simulation environments, helping to mitigate overfitting in AI systems by providing diverse training scenarios.
 
