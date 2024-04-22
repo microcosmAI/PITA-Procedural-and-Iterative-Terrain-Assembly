@@ -1,17 +1,48 @@
 # PITA (Procedural and Iterative Terrain Assembly)
 
-Welcome to PITA, a cutting-edge framework designed for creating dynamic, customizable simulation environments. PITA stands at the forefront of environment generation, offering a scalable, flexible, and user-friendly platform that caters to a wide array of applications in artificial intelligence (AI), game development, and beyond.
+Welcome to the documentation for PITA (Procedural and Iterative Terrain Assembly), a framework designed to generate dynamic and customizable environments for reinforcement learning (RL) in MuJoCo. PITA serves as a valuable tool for creating varied simulation environments, helping to mitigate overfitting in AI systems by providing diverse training scenarios.
 
-## Introduction
+Introduction
+------------
 
-The advancement of AI systems capable of understanding complex, ever-changing environments necessitates access to diverse and challenging simulation scenarios. Traditional static environments often lead to model overfitting, limiting AI's ability to adapt to new or modified settings. PITA addresses this challenge by enabling the generation of vast, varied environments, facilitating the development of adaptable, robust AI agents.
+AI systems require exposure to a variety of environments to develop robust and adaptable behaviors. Static, unchanging environments can lead to overfitting, where AI agents perform well in familiar scenarios but struggle with any variation. PITA addresses this challenge by generating multiple variations of the same environment, in which the properties and positions of objects can be altered. This is achieved through randomization, over which the user has control, allowing for a more dynamic and adaptable testing scenario.
 
-## Core Features
+Core Features
+---------------
 
-- **Iterative Refinement:** Continuous enhancement of environments to meet specific training or research objectives.
-- **Customization at Scale:** Modular design ensures full control over every aspect of the simulation.
-- **Procedural Generation:** Utilizes procedural generation to create rich, unpredictable environments.
-- **User Accessibility:** Designed for ease of use, allowing users with varying technical backgrounds to generate complex environments.
+- **XML Input**: The system uses XML files as inputs, enabling users to supply custom assets by passing the directory of the xmls to PITA.
+
+- **Fine-Grained Configuration Control**: Offers detailed control over the placement and properties of assets, with the additional capability to randomize these aspects as required.
+
+- **Property Randomization**: Offers the ability to randomize various properties of every asset, including position, number, colors, sizes, and z-axis rotation.
+
+- **Adjustable Environment Sizes**: Supports variable environment dimensions while also including the option to randomize length and height.
+
+- **Segmented Environmental Areas**: Allows the division of the overall environment into multiple equal-sized areas. Object behavior, such as position randomization, is then based on the area they are positioned in.
+
+- **Distribution-Based Randomization**: Implements position randomization through statistical distributions, providing users with the option to select specific distribution models for each asset to achieve desired randomness effects.
+
+- **Runtime Validation of Asset Positioning**: Ensures that all assets are correctly positioned without overlaps through validation at run-time.
+
+- **Placement Rules**: Allows setting specific rules for asset placement, such as maintaining a minimum distance between objects.
+
+- **Diverse Asset Pool**: Enables the definition of an asset pool, allowing selection from various assets of a similar style (e.g., "Tree.xml", "Tree_Birch.xml", "Tree_Ahorn.xml").
+
+- **YAML Configuration**: Simplifies the environment setup process through YAML configuration files, eliminating the need for direct coding and making the system accessible to users with minimal programming experience.
+
+- **JSON Output**: Generates a JSON file detailing information about the objects within the environment, providing a structured output that can be used for the environment dynamics.
+
+
+Why PITA?
+---------
+
+PITA offers several advantages for the development and training of RL systems:
+
+- **Aimed for RL and MuJoCo**: PITA is specifically designed for reinforcement learning scenarios using the MuJoCo framework, known for its complex interactions. PITA simplifies the use of MuJoCo by allowing users to integrate custom assets and define settings through a straightforward configuration file, effectively streamlining the complexity of the environment setup.
+- **Mitigates Overfitting**: By generating varied environments of the same setup, the agent has to develop a deeper understanding of the environment and the task at hand.
+- **Rapid Prototyping**: The easy-to-use configuration system speeds up the process of environment generation.
+
+PITA provides a framework for the procedural and iterative assembly of training environments, designed to support reinforcement learning research. It offers researchers and developers the tools needed to construct diverse and challenging scenarios, aiding in the development of AI agents that can perform well across different tasks.
 
 ## Installation
 
@@ -48,45 +79,3 @@ sh run_[YOUR_OS].sh
 
 This script uses the configuration from `examples/config_files` to generate environments in `.json` and `.xml` formats, stored in the `export` directory.
 
-## Configuration
-
-PITA's environment generation is driven by `config.yml`, allowing detailed customization of simulation settings:
-
-- Environment dimensions
-- Object properties and placement
-- Procedural terrain features
-- Custom rules for object interactions
-
-See the Configuration Guide for detailed instructions.
-
-## Use Scenarios
-
-PITA is versatile, supporting various applications:
-
-- **AI Training:** Generate environments for reinforcement learning, ensuring models are robust and adaptable.
-- **Game Development:** Create unique, procedurally generated worlds, enhancing gameplay variety.
-- **Research:** Study emergent behaviors in complex, dynamic settings.
-- **Education:** Develop simulation-based learning tools for specialized training.
-
-## Customization
-
-Leverage PITA's modular architecture for extensive customization:
-
-- **Modify `config.yml`:** Adjust simulation parameters to tailor environments to your needs.
-- **Extend Functionality:** Implement new features or modify existing ones to expand PITA's capabilities.
-
-## Troubleshooting
-
-Encounter issues? Here's what to try:
-
-- Ensure all dependencies are correctly installed.
-- Validate `config.yml` formatting.
-- Review error messages carefully for clues.
-
-## Support and Contributions
-
-Interested in contributing to PITA or need support? Visit our [GitHub Repository](https://github.com/microcosmAI/pita) for more information.
-
-## Conclusion
-
-PITA equips users with the tools to generate intricate, dynamic environments tailored to a wide range of applications. Explore PITA's capabilities and discover how it can elevate your projects.
