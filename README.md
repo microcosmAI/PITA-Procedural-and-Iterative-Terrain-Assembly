@@ -5,9 +5,9 @@ Welcome to the documentation for PITA (Procedural and Iterative Terrain Assembly
 
 Introduction
 ------------
+<img align="right" width="150" src="./static/pitabot.png">
 
 AI systems require exposure to a variety of environments to develop robust and adaptable behaviors. Static, unchanging environments can lead to overfitting, where AI agents perform well in familiar scenarios but struggle with any variation. PITA addresses this challenge by generating multiple variations of the same environment, in which the properties and positions of objects can be altered. This is achieved through randomization, over which the user has control, allowing for a more dynamic and adaptable testing scenario.
-<img align="right" width="300" src="test.img">
 
 Core Features
 ---------------
@@ -47,43 +47,35 @@ PITA offers several advantages for the development and training of RL systems:
 PITA provides a framework for the procedural and iterative assembly of training environments, designed to support reinforcement learning research. It offers researchers and developers the tools needed to construct diverse and challenging scenarios, aiding in the development of AI agents that can perform well across different tasks or domains.
 
 ## 1) Installation
- TODO: rework needed because of pip pakcage
+In order to get started, simply install the package
+
 ```bash
-# Clone the PITA repository
-git clone [https://github.com/YourGitHub/pita.git](https://github.com/microcosmAI/pita.git)
-cd pita
-
-# (Optional) Create and activate a virtual environment
-python -m venv pita-env
-source pita-env/bin/activate  # For Windows use `pita-env\Scripts\activate`
-
-# Install dependencies
-pip install -r requirements.txt
+pip install pitapy
 ```
 
 ## 2) Quick Start
-TODO: rework needed because of pip package
-```shell
-# Run PITA with the default configuration
-python pita_algorithm/pita.py 
-```
-The script uses the configuration example yml files in the examples/config_files directory and generates .json and .xml files in the export directory.
 
-`.xml` file created by `pita.py` in the export directory could be used for the Mujoco environment.   
-
-### Example for running on Mujoco
-
-To run the simulation on Mujoco, use the appropriate script for your operating system. Replace [YOUR_OS] in the command below with osx, linux, or win
+Import the PITA class from the package and run it.
 
 ```shell
-sh run_[YOUR_OS].sh 
+from pita_algorithm.pita import PITA
+
+
+PITA().run()
 ```
 
-This script uses the configuration from `examples/config_files` to generate environments in `.json` and `.xml` formats, stored in the `export` directory.
+This script uses the default values within the package:
+```shell
+random_seed=None
+config_path="examples/config_files/complex-config.yml"
+xml_dir="examples/xml_objects"
+export_path="export/test"
+```
 
 ## 3) Designing the configuration file 
 
-This is an example of a simple configuration file to start with PITA. For further details on 'how to design your own configuration file' please visit our documentation site: #TODO
+This is an example of a simple configuration file to start with PITA. For further details on 'how to design your own configuration file' please visit our documentation by opening
+"docs/build/html/index.html" in your browser.
 ```
 Environment:
   size_range: [100, 100]
@@ -124,4 +116,16 @@ The development of PITA is part of the "Emergent Behaviors in a Multi-Agent Syst
 As PITA is an active component of the ongoing research project, it will continue to evolve to align with the requirements of specific tasks. The development of additional features will be guided by the insights gained from the research activities associated with the project.
 
 ## License
-TODO
+3-Clause BSD
+
+Copyright 2024 MicrocosmAI
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
