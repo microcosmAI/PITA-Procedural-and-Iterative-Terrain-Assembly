@@ -124,7 +124,9 @@
                         
                             
   <h1>Source code for pita_algorithm.base.world_sites.environment</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">dm_control</span> <span class="kn">import</span> <span class="n">mjcf</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">dm_control</span> <span class="kn">import</span> <span class="n">mjcf</span>
 
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.world_sites.abstract_site</span> <span class="kn">import</span> <span class="n">AbstractSite</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_parsing.mujoco_object</span> <span class="kn">import</span> <span class="n">MujocoObject</span>
@@ -138,17 +140,25 @@
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Environment&quot;</span><span class="p">,</span>
         <span class="n">pretty_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">headlight</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the environment class.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of the Environment class.</span>
 
 <span class="sd">        Parameters:</span>
 <span class="sd">            size (tuple): Tuple defining the size of the entire environment (length, width, height)</span>
 <span class="sd">            name (str): Name of the environment</span>
 <span class="sd">            pretty_style (bool): If true, the environment will be created with a pretty style</span>
+<span class="sd">            headlight (dict): Dictionary containing parameters for the mujoco headlight</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_size</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span> <span class="o">=</span> <span class="n">mjcf</span><span class="o">.</span><span class="n">RootElement</span><span class="p">()</span>
+
+        <span class="c1"># apply params for visuals</span>
+        <span class="k">if</span> <span class="n">headlight</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">headlight</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">headlight</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">pretty_mode</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
@@ -180,8 +190,7 @@
                 <span class="n">texuniform</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">,</span>
                 <span class="n">reflectance</span><span class="o">=</span><span class="s2">&quot;.2&quot;</span><span class="p">,</span>
             <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MujocoObject</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -202,11 +211,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get size.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            size (tuple[float, float, float]): Tuple defining the size of the entire environment</span>
+<span class="sd">            size (list): Tuple defining the size of the entire environment</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
 
@@ -235,23 +244,28 @@
 <span class="sd">        Parameters:</span>
 <span class="sd">            mujoco_object (MujocoObject): Mujoco object to add</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># The attach() method returns the attachement frame</span>
+        <span class="c1"># The attach() method returns the attachment frame</span>
         <span class="c1"># i.e., a body with the attached mujoco object</span>
-        <span class="n">attachement_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="p">)</span>
-        <span class="c1"># By calling all_children() on the attachement frame, we can access their uniqe identifier</span>
-        <span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span> <span class="o">=</span> <span class="n">attachement_frame</span><span class="o">.</span><span class="n">all_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">full_identifier</span>
+        <span class="n">attachment_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mjcf_model</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="p">)</span>
+        <span class="c1"># By calling all_children() on the attachment frame, we can access their unique identifier</span>
+        <span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span> <span class="o">=</span> <span class="n">attachment_frame</span><span class="o">.</span><span class="n">all_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">full_identifier</span>
 
         <span class="c1"># Check for free joints (&lt;joint type=&quot;free&quot;/&gt; or &lt;freejoint/&gt; but always as a direct child)</span>
         <span class="c1"># If present, remove it and add it again one level above</span>
-        <span class="n">joint_list</span> <span class="o">=</span> <span class="n">attachement_frame</span><span class="o">.</span><span class="n">all_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span>
+        <span class="n">joint_list</span> <span class="o">=</span> <span class="n">attachment_frame</span><span class="o">.</span><span class="n">all_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span>
             <span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">immediate_children_only</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">joint_list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;freejoint&quot;</span> <span class="ow">or</span> <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;free&quot;</span><span class="p">:</span>
                 <span class="n">joint_attribute_dict</span> <span class="o">=</span> <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_attributes</span><span class="p">()</span>
                 <span class="n">joint_attribute_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># pop type key if present</span>
-                <span class="n">attachement_frame</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;free&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">joint_attribute_dict</span><span class="p">)</span>
+                <span class="n">attachment_frame</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;free&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">joint_attribute_dict</span><span class="p">)</span>
                 <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+                <span class="c1"># Fix rotation bug, i.e., move euler value into the parent body (attachment_frame) and reset it in the mujoco_object</span>
+                <span class="c1"># For the environment dynamics to work properly (adding the agent&#39;s rotation to qvel would otherwise not be possible)</span>
+                <span class="n">attachment_frame</span><span class="o">.</span><span class="n">euler</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">rotation</span>
+                <span class="n">mujoco_object</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="p">[</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span></div>
 
@@ -262,7 +276,77 @@
 <span class="sd">            mujoco_object (MujocoObject): Tuple defining the size of the entire environment</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="p">[</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span><span class="p">]</span></div></div>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="p">[</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Environment.calculate_size"><a class="viewcode-back" href="../../../../pita_algorithm.base.world_sites.environment.html#pita_algorithm.base.world_sites.environment.Environment.calculate_size">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates the size of the environment with a given size_range (can be many different types).</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            size_range (tuple): Tuple defining the size range of the environment (length, width, height)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            size (list): Tuple defining the size of the entire environment</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;No size range provided for environment. Use keyword &#39;size_range&#39; in config file.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;No size range provided for environment. Use keyword &#39;size_range&#39; in config file.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">list</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+                        <span class="n">low</span><span class="o">=</span><span class="n">size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">high</span><span class="o">=</span><span class="n">size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="o">*</span> <span class="mi">2</span>
+            <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Drop outer tuple and list and merge dictionaries</span>
+            <span class="n">size_range_dict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">value</span>
+                <span class="k">for</span> <span class="n">dictionary</span> <span class="ow">in</span> <span class="n">size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">{</span><span class="s2">&quot;length_range&quot;</span><span class="p">,</span> <span class="s2">&quot;width_range&quot;</span><span class="p">}</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span>
+                <span class="nb">set</span><span class="p">(</span><span class="n">size_range_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">&quot;Both length_range and width_range must be specified for environment if environment size &quot;</span>
+                    <span class="s2">&quot;should be randomized in given ranges.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Both length_range and width_range must be specified for environment if environment &quot;</span>
+                    <span class="s2">&quot;size should be randomized in given ranges.&quot;</span>
+                <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">size</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+                        <span class="n">low</span><span class="o">=</span><span class="n">size_range_dict</span><span class="p">[</span><span class="s2">&quot;length_range&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">high</span><span class="o">=</span><span class="n">size_range_dict</span><span class="p">[</span><span class="s2">&quot;length_range&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">size</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
+                        <span class="n">low</span><span class="o">=</span><span class="n">size_range_dict</span><span class="p">[</span><span class="s2">&quot;width_range&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">high</span><span class="o">=</span><span class="n">size_range_dict</span><span class="p">[</span><span class="s2">&quot;width_range&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">size</span>
+        <span class="p">]</span>  <span class="c1"># because mujoco transforms size to ([-size_x, size_x], [-size_y, size_y])</span>
+        <span class="k">return</span> <span class="n">size</span></div></div>
 </pre></div>
 
                         
@@ -287,14 +371,16 @@
         };
     </script>
     <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2023, EBIMAS Study Project.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.
         </div>
     </div>  
 

@@ -125,6 +125,7 @@
                             
   <h1>Source code for pita_algorithm.base.asset_parsing.parser</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">dm_control</span> <span class="kn">import</span> <span class="n">mjcf</span>
 
 
@@ -139,13 +140,15 @@
 <span class="sd">            xml_path (str): Path to xml-file</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            mjcf_obj (mjcf.RootElement): Mjcf object of given xml-file</span>
+<span class="sd">            mjcf_obj (mjcf.RootElement): MJCF-object of given xml-file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">xml_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No xml file provided&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;No xml file provided.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No xml file provided.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">xml_path</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Could not find xml path provided&quot;</span><span class="p">)</span>
-
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find xml path &#39;</span><span class="si">{</span><span class="n">xml_path</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find xml path &#39;</span><span class="si">{</span><span class="n">xml_path</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
         <span class="n">mjcf_obj</span> <span class="o">=</span> <span class="n">mjcf</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">mjcf_obj</span></div></div>
@@ -173,14 +176,16 @@
         };
     </script>
     <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2023, EBIMAS Study Project.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.
         </div>
     </div>  
 

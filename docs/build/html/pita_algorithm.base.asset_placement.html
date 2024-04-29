@@ -1,221 +1,303 @@
-
-
 <!DOCTYPE html>
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>pita_algorithm.base.asset_placement package &mdash; PITA 1.0 documentation</title>
-  
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PITA Asset Placement Packages &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
 
   
-
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-    
-
-  
-
-  <link rel="stylesheet" href="_static/css/theme.min.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.min.css" type="text/css" />
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pita_algorithm.base.asset_placement.abstract_placer module" href="pita_algorithm.base.asset_placement.abstract_placer.html" />
-    <link rel="prev" title="pita_algorithm.base.asset_parsing.parser module" href="pita_algorithm.base.asset_parsing.parser.html" /> 
-
+    <link rel="next" title="Distributions in PITA Algorithm" href="pita_algorithm.base.asset_placement.distributions.html" />
+    <link rel="prev" title="Parser Module" href="pita_algorithm.base.asset_parsing.parser.html" /> 
 </head>
 
-<body>
-    <header>
-        <div class="container">
-            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
-            <a class="site-title" href="index.html">
-                PITA
-            </a>
-        </div>
-    </header>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-
-<div class="breadcrumbs-outer hidden-xs-down">
-    <div class="container">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="breadcrumbs">
-    
-      <li><a href="index.html">Docs</a></li>
-        
-          <li><a href="modules.html">pita_algorithm</a></li>
-        
-          <li><a href="pita_algorithm.html">pita_algorithm package</a></li>
-        
-          <li><a href="pita_algorithm.base.html">pita_algorithm.base package</a></li>
-        
-      <li>pita_algorithm.base.asset_placement package</li>
-    
-    
-      <li class="breadcrumbs-aside">
-        
-            
-            <a href="_sources/pita_algorithm.base.asset_placement.rst.txt" rel="nofollow"> View page source</a>
           
-        
-      </li>
-    
-  </ul>
-</div>
-    </div>
-</div>
-    <div class="main-outer">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-3 site-nav">
-                    
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
 <div role="search">
-    <form class="search" action="search.html" method="get">
-        <div class="icon-input">
-            <input type="text" name="q" placeholder="Search" />
-            <span class="icon-search"></span>
-        </div>
-        <input type="submit" value="Go" class="d-hidden" />
-        <input type="hidden" name="check_keywords" value="yes" />
-        <input type="hidden" name="area" value="default" />
-    </form>
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-                    <div class="site-nav-tree">
-                        
-                            
-                            
-                                <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="pita_algorithm.html">pita_algorithm package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pita_algorithm.html">pita_algorithm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pita_algorithm.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pita_algorithm.base.html">PITA Algorithm Base Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.html">PITA Algorithm Utils Package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.html#submodules">Submodules</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">PITA Paper</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">PITA config.yml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use Scenario</a></li>
 </ul>
 
-                            
-                        
-                    </div>
-                </div>
-                <div class="col-12 col-lg-9">
-                    <div class="document">
-                        
-                            
-  <section id="module-pita_algorithm.base.asset_placement">
-<span id="pita-algorithm-base-asset-placement-package"></span><h1>pita_algorithm.base.asset_placement package<a class="headerlink" href="#module-pita_algorithm.base.asset_placement" title="Permalink to this heading">¶</a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pita_algorithm</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.html">pita_algorithm package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.html">PITA Algorithm Base Package</a></li>
+      <li class="breadcrumb-item active">PITA Asset Placement Packages</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pita_algorithm.base.asset_placement.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pita-asset-placement-packages">
+<h1>PITA Asset Placement Packages<a class="headerlink" href="#pita-asset-placement-packages" title="Permalink to this heading"></a></h1>
+<p>The <cite>pita_algorithm.base.asset_placement</cite> package encompasses a suite of modules and classes designed for the flexible and dynamic placement of assets within simulation environments in the PITA Algorithm framework. It includes strategies for fixed, random, and rule-based object placements, along with the management of object distributions and validation of placement constraints.</p>
+<span class="target" id="module-pita_algorithm.base.asset_placement"></span><section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.abstract_placer.html">pita_algorithm.base.asset_placement.abstract_placer module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.abstract_placer.html#pita_algorithm.base.asset_placement.abstract_placer.AbstractPlacer"><code class="docutils literal notranslate"><span class="pre">AbstractPlacer</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.abstract_placer.html#pita_algorithm.base.asset_placement.abstract_placer.AbstractPlacer._abc_impl"><code class="docutils literal notranslate"><span class="pre">AbstractPlacer._abc_impl</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.abstract_placer.html#pita_algorithm.base.asset_placement.abstract_placer.AbstractPlacer._copy"><code class="docutils literal notranslate"><span class="pre">AbstractPlacer._copy()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.abstract_placer.html#pita_algorithm.base.asset_placement.abstract_placer.AbstractPlacer.add"><code class="docutils literal notranslate"><span class="pre">AbstractPlacer.add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.abstract_placer.html#pita_algorithm.base.asset_placement.abstract_placer.AbstractPlacer.remove"><code class="docutils literal notranslate"><span class="pre">AbstractPlacer.remove()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.html">Distributions in PITA Algorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.html#distribution-strategies">Distribution Strategies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.html#implementing-distribution-strategies">Implementing Distribution Strategies</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html">Abstract Placer Distribution Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#key-features">Key Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#design-principles">Design Principles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution"><code class="docutils literal notranslate"><span class="pre">AbstractPlacerDistribution</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.abstract_rule.html">pita_algorithm.base.asset_placement.abstract_rule module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.abstract_rule.html#pita_algorithm.base.asset_placement.abstract_rule.Rule"><code class="docutils literal notranslate"><span class="pre">Rule</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.abstract_rule.html#pita_algorithm.base.asset_placement.abstract_rule.Rule._abc_impl"><code class="docutils literal notranslate"><span class="pre">Rule._abc_impl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html">Distribution Collection Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#multivariate-normal-distribution">Multivariate Normal Distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#multivariate-uniform-distribution">Multivariate Uniform Distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#random-walk-distribution">Random Walk Distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#circular-uniform-distribution">Circular Uniform Distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.CircularUniformDistribution"><code class="docutils literal notranslate"><span class="pre">CircularUniformDistribution</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateNormalDistribution"><code class="docutils literal notranslate"><span class="pre">MultivariateNormalDistribution</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateUniformDistribution"><code class="docutils literal notranslate"><span class="pre">MultivariateUniformDistribution</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.RandomWalkDistribution"><code class="docutils literal notranslate"><span class="pre">RandomWalkDistribution</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.border_placer.html">pita_algorithm.base.asset_placement.border_placer module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.border_placer.html#pita_algorithm.base.asset_placement.border_placer.BorderPlacer"><code class="docutils literal notranslate"><span class="pre">BorderPlacer</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.border_placer.html#pita_algorithm.base.asset_placement.border_placer.BorderPlacer._abc_impl"><code class="docutils literal notranslate"><span class="pre">BorderPlacer._abc_impl</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.border_placer.html#pita_algorithm.base.asset_placement.border_placer.BorderPlacer.add"><code class="docutils literal notranslate"><span class="pre">BorderPlacer.add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.border_placer.html#pita_algorithm.base.asset_placement.border_placer.BorderPlacer.remove"><code class="docutils literal notranslate"><span class="pre">BorderPlacer.remove()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.boundary_rule.html">pita_algorithm.base.asset_placement.boundary_rule module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.boundary_rule.html#pita_algorithm.base.asset_placement.boundary_rule.BoundaryRule"><code class="docutils literal notranslate"><span class="pre">BoundaryRule</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.boundary_rule.html#pita_algorithm.base.asset_placement.boundary_rule.BoundaryRule._abc_impl"><code class="docutils literal notranslate"><span class="pre">BoundaryRule._abc_impl</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.html">Placer Classes in PITA Algorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.html#abstractplacer">AbstractPlacer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.html#fixedplacer">FixedPlacer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.html#randomplacer">RandomPlacer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.html#borderplacer">BorderPlacer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.html#objectplacer">ObjectPlacer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.abstract_placer.html">Abstract Placer Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.abstract_placer.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.abstract_placer.html#key-functionalities">Key Functionalities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.abstract_placer.html#extensibility-and-customization">Extensibility and Customization</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.abstract_placer.html#pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer"><code class="docutils literal notranslate"><span class="pre">AbstractPlacer</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.fixed_placer.html">pita_algorithm.base.asset_placement.fixed_placer module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.fixed_placer.html#pita_algorithm.base.asset_placement.fixed_placer.FixedPlacer"><code class="docutils literal notranslate"><span class="pre">FixedPlacer</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.fixed_placer.html#pita_algorithm.base.asset_placement.fixed_placer.FixedPlacer._abc_impl"><code class="docutils literal notranslate"><span class="pre">FixedPlacer._abc_impl</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.fixed_placer.html#pita_algorithm.base.asset_placement.fixed_placer.FixedPlacer.add"><code class="docutils literal notranslate"><span class="pre">FixedPlacer.add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.fixed_placer.html#pita_algorithm.base.asset_placement.fixed_placer.FixedPlacer.remove"><code class="docutils literal notranslate"><span class="pre">FixedPlacer.remove()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.border_placer.html">BorderPlacer Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.border_placer.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.border_placer.html#functionality">Functionality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.border_placer.html#implementation">Implementation</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.border_placer.html#pita_algorithm.base.asset_placement.placer.border_placer.BorderPlacer"><code class="docutils literal notranslate"><span class="pre">BorderPlacer</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule.html">pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule.html#pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule.MinDistanceMujocoPhysicsRule"><code class="docutils literal notranslate"><span class="pre">MinDistanceMujocoPhysicsRule</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule.html#pita_algorithm.base.asset_placement.min_distance_mujoco_physics_rule.MinDistanceMujocoPhysicsRule._abc_impl"><code class="docutils literal notranslate"><span class="pre">MinDistanceMujocoPhysicsRule._abc_impl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.fixed_placer.html">FixedPlacer Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.fixed_placer.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.fixed_placer.html#functionalities">Functionalities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.fixed_placer.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.fixed_placer.html#pita_algorithm.base.asset_placement.placer.fixed_placer.FixedPlacer"><code class="docutils literal notranslate"><span class="pre">FixedPlacer</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.min_distance_rule.html">pita_algorithm.base.asset_placement.min_distance_rule module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.min_distance_rule.html#pita_algorithm.base.asset_placement.min_distance_rule.MinDistanceRule"><code class="docutils literal notranslate"><span class="pre">MinDistanceRule</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.min_distance_rule.html#pita_algorithm.base.asset_placement.min_distance_rule.MinDistanceRule._abc_impl"><code class="docutils literal notranslate"><span class="pre">MinDistanceRule._abc_impl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.object_placer.html">ObjectPlacer Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.object_placer.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.object_placer.html#functionalities">Functionalities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.object_placer.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.object_placer.html#pita_algorithm.base.asset_placement.placer.object_placer.ObjectPlacer"><code class="docutils literal notranslate"><span class="pre">ObjectPlacer</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html">pita_algorithm.base.asset_placement.random_placer module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.CircularUniformDistribution"><code class="docutils literal notranslate"><span class="pre">CircularUniformDistribution</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.Placer2DDistribution"><code class="docutils literal notranslate"><span class="pre">Placer2DDistribution</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.PlacerDistribution"><code class="docutils literal notranslate"><span class="pre">PlacerDistribution</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.RandomPlacer"><code class="docutils literal notranslate"><span class="pre">RandomPlacer</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.RandomPlacer.MAX_TRIES"><code class="docutils literal notranslate"><span class="pre">RandomPlacer.MAX_TRIES</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.RandomPlacer._abc_impl"><code class="docutils literal notranslate"><span class="pre">RandomPlacer._abc_impl</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.RandomPlacer._get_random_colors"><code class="docutils literal notranslate"><span class="pre">RandomPlacer._get_random_colors()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.RandomPlacer._get_random_sizes"><code class="docutils literal notranslate"><span class="pre">RandomPlacer._get_random_sizes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.RandomPlacer.add"><code class="docutils literal notranslate"><span class="pre">RandomPlacer.add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.random_placer.html#pita_algorithm.base.asset_placement.random_placer.RandomPlacer.remove"><code class="docutils literal notranslate"><span class="pre">RandomPlacer.remove()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.random_placer.html">RandomPlacer Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.random_placer.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.random_placer.html#functionalities">Functionalities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.random_placer.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.placer.random_placer.html#pita_algorithm.base.asset_placement.placer.random_placer.RandomPlacer"><code class="docutils literal notranslate"><span class="pre">RandomPlacer</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html">pita_algorithm.base.asset_placement.validator module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator"><code class="docutils literal notranslate"><span class="pre">Validator</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.add"><code class="docutils literal notranslate"><span class="pre">Validator.add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.plot"><code class="docutils literal notranslate"><span class="pre">Validator.plot()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.validate"><code class="docutils literal notranslate"><span class="pre">Validator.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.html">Asset Placement Rules Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.abstract_rule.html">Rule Abstract Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.abstract_rule.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.abstract_rule.html#key-features">Key Features</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.abstract_rule.html#pita_algorithm.base.asset_placement.rules.abstract_rule.Rule"><code class="docutils literal notranslate"><span class="pre">Rule</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.boundary_rule.html">Boundary Rule Class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.boundary_rule.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.boundary_rule.html#key-features">Key Features</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.boundary_rule.html#pita_algorithm.base.asset_placement.rules.boundary_rule.BoundaryRule"><code class="docutils literal notranslate"><span class="pre">BoundaryRule</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.height_rule.html">Height Rule Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.height_rule.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.height_rule.html#key-features">Key Features</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.height_rule.html#pita_algorithm.base.asset_placement.rules.height_rule.HeightRule"><code class="docutils literal notranslate"><span class="pre">HeightRule</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule.html">MinDistanceMujocoPhysicsRule Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule.html#key-features">Key Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule.html#pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule.MinDistanceMujocoPhysicsRule"><code class="docutils literal notranslate"><span class="pre">MinDistanceMujocoPhysicsRule</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_rule.html">MinDistanceRule Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_rule.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_rule.html#key-features">Key Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_rule.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.min_distance_rule.html#pita_algorithm.base.asset_placement.rules.min_distance_rule.MinDistanceRule"><code class="docutils literal notranslate"><span class="pre">MinDistanceRule</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.rule_assembler.html">RuleAssembler Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.rule_assembler.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.rule_assembler.html#key-features">Key Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.rule_assembler.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.rule_assembler.html#pita_algorithm.base.asset_placement.rules.rule_assembler.RuleAssembler"><code class="docutils literal notranslate"><span class="pre">RuleAssembler</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.user_config_rule.html">User Config Rules Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.user_config_rule.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.user_config_rule.html#key-features">Key Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.user_config_rule.html#usage">Usage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pita_algorithm.base.asset_placement.rules.user_config_rule.html#pita_algorithm.base.asset_placement.rules.user_config_rule.UserRules"><code class="docutils literal notranslate"><span class="pre">UserRules</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html">LayoutManager Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#yaml-configuration-and-flexibility">YAML Configuration and Flexibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#key-features">Key Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager"><code class="docutils literal notranslate"><span class="pre">LayoutManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager._max_div"><code class="docutils literal notranslate"><span class="pre">LayoutManager._max_div()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager._solve"><code class="docutils literal notranslate"><span class="pre">LayoutManager._solve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager._swap"><code class="docutils literal notranslate"><span class="pre">LayoutManager._swap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.generate_layout_boundaries"><code class="docutils literal notranslate"><span class="pre">LayoutManager.generate_layout_boundaries()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.plot_boundaries"><code class="docutils literal notranslate"><span class="pre">LayoutManager.plot_boundaries()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.plot_tiling"><code class="docutils literal notranslate"><span class="pre">LayoutManager.plot_tiling()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.plot_tiling_boundaries"><code class="docutils literal notranslate"><span class="pre">LayoutManager.plot_tiling_boundaries()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.tiling"><code class="docutils literal notranslate"><span class="pre">LayoutManager.tiling()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html">Validator Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#key-features">Key Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator"><code class="docutils literal notranslate"><span class="pre">Validator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.add"><code class="docutils literal notranslate"><span class="pre">Validator.add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.plot"><code class="docutils literal notranslate"><span class="pre">Validator.plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.validate"><code class="docutils literal notranslate"><span class="pre">Validator.validate()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -226,38 +308,34 @@
 </section>
 
 
-                        
-                    </div>
-                </div>
-            </div>
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pita_algorithm.base.asset_parsing.parser.html" class="btn btn-neutral float-left" title="Parser Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pita_algorithm.base.asset_placement.distributions.html" class="btn btn-neutral float-right" title="Distributions in PITA Algorithm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
-    </div>    
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'1.0',
-            LANGUAGE:'en',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/sphinx_highlight.js"></script>
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-    <div class="footer" role="contentinfo">
-        <div class="container">
-            &#169; Copyright 2023, EBIMAS Study Project.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
-        </div>
-    </div>  
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
 </body>
 </html>

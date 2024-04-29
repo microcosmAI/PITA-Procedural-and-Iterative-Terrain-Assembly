@@ -124,10 +124,9 @@
                         
                             
   <h1>Source code for pita_algorithm.base.asset_placement.validator</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">shapely</span> <span class="kn">import</span> <span class="n">geometry</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.abstract_rule</span> <span class="kn">import</span> <span class="n">Rule</span>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">shapely</span> <span class="kn">import</span> <span class="n">geometry</span>
+<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.rules.abstract_rule</span> <span class="kn">import</span> <span class="n">Rule</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.world_sites.abstract_site</span> <span class="kn">import</span> <span class="n">AbstractSite</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_parsing.mujoco_object</span> <span class="kn">import</span> <span class="n">MujocoObject</span>
 
@@ -135,15 +134,13 @@
 <div class="viewcode-block" id="Validator"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator">[docs]</a><span class="k">class</span> <span class="nc">Validator</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validates new objects against a set of rules and stores a 2d representation of the world.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rules</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Rule</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rules</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Rule</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of the Validator class.</span>
 
 <span class="sd">        Parameters:</span>
 <span class="sd">            rules (list[Rule]): List of Rules that have to be satisfied</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">map_2D</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">{}</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">map_2D</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rules</span> <span class="o">=</span> <span class="n">rules</span>
 
 <div class="viewcode-block" id="Validator.validate"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mujoco_object</span><span class="p">:</span> <span class="n">MujocoObject</span><span class="p">,</span> <span class="n">site</span><span class="p">:</span> <span class="n">AbstractSite</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -160,16 +157,21 @@
         <span class="n">shape_object</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
 
         <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">rule</span><span class="p">(</span><span class="n">map_2D</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">map_2D</span><span class="p">,</span> <span class="n">shape_object</span><span class="o">=</span><span class="n">shape_object</span><span class="p">,</span> <span class="n">mujoco_object</span><span class="o">=</span><span class="n">mujoco_object</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="n">site</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">rule</span><span class="p">(</span>
+                <span class="n">map_2D</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">map_2D</span><span class="p">,</span>
+                <span class="n">shape_object</span><span class="o">=</span><span class="n">shape_object</span><span class="p">,</span>
+                <span class="n">mujoco_object</span><span class="o">=</span><span class="n">mujoco_object</span><span class="p">,</span>
+                <span class="n">site</span><span class="o">=</span><span class="n">site</span><span class="p">,</span>
+            <span class="p">):</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Validator.plot"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]):</span>
+<div class="viewcode-block" id="Validator.plot"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_size</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plots the current 2d representation to where the current mpl backend points.</span>
 
 <span class="sd">        Parameters:</span>
-<span class="sd">            env_size (tuple[int, int, float]): Tuple containing the size of the environment</span>
+<span class="sd">            env_size (tuple[float, float, float]): Tuple containing the size of the environment</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">shape_list</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map_2D</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
             <span class="c1"># Directly plot the list of coordinates associated with each key in the Map2D dict</span>
@@ -186,24 +188,24 @@
                 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map_2D</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="n">index</span><span class="p">])</span>
 
         <span class="c1"># Custom plot configuration</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="n">env_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">env_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">env_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">env_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">env_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">env_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">env_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">env_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="n">env_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">env_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">env_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">env_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">env_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">env_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">env_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">env_size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">locator_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Validator.add"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mujoco_object</span><span class="p">:</span> <span class="n">MujocoObject</span><span class="p">):</span>
+<div class="viewcode-block" id="Validator.add"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mujoco_object</span><span class="p">:</span> <span class="n">MujocoObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds object to 2d representation.</span>
 
 <span class="sd">        Parameters:</span>
 <span class="sd">            mujoco_object (MujocoObject): The new object that will be added to the 2d representation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">shape_object</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
-        
+
         <span class="k">if</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_2D</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">map_2D</span><span class="p">[</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shape_object</span><span class="p">)</span>
 
@@ -233,14 +235,16 @@
         };
     </script>
     <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2023, EBIMAS Study Project.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.
         </div>
     </div>  
 

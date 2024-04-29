@@ -1,165 +1,134 @@
-
-
 <!DOCTYPE html>
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>pita_algorithm.base.asset_parsing.mujoco_object module &mdash; PITA 1.0 documentation</title>
-  
-
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MuJoCo Object Module &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
 
   
-
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-    
-
-  
-
-  <link rel="stylesheet" href="_static/css/theme.min.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.min.css" type="text/css" />
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pita_algorithm.base.asset_parsing.parser module" href="pita_algorithm.base.asset_parsing.parser.html" />
-    <link rel="prev" title="pita_algorithm.base.asset_parsing.mujoco_loader module" href="pita_algorithm.base.asset_parsing.mujoco_loader.html" /> 
-
+    <link rel="next" title="Parser Module" href="pita_algorithm.base.asset_parsing.parser.html" />
+    <link rel="prev" title="MuJoCo Loader Module" href="pita_algorithm.base.asset_parsing.mujoco_loader.html" /> 
 </head>
 
-<body>
-    <header>
-        <div class="container">
-            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
-            <a class="site-title" href="index.html">
-                PITA
-            </a>
-        </div>
-    </header>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-
-<div class="breadcrumbs-outer hidden-xs-down">
-    <div class="container">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="breadcrumbs">
-    
-      <li><a href="index.html">Docs</a></li>
-        
-          <li><a href="modules.html">pita_algorithm</a></li>
-        
-          <li><a href="pita_algorithm.html">pita_algorithm package</a></li>
-        
-          <li><a href="pita_algorithm.base.html">pita_algorithm.base package</a></li>
-        
-          <li><a href="pita_algorithm.base.asset_parsing.html">pita_algorithm.base.asset_parsing package</a></li>
-        
-      <li>pita_algorithm.base.asset_parsing.mujoco_object module</li>
-    
-    
-      <li class="breadcrumbs-aside">
-        
-            
-            <a href="_sources/pita_algorithm.base.asset_parsing.mujoco_object.rst.txt" rel="nofollow"> View page source</a>
           
-        
-      </li>
-    
-  </ul>
-</div>
-    </div>
-</div>
-    <div class="main-outer">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-3 site-nav">
-                    
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
 <div role="search">
-    <form class="search" action="search.html" method="get">
-        <div class="icon-input">
-            <input type="text" name="q" placeholder="Search" />
-            <span class="icon-search"></span>
-        </div>
-        <input type="submit" value="Go" class="d-hidden" />
-        <input type="hidden" name="check_keywords" value="yes" />
-        <input type="hidden" name="area" value="default" />
-    </form>
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-                    <div class="site-nav-tree">
-                        
-                            
-                            
-                                <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="pita_algorithm.html">pita_algorithm package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="pita_algorithm.html">pita_algorithm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pita_algorithm.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pita_algorithm.base.html">PITA Algorithm Base Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.html">PITA Algorithm Utils Package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.html#submodules">Submodules</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">PITA Paper</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">PITA config.yml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use Scenario</a></li>
 </ul>
 
-                            
-                        
-                    </div>
-                </div>
-                <div class="col-12 col-lg-9">
-                    <div class="document">
-                        
-                            
-  <section id="module-pita_algorithm.base.asset_parsing.mujoco_object">
-<span id="pita-algorithm-base-asset-parsing-mujoco-object-module"></span><h1>pita_algorithm.base.asset_parsing.mujoco_object module<a class="headerlink" href="#module-pita_algorithm.base.asset_parsing.mujoco_object" title="Permalink to this heading">¶</a></h1>
-<dl class="py class">
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pita_algorithm</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.html">pita_algorithm package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.html">PITA Algorithm Base Package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.asset_parsing.html">Asset Parsing Package</a></li>
+      <li class="breadcrumb-item active">MuJoCo Object Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pita_algorithm.base.asset_parsing.mujoco_object.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="mujoco-object-module">
+<h1>MuJoCo Object Module<a class="headerlink" href="#mujoco-object-module" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>Central to the PITA Algorithm’s simulation capabilities, the <cite>mujoco_object</cite> module facilitates the representation and manipulation of objects within the MuJoCo physics engine. It defines the <cite>MujocoObject</cite> class, which serves as a wrapper for MuJoCo’s physical entities, providing a unified interface for creating, configuring, and interacting with simulation objects.</p>
+</section>
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Unified Object Interface</strong>: Provides a standardized approach to define and interact with objects across various simulations, streamlining the object creation process.</p></li>
+<li><p><strong>Detailed Property Configuration</strong>: Allows for the detailed specification of physical properties, such as mass, size, texture, and collision parameters, ensuring objects behave as expected within the simulation environment.</p></li>
+<li><p><strong>Dynamic Interaction Support</strong>: Supports dynamic interactions within the simulation, including object manipulation and response to physical forces, enhancing the realism and applicability of simulation scenarios.</p></li>
+<li><p><strong>Extensibility for Custom Properties</strong>: Designed with extensibility in mind, enabling the addition of custom properties and behaviors to meet specific research requirements.</p></li>
+</ul>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<p>The <cite>MujocoObject</cite> class is utilized throughout the simulation lifecycle, from the initial setup phase, where objects are defined and added to the simulation, through to runtime, where objects may be manipulated or queried for state information. Here’s an outline of its typical use:</p>
+<ol class="arabic simple">
+<li><p><strong>Object Definition</strong>: Define objects using the <cite>MujocoObject</cite> class, specifying necessary properties and attributes according to simulation requirements.</p></li>
+<li><p><strong>Simulation Integration</strong>: Add these objects to the simulation environment, where they are instantiated within the MuJoCo physics engine.</p></li>
+<li><p><strong>Runtime Manipulation</strong>: Interact with objects during simulation execution, applying forces, updating properties, or querying state information as needed.</p></li>
+</ol>
+<p>By abstracting away the complexities of direct MuJoCo engine manipulation, the <cite>mujoco_object</cite> module significantly simplifies the process of incorporating detailed physical simulations into research projects.</p>
+<span class="target" id="module-pita_algorithm.base.asset_parsing.mujoco_object"></span><dl class="py class">
 <dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pita_algorithm.base.asset_parsing.mujoco_object.</span></span><span class="sig-name descname"><span class="pre">MujocoObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xml_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjcf_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">RootElement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pita_algorithm/base/asset_parsing/mujoco_object.html#MujocoObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pita_algorithm.base.asset_parsing.mujoco_object.</span></span><span class="sig-name descname"><span class="pre">MujocoObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjcf_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">RootElement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pita_algorithm/base/asset_parsing/mujoco_object.html#MujocoObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Defines a MujocoObject.</p>
 <dl class="py property">
-<dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.attachable">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">attachable</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.attachable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get attachable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>True if object is attachable, False otherwise</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>attachable (bool)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
 <dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.color">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.color" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.color" title="Permalink to this definition"></a></dt>
 <dd><p>Get color rgba.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -173,7 +142,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.mjcf_obj">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mjcf_obj</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">RootElement</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.mjcf_obj" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mjcf_obj</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">RootElement</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.mjcf_obj" title="Permalink to this definition"></a></dt>
 <dd><p>Get mjcf object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -187,7 +156,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.name" title="Permalink to this definition"></a></dt>
 <dd><p>Get name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -200,22 +169,22 @@
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.obj_type">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obj_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.obj_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get object type.</p>
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.obj_class">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">obj_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.obj_class" title="Permalink to this definition"></a></dt>
+<dd><p>Get object class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Type of the object</p>
+<dd class="field-odd"><p>Object class</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>obj_type (str)</p>
+<dd class="field-even"><p>obj_class (str)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.position">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.position" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.position" title="Permalink to this definition"></a></dt>
 <dd><p>Get position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -228,8 +197,22 @@
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.rotation">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rotation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.rotation" title="Permalink to this definition"></a></dt>
+<dd><p>Get rotation of object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Rotation of object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>rotation (tuple[float, float, float])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.size" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.size" title="Permalink to this definition"></a></dt>
 <dd><p>Get size of object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -243,7 +226,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.tags">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.tags" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.tags" title="Permalink to this definition"></a></dt>
 <dd><p>Get tags.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -255,57 +238,40 @@
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.xml_id">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xml_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject.xml_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get xml id.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Id of object in xml</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>xml_id (str)</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </section>
+</section>
 
 
-                        
-                    </div>
-                </div>
-            </div>
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pita_algorithm.base.asset_parsing.mujoco_loader.html" class="btn btn-neutral float-left" title="MuJoCo Loader Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pita_algorithm.base.asset_parsing.parser.html" class="btn btn-neutral float-right" title="Parser Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
-    </div>    
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'1.0',
-            LANGUAGE:'en',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/sphinx_highlight.js"></script>
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-    <div class="footer" role="contentinfo">
-        <div class="container">
-            &#169; Copyright 2023, EBIMAS Study Project.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
-        </div>
-    </div>  
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
 </body>
 </html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprehensive Guide to PITA Algorithm’s config.yml &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Usage Scenario" href="usage.html" />
+    <link rel="prev" title="PITA Algorithm: A Comprehensive Guide" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">PITA Paper</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PITA config.yml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#environment-configuration">Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#objects-configuration">Objects Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#areas-configuration">Areas Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-features-in-config-yml">Other Features in <code class="docutils literal notranslate"><span class="pre">config.yml</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use Scenario</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Comprehensive Guide to PITA Algorithm’s config.yml</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/config.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="comprehensive-guide-to-pita-algorithm-s-config-yml">
+<h1>Comprehensive Guide to PITA Algorithm’s config.yml<a class="headerlink" href="#comprehensive-guide-to-pita-algorithm-s-config-yml" title="Permalink to this heading"></a></h1>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="example_env.png"><img alt="Environment Sample" src="example_env.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Sample of Environment Generated By PITA.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>This guide explains the <cite>config.yml</cite> file of the PITA Algorithm, a key component that configures the environment, object properties and object placement. Users can access many aspects of the environment and its objects through this file to meet their specific research needs or experimental setups.</p>
+<section id="environment-configuration">
+<h2>Environment Configuration<a class="headerlink" href="#environment-configuration" title="Permalink to this heading"></a></h2>
+<p>The environment is the base plane that contains information about the whole system (e.g. apply borders, style, seed etc.). Its configuration is crucial for defining the boundaries and conditions under which objects are placed.</p>
+<ul>
+<li><p><strong>size_range</strong>: Defines the dimensions of the environment. It accepts a list for the length and width, allowing for a fixed</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">size_range</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">length_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">200</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Environment length between 200 and 300 units.</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">width_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">300</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">300</span><span class="p p-Indicator">]</span><span class="w">   </span><span class="c1"># Environment width fixed at 300 units.</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Style</strong>: The <code class="docutils literal notranslate"><span class="pre">pretty_mode</span></code> flag enables a more visually appealing environment.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Style</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pretty_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">  </span><span class="c1"># Toggle for stylized rendering.</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>random_seed</strong>: Ensuring reproducibility of simulation outcomes.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span><span class="w">  </span><span class="c1"># Seed for random number generation.</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Headlight</strong>: Configures the simulation’s lighting, directly affecting the visual perception of the environment. Parameters include <code class="docutils literal notranslate"><span class="pre">active</span></code> to toggle the light, <code class="docutils literal notranslate"><span class="pre">diffuse</span></code> for diffuse light color and <code class="docutils literal notranslate"><span class="pre">ambient</span></code> for ambient light color.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Headlight</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">active</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">             </span><span class="c1"># 0 or 1 to deactivate or activate the headlight.</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">diffuse</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.4</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.4</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># RGB diffuse light color.</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ambient</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># RGB ambient light color.</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Rules</strong>: Enforces constraints across the environment. Includes global rules like <code class="docutils literal notranslate"><span class="pre">MinAllDistance</span></code> for minimum separation between objects, <code class="docutils literal notranslate"><span class="pre">Boundary</span></code> to confine objects within a specified perimeter, and <code class="docutils literal notranslate"><span class="pre">Height</span></code> to ensure objects remain above a defined ground level.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Rules</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">MinAllDistance</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span><span class="w">  </span><span class="c1"># Minimum distance between all objects.</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Boundary</span><span class="p">:</span><span class="w">           </span><span class="c1"># Ensures objects stay within environment bounds.</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Height</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ground_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w">  </span><span class="c1"># Minimum height (elevation) of objects.</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Borders</strong>: Used for placements of borders around the environment.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Borders</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Border.xml&quot;</span><span class="w">  </span><span class="c1"># Reference to the border object&#39;s XML file.</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">place</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">             </span><span class="c1"># Toggle to place or omit borders.</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Border&quot;</span><span class="p p-Indicator">]</span><span class="w">        </span><span class="c1"># Tags for categorization or identification.</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="objects-configuration">
+<h2>Objects Configuration<a class="headerlink" href="#objects-configuration" title="Permalink to this heading"></a></h2>
+<p>Defines the properties and behaviors of each object type within the environment.</p>
+<ul>
+<li><p><strong>Agent</strong>, <strong>Ball</strong>, <strong>Tree</strong>, <strong>Stone</strong>, <strong>Apple</strong>: This section allows detailed configuration for various object types, such as appearance, quantity, and physical properties.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Objects</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Agent</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Agent.xml&quot;</span><span class="w">  </span><span class="c1"># XML file defining the object&#39;s appearance and properties.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">]</span><span class="w">         </span><span class="c1"># Specifies the exact or range of quantity.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">distribution</span><span class="p">:</span><span class="w">          </span><span class="c1"># Defines the spatial distribution within the environment.</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MultivariateNormalDistribution&quot;</span><span class="w">  </span><span class="c1"># Distribution type.</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mean</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">20</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">20</span><span class="p p-Indicator">]</span><span class="w">     </span><span class="c1"># Distribution mean for positioning.</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cov</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[[</span><span class="nv">100</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">],</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">100</span><span class="p p-Indicator">]]</span><span class="w">  </span><span class="c1"># Covariance matrix for distribution spread.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">z_rotation_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-180</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">180</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Range for random rotation along the Z-axis.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Agent&quot;</span><span class="p p-Indicator">]</span><span class="w">        </span><span class="c1"># Tags for categorization or further specification.</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>Each object configuration can include:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xml_name</span></code>: Reference to the XML file defining the object’s appearance and physics properties.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">amount</span></code>: The quantity of objects to place, either as a fixed number or a range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distribution</span></code>: Spatial distribution parameters, influencing how objects are scattered or positioned within the environment.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">z_rotation_range</span></code>: Range of allowed rotation around the Z-axis, adding randomness to object orientation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">color_groups</span></code> and <code class="docutils literal notranslate"><span class="pre">size_groups</span></code>: Define how objects are grouped by color and size, allowing for variation and categorization within the simulation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size_value_range</span></code>: Specifies the range of sizes for object scaling, enhancing the diversity of object appearances.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tags</span></code>: A list of identifiers for object categorization, useful for applying specific behaviors or rules.</p></li>
+</ul>
+<p><strong>Color Groups and Size Groups</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">color_groups</span></code> and <code class="docutils literal notranslate"><span class="pre">size_groups</span></code> parameters, combined with <code class="docutils literal notranslate"><span class="pre">size_value_range</span></code>, offer a nuanced approach to diversifying the visual characteristics of objects within your environments.</p>
+<ul class="simple">
+<li><p><strong>color_groups</strong>: Objects are randomly assigned colors from a predefined pool, with the specified group size determining how many objects share the same color.</p></li>
+<li><p><strong>size_groups</strong>: Functions similarly to color groups but focuses on the scale of objects. Within the defined <code class="docutils literal notranslate"><span class="pre">size_value_range</span></code>, objects are scaled to introduce size variability. The group size indicates the number of objects sharing the same size.</p></li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Ball</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ball.xml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">color_groups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">size_groups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">size_value_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.5</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>In the example above, 5 balls are introduced with 2 to 3 members in each color and size group. The same group of color does not necessarily share the same size, these two attributes (color and size) are not connected! The exmaple could return following scenario: Ball1: color green  - size 1.45
+Ball2: color red    - size 1.45
+Ball3: color red    - size 0.79
+Ball4: color green  - size 1.45
+Ball5: color red    - size 0.79</p>
+</section>
+<section id="areas-configuration">
+<h2>Areas Configuration<a class="headerlink" href="#areas-configuration" title="Permalink to this heading"></a></h2>
+<p>Defines sub-sections within the environment, each with its own set of rules and objects.</p>
+<ul>
+<li><p><strong>Area1</strong>, <strong>Area2</strong>, etc.: Each area is uniquely configured to simulate different conditions or settings within the same environment.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Areas</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Area1</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">Rules</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">MinAllDistance</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span><span class="w">  </span><span class="c1"># Minimum distance between objects specifically in Area1.</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Boundary</span><span class="p">:</span><span class="w">           </span><span class="c1"># Ensures objects in Area1 stay within specified bounds.</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Height</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ground_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w">  </span><span class="c1"># Sets a specific ground level for Area1.</span>
+
+<span class="w">    </span><span class="nt">Objects</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">Tree</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Tree.xml&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">10</span><span class="p p-Indicator">]</span><span class="w">   </span><span class="c1"># Specifies the quantity range of trees in Area1.</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">z_rotation_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">90</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Limit rotation of trees within a 90-degree range.</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">color_groups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Defines color groupings for trees.</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">size_groups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">]</span><span class="w">   </span><span class="c1"># Sets size groupings for trees, affecting their scale.</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">size_value_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Dictates the range of sizes for tree scaling.</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">distribution</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CircularUniformDistribution&quot;</span><span class="w">  </span><span class="c1"># Distribution type for object placement.</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">loc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">28</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Tree&quot;</span><span class="p p-Indicator">]</span><span class="w">    </span><span class="c1"># Tags for further categorization or identification within Area1.</span>
+
+<span class="w">  </span><span class="nt">Area2</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Similar structure as Area1, but with different configurations to represent another part of the environment.</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The configuration for each area includes:
+- <code class="docutils literal notranslate"><span class="pre">Rules</span></code>: Similar to the environment rules but applied locally within an area.
+- <code class="docutils literal notranslate"><span class="pre">Objects</span></code>: Detailed configurations for each object type specific to the area, including distribution types and parameters to create desired spatial arrangements.</p>
+</section>
+<section id="other-features-in-config-yml">
+<h2>Other Features in <code class="docutils literal notranslate"><span class="pre">config.yml</span></code><a class="headerlink" href="#other-features-in-config-yml" title="Permalink to this heading"></a></h2>
+<p><strong>Fixed and Random Number of Objects with Coordinates</strong></p>
+<ul class="simple">
+<li><p><strong>Fixed Number of Objects</strong>: Specifying a fixed quantity necessitates defining the exact placement of each object through the <code class="docutils literal notranslate"><span class="pre">coordinates</span></code> parameter.</p></li>
+<li><p><strong>Relative Coordinates</strong>: Using relative coordinates, such as <code class="docutils literal notranslate"><span class="pre">[0.5,</span> <span class="pre">0.5,</span> <span class="pre">0]</span></code>, positions an object relative to its environment or area, based on percentages. Here, <code class="docutils literal notranslate"><span class="pre">[0.5,</span> <span class="pre">0.5,</span> <span class="pre">0]</span></code> centers the object.</p></li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Stone</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Stone.xml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">coordinates</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.5</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Centers the stone within the environment.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Random Number of Objects</strong>: Specifying a range of number of objects will lead to sampling x- and y-coordinates from a distribution.</p></li>
+</ul>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Stone</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Stone.xml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">4</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Either 2, 3 or 4 stones will be placed</span>
+</pre></div>
+</div>
+<p><strong>Listing of Available Rules and Distributions</strong></p>
+<p>This section outlines the rules and distributions available for use, along with their parameters:</p>
+<p><strong>Rules</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MinAllDistance</span></code>: Maintains a minimum distance among all objects.
+- <code class="docutils literal notranslate"><span class="pre">distance</span></code>: Specifies the minimum distance.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Boundary</span></code>: Ensures object confinement within predetermined bounds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Height</span></code>: Establishes a minimum height for object placement.
+- <code class="docutils literal notranslate"><span class="pre">ground_level</span></code>: Dictates the ground level height.</p></li>
+</ul>
+<p><strong>Distributions</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MultivariateNormalDistribution</span></code>: Arranges objects according to a normal distribution.
+- <code class="docutils literal notranslate"><span class="pre">mean</span></code>, <code class="docutils literal notranslate"><span class="pre">cov</span></code>: Defines the mean and covariance matrix of the distribution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CircularUniformDistribution</span></code>: Evenly distributes objects within a circular area.
+- <code class="docutils literal notranslate"><span class="pre">loc</span></code>, <code class="docutils literal notranslate"><span class="pre">scale</span></code>: Central point and radius of the circle.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RandomWalkDistribution</span></code>: Spreads objects following a random path from a starting location.
+- <code class="docutils literal notranslate"><span class="pre">step_size_range</span></code>, <code class="docutils literal notranslate"><span class="pre">bounds</span></code>: Determines the step size range and movement boundaries.</p></li>
+</ul>
+<p><strong>Asset Pool</strong></p>
+<ul class="simple">
+<li><p><strong>asset_pool</strong>: Allows random selection from a set of assets for each object instance.</p></li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Tree</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">xml_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Tree.xml&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">asset_pool</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Tree.xml&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Tree_Birch.xml&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Tree_Maple.xml&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>By introducing an asset pool, each tree (within the specified amount range) randomly selects its model from the provided asset options, potentially rendering each instance unique.</p>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading"></a></h2>
+<p>This comprehensive guide to the PITA Algorithm’s <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> file highlights the depth and flexibility of simulation configuration. By understanding and utilizing these options, users can create a variety of simulation environments for their specific research or development needs.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install.html" class="btn btn-neutral float-left" title="PITA Algorithm: A Comprehensive Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="Usage Scenario" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

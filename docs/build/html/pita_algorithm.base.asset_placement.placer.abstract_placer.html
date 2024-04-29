@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abstract Placer Module &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="BorderPlacer Class" href="pita_algorithm.base.asset_placement.placer.border_placer.html" />
+    <link rel="prev" title="Placer Classes in PITA Algorithm" href="pita_algorithm.base.asset_placement.placer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pita_algorithm.html">pita_algorithm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pita_algorithm.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pita_algorithm.base.html">PITA Algorithm Base Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.html">PITA Algorithm Utils Package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">PITA Paper</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">PITA config.yml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use Scenario</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pita_algorithm</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.html">pita_algorithm package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.html">PITA Algorithm Base Package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.asset_placement.html">PITA Asset Placement Packages</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.asset_placement.placer.html">Placer Classes in PITA Algorithm</a></li>
+      <li class="breadcrumb-item active">Abstract Placer Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pita_algorithm.base.asset_placement.placer.abstract_placer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="abstract-placer-module">
+<h1>Abstract Placer Module<a class="headerlink" href="#abstract-placer-module" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <cite>AbstractPlacer</cite> class lays the groundwork for all object placement strategies within the PITA Algorithm framework. Serving as an abstract base class, it defines a common interface for object placement, ensuring consistency and facilitating the development of customizable placement strategies. By dictating how objects are added to or removed from the simulation environment, it plays a crucial role in shaping the dynamics and realism of simulated scenarios.</p>
+</section>
+<section id="key-functionalities">
+<h2>Key Functionalities<a class="headerlink" href="#key-functionalities" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Object Copying</strong>: Provides the capability to create deep copies of Mujoco object blueprints, allowing for the reuse of object configurations while maintaining unique instances in the simulation.</p></li>
+<li><p><strong>User Input Validation</strong>: Ensures that user-specified color and size groups are compatible with the total amount of objects to be placed, preventing configuration errors and enhancing simulation reliability.</p></li>
+<li><p><strong>Abstract Methods</strong>: Defines abstract methods such as <cite>add</cite> and <cite>remove</cite> for adding objects to or removing objects from a site, which concrete subclasses must implement according to specific placement logic.</p></li>
+</ul>
+</section>
+<section id="extensibility-and-customization">
+<h2>Extensibility and Customization<a class="headerlink" href="#extensibility-and-customization" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Custom Placement Strategies</strong>: Developers can extend the <cite>AbstractPlacer</cite> class to implement custom object placement strategies, enabling simulations to accommodate a wide array of experimental setups and requirements.</p></li>
+<li><p><strong>Validation Integration</strong>: Incorporates validators to check the suitability of object placements, allowing for the enforcement of spatial constraints and interaction rules.</p></li>
+</ul>
+<span class="target" id="module-pita_algorithm.base.asset_placement.placer.abstract_placer"></span><dl class="py class">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pita_algorithm.base.asset_placement.placer.abstract_placer.</span></span><span class="sig-name descname"><span class="pre">AbstractPlacer</span></span><a class="reference internal" href="_modules/pita_algorithm/base/asset_placement/placer/abstract_placer.html#AbstractPlacer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract class for object placers.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer._abc_impl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer._check_user_input">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_check_user_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pita_algorithm/base/asset_placement/placer/abstract_placer.html#AbstractPlacer._check_user_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer._check_user_input" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if color_groups and size_groups is compatible with amount.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>color_groups</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>None</em><em>]</em>) – Range of possible different colors for object</p></li>
+<li><p><strong>size_groups</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>None</em><em>]</em>) – Range of possible different sizes for object</p></li>
+<li><p><strong>amount</strong> (<em>int</em>) – Amount of object to be placed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer._copy">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mujoco_object_blueprint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><span class="pre">MujocoObject</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><span class="pre">MujocoObject</span></a></span></span><a class="reference internal" href="_modules/pita_algorithm/base/asset_placement/placer/abstract_placer.html#AbstractPlacer._copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer._copy" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a copy of a mujoco object blueprint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mujoco_object_blueprint</strong> (<a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><em>MujocoObject</em></a>) – To-be-copied mujoco object</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Copy of the mujoco object blueprint</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mujoco_object (<a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject">MujocoObject</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer.add">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pita_algorithm.base.world_sites.abstract_site.html#pita_algorithm.base.world_sites.abstract_site.AbstractSite" title="pita_algorithm.base.world_sites.abstract_site.AbstractSite"><span class="pre">AbstractSite</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mujoco_object_blueprint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><span class="pre">MujocoObject</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">validators</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator" title="pita_algorithm.base.asset_placement.validator.Validator"><span class="pre">pita_algorithm.base.asset_placement.validator.Validator</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_rotation_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_value_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset_pool</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mujoco_objects_blueprints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pita_algorithm/base/asset_placement/placer/abstract_placer.html#AbstractPlacer.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer.add" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>site</strong> (<a class="reference internal" href="pita_algorithm.base.world_sites.abstract_site.html#pita_algorithm.base.world_sites.abstract_site.AbstractSite" title="pita_algorithm.base.world_sites.abstract_site.AbstractSite"><em>AbstractSite</em></a>) – AbstractSite class instance where the object is added to</p></li>
+<li><p><strong>mujoco_object_blueprint</strong> (<a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><em>MujocoObject</em></a>) – Blueprint of to-be-placed mujoco object</p></li>
+<li><p><strong>validators</strong> (<em>list</em><em>[</em><a class="reference internal" href="pita_algorithm.base.asset_placement.validator.html#pita_algorithm.base.asset_placement.validator.Validator" title="pita_algorithm.base.asset_placement.validator.Validator"><em>Validator</em></a><em>]</em>) – Validator class instance used to check object placement</p></li>
+<li><p><strong>amount</strong> (<em>int</em><em>, </em><em>tuple</em>) – Amount of object to be placed</p></li>
+<li><p><strong>coordinates</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>float</em><em>, </em><em>float</em><em>, </em><em>float</em><em>]</em><em>]</em>) – List of coordinate lists where each object is placed</p></li>
+<li><p><strong>z_rotation_range</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>None</em><em>]</em>) – Range of degrees for z-axis rotation</p></li>
+<li><p><strong>color_groups</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>None</em><em>]</em>) – Range of possible different colors for object</p></li>
+<li><p><strong>size_groups</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>, </em><em>None</em><em>]</em>) – Range of possible different sizes for object</p></li>
+<li><p><strong>size_value_range</strong> (<em>Union</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em><em>, </em><em>None</em><em>]</em>) – Range of size values allowed in randomization</p></li>
+<li><p><strong>asset_pool</strong> (<em>Union</em><em>[</em><em>list</em><em>, </em><em>None</em><em>]</em>) – List of xml-names of assets which should be sampled from</p></li>
+<li><p><strong>mujoco_objects_blueprints</strong> (<em>Union</em><em>[</em><em>dict</em><em>, </em><em>None</em><em>]</em>) – Dictionary of all objects as mujoco-objects</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer.remove">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pita_algorithm.base.world_sites.abstract_site.html#pita_algorithm.base.world_sites.abstract_site.AbstractSite" title="pita_algorithm.base.world_sites.abstract_site.AbstractSite"><span class="pre">AbstractSite</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mujoco_object</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><span class="pre">MujocoObject</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pita_algorithm/base/asset_placement/placer/abstract_placer.html#AbstractPlacer.remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pita_algorithm.base.asset_placement.placer.abstract_placer.AbstractPlacer.remove" title="Permalink to this definition"></a></dt>
+<dd><p>Removes a mujoco object from a site by calling the sites remove method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>site</strong> (<a class="reference internal" href="pita_algorithm.base.world_sites.abstract_site.html#pita_algorithm.base.world_sites.abstract_site.AbstractSite" title="pita_algorithm.base.world_sites.abstract_site.AbstractSite"><em>AbstractSite</em></a>) – Site class instance where the object is removed from</p></li>
+<li><p><strong>mujoco_object</strong> (<a class="reference internal" href="pita_algorithm.base.asset_parsing.mujoco_object.html#pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject" title="pita_algorithm.base.asset_parsing.mujoco_object.MujocoObject"><em>MujocoObject</em></a>) – To-be-removed mujoco object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pita_algorithm.base.asset_placement.placer.html" class="btn btn-neutral float-left" title="Placer Classes in PITA Algorithm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pita_algorithm.base.asset_placement.placer.border_placer.html" class="btn btn-neutral float-right" title="BorderPlacer Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
