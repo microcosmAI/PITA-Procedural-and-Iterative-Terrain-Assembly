@@ -110,7 +110,7 @@ Areas:
 ```
 
 ## MicrocosmAI
-The development of PITA is part of the "Emergent Behaviors in a Multi-Agent System with Reinforcement Learning" study project conducted by the MicrocosmAI research group at the University of Osnabrück. This project is supervised by Prof. Elia Bruni and Julius Mayer.
+The development of PITA is part of the "Emergent Behaviors in a Multi-Agent System with Reinforcement Learning" study project conducted by the MicrocosmAI research group at the University of Osnabrück.
 
 ## Outlook
 As PITA is an active component of the ongoing research project, it will continue to evolve to align with the requirements of specific tasks. The development of additional features will be guided by the insights gained from the research activities associated with the project.
