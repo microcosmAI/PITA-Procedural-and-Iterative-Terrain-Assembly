@@ -106,10 +106,12 @@ class XMLExporter:
                     root.find("asset").remove(material)
                 else:
                     material_names.add(category_name)
-
-                    for tex_name in texture_names:
-                        if tex_name in material.attrib["texture"]:
-                            material.attrib["texture"] = tex_name
+                    try:
+                        for tex_name in texture_names:
+                            if tex_name in material.attrib["texture"]:
+                                material.attrib["texture"] = tex_name
+                    except KeyError as e:
+                        pass
         for mesh in meshes:
             name = mesh.attrib["name"]
 
@@ -144,14 +146,44 @@ class XMLExporter:
         """
         bodies = root.find("worldbody").findall("body")
         for body in bodies:
-            geom = body.find("body").find("geom")
+            geom = body.find("body").findall("geom")
+            if isinstance(geom, list):
+                for geom in geom:
+                    if (
+                        geom.attrib["type"] == "mesh"
+                        or geom.attrib["type"] == "sphere"
+                        or geom.attrib["type"] == "cylinder"
+                    ):
+                        for material in material_names:
+                            try:
+                                if material in geom.attrib["material"]:
+                                    geom.attrib["material"] = material
+                            except:
+                                pass
 
-            if geom.attrib["type"] == "mesh":
-                for material in material_names:
-                    if material in geom.attrib["material"]:
-                        geom.attrib["material"] = material
+                        for mesh in mesh_names:
+                            try:
+                                if mesh in geom.attrib["mesh"]:
+                                    geom.attrib["mesh"] = mesh
+                            except:
+                                pass
+            else:
+                if (
+                    geom.attrib["type"] == "mesh"
+                    or geom.attrib["type"] == "sphere"
+                    or geom.attrib["type"] == "cylinder"
+                ):
+                    for material in material_names:
+                        try:
+                            if material in geom.attrib["material"]:
+                                geom.attrib["material"] = material
+                        except:
+                            pass
 
-                for mesh in mesh_names:
-                    if mesh in geom.attrib["mesh"]:
-                        geom.attrib["mesh"] = mesh
+                    for mesh in mesh_names:
+                        try:
+                            if mesh in geom.attrib["mesh"]:
+                                geom.attrib["mesh"] = mesh
+                        except:
+                            pass
         return root
