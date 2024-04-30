@@ -149,7 +149,11 @@ class XMLExporter:
             geom = body.find("body").findall("geom")
             if isinstance(geom, list):
                 for geom in geom:
-                    if (geom.attrib["type"] == "mesh" or geom.attrib["type"] == "sphere" or geom.attrib["type"] == "cylinder"):
+                    if (
+                        geom.attrib["type"] == "mesh"
+                        or geom.attrib["type"] == "sphere"
+                        or geom.attrib["type"] == "cylinder"
+                    ):
                         for material in material_names:
                             try:
                                 if material in geom.attrib["material"]:
@@ -164,7 +168,11 @@ class XMLExporter:
                             except:
                                 pass
             else:
-                if (geom.attrib["type"] == "mesh" or geom.attrib["type"] == "sphere" or geom.attrib["type"] == "cylinder"):
+                if (
+                    geom.attrib["type"] == "mesh"
+                    or geom.attrib["type"] == "sphere"
+                    or geom.attrib["type"] == "cylinder"
+                ):
                     for material in material_names:
                         try:
                             if material in geom.attrib["material"]:
