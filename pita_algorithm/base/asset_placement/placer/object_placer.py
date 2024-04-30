@@ -8,9 +8,6 @@ from pita_algorithm.base.world_sites.abstract_site import AbstractSite
 from pita_algorithm.base.asset_placement.placer.fixed_placer import FixedPlacer
 from pita_algorithm.base.asset_placement.placer.random_placer import RandomPlacer
 from pita_algorithm.base.asset_placement.placer.border_placer import BorderPlacer
-from pita_algorithm.base.asset_placement.distributions.multivariate_uniform_distribution import (
-    MultivariateUniformDistribution,
-)
 
 
 class ObjectPlacer:
@@ -112,7 +109,7 @@ class ObjectPlacer:
                     f"Trying to place object(s) '{object_name}' in '{sites[site_index].name}'"
                 )
                 placer: FixedPlacer | RandomPlacer = (
-                    FixedPlacer() if is_fixed else self._get_random_placer(site)
+                    FixedPlacer() if is_fixed else RandomPlacer()
                 )
                 if self._should_place_object(is_fixed, object_settings):
                     object_config_dict = {
@@ -144,41 +141,32 @@ class ObjectPlacer:
         ]
 
     @staticmethod
-    def _get_random_placer(site: AbstractSite) -> RandomPlacer:
-        """Creates and returns a RandomPlacer instance.
-
-        Parameters:
-            site (AbstractSite): AbstractSite object
-        """
-        distribution = MultivariateUniformDistribution(
-            parameters={
-                "low": [-site.size[0], -site.size[1]],
-                "high": [site.size[0], site.size[1]],
-            }
-        )
-        return RandomPlacer(distribution=distribution)
-
-    @staticmethod
     def _should_place_object(is_fixed: bool, object_settings: list[dict]) -> bool:
         """Returns whether an object should be placed based on the given settings.
 
         Parameters:
             is_fixed (bool): True if the objects should be placed with fixed coordinates, False otherwise
             object_settings (list[dict]): List of dictionaries containing the object settings
+
+        Returns:
+            bool: True if the object is fixed, False otherwise
         """
         has_coordinates = "coordinates" in [
             list(setting.keys())[0] for setting in object_settings
         ]
         return has_coordinates if is_fixed else not has_coordinates
 
-    def _get_placer_params(self, config_dict: dict, is_fixed: bool) -> dict:
+    @staticmethod
+    def _get_placer_params(config_dict: dict, is_fixed: bool) -> dict:
         """Returns the specific parameters needed for the placer, based on the given settings.
 
         Parameters:
             config_dict (dict): Dictionary containing the object settings
             is_fixed (bool): True if the objects should be placed with fixed coordinates, False otherwise
-        """
 
+        Returns:
+            combined_dict (dict): Dictionary containing additional optional parameters
+        """
         keys = [
             "z_rotation_range",
             "color_groups",
@@ -194,5 +182,8 @@ class ObjectPlacer:
             combined_dict["coordinates"] = (
                 config_dict["coordinates"] if "coordinates" in config_dict else None
             )
-
+        else:
+            combined_dict["distribution"] = (
+                config_dict["distribution"] if "distribution" in config_dict else None
+            )
         return combined_dict

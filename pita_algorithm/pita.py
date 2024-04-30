@@ -25,7 +25,7 @@ class PITA:
         random_seed: Union[int, None] = None,
         config_path: Union[str, None] = None,
         xml_dir: Union[str, None] = None,
-        export_path: Union[str, None] = None,
+        export_dir: Union[str, None] = None,
         plot: Union[bool, None] = None,
     ):
         """Run pita_algorithm to create xml-file containing objects specified in config file.
@@ -35,7 +35,7 @@ class PITA:
             random_seed (Union[int, None]): Seed for reproducibility
             config_path (Union[str, None]): Path to where the yaml file is located
             xml_dir (Union[str, None]): Folder where all xml files are located
-            export_path (Union[str, None]): Path (including file name but excluding extension) to export to
+            export_dir (Union[str, None]): Directory to export to
             plot (Union[bool, None]): True for plotting, False if not
         """
         if config_path is None:
@@ -48,14 +48,23 @@ class PITA:
             warnings.warn(
                 "xml directory not specified; running with default directory in examples"
             )
-        if export_path is None:
-            export_path = "export/test"
+        if export_dir is None:
+            export_dir = "export"
             warnings.warn(
-                "export path not specified; running with default directory in export and filename 'test'"
+                "export directory not specified; running with default directory in export and filename 'output'"
             )
 
-        config = ConfigReader.execute(config_path=config_path)
+        Logger.initialize_logger(export_dir=export_dir)
         logger = logging.getLogger()
+        logger.info(
+            f"Running PITA with following parameters: \n" + "-" * 50 + "\n"
+            f"random_seed: '{random_seed}' \n"
+            f"config_path: '{config_path}' \n"
+            f"xml_dir: '{xml_dir}' \n"
+            f"export_dir: '{export_dir}' \n"
+            f"plot: '{plot}' \n" + "-" * 50,
+        )
+        config = ConfigReader.execute(config_path=config_path)
 
         # Set random seed
         if (
@@ -86,17 +95,20 @@ class PITA:
             config_file=config, xml_dir=xml_dir, plot=plot
         ).assemble_world()
 
+        # Add output file name to export path
+        export_dir = os.path.join(export_dir, "output")
         # Export to xml and json
         XMLExporter.to_xml(
             xml_string=environment.mjcf_model.to_xml_string(),
-            export_path=export_path,
+            export_path=export_dir,
         )
         JSONExporter.export(
-            export_path=export_path,
+            export_path=export_dir,
             config=config,
             environment=environment,
             areas=areas,
         )
+        logger.info("Done.")
 
 
 def main(
@@ -108,29 +120,18 @@ def main(
     xml_dir: str = typer.Option(
         default="examples/xml_objects", help="Specify path to xml files."
     ),
-    export_path: str = typer.Option(
-        default="export/test", help="Specify path to output directory."
+    export_dir: str = typer.Option(
+        default="export", help="Specify path to output directory."
     ),
     plot: bool = typer.Option(default=False, help="Set to True to enable plots."),
 ):
-    Logger.initialize_logger()
-    logger = logging.getLogger()
-    logger.info(
-        f"Running PITA with following parameters: \n" + "-" * 50 + "\n"
-        f"random_seed: '{random_seed}' \n"
-        f"config_path: '{config_path}' \n"
-        f"xml_dir: '{xml_dir}' \n"
-        f"export_path: '{export_path}' \n"
-        f"plot: '{plot}' \n" + "-" * 50,
-    )
     PITA().run(
         random_seed=random_seed,
         config_path=config_path,
         xml_dir=xml_dir,
-        export_path=export_path,
+        export_dir=export_dir,
         plot=plot,
     )
-    logger.info("Done.")
 
 
 if __name__ == "__main__":

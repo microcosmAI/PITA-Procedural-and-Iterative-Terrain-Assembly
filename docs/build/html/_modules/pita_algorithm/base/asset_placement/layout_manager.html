@@ -1,0 +1,531 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pita_algorithm.base.asset_placement.layout_manager &mdash; PITA 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.min.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../../../../index.html">
+                PITA
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a></li>
+        
+          <li><a href="../../../index.html">Module code</a></li>
+        
+      <li>pita_algorithm.base.asset_placement.layout_manager</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../../../../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../pita_algorithm.html">pita_algorithm package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usage.html">Usage Guide</a></li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <h1>Source code for pita_algorithm.base.asset_placement.layout_manager</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">patches</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">ceil</span><span class="p">,</span> <span class="n">trunc</span>
+
+
+<div class="viewcode-block" id="LayoutManager"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager">[docs]</a><span class="k">class</span> <span class="nc">LayoutManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sets a layout for Area-sites if multiple areas are present.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of the LayoutManager class.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            length (float): Length of the environment</span>
+<span class="sd">            height (float): Height of the environment</span>
+<span class="sd">            number (float): Number of areas to split the environment into</span>
+<span class="sd">            plot (bool): Whether to plot the created layout as bird view 2D map</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">plot</span>
+
+<div class="viewcode-block" id="LayoutManager.tiling"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.tiling">[docs]</a>    <span class="k">def</span> <span class="nf">tiling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the tiling layout based on environment dimensions and number of areas.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            length (float): Length of the environment</span>
+<span class="sd">            height (float): Height of the environment</span>
+<span class="sd">            number (float): Number of areas to split the environment into</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (dict): A dictionary containing information about the tiling layout</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">length</span> <span class="o">*</span> <span class="n">height</span>
+
+        <span class="c1"># How many tiles would fit along both dimensions if they were perfectly square?</span>
+        <span class="n">real_num_tiles_length</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">number</span> <span class="o">*</span> <span class="n">length</span> <span class="o">/</span> <span class="n">height</span><span class="p">)</span>
+        <span class="n">real_num_tiles_height</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">number</span> <span class="o">*</span> <span class="n">height</span> <span class="o">/</span> <span class="n">length</span><span class="p">)</span>
+
+        <span class="c1"># What&#39;s the area of the area of each tile?</span>
+        <span class="n">square_area</span> <span class="o">=</span> <span class="n">area</span> <span class="o">/</span> <span class="n">number</span>
+
+        <span class="c1"># What are the upper and lower bound of the number of columns and rows?</span>
+        <span class="n">n_rows_trunc</span> <span class="o">=</span> <span class="n">trunc</span><span class="p">(</span><span class="n">real_num_tiles_height</span><span class="p">)</span>
+        <span class="n">n_rows_ceil</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">real_num_tiles_height</span><span class="p">)</span>
+        <span class="n">n_cols_trunc</span> <span class="o">=</span> <span class="n">trunc</span><span class="p">(</span><span class="n">real_num_tiles_length</span><span class="p">)</span>
+        <span class="n">n_cols_ceil</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">real_num_tiles_length</span><span class="p">)</span>
+
+        <span class="c1"># What are the maximum divergences for the resulting tiling dimensions from a square?</span>
+        <span class="c1"># The first half assumes longer and shorter rows</span>
+        <span class="n">rows_trunc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_div</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">square_area</span><span class="p">,</span> <span class="n">n_rows_trunc</span><span class="p">)</span>
+        <span class="n">rows_ceil</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_div</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">square_area</span><span class="p">,</span> <span class="n">n_rows_ceil</span><span class="p">)</span>
+        <span class="c1"># The second half assumes longer and shorter columns. To efficiently reuse the self._max_div function</span>
+        <span class="c1"># the height and length arguments are swapped on call.</span>
+        <span class="n">cols_trunc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_div</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">square_area</span><span class="p">,</span> <span class="n">n_cols_trunc</span><span class="p">)</span>
+        <span class="n">cols_ceil</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_div</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">square_area</span><span class="p">,</span> <span class="n">n_cols_ceil</span><span class="p">)</span>
+
+        <span class="c1"># What is the minimum divergence possible?</span>
+        <span class="n">min_max_div</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rows_trunc</span><span class="p">,</span> <span class="n">rows_ceil</span><span class="p">,</span> <span class="n">cols_trunc</span><span class="p">,</span> <span class="n">cols_ceil</span><span class="p">)</span>
+
+        <span class="c1"># What are the resulting tilings for the mode (rows or cols) and the number of tiles that</span>
+        <span class="c1"># resulted in the lowest divergence from square tiles?</span>
+
+        <span class="c1"># First half assumes that the tiling is fitted with longer and shorter rows</span>
+        <span class="k">if</span> <span class="n">rows_trunc</span> <span class="o">==</span> <span class="n">min_max_div</span><span class="p">:</span>
+            <span class="n">tiling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">square_area</span><span class="p">,</span> <span class="n">n_rows_trunc</span><span class="p">)</span>
+            <span class="n">tiling</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rows&quot;</span>
+        <span class="k">elif</span> <span class="n">rows_ceil</span> <span class="o">==</span> <span class="n">min_max_div</span><span class="p">:</span>
+            <span class="n">tiling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">square_area</span><span class="p">,</span> <span class="n">n_rows_ceil</span><span class="p">)</span>
+            <span class="n">tiling</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rows&quot;</span>
+        <span class="c1"># The second half assumes that the tiling is fitted with longer and shorter collumns.</span>
+        <span class="c1"># To reuse the self._solve function we swap length and height arguments in the call and swap</span>
+        <span class="c1"># the resulting tiling back using the _swap function.</span>
+        <span class="k">elif</span> <span class="n">cols_trunc</span> <span class="o">==</span> <span class="n">min_max_div</span><span class="p">:</span>
+            <span class="n">tiling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">square_area</span><span class="p">,</span> <span class="n">n_cols_trunc</span><span class="p">)</span>
+            <span class="n">tiling</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cols&quot;</span>
+            <span class="n">tiling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_swap</span><span class="p">(</span><span class="n">tiling</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cols_ceil</span> <span class="o">==</span> <span class="n">min_max_div</span><span class="p">:</span>
+            <span class="n">tiling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solve</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">square_area</span><span class="p">,</span> <span class="n">n_cols_ceil</span><span class="p">)</span>
+            <span class="n">tiling</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cols&quot;</span>
+            <span class="n">tiling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_swap</span><span class="p">(</span><span class="n">tiling</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Arithmetic error while trying to solve layout.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ArithmeticError</span>
+        <span class="k">return</span> <span class="n">tiling</span></div>
+
+<div class="viewcode-block" id="LayoutManager._max_div"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager._max_div">[docs]</a>    <span class="k">def</span> <span class="nf">_max_div</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">number</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">square_area</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">n_rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the maximal divergence from a square tiling.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            length (float): Length of the environment</span>
+<span class="sd">            height (float): Height of the environment</span>
+<span class="sd">            number (float): Number of areas to split the environment into</span>
+<span class="sd">            square_area (float): Area of each tile in a perfectly square tiling</span>
+<span class="sd">            n_rows (int): Number of rows to be constructed in the tiling</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (float): The maximal divergence from a square tiling</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># What is the maximal divergence from a square given the area dimensions, the number of tiles</span>
+        <span class="c1"># and the number of rows to be constructed.</span>
+        <span class="k">if</span> <span class="n">n_rows</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">n_rows</span> <span class="o">&gt;</span> <span class="n">number</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+
+        <span class="c1"># How many cols are to be placed in the longer and shorter rows?</span>
+        <span class="n">n_cols_long</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="n">n_rows</span><span class="p">)</span>
+        <span class="n">n_cols_short</span> <span class="o">=</span> <span class="n">trunc</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="n">n_rows</span><span class="p">)</span>
+
+        <span class="c1"># How long are the tiles in the short and long rows?</span>
+        <span class="n">length_long</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="n">n_cols_long</span>
+        <span class="n">length_short</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="n">n_cols_short</span>
+
+        <span class="c1"># How high are the tiles in the short and long rows?</span>
+        <span class="n">height_long</span> <span class="o">=</span> <span class="n">square_area</span> <span class="o">/</span> <span class="n">length_long</span>
+        <span class="n">height_short</span> <span class="o">=</span> <span class="n">square_area</span> <span class="o">/</span> <span class="n">length_short</span>
+
+        <span class="c1"># What is the difference between the heights and lengths in the short and long rows? Ideally this should be zero, as in a perfect square.</span>
+        <span class="n">delta_long</span> <span class="o">=</span> <span class="n">length_long</span> <span class="o">-</span> <span class="n">height_long</span>
+        <span class="n">delta_short</span> <span class="o">=</span> <span class="n">length_short</span> <span class="o">-</span> <span class="n">height_short</span>
+
+        <span class="c1"># What is the maximum difference between the heights and lengths?</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">delta_long</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">delta_short</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="LayoutManager._solve"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager._solve">[docs]</a>    <span class="k">def</span> <span class="nf">_solve</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">number</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">square_area</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">n_rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Solve the tiling layout based on given parameters.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            length (float): Length of the environment</span>
+<span class="sd">            height (float): Height of the environment</span>
+<span class="sd">            number (float): Number of areas to split the environment into</span>
+<span class="sd">            square_area (float): Area of each tile in a perfectly square tiling</span>
+<span class="sd">            n_rows (int): Number of rows to be constructed in the tiling</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (dict): A dictionary containing information about the solved tiling layout</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># What are the number of cols in the short and long rows?</span>
+        <span class="n">n_cols_long</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="n">n_rows</span><span class="p">)</span>
+        <span class="n">n_cols_short</span> <span class="o">=</span> <span class="n">trunc</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="n">n_rows</span><span class="p">)</span>
+
+        <span class="c1"># What are the number of long and short rows such that all tiles fit?</span>
+        <span class="n">n_rows_long</span> <span class="o">=</span> <span class="n">number</span> <span class="o">%</span> <span class="n">n_rows</span>
+        <span class="n">n_rows_short</span> <span class="o">=</span> <span class="n">n_rows</span> <span class="o">-</span> <span class="n">n_rows_long</span>
+
+        <span class="c1"># What are the lengths and heights of the short and long rows?</span>
+        <span class="n">long_length</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="n">n_cols_long</span>
+        <span class="n">long_height</span> <span class="o">=</span> <span class="n">square_area</span> <span class="o">/</span> <span class="n">long_length</span>
+        <span class="n">short_length</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="n">n_cols_short</span>
+        <span class="n">short_height</span> <span class="o">=</span> <span class="n">square_area</span> <span class="o">/</span> <span class="n">short_length</span>
+
+        <span class="c1"># Collect all the parameters for the tiling in one dictionary</span>
+        <span class="n">tiling</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;n_rows&quot;</span><span class="p">:</span> <span class="n">n_rows_short</span><span class="p">,</span>
+                <span class="s2">&quot;n_cols&quot;</span><span class="p">:</span> <span class="n">n_cols_short</span><span class="p">,</span>
+                <span class="s2">&quot;tile_length&quot;</span><span class="p">:</span> <span class="n">short_length</span><span class="p">,</span>
+                <span class="s2">&quot;tile_height&quot;</span><span class="p">:</span> <span class="n">short_height</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;long&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;n_rows&quot;</span><span class="p">:</span> <span class="n">n_rows_long</span><span class="p">,</span>
+                <span class="s2">&quot;n_cols&quot;</span><span class="p">:</span> <span class="n">n_cols_long</span><span class="p">,</span>
+                <span class="s2">&quot;tile_length&quot;</span><span class="p">:</span> <span class="n">long_length</span><span class="p">,</span>
+                <span class="s2">&quot;tile_height&quot;</span><span class="p">:</span> <span class="n">long_height</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+        <span class="c1"># Sanity check</span>
+        <span class="k">assert</span> <span class="n">number</span> <span class="o">==</span> <span class="n">n_cols_long</span> <span class="o">*</span> <span class="n">n_rows_long</span> <span class="o">+</span> <span class="n">n_cols_short</span> <span class="o">*</span> <span class="n">n_rows_short</span>
+        <span class="k">return</span> <span class="n">tiling</span></div>
+
+<div class="viewcode-block" id="LayoutManager._swap"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager._swap">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_swap</span><span class="p">(</span><span class="n">tiling</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Swap the rows and columns of the tiling layout.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            tiling (dict): A dictionary containing information about the tiling layout.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (dict): A dictionary with swapped rows and columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Swap rows and cols length and height</span>
+        <span class="n">tiling_short</span> <span class="o">=</span> <span class="n">tiling</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">]</span>
+        <span class="n">tiling_long</span> <span class="o">=</span> <span class="n">tiling</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Should be pretty self explainatory</span>
+        <span class="n">tiling</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;n_rows&quot;</span><span class="p">:</span> <span class="n">tiling_short</span><span class="p">[</span><span class="s2">&quot;n_cols&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;n_cols&quot;</span><span class="p">:</span> <span class="n">tiling_short</span><span class="p">[</span><span class="s2">&quot;n_rows&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;tile_length&quot;</span><span class="p">:</span> <span class="n">tiling_short</span><span class="p">[</span><span class="s2">&quot;tile_height&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;tile_height&quot;</span><span class="p">:</span> <span class="n">tiling_short</span><span class="p">[</span><span class="s2">&quot;tile_length&quot;</span><span class="p">],</span>
+        <span class="p">}</span>
+        <span class="n">tiling</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;n_rows&quot;</span><span class="p">:</span> <span class="n">tiling_long</span><span class="p">[</span><span class="s2">&quot;n_cols&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;n_cols&quot;</span><span class="p">:</span> <span class="n">tiling_long</span><span class="p">[</span><span class="s2">&quot;n_rows&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;tile_length&quot;</span><span class="p">:</span> <span class="n">tiling_long</span><span class="p">[</span><span class="s2">&quot;tile_height&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;tile_height&quot;</span><span class="p">:</span> <span class="n">tiling_long</span><span class="p">[</span><span class="s2">&quot;tile_length&quot;</span><span class="p">],</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">tiling</span></div>
+
+<div class="viewcode-block" id="LayoutManager.generate_layout_boundaries"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.generate_layout_boundaries">[docs]</a>    <span class="k">def</span> <span class="nf">generate_layout_boundaries</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span>
+        <span class="nb">tuple</span><span class="p">[</span>
+            <span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+            <span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+        <span class="p">]</span>
+    <span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate boundaries for the layout based on the tiling.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of tuples containing boundaries for the layout tiles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get the tiling</span>
+        <span class="n">tilingVar_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiling</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+
+        <span class="c1"># Store the boundaries of the tiles in the form of top-left and bottom-right corners</span>
+        <span class="n">boundaries</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Initialize the shift</span>
+        <span class="n">shift</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">tiling_key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">,</span> <span class="s2">&quot;long&quot;</span><span class="p">]:</span>
+            <span class="n">tilingVar</span> <span class="o">=</span> <span class="n">tilingVar_result</span><span class="p">[</span><span class="n">tiling_key</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;n_rows&quot;</span><span class="p">]):</span>
+                <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;n_cols&quot;</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">tilingVar_result</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;rows&quot;</span><span class="p">:</span>
+                        <span class="n">top_left</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">col</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_length&quot;</span><span class="p">],</span>
+                            <span class="n">row</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_height&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">shift</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="n">bottom_right</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="p">(</span><span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_length&quot;</span><span class="p">],</span>
+                            <span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_height&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">shift</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">top_left</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">col</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_length&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">shift</span><span class="p">,</span>
+                            <span class="n">row</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_height&quot;</span><span class="p">],</span>
+                        <span class="p">)</span>
+                        <span class="n">bottom_right</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="p">(</span><span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_length&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">shift</span><span class="p">,</span>
+                            <span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_height&quot;</span><span class="p">],</span>
+                        <span class="p">)</span>
+                    <span class="n">boundaries</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">top_left</span><span class="p">,</span> <span class="n">bottom_right</span><span class="p">))</span>
+
+            <span class="c1"># Update the shift for the next tiling key</span>
+            <span class="k">if</span> <span class="n">tilingVar_result</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;rows&quot;</span><span class="p">:</span>
+                <span class="n">shift</span> <span class="o">+=</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;n_rows&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_height&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">shift</span> <span class="o">+=</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;n_cols&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">tilingVar</span><span class="p">[</span><span class="s2">&quot;tile_length&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">boundaries</span></div>
+
+<div class="viewcode-block" id="LayoutManager.plot_tiling_boundaries"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.plot_tiling_boundaries">[docs]</a>    <span class="k">def</span> <span class="nf">plot_tiling_boundaries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the boundaries of the layout tiles.&quot;&quot;&quot;</span>
+        <span class="n">boundaries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_layout_boundaries</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_boundaries</span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LayoutManager.plot_boundaries"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.plot_boundaries">[docs]</a>    <span class="k">def</span> <span class="nf">plot_boundaries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the boundaries of the layout tiles.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            boundaries (list): List of tuples containing boundaries for the layout tiles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="n">boundaries</span><span class="p">:</span>
+            <span class="n">top_left</span><span class="p">,</span> <span class="n">bottom_right</span> <span class="o">=</span> <span class="n">boundary</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="n">bottom_right</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">top_left</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">height</span> <span class="o">=</span> <span class="n">bottom_right</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">top_left</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">rect</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span>
+                <span class="n">top_left</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boundaries</span><span class="p">]))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">boundaries</span><span class="p">]))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">&quot;box&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LayoutManager.plot_tiling"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_placement.layout_manager.html#pita_algorithm.base.asset_placement.layout_manager.LayoutManager.plot_tiling">[docs]</a>    <span class="k">def</span> <span class="nf">plot_tiling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the tiling layout.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            length (float): Length of the environment</span>
+<span class="sd">            height (float): Height of the environment</span>
+<span class="sd">            number (int): Number of areas to split the environment into</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tiles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tiling</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;rows&quot;</span><span class="p">:</span>
+            <span class="n">row_height</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># Short rows</span>
+            <span class="n">tile_height</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">][</span><span class="s2">&quot;tile_height&quot;</span><span class="p">]</span>
+            <span class="n">tile_length</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">][</span><span class="s2">&quot;tile_length&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">][</span><span class="s2">&quot;n_rows&quot;</span><span class="p">]):</span>
+                <span class="c1"># Horizontal line</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">),</span> <span class="p">(</span><span class="n">row_height</span><span class="p">,</span> <span class="n">row_height</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">][</span><span class="s2">&quot;n_cols&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="c1"># Vertical lines</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                        <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">tile_length</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">tile_length</span><span class="p">),</span>
+                        <span class="p">(</span><span class="n">row_height</span><span class="p">,</span> <span class="n">row_height</span> <span class="o">+</span> <span class="n">tile_height</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="n">row_height</span> <span class="o">+=</span> <span class="n">tile_height</span>
+            <span class="c1"># Long rows</span>
+            <span class="n">tile_height</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">][</span><span class="s2">&quot;tile_height&quot;</span><span class="p">]</span>
+            <span class="n">tile_length</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">][</span><span class="s2">&quot;tile_length&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">][</span><span class="s2">&quot;n_rows&quot;</span><span class="p">]):</span>
+                <span class="c1"># Horizontal line</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">),</span> <span class="p">(</span><span class="n">row_height</span><span class="p">,</span> <span class="n">row_height</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">][</span><span class="s2">&quot;n_cols&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="c1"># Vertical lines</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                        <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">tile_length</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">tile_length</span><span class="p">),</span>
+                        <span class="p">(</span><span class="n">row_height</span><span class="p">,</span> <span class="n">row_height</span> <span class="o">+</span> <span class="n">tile_height</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="n">row_height</span> <span class="o">+=</span> <span class="n">tile_height</span>
+            <span class="c1"># Final horizontal line</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">),</span> <span class="p">(</span><span class="n">row_height</span><span class="p">,</span> <span class="n">row_height</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;cols&quot;</span><span class="p">:</span>
+            <span class="n">col_length</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># Short cols</span>
+            <span class="n">tile_height</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">][</span><span class="s2">&quot;tile_height&quot;</span><span class="p">]</span>
+            <span class="n">tile_length</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">][</span><span class="s2">&quot;tile_length&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">][</span><span class="s2">&quot;n_cols&quot;</span><span class="p">]):</span>
+                <span class="c1"># Horizontal line</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">col_length</span><span class="p">,</span> <span class="n">col_length</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;short&quot;</span><span class="p">][</span><span class="s2">&quot;n_rows&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="c1"># Vertical lines</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                        <span class="p">(</span><span class="n">col_length</span><span class="p">,</span> <span class="n">col_length</span> <span class="o">+</span> <span class="n">tile_length</span><span class="p">),</span>
+                        <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">tile_height</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">tile_height</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="n">col_length</span> <span class="o">+=</span> <span class="n">tile_length</span>
+            <span class="c1"># Long cols</span>
+            <span class="n">tile_height</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">][</span><span class="s2">&quot;tile_height&quot;</span><span class="p">]</span>
+            <span class="n">tile_length</span> <span class="o">=</span> <span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">][</span><span class="s2">&quot;tile_length&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">][</span><span class="s2">&quot;n_cols&quot;</span><span class="p">]):</span>
+                <span class="c1"># Horizontal line</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">col_length</span><span class="p">,</span> <span class="n">col_length</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tiles</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">][</span><span class="s2">&quot;n_rows&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="c1"># Vertical lines</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                        <span class="p">(</span><span class="n">col_length</span><span class="p">,</span> <span class="n">col_length</span> <span class="o">+</span> <span class="n">tile_length</span><span class="p">),</span>
+                        <span class="p">(</span><span class="n">j</span> <span class="o">*</span> <span class="n">tile_height</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">tile_height</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="n">col_length</span> <span class="o">+=</span> <span class="n">tile_length</span>
+            <span class="c1"># Final vertical line</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">col_length</span><span class="p">,</span> <span class="n">col_length</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div></div>
+</pre></div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'1.0',
+            LANGUAGE:'en',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2023, EBIMAS Study Project.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.
+        </div>
+    </div>  
+
+</body>
+</html>

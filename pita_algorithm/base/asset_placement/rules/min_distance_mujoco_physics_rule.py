@@ -1,3 +1,4 @@
+import copy
 import numpy as np
 from dm_control import mjcf
 from shapely.geometry.base import BaseGeometry
@@ -38,7 +39,17 @@ class MinDistanceMujocoPhysicsRule(Rule):
         Returns:
             (bool): True if mujoco_object is far enough away from each object.
         """
-        attachement_frame = site.mjcf_model.attach(mujoco_object.mjcf_obj)
+        mujoco_object_tmp_copy = copy.deepcopy(mujoco_object)
+        joint_list = mujoco_object_tmp_copy.mjcf_obj.worldbody.body[0].find_all(
+            "joint", immediate_children_only=True
+        )
+        if joint_list:
+            if joint_list[0].tag == "freejoint" or joint_list[0].type == "free":
+                joint_list[0].remove()
+                mujoco_object_tmp_copy.mjcf_obj.worldbody.body[0].add(
+                    "joint", limited="false"
+                )
+        attachement_frame = site.mjcf_model.attach(mujoco_object_tmp_copy.mjcf_obj)
 
         # If the attached mujoco_object is a composite object,
         # we need to set the margin of each geom to the specified distance
@@ -51,7 +62,7 @@ class MinDistanceMujocoPhysicsRule(Rule):
 
         # If there are no collisions, the object can be placed
         if num_contacts == 0:
-            mujoco_object.mjcf_obj.detach()
+            mujoco_object_tmp_copy.mjcf_obj.detach()
             return True
 
         # If there are collisions,
@@ -81,9 +92,9 @@ class MinDistanceMujocoPhysicsRule(Rule):
             remaining_contacts2 = physics.data.contact.geom2[mask]
 
             if len(remaining_contacts1) == 0:
-                mujoco_object.mjcf_obj.detach()
+                mujoco_object_tmp_copy.mjcf_obj.detach()
                 return True
 
             else:
-                mujoco_object.mjcf_obj.detach()
+                mujoco_object_tmp_copy.mjcf_obj.detach()
                 return False

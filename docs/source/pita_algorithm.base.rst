@@ -1,14 +1,13 @@
-pita\_algorithm.base package
-============================
+PITA Algorithm Base Package
+==========================
 
-.. automodule:: pita_algorithm.base
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :private-members:
+.. module:: pita_algorithm.base
+   :synopsis: Overview of the base module of the PITA Algorithm framework.
 
-Subpackages
------------
+The `pita_algorithm.base` package provides the foundational classes and functions utilized across the PITA Algorithm framework. This module includes core functionality for object modeling, simulation environment setup, and base components for asset placement and rule evaluation.
+
+Core Components
+---------------
 
 .. toctree::
    :maxdepth: 5

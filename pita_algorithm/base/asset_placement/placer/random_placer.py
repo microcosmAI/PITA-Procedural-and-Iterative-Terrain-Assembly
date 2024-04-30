@@ -1,5 +1,6 @@
 import logging
 import random
+import importlib.util
 from tqdm import tqdm
 from typing import Union
 from pita_algorithm.utils.general_utils import Utils
@@ -11,9 +12,6 @@ from pita_algorithm.base.asset_placement.placer.abstract_placer import AbstractP
 from pita_algorithm.utils.object_property_randomization import (
     ObjectPropertyRandomization,
 )
-from pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution import (
-    AbstractPlacerDistribution,
-)
 
 
 class RandomPlacer(AbstractPlacer):
@@ -23,14 +21,9 @@ class RandomPlacer(AbstractPlacer):
     # Instead, after placement has failed for MAX_TRIES times, an error is thrown.
     MAX_TRIES = 10000
 
-    def __init__(self, distribution: AbstractPlacerDistribution):
-        """Constructor of the RandomPlacer class.
-
-        Parameters:
-            distribution (AbstractPlacerDistribution): Distribution used for sampling
-        """
+    def __init__(self):
+        """Constructor of the RandomPlacer class."""
         super().__init__()
-        self.distribution = distribution
 
     def add(
         self,
@@ -39,6 +32,7 @@ class RandomPlacer(AbstractPlacer):
         validators: list[Validator],
         amount: tuple[int, int] = (1, 1),
         coordinates: None = None,
+        distribution: list = None,
         z_rotation_range: Union[tuple[int, int], None] = None,
         color_groups: Union[tuple[int, int], None] = None,
         size_groups: Union[tuple[int, int], None] = None,
@@ -55,6 +49,7 @@ class RandomPlacer(AbstractPlacer):
             validators (list[Validator]): List of validators used to check object placement
             amount (tuple[int, int]): Range of possible amount of objects to be placed
             coordinates (None): Required signature of abstract parent class for fixed_placer
+            distribution (Distribution): Distribution for object to sample from for random placement
             z_rotation_range (Union[tuple[int, int], None]): Range of degrees for z-axis rotation
             color_groups (Union[tuple[int, int], None]): Range of possible different colors for object
             size_groups (Union[tuple[int, int], None]): Range of possible different sizes for object
@@ -86,6 +81,16 @@ class RandomPlacer(AbstractPlacer):
         z_rotation_for_placement = ObjectPropertyRandomization.get_random_rotation(
             amount=amount, z_rotation_range=z_rotation_range
         )
+
+        # Get distribution name and parameters - load respective module
+        distr_name, distr_parameters = self._get_distr_params(
+            distribution_config=distribution, site=site
+        )
+        module_path = (
+            "pita_algorithm.base.asset_placement.distributions.distribution_collection"
+        )
+        module = importlib.import_module(module_path)
+        distribution_class = getattr(module, distr_name)
 
         for i in tqdm(range(amount)):
             # Get new clean blueprint
@@ -120,7 +125,7 @@ class RandomPlacer(AbstractPlacer):
 
             # Sample a new position
             mutable_mujoco_object_blueprint.position = (
-                *self.distribution(),
+                *distribution_class(parameters=distr_parameters)(),
                 new_z_position,
             )
 
@@ -153,7 +158,7 @@ class RandomPlacer(AbstractPlacer):
                     )
                 # If placement is not possible, sample a new position
                 mutable_mujoco_object_blueprint.position = (
-                    *self.distribution(),
+                    *distribution_class(parameters=distr_parameters)(),
                     new_z_position,
                 )
 
@@ -186,3 +191,36 @@ class RandomPlacer(AbstractPlacer):
             mujoco_object (MujocoObject): To-be-removed mujoco object
         """
         site.remove(mujoco_object=mujoco_object)
+
+    @staticmethod
+    def _get_distr_params(distribution_config: list, site: AbstractSite) -> (str, dict):
+        """Returns the name and parameters of given distribution in datatypes needed for distribution classes.
+
+        Parameters:
+            distribution_config (list): List with dictionaries containing user input of distribution name and pars
+            site (AbstractSite): Site class instance where the object is added to
+
+        Returns:
+            name (str): Name of distribution
+            parameters (dict): Dictionary with parameter names and values
+        """
+        name = None
+        parameters = dict()
+        if not distribution_config:
+            pass
+        else:
+            for entry in distribution_config:
+                for key, value in entry.items():
+                    if key == "name":
+                        name = value
+                    else:
+                        parameters[key] = value
+
+        # Set default to MultivariateNormalDistribution; default parameters are set in class itself
+        if name is None:
+            name = "MultivariateNormalDistribution"
+
+        # Add site sizes to parameters for default values in class itself
+        parameters["site_sizes"] = [site.size[0], site.size[1]]
+
+        return name, parameters
