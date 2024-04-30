@@ -80,8 +80,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pita_algorithm.base.asset_parsing.blueprint_manager</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_parsing.mujoco_object</span> <span class="kn">import</span> <span class="n">MujocoObject</span>
+<span></span><span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_parsing.mujoco_object</span> <span class="kn">import</span> <span class="n">MujocoObject</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_parsing.mujoco_loader</span> <span class="kn">import</span> <span class="n">MujocoLoader</span>
 
 
@@ -106,35 +105,8 @@
 <span class="sd">            (dict, dict): Dictionaries of mujoco objects blueprints and mujoco objects rule blueprints</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mujoco_loader</span> <span class="o">=</span> <span class="n">MujocoLoader</span><span class="p">(</span><span class="n">config_file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">xml_dir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xml_dir</span><span class="p">)</span>
-        <span class="n">mujoco_objects_blueprints</span> <span class="o">=</span> <span class="n">mujoco_loader</span><span class="o">.</span><span class="n">get_mujoco_objects</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">mujoco_object</span> <span class="ow">in</span> <span class="n">mujoco_objects_blueprints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">mujoco_objects_blueprints</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_rule_blueprint</span><span class="p">(</span>
-                <span class="n">mujoco_object</span>
-            <span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mujoco_objects_blueprints</span></div>
-
-<div class="viewcode-block" id="BlueprintManager._create_rule_blueprint"><a class="viewcode-back" href="../../../../pita_algorithm.base.asset_parsing.blueprint_manager.html#pita_algorithm.base.asset_parsing.blueprint_manager.BlueprintManager._create_rule_blueprint">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_create_rule_blueprint</span><span class="p">(</span><span class="n">mujoco_object</span><span class="p">:</span> <span class="n">MujocoObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MujocoObject</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates rule blueprints for Mujoco objects.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            mujoco_object (MujocoObject): Mujoco object to be manipulated</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">mujoco_object_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">mujoco_object</span><span class="p">)</span>
-        <span class="n">joint_list</span> <span class="o">=</span> <span class="n">mujoco_object_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span>
-            <span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">immediate_children_only</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">joint_list</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;freejoint&quot;</span> <span class="ow">or</span> <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;free&quot;</span><span class="p">:</span>
-                <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-                <span class="n">mujoco_object_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                    <span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">limited</span><span class="o">=</span><span class="s2">&quot;false&quot;</span>
-                <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">mujoco_object_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;joint&quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">mujoco_object_copy</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mujoco_objects_blueprints</span> <span class="o">=</span> <span class="n">mujoco_loader</span><span class="o">.</span><span class="n">get_mujoco_objects</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mujoco_objects_blueprints</span></div></div>
 </pre></div>
 
            </div>

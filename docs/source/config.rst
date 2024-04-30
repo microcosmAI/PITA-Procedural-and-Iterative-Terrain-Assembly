@@ -221,7 +221,7 @@ This section outlines the rules and distributions available for use, along with 
     Tree:
       - xml_name: "Tree.xml"
       - amount: [1, 2]
-      - asset_pool: ["Tree.xml", "Tree_Birch.xml", "Tree_Maple.xml"]
+      - asset_pool: ["Tree.xml", "Tree01.xml", "Tree02.xml"]
 
 By introducing an asset pool, each tree (within the specified amount range) randomly selects its model from the provided asset options, potentially rendering each instance unique.
 

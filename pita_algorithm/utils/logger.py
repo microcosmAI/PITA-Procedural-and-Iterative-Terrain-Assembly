@@ -7,7 +7,7 @@ class Logger:
     """Initializes logger."""
 
     @staticmethod
-    def initialize_logger() -> None:
+    def initialize_logger(export_dir: str) -> None:
         """Initializes INFO logger with handler for output in logs file."""
         logging.basicConfig(level=logging.INFO)
         formatter = logging.Formatter(
@@ -16,11 +16,11 @@ class Logger:
         logger = logging.getLogger()
         logger.setLevel(logging.INFO)
 
-        log_path = "./logs/"
-        if not os.path.exists(log_path):
-            os.makedirs(log_path)
+        log_dir = os.path.join(export_dir, "logs")
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
         file_handler = logging.handlers.RotatingFileHandler(
-            os.path.join(log_path, "logs.log"), maxBytes=1024 * 1024, backupCount=3
+            os.path.join(log_dir, "logs.log"), maxBytes=1024 * 1024, backupCount=3
         )
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.INFO)

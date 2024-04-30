@@ -107,7 +107,7 @@
         <span class="n">random_seed</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">config_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">xml_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">export_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">export_dir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">plot</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run pita_algorithm to create xml-file containing objects specified in config file.</span>
@@ -117,7 +117,7 @@
 <span class="sd">            random_seed (Union[int, None]): Seed for reproducibility</span>
 <span class="sd">            config_path (Union[str, None]): Path to where the yaml file is located</span>
 <span class="sd">            xml_dir (Union[str, None]): Folder where all xml files are located</span>
-<span class="sd">            export_path (Union[str, None]): Path (including file name but excluding extension) to export to</span>
+<span class="sd">            export_dir (Union[str, None]): Directory to export to</span>
 <span class="sd">            plot (Union[bool, None]): True for plotting, False if not</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">config_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -130,14 +130,23 @@
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="s2">&quot;xml directory not specified; running with default directory in examples&quot;</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">export_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">export_path</span> <span class="o">=</span> <span class="s2">&quot;export/test&quot;</span>
+        <span class="k">if</span> <span class="n">export_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">export_dir</span> <span class="o">=</span> <span class="s2">&quot;export&quot;</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;export path not specified; running with default directory in export and filename &#39;test&#39;&quot;</span>
+                <span class="s2">&quot;export directory not specified; running with default directory in export and filename &#39;output&#39;&quot;</span>
             <span class="p">)</span>
 
-        <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigReader</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">config_path</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+        <span class="n">Logger</span><span class="o">.</span><span class="n">initialize_logger</span><span class="p">(</span><span class="n">export_dir</span><span class="o">=</span><span class="n">export_dir</span><span class="p">)</span>
         <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Running PITA with following parameters: </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                                                       <span class="sa">f</span><span class="s2">&quot;random_seed: &#39;</span><span class="si">{</span><span class="n">random_seed</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
+                                                                       <span class="sa">f</span><span class="s2">&quot;config_path: &#39;</span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
+                                                                       <span class="sa">f</span><span class="s2">&quot;xml_dir: &#39;</span><span class="si">{</span><span class="n">xml_dir</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
+                                                                       <span class="sa">f</span><span class="s2">&quot;export_dir: &#39;</span><span class="si">{</span><span class="n">export_dir</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
+                                                                       <span class="sa">f</span><span class="s2">&quot;plot: &#39;</span><span class="si">{</span><span class="n">plot</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigReader</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">config_path</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
 
         <span class="c1"># Set random seed</span>
         <span class="k">if</span> <span class="p">(</span>
@@ -168,17 +177,20 @@
             <span class="n">config_file</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">xml_dir</span><span class="o">=</span><span class="n">xml_dir</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">plot</span>
         <span class="p">)</span><span class="o">.</span><span class="n">assemble_world</span><span class="p">()</span>
 
+        <span class="c1"># Add output file name to export path</span>
+        <span class="n">export_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">export_dir</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">)</span>
         <span class="c1"># Export to xml and json</span>
         <span class="n">XMLExporter</span><span class="o">.</span><span class="n">to_xml</span><span class="p">(</span>
             <span class="n">xml_string</span><span class="o">=</span><span class="n">environment</span><span class="o">.</span><span class="n">mjcf_model</span><span class="o">.</span><span class="n">to_xml_string</span><span class="p">(),</span>
-            <span class="n">export_path</span><span class="o">=</span><span class="n">export_path</span><span class="p">,</span>
+            <span class="n">export_path</span><span class="o">=</span><span class="n">export_dir</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">JSONExporter</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
-            <span class="n">export_path</span><span class="o">=</span><span class="n">export_path</span><span class="p">,</span>
+            <span class="n">export_path</span><span class="o">=</span><span class="n">export_dir</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
             <span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">,</span>
             <span class="n">areas</span><span class="o">=</span><span class="n">areas</span><span class="p">,</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done.&quot;</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../pita_algorithm.pita.html#pita_algorithm.pita.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
@@ -190,30 +202,18 @@
     <span class="n">xml_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="s2">&quot;examples/xml_objects&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify path to xml files.&quot;</span>
     <span class="p">),</span>
-    <span class="n">export_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;export/test&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify path to output directory.&quot;</span>
+    <span class="n">export_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;export&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify path to output directory.&quot;</span>
     <span class="p">),</span>
     <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Set to True to enable plots.&quot;</span><span class="p">),</span>
 <span class="p">):</span>
-    <span class="n">Logger</span><span class="o">.</span><span class="n">initialize_logger</span><span class="p">()</span>
-    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Running PITA with following parameters: </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;random_seed: &#39;</span><span class="si">{</span><span class="n">random_seed</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;config_path: &#39;</span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;xml_dir: &#39;</span><span class="si">{</span><span class="n">xml_dir</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;export_path: &#39;</span><span class="si">{</span><span class="n">export_path</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;plot: &#39;</span><span class="si">{</span><span class="n">plot</span><span class="si">}</span><span class="s2">&#39; </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">,</span>
-    <span class="p">)</span>
     <span class="n">PITA</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
         <span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">,</span>
         <span class="n">config_path</span><span class="o">=</span><span class="n">config_path</span><span class="p">,</span>
         <span class="n">xml_dir</span><span class="o">=</span><span class="n">xml_dir</span><span class="p">,</span>
-        <span class="n">export_path</span><span class="o">=</span><span class="n">export_path</span><span class="p">,</span>
+        <span class="n">export_dir</span><span class="o">=</span><span class="n">export_dir</span><span class="p">,</span>
         <span class="n">plot</span><span class="o">=</span><span class="n">plot</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done.&quot;</span><span class="p">)</span></div>
-
+    <span class="p">)</span></div>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">typer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">)</span>

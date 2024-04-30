@@ -95,7 +95,7 @@ Areas:
             - name: "CircularUniformDistribution"
             - loc: 28
             - scale: 50
-        - asset_pool: ["Tree.xml", "Tree_Birch.xml", "Tree_Maple.xml"]
+        - asset_pool: ["Tree.xml", "Tree01.xml", "Tree02.xml"]
         - tags: ["Tree"]
 
       Stone2:

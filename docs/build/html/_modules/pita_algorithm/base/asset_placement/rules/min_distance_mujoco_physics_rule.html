@@ -80,7 +80,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pita_algorithm.base.asset_placement.rules.min_distance_mujoco_physics_rule</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">dm_control</span> <span class="kn">import</span> <span class="n">mjcf</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry.base</span> <span class="kn">import</span> <span class="n">BaseGeometry</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.asset_placement.rules.abstract_rule</span> <span class="kn">import</span> <span class="n">Rule</span>
@@ -120,7 +121,17 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            (bool): True if mujoco_object is far enough away from each object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">attachement_frame</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">mjcf_model</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="p">)</span>
+        <span class="n">mujoco_object_tmp_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">mujoco_object</span><span class="p">)</span>
+        <span class="n">joint_list</span> <span class="o">=</span> <span class="n">mujoco_object_tmp_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span>
+            <span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">immediate_children_only</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">joint_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;freejoint&quot;</span> <span class="ow">or</span> <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;free&quot;</span><span class="p">:</span>
+                <span class="n">joint_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+                <span class="n">mujoco_object_tmp_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">worldbody</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                    <span class="s2">&quot;joint&quot;</span><span class="p">,</span> <span class="n">limited</span><span class="o">=</span><span class="s2">&quot;false&quot;</span>
+                <span class="p">)</span>
+        <span class="n">attachement_frame</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">mjcf_model</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">mujoco_object_tmp_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="p">)</span>
 
         <span class="c1"># If the attached mujoco_object is a composite object,</span>
         <span class="c1"># we need to set the margin of each geom to the specified distance</span>
@@ -133,7 +144,7 @@
 
         <span class="c1"># If there are no collisions, the object can be placed</span>
         <span class="k">if</span> <span class="n">num_contacts</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+            <span class="n">mujoco_object_tmp_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="c1"># If there are collisions,</span>
@@ -163,11 +174,11 @@
             <span class="n">remaining_contacts2</span> <span class="o">=</span> <span class="n">physics</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">contact</span><span class="o">.</span><span class="n">geom2</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">remaining_contacts1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+                <span class="n">mujoco_object_tmp_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
                 <span class="k">return</span> <span class="kc">True</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">mujoco_object</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+                <span class="n">mujoco_object_tmp_copy</span><span class="o">.</span><span class="n">mjcf_obj</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
                 <span class="k">return</span> <span class="kc">False</span></div>
 </pre></div>
 
