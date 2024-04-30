@@ -1,7 +1,0 @@
-<mujoco model="distractor">
-    <worldbody>       
-        <body pos="0.0 0.0 0.5" name="distractor">
-            <geom type="box" size="0.5 0.5 0.5" euler="0 0 0" rgba=".949 .298 .2392 1" name="distractor_geom" />
-        </body>
-    </worldbody>
-</mujoco>

@@ -54,8 +54,17 @@ class PITA:
                 "export directory not specified; running with default directory in export and filename 'output'"
             )
 
-        config = ConfigReader.execute(config_path=config_path)
+        Logger.initialize_logger(export_dir=export_dir)
         logger = logging.getLogger()
+        logger.info(
+               f"Running PITA with following parameters: \n" + "-" * 50 + "\n"
+               f"random_seed: '{random_seed}' \n"
+               f"config_path: '{config_path}' \n"
+               f"xml_dir: '{xml_dir}' \n"
+               f"export_dir: '{export_dir}' \n"
+               f"plot: '{plot}' \n" + "-" * 50,
+        )
+        config = ConfigReader.execute(config_path=config_path)
 
         # Set random seed
         if (
@@ -99,6 +108,7 @@ class PITA:
             environment=environment,
             areas=areas,
         )
+        logger.info("Done.")
 
 
 def main(
@@ -115,16 +125,6 @@ def main(
     ),
     plot: bool = typer.Option(default=False, help="Set to True to enable plots."),
 ):
-    Logger.initialize_logger()
-    logger = logging.getLogger()
-    logger.info(
-        f"Running PITA with following parameters: \n" + "-" * 50 + "\n"
-        f"random_seed: '{random_seed}' \n"
-        f"config_path: '{config_path}' \n"
-        f"xml_dir: '{xml_dir}' \n"
-        f"export_dir: '{export_dir}' \n"
-        f"plot: '{plot}' \n" + "-" * 50,
-    )
     PITA().run(
         random_seed=random_seed,
         config_path=config_path,
@@ -132,8 +132,6 @@ def main(
         export_dir=export_dir,
         plot=plot,
     )
-    logger.info("Done.")
-
 
 if __name__ == "__main__":
     typer.run(main)

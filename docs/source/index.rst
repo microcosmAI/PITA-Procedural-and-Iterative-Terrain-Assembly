@@ -41,7 +41,7 @@ Core Features
 
 - **Placement Rules**: Allows setting specific rules for asset placement, such as maintaining a minimum distance between objects.
 
-- **Diverse Asset Pool**: Enables the definition of an asset pool, allowing selection from various assets of a similar style (e.g., "Tree.xml", "Tree_Birch.xml", "Tree_Maple.xml").
+- **Diverse Asset Pool**: Enables the definition of an asset pool, allowing selection from various assets of a similar style (e.g., "Tree.xml", "Tree01.xml", "Tree02.xml").
 
 - **JSON Output**: Generates a JSON file detailing information about the objects within the environment, providing a structured output that can be used for the environment dynamics.
 

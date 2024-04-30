@@ -1,7 +1,0 @@
-<mujoco model="target">
-    <worldbody>       
-        <body pos="0.0 0.0 0.5" name="target">
-            <geom type="box" size="0.5 0.5 0.5" euler="0 0 0" rgba=".1333 .651 0.6 1" name="target_geom" />
-        </body>
-    </worldbody>
-</mujoco>
