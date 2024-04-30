@@ -57,12 +57,12 @@ class PITA:
         Logger.initialize_logger(export_dir=export_dir)
         logger = logging.getLogger()
         logger.info(
-               f"Running PITA with following parameters: \n" + "-" * 50 + "\n"
-               f"random_seed: '{random_seed}' \n"
-               f"config_path: '{config_path}' \n"
-               f"xml_dir: '{xml_dir}' \n"
-               f"export_dir: '{export_dir}' \n"
-               f"plot: '{plot}' \n" + "-" * 50,
+            f"Running PITA with following parameters: \n" + "-" * 50 + "\n"
+            f"random_seed: '{random_seed}' \n"
+            f"config_path: '{config_path}' \n"
+            f"xml_dir: '{xml_dir}' \n"
+            f"export_dir: '{export_dir}' \n"
+            f"plot: '{plot}' \n" + "-" * 50,
         )
         config = ConfigReader.execute(config_path=config_path)
 
@@ -132,6 +132,7 @@ def main(
         export_dir=export_dir,
         plot=plot,
     )
+
 
 if __name__ == "__main__":
     typer.run(main)
