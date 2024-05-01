@@ -1,7 +1,7 @@
 # PITA (Procedural and Iterative Terrain Assembly)
 ![pixlr_banner](https://raw.githubusercontent.com/microcosmAI/pita/8e2a540ac5aeac5f2d3784c38e6a2a6d32dab7d9/static/banner.png)
 
-Welcome to the documentation for PITA (Procedural and Iterative Terrain Assembly), a framework designed to generate dynamic and customizable environments for **reinforcement learning (RL) in MuJoCo**. PITA serves as a valuable tool for creating varied simulation environments, helping to mitigate overfitting in AI systems by providing diverse training scenarios.
+Welcome to PITA (Procedural and Iterative Terrain Assembly), a framework designed to generate dynamic and customizable environments for **reinforcement learning (RL) in MuJoCo**. PITA serves as a valuable tool for creating varied simulation environments, helping to mitigate overfitting in AI systems by providing diverse training scenarios.
 
 Introduction
 ------------
@@ -110,7 +110,7 @@ Areas:
 ```
 
 ## MicrocosmAI
-The development of PITA is part of the "Emergent Behaviors in a Multi-Agent System with Reinforcement Learning" study project conducted by the MicrocosmAI research group at the University of Osnabrück.
+The development of PITA is part of the "Emergent Behaviors in a Multi-Agent System with Reinforcement Learning" study project conducted by the MicrocosmAI research group at the University of Osnabrück, Germany.
 
 ## Outlook
 As PITA is an active component of the ongoing research project, it will continue to evolve to align with the requirements of specific tasks. The development of additional features will be guided by the insights gained from the research activities associated with the project.
