@@ -46,7 +46,7 @@ Environment:
       - size_value_range: [1, 2]
       - tags: ["Ball"]
 
-    Tree:
+    Tree1:
       - xml_name: "Tree.xml"
       - amount: [1, 3]
       - distribution:
@@ -55,7 +55,7 @@ Environment:
           - cov: [ [100, 0], [0, 100] ]
       - tags: ["Tree", "Obstacle"]
 
-    Stone:
+    Stone1:
       - xml_name: "Stone.xml"
       - amount: 1
       - coordinates: [ [17, 17, 0] ]
@@ -65,7 +65,7 @@ Environment:
           - high: [50, 50]
       - tags: [ "Stone" ]
 
-    Apple:
+    Apple1:
       - xml_name: "Apple.xml"
       - amount: [10, 10]
       - distribution:
@@ -84,7 +84,7 @@ Areas:
           - ground_level: 0.0
 
     Objects:
-      Tree:
+      Tree2:
         - xml_name: "Tree.xml"
         - amount: [6, 10]
         - z_rotation_range: [0, 90]
@@ -95,23 +95,24 @@ Areas:
             - name: "CircularUniformDistribution"
             - loc: 28
             - scale: 50
+        - asset_pool: ["Tree.xml", "Tree01.xml", "Tree02.xml"]
         - tags: ["Tree"]
 
-      Stone:
+      Stone2:
         - xml_name: "Stone.xml"
         - amount: [1, 2]
 
-      Apple:
+      Apple2:
         - xml_name: "Apple.xml"
         - amount: [1, 1]
 
   Area2:
     Objects:
-      Tree:
+      Tree3:
         - xml_name: "Tree.xml"
         - amount: [1, 2]
 
-      Stone:
+      Stone3:
         - xml_name: "Stone.xml"
         - amount: [5, 7]
         - z_rotation_range: [60, 120]
@@ -119,7 +120,7 @@ Areas:
         - size_groups: [2, 3]
         - size_value_range: [1, 2]
 
-      Apple:
+      Apple3:
         - xml_name: "Apple.xml"
         - amount: [1, 2]
         - tags: ["Apple"]

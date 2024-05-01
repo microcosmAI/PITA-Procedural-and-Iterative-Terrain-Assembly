@@ -1,7 +1,0 @@
-<mujoco>
-    <worldbody>
-        <body name="rectangle" pos="0 0 1">
-            <geom type="box" size="0.2 0.02 0.1" rgba="0 1 0 1"/>
-        </body>
-    </worldbody>
-</mujoco>
