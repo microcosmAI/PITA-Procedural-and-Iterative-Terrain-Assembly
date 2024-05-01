@@ -50,7 +50,7 @@ Inside the cloned directory, install the required Python packages using pip.
 
 Step 4: Verify Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To verify that PITA is installed correctly, you can run a simple test or a sample project included in the repository, uses complex.config.yml by default. Navigate to the pita_algorithm subfolder and run:
+To verify that PITA is installed correctly, you can run a simple test or a sample project included in the repository, uses complex.config.yml by default. Navigate to the pitapy subfolder and run:
 
 .. code-block:: bash
 

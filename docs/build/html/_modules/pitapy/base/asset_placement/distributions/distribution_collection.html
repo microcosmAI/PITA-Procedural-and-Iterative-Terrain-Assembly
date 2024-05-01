@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pitapy.base.asset_placement.distributions.distribution_collection &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            PITA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../paper.html">PITA Paper</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../config.html">PITA config.yml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../usage.html">Use Scenario</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pitapy.base.asset_placement.distributions.distribution_collection</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pitapy.base.asset_placement.distributions.distribution_collection</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pitapy.base.asset_placement.distributions.abstract_placer_distribution</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AbstractPlacerDistribution</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="MultivariateNormalDistribution"><a class="viewcode-back" href="../../../../../pitapy.base.asset_placement.distributions.distribution_collection.html#pitapy.base.asset_placement.distributions.distribution_collection.MultivariateNormalDistribution">[docs]</a><span class="k">class</span> <span class="nc">MultivariateNormalDistribution</span><span class="p">(</span><span class="n">AbstractPlacerDistribution</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A multivariate normal distribution. The distribution is defined by the mean values</span>
+<span class="sd">    for each dimension and the covariance matrix. The covariance matrix controls the shape,</span>
+<span class="sd">    orientation, and spread of the distribution.</span>
+
+<span class="sd">    The covariance matrix is a symmetric matrix that describes the relationship between variables</span>
+<span class="sd">    in a multivariatenormal distribution. It provides information about the variances and covariances</span>
+<span class="sd">    of the variables.</span>
+
+<span class="sd">    - Diagonal Covariance Matrix:</span>
+<span class="sd">      If the covariance matrix is diagonal, it means that the variables are uncorrelated, and each</span>
+<span class="sd">      variable&#39;s variance is independent of the others.</span>
+
+<span class="sd">    - Non-Diagonal Covariance Matrix:</span>
+<span class="sd">      If the covariance matrix is non-diagonal, it means that the variables are correlated.</span>
+<span class="sd">      The off-diagonal elements represent the covariance between the variables.</span>
+<span class="sd">      The distribution can be rotated by introducing non-zero off-diagonal elements.</span>
+
+<span class="sd">    - Scaling Covariance Matrix:</span>
+<span class="sd">      You can scale the covariance matrix to control the spread of the distribution.</span>
+<span class="sd">      Increasing the values on the diagonal will increase the variances,</span>
+<span class="sd">      resulting in a wider distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of the MultivariateNormalDistribution class.</span>
+
+<span class="sd">        Note: default values are &quot;mean&quot; [0, 0] and &quot;cov&quot; [site_length,     0     ]</span>
+<span class="sd">                                                         [     0     , site_width]</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            parameters (dict): Parameters for the multivariate normal distribution</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="s2">&quot;mean&quot;</span> <span class="ow">in</span> <span class="n">parameters</span> <span class="k">else</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cov</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;cov&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;cov&quot;</span> <span class="ow">in</span> <span class="n">parameters</span>
+            <span class="k">else</span> <span class="p">[[</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]]]</span>
+        <span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Initializing MultivariateNormalDistribution with parameters </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draws a sample from a multivariate normal distribution.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            sample (np.ndarray): Sampled coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cov</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sample</span>
+
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="MultivariateUniformDistribution"><a class="viewcode-back" href="../../../../../pitapy.base.asset_placement.distributions.distribution_collection.html#pitapy.base.asset_placement.distributions.distribution_collection.MultivariateUniformDistribution">[docs]</a><span class="k">class</span> <span class="nc">MultivariateUniformDistribution</span><span class="p">(</span><span class="n">AbstractPlacerDistribution</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Multivariate uniform distribution.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of the MultivariateUniform class.</span>
+
+<span class="sd">        Note: default values are &quot;low&quot;: [-site.size[0], -site.size[1]], &quot;high&quot;: [site.size[0], site.size[1]],</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            parameters (dict): Parameters for the multivariate uniform distribution</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">low</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;low&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;low&quot;</span> <span class="ow">in</span> <span class="n">parameters</span>
+            <span class="k">else</span> <span class="p">[</span><span class="o">-</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">high</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;high&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;high&quot;</span> <span class="ow">in</span> <span class="n">parameters</span>
+            <span class="k">else</span> <span class="p">[[</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]]]</span>
+        <span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Initializing MultivariateUniformDistribution with parameters </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draws a 2D sample from a multivariate uniform distribution.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            x, y (tuple[float, float]): Sampled x and y coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Generate samples for each dimension</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">high</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">high</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">samples</span>
+
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="RandomWalkDistribution"><a class="viewcode-back" href="../../../../../pitapy.base.asset_placement.distributions.distribution_collection.html#pitapy.base.asset_placement.distributions.distribution_collection.RandomWalkDistribution">[docs]</a><span class="k">class</span> <span class="nc">RandomWalkDistribution</span><span class="p">(</span><span class="n">AbstractPlacerDistribution</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Random walk distribution for object placement on a 2D plane.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of the RandomWalkDistribution class.</span>
+
+<span class="sd">        Note: default values are &quot;step_size_range&quot;: [5, 10], &quot;bounds&quot;: [-site.size[0],</span>
+<span class="sd">                                                                        site.size[0],</span>
+<span class="sd">                                                                        -site.size[1],</span>
+<span class="sd">                                                                        site.size[1]],</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            parameters (dict): Parameters for the random walk distribution</span>
+<span class="sd">                parameters[&quot;step_size_range&quot;]: (min_step_size, max_step_size) - Range of step sizes</span>
+<span class="sd">                parameters[&quot;bounds&quot;]: (min_x, max_x, min_y, max_y) - Bounds of the 2D plane</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_size_range</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;step_size_range&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;step_size_range&quot;</span> <span class="ow">in</span> <span class="n">parameters</span>
+            <span class="k">else</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;bounds&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;bounds&quot;</span> <span class="ow">in</span> <span class="n">parameters</span>
+            <span class="k">else</span> <span class="p">[</span>
+                <span class="o">-</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                <span class="o">-</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_x</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;current_x&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;current_x&quot;</span> <span class="ow">in</span> <span class="n">parameters</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_y</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;current_y&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;current_y&quot;</span> <span class="ow">in</span> <span class="n">parameters</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initializing RandomWalkDistribution with parameters </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates the next random object placement using a random walk.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (x, y) coordinates: Next randomly generated object placement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Randomly choose the step size from the given range</span>
+        <span class="n">step_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step_size_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_size_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># Randomly choose the direction of the step (random angle)</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+        <span class="n">x_step</span> <span class="o">=</span> <span class="n">step_size</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">y_step</span> <span class="o">=</span> <span class="n">step_size</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_x</span> <span class="o">+=</span> <span class="n">x_step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_y</span> <span class="o">+=</span> <span class="n">y_step</span>
+
+        <span class="c1"># Ensure the new position stays within the defined bounds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_y</span></div>
+
+
+<div class="viewcode-block" id="CircularUniformDistribution"><a class="viewcode-back" href="../../../../../pitapy.base.asset_placement.distributions.distribution_collection.html#pitapy.base.asset_placement.distributions.distribution_collection.CircularUniformDistribution">[docs]</a><span class="k">class</span> <span class="nc">CircularUniformDistribution</span><span class="p">(</span><span class="n">AbstractPlacerDistribution</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Circular uniform distribution.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of the CircularUniformDistribution class.</span>
+
+<span class="sd">        Note: default values are &quot;loc&quot;: 0.0, &quot;scale&quot;: min(site.size[0], site.size[1])</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            parameters (dict): Parameters for the circular uniform distribution</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;loc&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;loc&quot;</span> <span class="ow">in</span> <span class="n">parameters</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;scale&quot;</span> <span class="ow">in</span> <span class="n">parameters</span>
+            <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;site_sizes&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Initializing CircularUniformDistribution with parameters </span><span class="si">{</span><span class="n">parameters</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draws a 2D sample from a circular uniform distribution.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            x, y (float, float): Sampled x and y coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

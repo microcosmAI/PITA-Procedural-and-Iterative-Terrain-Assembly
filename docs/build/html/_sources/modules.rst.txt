@@ -1,7 +1,7 @@
-pita_algorithm
+pitapy
 ==============
 
 .. toctree::
    :maxdepth: 5
 
-   pita_algorithm
+   pitapy

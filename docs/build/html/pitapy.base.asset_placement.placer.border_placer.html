@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BorderPlacer Class &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FixedPlacer Class" href="pitapy.base.asset_placement.placer.fixed_placer.html" />
+    <link rel="prev" title="Abstract Placer Module" href="pitapy.base.asset_placement.placer.abstract_placer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pitapy.html">pitapy package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pitapy.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pitapy.base.html">PITA Algorithm Base Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.utils.html">PITA Algorithm Utils Package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pitapy.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">PITA Paper</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">PITA config.yml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use Scenario</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pitapy</a></li>
+          <li class="breadcrumb-item"><a href="pitapy.html">pitapy package</a></li>
+          <li class="breadcrumb-item"><a href="pitapy.base.html">PITA Algorithm Base Package</a></li>
+          <li class="breadcrumb-item"><a href="pitapy.base.asset_placement.html">PITA Asset Placement Packages</a></li>
+          <li class="breadcrumb-item"><a href="pitapy.base.asset_placement.placer.html">Placer Classes in PITA Algorithm</a></li>
+      <li class="breadcrumb-item active">BorderPlacer Class</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pitapy.base.asset_placement.placer.border_placer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="borderplacer-class">
+<h1>BorderPlacer Class<a class="headerlink" href="#borderplacer-class" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <cite>BorderPlacer</cite> class is designed to automate the placement of border objects around the perimeter of the environment in the PITA Algorithm framework. This specialized placer ensures that borders are added efficiently and correctly, enhancing the environmental structure and providing clear demarcation lines for the simulated area.</p>
+</section>
+<section id="functionality">
+<h2>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Automated Border Placement</strong>: Automatically calculates the optimal positions for border objects based on the dimensions of the environment and the size of the border objects themselves.</p></li>
+<li><p><strong>Dynamic Adjustment</strong>: Adapts the size and orientation of border objects to fit the environment’s perimeter, ensuring a seamless bordering effect regardless of the environment’s size.</p></li>
+<li><p><strong>Customizable Amount</strong>: Allows for the specification of the number of borders to be placed, with a default setting that typically accommodates the four cardinal directions.</p></li>
+</ul>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading"></a></h2>
+<p>Upon initialization, the <cite>BorderPlacer</cite> does not require any specific parameters, making it ready for immediate use</p>
+<span class="target" id="module-pitapy.base.asset_placement.placer.border_placer"></span><dl class="py class">
+<dt class="sig sig-object py" id="pitapy.base.asset_placement.placer.border_placer.BorderPlacer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pitapy.base.asset_placement.placer.border_placer.</span></span><span class="sig-name descname"><span class="pre">BorderPlacer</span></span><a class="reference internal" href="_modules/pitapy/base/asset_placement/placer/border_placer.html#BorderPlacer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitapy.base.asset_placement.placer.border_placer.BorderPlacer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Places borders into the given environment.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pitapy.base.asset_placement.placer.border_placer.BorderPlacer.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">environment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pitapy.base.world_sites.environment.html#pitapy.base.world_sites.environment.Environment" title="pitapy.base.world_sites.environment.Environment"><span class="pre">Environment</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mujoco_object_blueprint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject" title="pitapy.base.asset_parsing.mujoco_object.MujocoObject"><span class="pre">MujocoObject</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_border</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pitapy/base/asset_placement/placer/border_placer.html#BorderPlacer.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitapy.base.asset_placement.placer.border_placer.BorderPlacer.add" title="Permalink to this definition"></a></dt>
+<dd><p>Adds the borders around the environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>environment</strong> (<a class="reference internal" href="pitapy.base.world_sites.environment.html#pitapy.base.world_sites.environment.Environment" title="pitapy.base.world_sites.environment.Environment"><em>Environment</em></a>) – Environment class instance</p></li>
+<li><p><strong>mujoco_object_blueprint</strong> (<a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject" title="pitapy.base.asset_parsing.mujoco_object.MujocoObject"><em>MujocoObject</em></a>) – Blueprint of to-be-placed mujoco object</p></li>
+<li><p><strong>amount</strong> (<em>int</em>) – Number of to-be-placed borders</p></li>
+<li><p><strong>has_border</strong> (<em>bool</em>) – True if border is added to environment, else False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pitapy.base.asset_placement.placer.abstract_placer.html" class="btn btn-neutral float-left" title="Abstract Placer Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pitapy.base.asset_placement.placer.fixed_placer.html" class="btn btn-neutral float-right" title="FixedPlacer Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
