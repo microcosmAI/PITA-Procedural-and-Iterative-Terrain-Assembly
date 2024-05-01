@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assembler Module &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PITA Algorithm Utils Package" href="pitapy.utils.html" />
+    <link rel="prev" title="Environment Module" href="pitapy.base.world_sites.environment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pitapy.html">pitapy package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pitapy.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pitapy.base.html">PITA Algorithm Base Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.utils.html">PITA Algorithm Utils Package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pitapy.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">PITA Paper</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">PITA config.yml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use Scenario</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pitapy</a></li>
+          <li class="breadcrumb-item"><a href="pitapy.html">pitapy package</a></li>
+          <li class="breadcrumb-item"><a href="pitapy.base.html">PITA Algorithm Base Package</a></li>
+      <li class="breadcrumb-item active">Assembler Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pitapy.base.assembler.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="assembler-module">
+<h1>Assembler Module<a class="headerlink" href="#assembler-module" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The Assembler module is central to the PITA Algorithm, orchestrating the construction of dynamic and randomized environments for language emergence and reinforcement learning experiments. It leverages configuration inputs to place objects, define areas, and apply rules, creating diverse simulation scenarios tailored to various research requirements.</p>
+</section>
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Dynamic Environment Assembly</strong>: Leverages user-defined YAML configurations to guide the generation of simulation environments, offering extensive customization and variability.</p></li>
+<li><p><strong>Object Placement Strategy</strong>: Implements sophisticated algorithms for placing objects within the environment, supporting both fixed and randomized placement schemes.</p></li>
+<li><p><strong>Rule Application</strong>: Incorporates a versatile system for enforcing constraints and rules on object placements, ensuring environments adhere to specific research protocols or mimic physical realism.</p></li>
+<li><p><strong>Modular Design</strong>: Built with modularity in mind, allowing for easy extension or modification to introduce new object types, environments, or placement rules.</p></li>
+</ul>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<p>The Assembler serves as the gateway for generating simulation environments, reading from YAML configuration files that detail environment specifications, including object types, placement strategies, and applicable rules. The workflow typically involves:</p>
+<ol class="arabic simple">
+<li><p><strong>Configuration</strong>: Creating a YAML file that outlines the environment layout, objects, and rules.</p></li>
+<li><p><strong>Initialization</strong>: Initializing the Assembler with this configuration to set up the environment assembly process.</p></li>
+<li><p><strong>Execution</strong>: The Assembler then proceeds to construct the environment, place objects, and enforce rules, resulting in a ready-to-use simulation scenario.</p></li>
+</ol>
+<p>This process facilitates rapid environment prototyping, proving invaluable for AI, machine learning, and robotics research and development.</p>
+<span class="target" id="module-pitapy.base.assembler"></span><dl class="py class">
+<dt class="sig sig-object py" id="pitapy.base.assembler.Assembler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pitapy.base.assembler.</span></span><span class="sig-name descname"><span class="pre">Assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xml_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pitapy/base/assembler.html#Assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitapy.base.assembler.Assembler" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Assembles the world.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pitapy.base.assembler.Assembler._add_base_plane">
+<span class="sig-name descname"><span class="pre">_add_base_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">environment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pitapy.base.world_sites.environment.html#pitapy.base.world_sites.environment.Environment" title="pitapy.base.world_sites.environment.Environment"><span class="pre">Environment</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pitapy/base/assembler.html#Assembler._add_base_plane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitapy.base.assembler.Assembler._add_base_plane" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a base plane to the environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>environment</strong> (<a class="reference internal" href="pitapy.base.world_sites.environment.html#pitapy.base.world_sites.environment.Environment" title="pitapy.base.world_sites.environment.Environment"><em>Environment</em></a>) – Environment object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitapy.base.assembler.Assembler._create_environment_and_areas">
+<span class="sig-name descname"><span class="pre">_create_environment_and_areas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pitapy.base.world_sites.environment.html#pitapy.base.world_sites.environment.Environment" title="pitapy.base.world_sites.environment.Environment"><span class="pre">pitapy.base.world_sites.environment.Environment</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pitapy.base.world_sites.area.html#pitapy.base.world_sites.area.Area" title="pitapy.base.world_sites.area.Area"><span class="pre">pitapy.base.world_sites.area.Area</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pitapy/base/assembler.html#Assembler._create_environment_and_areas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitapy.base.assembler.Assembler._create_environment_and_areas" title="Permalink to this definition"></a></dt>
+<dd><p>Creates and returns the environment and areas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>plot</strong> (<em>bool</em>) – Set to True for plotting</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Initialized environment and areas with borders (if borders are placed)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[<a class="reference internal" href="pitapy.base.world_sites.environment.html#pitapy.base.world_sites.environment.Environment" title="pitapy.base.world_sites.environment.Environment">Environment</a>, list[<a class="reference internal" href="pitapy.base.world_sites.area.html#pitapy.base.world_sites.area.Area" title="pitapy.base.world_sites.area.Area">Area</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitapy.base.assembler.Assembler._create_validators">
+<span class="sig-name descname"><span class="pre">_create_validators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pitapy.base.asset_placement.validator.html#pitapy.base.asset_placement.validator.Validator" title="pitapy.base.asset_placement.validator.Validator"><span class="pre">pitapy.base.asset_placement.validator.Validator</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pitapy/base/assembler.html#Assembler._create_validators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitapy.base.assembler.Assembler._create_validators" title="Permalink to this definition"></a></dt>
+<dd><p>Creates and returns the validators for the environment and areas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>list</em>) – Size of the environment</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validator objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list(<a class="reference internal" href="pitapy.base.asset_placement.validator.html#pitapy.base.asset_placement.validator.Validator" title="pitapy.base.asset_placement.validator.Validator">Validator</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pitapy.base.assembler.Assembler.assemble_world">
+<span class="sig-name descname"><span class="pre">assemble_world</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pitapy.base.world_sites.environment.html#pitapy.base.world_sites.environment.Environment" title="pitapy.base.world_sites.environment.Environment"><span class="pre">pitapy.base.world_sites.environment.Environment</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pitapy.base.world_sites.area.html#pitapy.base.world_sites.area.Area" title="pitapy.base.world_sites.area.Area"><span class="pre">pitapy.base.world_sites.area.Area</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pitapy/base/assembler.html#Assembler.assemble_world"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pitapy.base.assembler.Assembler.assemble_world" title="Permalink to this definition"></a></dt>
+<dd><p>Assembles the world according to the users configuration and returns the environment and areas.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Environment and Area instances with objects</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[<a class="reference internal" href="pitapy.base.world_sites.environment.html#pitapy.base.world_sites.environment.Environment" title="pitapy.base.world_sites.environment.Environment">Environment</a>, list[<a class="reference internal" href="pitapy.base.world_sites.area.html#pitapy.base.world_sites.area.Area" title="pitapy.base.world_sites.area.Area">Area</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pitapy.base.world_sites.environment.html" class="btn btn-neutral float-left" title="Environment Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pitapy.utils.html" class="btn btn-neutral float-right" title="PITA Algorithm Utils Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

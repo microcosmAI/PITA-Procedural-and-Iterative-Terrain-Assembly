@@ -1,0 +1,4 @@
+include src/pitapy/examples/config_files/*.yml
+include src/pitapy/examples/xml_objects/*.xml
+include src/pitapy/examples/xml_objects/3D_Assets/*.obj
+include src/pitapy/examples/xml_objects/3D_Assets/*.png

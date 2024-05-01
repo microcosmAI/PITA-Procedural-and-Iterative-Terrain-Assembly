@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asset Parsing Package &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Blueprint Manager Module" href="pitapy.base.asset_parsing.blueprint_manager.html" />
+    <link rel="prev" title="PITA Algorithm Base Package" href="pitapy.base.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pitapy.html">pitapy package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pitapy.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pitapy.base.html">PITA Algorithm Base Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.utils.html">PITA Algorithm Utils Package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pitapy.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">PITA Paper</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">PITA config.yml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use Scenario</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pitapy</a></li>
+          <li class="breadcrumb-item"><a href="pitapy.html">pitapy package</a></li>
+          <li class="breadcrumb-item"><a href="pitapy.base.html">PITA Algorithm Base Package</a></li>
+      <li class="breadcrumb-item active">Asset Parsing Package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pitapy.base.asset_parsing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="asset-parsing-package">
+<h1>Asset Parsing Package<a class="headerlink" href="#asset-parsing-package" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <cite>asset_parsing</cite> package within the PITA Algorithm framework serves as a comprehensive suite for handling the parsing, loading, and management of simulation assets. This includes interpreting object blueprints, initializing objects with the MuJoCo physics engine, and managing the lifecycle of these objects within simulation environments.</p>
+</section>
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Blueprint Management</strong>: Facilitates the parsing and storage of object blueprints from configuration files, enabling dynamic instantiation of objects with varied properties.</p></li>
+<li><p><strong>MuJoCo Integration</strong>: Seamlessly interfaces with the MuJoCo physics engine, translating parsed asset specifications into physical entities within the simulation.</p></li>
+<li><p><strong>Flexible Asset Configuration</strong>: Supports a broad range of asset definitions and configurations, from simple geometric shapes to complex, behaviorally-rich entities.</p></li>
+<li><p><strong>Enhanced Simulation Realism</strong>: By allowing detailed specification and manipulation of assets, the package contributes significantly to the realism and depth of simulation scenarios, enabling more nuanced and varied research experiments.</p></li>
+</ul>
+</section>
+<section id="components">
+<h2>Components<a class="headerlink" href="#components" title="Permalink to this heading"></a></h2>
+<p>The <cite>asset_parsing</cite> package comprises several modules, each dedicated to specific aspects of asset handling within the PITA Algorithm framework:</p>
+<ul class="simple">
+<li><p><strong>`blueprint_manager`</strong>: Manages the retrieval and storage of object blueprints, ensuring that objects can be dynamically generated based on predefined templates.</p></li>
+<li><p><strong>`mujoco_loader`</strong>: Responsible for loading assets into the MuJoCo simulation environment, applying physical properties and behaviors as defined in their blueprints.</p></li>
+<li><p><strong>`mujoco_object`</strong>: Defines the <cite>MujocoObject</cite> class, a wrapper for simulation objects that facilitates interaction with the MuJoCo physics engine.</p></li>
+<li><p><strong>`parser`</strong>: Parses simulation configurations and object definitions from external files, translating them into actionable specifications for simulation setup.</p></li>
+</ul>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<p>The <cite>asset_parsing</cite> package is typically utilized during the simulation setup phase, where it processes configuration files and initializes the simulation environment:</p>
+<ol class="arabic simple">
+<li><p><strong>Configuration Processing</strong>: Object and environment configurations are parsed from external files, detailing the specifications for each simulation asset.</p></li>
+<li><p><strong>Asset Initialization</strong>: These specifications are used to instantiate and configure objects within the MuJoCo simulation, leveraging the package’s integration with the physics engine.</p></li>
+<li><p><strong>Simulation Execution</strong>: With assets loaded and configured, the simulation can proceed, benefiting from the detailed and dynamic environments made possible by the <cite>asset_parsing</cite> package.</p></li>
+</ol>
+<p>This package underpins the PITA Algorithm’s ability to generate richly detailed and highly customizable simulation environments, supporting a wide range of research applications in artificial intelligence, machine learning, and robotics.</p>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-pitapy.base.asset_parsing"></span></section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pitapy.base.asset_parsing.blueprint_manager.html">Blueprint Manager Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.blueprint_manager.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.blueprint_manager.html#key-features">Key Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.blueprint_manager.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pitapy.base.asset_parsing.blueprint_manager.html#pitapy.base.asset_parsing.blueprint_manager.BlueprintManager"><code class="docutils literal notranslate"><span class="pre">BlueprintManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.blueprint_manager.html#pitapy.base.asset_parsing.blueprint_manager.BlueprintManager.get_object_blueprints"><code class="docutils literal notranslate"><span class="pre">BlueprintManager.get_object_blueprints()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html">MuJoCo Loader Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html#key-features">Key Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html#pitapy.base.asset_parsing.mujoco_loader.MujocoLoader"><code class="docutils literal notranslate"><span class="pre">MujocoLoader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html#pitapy.base.asset_parsing.mujoco_loader.MujocoLoader._add_object_to_dict"><code class="docutils literal notranslate"><span class="pre">MujocoLoader._add_object_to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html#pitapy.base.asset_parsing.mujoco_loader.MujocoLoader._get_mujoco_dict"><code class="docutils literal notranslate"><span class="pre">MujocoLoader._get_mujoco_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html#pitapy.base.asset_parsing.mujoco_loader.MujocoLoader._get_object_infos"><code class="docutils literal notranslate"><span class="pre">MujocoLoader._get_object_infos()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html#pitapy.base.asset_parsing.mujoco_loader.MujocoLoader._read_params"><code class="docutils literal notranslate"><span class="pre">MujocoLoader._read_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_loader.html#pitapy.base.asset_parsing.mujoco_loader.MujocoLoader.get_mujoco_objects"><code class="docutils literal notranslate"><span class="pre">MujocoLoader.get_mujoco_objects()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html">MuJoCo Object Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#key-features">Key Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject"><code class="docutils literal notranslate"><span class="pre">MujocoObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject.color"><code class="docutils literal notranslate"><span class="pre">MujocoObject.color</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject.mjcf_obj"><code class="docutils literal notranslate"><span class="pre">MujocoObject.mjcf_obj</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject.name"><code class="docutils literal notranslate"><span class="pre">MujocoObject.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject.obj_class"><code class="docutils literal notranslate"><span class="pre">MujocoObject.obj_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject.position"><code class="docutils literal notranslate"><span class="pre">MujocoObject.position</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject.rotation"><code class="docutils literal notranslate"><span class="pre">MujocoObject.rotation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject.size"><code class="docutils literal notranslate"><span class="pre">MujocoObject.size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.mujoco_object.html#pitapy.base.asset_parsing.mujoco_object.MujocoObject.tags"><code class="docutils literal notranslate"><span class="pre">MujocoObject.tags</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pitapy.base.asset_parsing.parser.html">Parser Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.parser.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.parser.html#key-features">Key Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pitapy.base.asset_parsing.parser.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pitapy.base.asset_parsing.parser.html#pitapy.base.asset_parsing.parser.Parser"><code class="docutils literal notranslate"><span class="pre">Parser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pitapy.base.asset_parsing.parser.html#pitapy.base.asset_parsing.parser.Parser.get_mjcf"><code class="docutils literal notranslate"><span class="pre">Parser.get_mjcf()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pitapy.base.html" class="btn btn-neutral float-left" title="PITA Algorithm Base Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pitapy.base.asset_parsing.blueprint_manager.html" class="btn btn-neutral float-right" title="Blueprint Manager Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

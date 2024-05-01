@@ -7,3 +7,4 @@ webcolors
 pillow
 typer
 sphinx_rtd_theme
+importlib_resources

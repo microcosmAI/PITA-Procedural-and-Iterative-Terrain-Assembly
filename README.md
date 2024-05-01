@@ -58,7 +58,7 @@ pip install pitapy
 Import the PITA class from the package and run it.
 
 ```shell
-from pita_algorithm.pita import PITA
+from pitapy.pita import PITA
 
 
 PITA().run()
