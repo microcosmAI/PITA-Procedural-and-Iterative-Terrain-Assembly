@@ -125,7 +125,6 @@
                             
   <h1>Source code for pita_algorithm.utils.json_exporter</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">json</span>
-
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.world_sites.area</span> <span class="kn">import</span> <span class="n">Area</span>
 <span class="kn">from</span> <span class="nn">pita_algorithm.base.world_sites.environment</span> <span class="kn">import</span> <span class="n">Environment</span>
 
@@ -135,13 +134,13 @@
 
 <div class="viewcode-block" id="JSONExporter.export"><a class="viewcode-back" href="../../../pita_algorithm.utils.json_exporter.html#pita_algorithm.utils.json_exporter.JSONExporter.export">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">export</span><span class="p">(</span>
-        <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">areas</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Area</span><span class="p">]</span>
-    <span class="p">):</span>
+        <span class="n">export_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">areas</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Area</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Export all object information from the given Environment and Area instances</span>
 <span class="sd">        to a JSON file.</span>
 
 <span class="sd">        Parameters:</span>
-<span class="sd">            filename (str): Name of the file to be exported</span>
+<span class="sd">            export_path (str): Path of the file to be exported</span>
 <span class="sd">            config (dict): Config file containing user defined parameters</span>
 <span class="sd">            environment (Environment): Environment class instance</span>
 <span class="sd">            areas (list): List of Area class instances</span>
@@ -161,16 +160,26 @@
         <span class="c1"># Loop over Environment and its objects</span>
         <span class="k">for</span> <span class="n">mujoco_object</span> <span class="ow">in</span> <span class="n">environment</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
-
             <span class="n">values</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">name</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">obj_type</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">&quot;attachable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">attachable</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="n">values</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">obj_class</span>
             <span class="n">values</span><span class="p">[</span><span class="s2">&quot;tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">tags</span>
 
-            <span class="n">all_objects</span><span class="p">[</span><span class="s2">&quot;environment&quot;</span><span class="p">][</span><span class="s2">&quot;objects&quot;</span><span class="p">][</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+            <span class="k">if</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+            <span class="n">all_objects</span><span class="p">[</span><span class="s2">&quot;environment&quot;</span><span class="p">][</span><span class="s2">&quot;objects&quot;</span><span class="p">][</span><span class="n">mujoco_object</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
 
         <span class="c1"># Loop over all Areas and their objects</span>
         <span class="k">for</span> <span class="n">area</span> <span class="ow">in</span> <span class="n">areas</span><span class="p">:</span>
@@ -187,21 +196,31 @@
 
             <span class="k">for</span> <span class="n">mujoco_object</span> <span class="ow">in</span> <span class="n">area</span><span class="o">.</span><span class="n">_mujoco_objects</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
-
-                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">name</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">obj_type</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;attachable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">attachable</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span>
+                <span class="n">values</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">obj_class</span>
                 <span class="n">values</span><span class="p">[</span><span class="s2">&quot;tags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">tags</span>
+
+                <span class="k">if</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mujoco_object</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
                 <span class="n">all_objects</span><span class="p">[</span><span class="s2">&quot;areas&quot;</span><span class="p">][</span><span class="n">area</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;objects&quot;</span><span class="p">][</span>
                     <span class="n">mujoco_object</span><span class="o">.</span><span class="n">xml_id</span>
                 <span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
 
         <span class="c1"># Export to JSON file</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;export/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">export_path</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">all_objects</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div></div>
 </pre></div>
 
@@ -227,14 +246,16 @@
         };
     </script>
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/sphinx_highlight.js"></script>
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">
         <div class="container">
             &#169; Copyright 2023, EBIMAS Study Project.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 6.2.1.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.
         </div>
     </div>  
 

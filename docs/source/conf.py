@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "PITA"
-copyright = "2023, EBIMAS Study Project"
+copyright = "2024, EBIMAS Study Project"
 author = "EBIMAS Study Project"
 release = "1.0"
 
@@ -40,5 +40,5 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "karma_sphinx_theme"
+html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]

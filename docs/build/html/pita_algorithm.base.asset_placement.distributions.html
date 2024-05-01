@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distributions in PITA Algorithm &mdash; PITA 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Abstract Placer Distribution Module" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html" />
+    <link rel="prev" title="PITA Asset Placement Packages" href="pita_algorithm.base.asset_placement.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PITA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">PITA Algorithm Docs</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pita_algorithm.html">pita_algorithm package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="pita_algorithm.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="pita_algorithm.base.html">PITA Algorithm Base Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.utils.html">PITA Algorithm Utils Package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm/issues">Open Issues</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/microcosmAI/s.peters_algorithm">Our GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paper.html">PITA Paper</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">PITA config.yml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Use Scenario</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PITA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pita_algorithm</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.html">pita_algorithm package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.html">PITA Algorithm Base Package</a></li>
+          <li class="breadcrumb-item"><a href="pita_algorithm.base.asset_placement.html">PITA Asset Placement Packages</a></li>
+      <li class="breadcrumb-item active">Distributions in PITA Algorithm</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pita_algorithm.base.asset_placement.distributions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="distributions-in-pita-algorithm">
+<h1>Distributions in PITA Algorithm<a class="headerlink" href="#distributions-in-pita-algorithm" title="Permalink to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>The <cite>distributions</cite> package is a vital component of the PITA Algorithm, offering a versatile set of strategies for object placement within simulation environments. These strategies allow for the dynamic and realistic arrangement of objects, catering to a wide array of simulation needs and enhancing the environmental complexity crucial for in-depth research and analysis.</p>
+</section>
+<section id="distribution-strategies">
+<h2>Distribution Strategies<a class="headerlink" href="#distribution-strategies" title="Permalink to this heading"></a></h2>
+<p>This package includes a variety of distribution classes, each tailored for specific placement patterns and simulation requirements:</p>
+<ul class="simple">
+<li><p><strong>Multivariate Normal Distribution</strong>: Utilizes mean values and a covariance matrix to define a Gaussian distribution for object placement. Ideal for simulations requiring naturally clustered or dispersed objects, with support for correlation among variables.</p></li>
+<li><p><strong>Multivariate Uniform Distribution</strong>: Offers a straightforward, uniform placement of objects across the simulation space. This distribution is perfect for evenly spreading objects, ensuring uniform object density and distribution.</p></li>
+<li><p><strong>Random Walk Distribution</strong>: Simulates a random walk for object placement, creating paths or trails that mimic natural movement patterns across a 2D plane. This strategy adds a dynamic, unpredictable element to simulations.</p></li>
+<li><p><strong>Circular Uniform Distribution</strong>: Places objects uniformly within a circular area, centered around a specific point. This strategy is suited for scenarios that demand radial symmetry in object distribution.</p></li>
+</ul>
+</section>
+<section id="implementing-distribution-strategies">
+<h2>Implementing Distribution Strategies<a class="headerlink" href="#implementing-distribution-strategies" title="Permalink to this heading"></a></h2>
+<p>Integrating these distribution strategies into your simulation involves:</p>
+<ol class="arabic simple">
+<li><p><strong>Selection</strong>: Choose the distribution strategy that best fits your simulation’s objectives and environmental setup.</p></li>
+<li><p><strong>Configuration</strong>: Instantiate the chosen distribution class with the necessary parameters, such as mean and covariance for Gaussian distributions, or step sizes and bounds for a random walk.</p></li>
+<li><p><strong>Integration</strong>: Apply the distribution strategy during the object placement phase, using it to determine the spatial arrangement of objects within your environment.</p></li>
+</ol>
+<p>By leveraging the diverse array of distribution strategies offered by the <cite>distributions</cite> package, simulations can achieve a higher degree of environmental realism and complexity. This facilitates more nuanced research outcomes and provides a robust foundation for exploring a wide range of scientific questions.</p>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-pita_algorithm.base.asset_placement.distributions"></span></section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html">Abstract Placer Distribution Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#key-features">Key Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#design-principles">Design Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution"><code class="docutils literal notranslate"><span class="pre">AbstractPlacerDistribution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html#pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.AbstractPlacerDistribution._abc_impl"><code class="docutils literal notranslate"><span class="pre">AbstractPlacerDistribution._abc_impl</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html">Distribution Collection Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#multivariate-normal-distribution">Multivariate Normal Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#multivariate-uniform-distribution">Multivariate Uniform Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#random-walk-distribution">Random Walk Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#circular-uniform-distribution">Circular Uniform Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.CircularUniformDistribution"><code class="docutils literal notranslate"><span class="pre">CircularUniformDistribution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.CircularUniformDistribution._abc_impl"><code class="docutils literal notranslate"><span class="pre">CircularUniformDistribution._abc_impl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateNormalDistribution"><code class="docutils literal notranslate"><span class="pre">MultivariateNormalDistribution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateNormalDistribution._abc_impl"><code class="docutils literal notranslate"><span class="pre">MultivariateNormalDistribution._abc_impl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateUniformDistribution"><code class="docutils literal notranslate"><span class="pre">MultivariateUniformDistribution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.MultivariateUniformDistribution._abc_impl"><code class="docutils literal notranslate"><span class="pre">MultivariateUniformDistribution._abc_impl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.RandomWalkDistribution"><code class="docutils literal notranslate"><span class="pre">RandomWalkDistribution</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pita_algorithm.base.asset_placement.distributions.distribution_collection.html#pita_algorithm.base.asset_placement.distributions.distribution_collection.RandomWalkDistribution._abc_impl"><code class="docutils literal notranslate"><span class="pre">RandomWalkDistribution._abc_impl</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pita_algorithm.base.asset_placement.html" class="btn btn-neutral float-left" title="PITA Asset Placement Packages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pita_algorithm.base.asset_placement.distributions.abstract_placer_distribution.html" class="btn btn-neutral float-right" title="Abstract Placer Distribution Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, EBIMAS Study Project.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
