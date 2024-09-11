@@ -69,7 +69,7 @@ This script uses the default values within the package:
 random_seed=None
 config_path="examples/config_files/complex-config.yml"
 xml_dir="examples/xml_objects"
-export_path="export/test"
+export_path="export"
 ```
 
 ## 3) Designing the configuration file 
