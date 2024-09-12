@@ -3,7 +3,7 @@ dm_control  # handles mujoco/mjcfs
 shapely  # for collision detection
 matplotlib  # for plotting
 sphinx  # for documentation
-webcolors
+webcolors==1.13 # Locked at 1.13 for hex-to-name color mapping compatibility.
 pillow
 typer
 sphinx_rtd_theme
