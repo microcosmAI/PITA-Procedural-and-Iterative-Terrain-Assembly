@@ -1,6 +1,6 @@
 import os.path
-from pitapy.base.asset_parsing.parser import Parser
-from pitapy.base.asset_parsing.mujoco_object import MujocoObject
+from src.pitapy.base.asset_parsing.parser import Parser
+from src.pitapy.base.asset_parsing.mujoco_object import MujocoObject
 
 
 class MujocoLoader:

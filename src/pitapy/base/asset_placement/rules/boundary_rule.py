@@ -1,7 +1,7 @@
 from shapely.geometry import Polygon, Point
-from pitapy.base.asset_placement.rules.abstract_rule import Rule
-from pitapy.base.world_sites.abstract_site import AbstractSite
-from pitapy.base.asset_parsing.mujoco_object import MujocoObject
+from src.pitapy.base.asset_placement.rules.abstract_rule import Rule
+from src.pitapy.base.world_sites.abstract_site import AbstractSite
+from src.pitapy.base.asset_parsing.mujoco_object import MujocoObject
 
 
 class BoundaryRule(Rule):

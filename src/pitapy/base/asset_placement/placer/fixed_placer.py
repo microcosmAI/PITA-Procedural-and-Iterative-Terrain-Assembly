@@ -2,13 +2,13 @@ import random
 import logging
 from tqdm import tqdm
 from typing import Union
-from pitapy.base.world_sites.area import Area
-from pitapy.base.asset_placement.validator import Validator
-from pitapy.base.world_sites.environment import Environment
-from pitapy.base.world_sites.abstract_site import AbstractSite
-from pitapy.base.asset_parsing.mujoco_object import MujocoObject
-from pitapy.base.asset_placement.placer.abstract_placer import AbstractPlacer
-from pitapy.utils.object_property_randomization import (
+from src.pitapy.base.world_sites.area import Area
+from src.pitapy.base.asset_placement.validator import Validator
+from src.pitapy.base.world_sites.environment import Environment
+from src.pitapy.base.world_sites.abstract_site import AbstractSite
+from src.pitapy.base.asset_parsing.mujoco_object import MujocoObject
+from src.pitapy.base.asset_placement.placer.abstract_placer import AbstractPlacer
+from src.pitapy.utils.object_property_randomization import (
     ObjectPropertyRandomization,
 )
 

@@ -1,7 +1,7 @@
 import copy
 from tqdm import tqdm
-from pitapy.base.world_sites.environment import Environment
-from pitapy.base.asset_parsing.mujoco_object import MujocoObject
+from src.pitapy.base.world_sites.environment import Environment
+from src.pitapy.base.asset_parsing.mujoco_object import MujocoObject
 
 
 class BorderPlacer:

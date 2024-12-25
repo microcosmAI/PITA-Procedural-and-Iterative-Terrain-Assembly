@@ -1,5 +1,5 @@
-from pitapy.base.asset_parsing.mujoco_object import MujocoObject
-from pitapy.base.asset_parsing.mujoco_loader import MujocoLoader
+from src.pitapy.base.asset_parsing.mujoco_object import MujocoObject
+from src.pitapy.base.asset_parsing.mujoco_loader import MujocoLoader
 
 
 class BlueprintManager:

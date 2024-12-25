@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from pitapy.base.asset_parsing.mujoco_object import MujocoObject
+from src.pitapy.base.asset_parsing.mujoco_object import MujocoObject
 
 
 class AbstractSite(ABC):

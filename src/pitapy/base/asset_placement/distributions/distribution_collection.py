@@ -1,6 +1,6 @@
 import logging
 import numpy as np
-from pitapy.base.asset_placement.distributions.abstract_placer_distribution import (
+from src.pitapy.base.asset_placement.distributions.abstract_placer_distribution import (
     AbstractPlacerDistribution,
 )
 

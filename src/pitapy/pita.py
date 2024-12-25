@@ -9,13 +9,13 @@ from typing import Union
 from importlib_resources import files
 
 # Add parent folder of builder.py to python path
-# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pitapy.base.assembler import Assembler
-from pitapy.utils.json_exporter import JSONExporter
-from pitapy.utils.xml_exporter import XMLExporter
-from pitapy.utils.config_reader import ConfigReader
-from pitapy.utils.logger import Logger
+from src.pitapy.base.assembler import Assembler
+from src.pitapy.utils.json_exporter import JSONExporter
+from src.pitapy.utils.xml_exporter import XMLExporter
+from src.pitapy.utils.config_reader import ConfigReader
+from src.pitapy.utils.logger import Logger
 
 
 class PITA:
@@ -118,7 +118,7 @@ class PITA:
 def main(
     random_seed: int = typer.Option(default=None, help="Pass seed."),
     config_path: str = typer.Option(
-        default="complex-config.yml",
+        default="/home/jbla/PycharmProjects/s.peters_algorithm/src/pitapy/examples/config_files/complex-config.yml",
         help="Specify path to config yml.",
     ),
     xml_dir: str = typer.Option(

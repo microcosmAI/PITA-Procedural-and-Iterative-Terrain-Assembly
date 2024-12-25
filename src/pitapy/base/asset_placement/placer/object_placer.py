@@ -1,13 +1,13 @@
 import logging
 from shapely import geometry
-from pitapy.utils.general_utils import Utils
-from pitapy.base.world_sites.area import Area
-from pitapy.base.world_sites.environment import Environment
-from pitapy.base.asset_placement.validator import Validator
-from pitapy.base.world_sites.abstract_site import AbstractSite
-from pitapy.base.asset_placement.placer.fixed_placer import FixedPlacer
-from pitapy.base.asset_placement.placer.random_placer import RandomPlacer
-from pitapy.base.asset_placement.placer.border_placer import BorderPlacer
+from src.pitapy.utils.general_utils import Utils
+from src.pitapy.base.world_sites.area import Area
+from src.pitapy.base.world_sites.environment import Environment
+from src.pitapy.base.asset_placement.validator import Validator
+from src.pitapy.base.world_sites.abstract_site import AbstractSite
+from src.pitapy.base.asset_placement.placer.fixed_placer import FixedPlacer
+from src.pitapy.base.asset_placement.placer.random_placer import RandomPlacer
+from src.pitapy.base.asset_placement.placer.border_placer import BorderPlacer
 
 
 class ObjectPlacer:

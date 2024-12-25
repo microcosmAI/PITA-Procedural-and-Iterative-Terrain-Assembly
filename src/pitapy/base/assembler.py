@@ -2,15 +2,15 @@ import logging
 import os
 
 print(os.path.dirname(os.path.abspath(__file__)))
-from pitapy.utils.general_utils import Utils
-from pitapy.base.world_sites.area import Area
-from pitapy.base.world_sites.environment import Environment
-from pitapy.base.asset_placement.validator import Validator
-from pitapy.base.asset_placement.layout_manager import LayoutManager
-from pitapy.base.asset_parsing.blueprint_manager import BlueprintManager
-from pitapy.base.asset_placement.rules.user_config_rule import UserRules
-from pitapy.base.asset_placement.rules.rule_assembler import RuleAssembler
-from pitapy.base.asset_placement.placer.object_placer import ObjectPlacer
+from src.pitapy.utils.general_utils import Utils
+from src.pitapy.base.world_sites.area import Area
+from src.pitapy.base.world_sites.environment import Environment
+from src.pitapy.base.asset_placement.validator import Validator
+from src.pitapy.base.asset_placement.layout_manager import LayoutManager
+from src.pitapy.base.asset_parsing.blueprint_manager import BlueprintManager
+from src.pitapy.base.asset_placement.rules.user_config_rule import UserRules
+from src.pitapy.base.asset_placement.rules.rule_assembler import RuleAssembler
+from src.pitapy.base.asset_placement.placer.object_placer import ObjectPlacer
 
 
 class Assembler:

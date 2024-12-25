@@ -3,13 +3,13 @@ import random
 import importlib.util
 from tqdm import tqdm
 from typing import Union
-from pitapy.utils.general_utils import Utils
-from pitapy.base.world_sites.area import Area
-from pitapy.base.asset_placement.validator import Validator
-from pitapy.base.world_sites.abstract_site import AbstractSite
-from pitapy.base.asset_parsing.mujoco_object import MujocoObject
-from pitapy.base.asset_placement.placer.abstract_placer import AbstractPlacer
-from pitapy.utils.object_property_randomization import (
+from src.pitapy.utils.general_utils import Utils
+from src.pitapy.base.world_sites.area import Area
+from src.pitapy.base.asset_placement.validator import Validator
+from src.pitapy.base.world_sites.abstract_site import AbstractSite
+from src.pitapy.base.asset_parsing.mujoco_object import MujocoObject
+from src.pitapy.base.asset_placement.placer.abstract_placer import AbstractPlacer
+from src.pitapy.utils.object_property_randomization import (
     ObjectPropertyRandomization,
 )
 
@@ -87,7 +87,7 @@ class RandomPlacer(AbstractPlacer):
             distribution_config=distribution, site=site
         )
         module_path = (
-            "pitapy.base.asset_placement.distributions.distribution_collection"
+            "src.pitapy.base.asset_placement.distributions.distribution_collection"
         )
         module = importlib.import_module(module_path)
         distribution_class = getattr(module, distr_name)

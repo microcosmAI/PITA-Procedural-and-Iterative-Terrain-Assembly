@@ -1,7 +1,7 @@
 from typing import Union
-from pitapy.base.asset_placement.rules.height_rule import HeightRule
-from pitapy.base.asset_placement.rules.boundary_rule import BoundaryRule
-from pitapy.base.asset_placement.rules.min_distance_mujoco_physics_rule import (
+from src.pitapy.base.asset_placement.rules.height_rule import HeightRule
+from src.pitapy.base.asset_placement.rules.boundary_rule import BoundaryRule
+from src.pitapy.base.asset_placement.rules.min_distance_mujoco_physics_rule import (
     MinDistanceMujocoPhysicsRule,
 )
 
