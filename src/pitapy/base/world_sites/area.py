@@ -1,7 +1,7 @@
 from dm_control import mjcf
-from pitapy.base.world_sites.environment import Environment
-from pitapy.base.world_sites.abstract_site import AbstractSite
-from pitapy.base.asset_parsing.mujoco_object import MujocoObject
+from src.pitapy.base.world_sites.environment import Environment
+from src.pitapy.base.world_sites.abstract_site import AbstractSite
+from src.pitapy.base.asset_parsing.mujoco_object import MujocoObject
 
 
 class Area(AbstractSite):
@@ -62,7 +62,9 @@ class Area(AbstractSite):
                 # Fix rotation bug, i.e., move euler value into the parent body (attachment_frame) and reset it in the mujoco_object
                 # For the environment dynamics to work properly (adding the agent's rotation to qvel would otherwise not be possible)
                 attachment_frame.euler = mujoco_object.rotation
+                attachment_frame.pos = mujoco_object.position
                 mujoco_object.rotation = (0.0, 0.0, 0.0)
+                mujoco_object.position = (0.0, 0.0, 0.0)
 
         self._mujoco_objects[mujoco_object.xml_id] = mujoco_object
 
